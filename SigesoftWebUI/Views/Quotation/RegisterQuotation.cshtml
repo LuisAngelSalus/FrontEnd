@@ -1,0 +1,389 @@
+﻿@{
+    string CompanyRuc = "";
+    string CompanyName = "";
+    string CompanyDistrictName = "";
+    string CompanyAddress = "";
+    int CompanyHeadquarterId = -1;
+    string FullName = "";
+    string Email = "";
+    int TypeFormatId = -1;
+    string CommercialTerms = "";
+
+    if (ViewBag.DataQuotation != null)
+    {
+        CompanyRuc = ViewBag.DataQuotation.CompanyRuc;
+        CompanyName = ViewBag.DataQuotation.CompanyName;
+        CompanyDistrictName = ViewBag.DataQuotation.CompanyDistrictName;
+        CompanyAddress = ViewBag.DataQuotation.CompanyAddress;
+        CompanyHeadquarterId = ViewBag.DataQuotation.CompanyHeadquarterId;
+        FullName = ViewBag.DataQuotation.FullName;
+        Email = ViewBag.DataQuotation.Email;
+        TypeFormatId = ViewBag.DataQuotation.TypeFormatId;
+        CommercialTerms = ViewBag.DataQuotation.CommercialTerms;
+    }
+}
+
+<style>
+    .component {
+        display: none;
+    }
+
+    .table-examenes {
+        font-size: 12px;
+        margin: auto;
+        width: 90%;
+    }
+
+    .child {
+        display: none;
+    }
+
+
+    .table-examenes-profile {
+        font-size: 12px;
+        margin: auto;
+        width: 90%;
+    }
+</style>
+<link href="~/assets/css/pages/floating-label.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/assets/plugins/html5-editor/bootstrap-wysihtml5.css" />
+@*<link href="~/assets/css/colors/default-dark.css" id="theme" rel="stylesheet">*@
+<link href="~/assets/css/colors/default-dark.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="card card-body">
+        <h3 class="box-title m-b-0">Cotización: 0001</h3>
+        <p class="text-muted m-b-30 font-13"> Datos de cotización</p>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <form class="floating-labels">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="exampleInputEmail1">RUC</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" value="@CompanyRuc">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleInputEmail1">Empresa</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" value="@CompanyName">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleInputPassword1">Distrito</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" value="@CompanyDistrictName">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="exampleInputEmail1">Dirección</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" value="@CompanyAddress">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleInputEmail1">Sede</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" value="@CompanyHeadquarterId">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="exampleInputEmail1">Primer Contacto</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" value="@FullName">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="exampleInputEmail1">Correo</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" value="@Email">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body" style="text-align:right">
+        <button onclick="openModal()" class="btn btn-success waves-effect waves-light m-r-10">Agregar Perfil</button>
+    </div>
+
+    <div class="card card-body">
+        <table class="table color-bordered-table info-bordered-table table-main">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>PERFIL</th>
+                    <th>SERVICIO</th>
+                    <th>N° EXAMENES</th>
+                    <th>SUBTOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var profile in ViewBag.DataQuotation.QuotationProfiles)
+                {
+                    <tr id="perfil-@profile.QuotationProfileId" class="parent">
+                        <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
+                        <td>@profile.ProfileName</td>
+                        <td>@profile.ServiceTypeName</td>
+                        <td class="counterComp">0</td>
+                        <td class="subTotal">0</td>
+                    </tr>
+                    <tr class="perfil-@profile.QuotationProfileId child">
+                        <td colspan="5">
+                            <table class="table-examenes">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>EXAMENES - PERFIL</th>
+                                        <th>PRECIO MÍNIMO</th>
+                                        <th>PRECIO LISTA</th>
+                                        <th>PRECIO VENTA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var valor = "";
+                                        for (int i = 0; i < profile.ProfileComponents.Count; i++)
+                                        {
+                                            var valorAntiguo = profile.ProfileComponents[i].CategoryName;
+                                            if (valor != valorAntiguo)
+                                            {
+                                                valor = valorAntiguo;
+                                                <tr id="perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
+                                                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName')"></i></td>
+                                                    <td colspan="4">@profile.ProfileComponents[i].CategoryName</td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
+                                                    <td></td>
+                                                    <td>@profile.ProfileComponents[i].ComponentName</td>
+                                                    <td>@profile.ProfileComponents[i].MinPrice</td>
+                                                    <td>@profile.ProfileComponents[i].PriceList</td>
+                                                    <td class="salePrice">@profile.ProfileComponents[i].SalePrice</td>
+                                                </tr>
+                                            }
+
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+                <tr class="footer-Total">
+                    <td colspan="3" style="text-align:right">TOTALES</td>
+                    <td class="nroTotalComp">
+                    </td>
+                    <td class="Total">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Condiciones Comerciales  </h4>
+                <div class="btn-group" data-toggle="buttons" role="group">
+                    <label class="btn btn-outline btn-info">
+                        <input type="radio" name="options" autocomplete="off" value="male" checked="">
+                        <i class="ti-check text-active" aria-hidden="true"></i> Exportar
+                    </label>
+                    <label class="btn btn-outline btn-info">
+                        <input type="radio" name="options" autocomplete="off" value="female">
+                        <i class="ti-check text-active" aria-hidden="true"></i> Separar propuestas
+                    </label>
+                </div>
+                <form method="post" class="mt-2">
+                    <div class="form-group">
+                        <textarea class="textarea_editor form-control" rows="15" placeholder="Enter text ..."></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL -->
+<!-- ============================================================== -->
+<div class="modal fade" id="perfilModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Perfil: </h4>
+                <div class="col-md-6">
+                    <select class="form-control form-white" data-placeholder="Seleccione un perfil..." id="profile">
+                        <option value="-1">--Seleccionar--</option>
+                        <option value="1">Minero</option>
+                        <option value="2">Administrativo</option>
+                    </select>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div>
+
+            </div>
+            <div class="modal-body" style="font-size:10px;">
+
+                <table class="table color-table success-table ">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>CATEGORÍAS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-profile">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script src="~/assets/plugins/jquery/jquery.min.js"></script>
+
+<!-- wysuhtml5 Plugin JavaScript -->
+<script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
+<script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
+<script src="~/Scripts/APIController.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        var sumTotal = 0;
+        var compTotal = 0;
+        $(".table-main > tbody > .child").each(function (index, tr) {
+            var sumSubTotal = 0;
+            var sales = $(tr).find('.salePrice');
+            $(sales).each(function () {
+                var value = $(this).text();
+                //obtener el SUBTOTAL
+                if (!isNaN(value) && value.length != 0) {
+                    sumSubTotal += parseFloat(value);
+                }
+            });
+
+            var parent = $(tr).prev().get(0);
+            $(parent).find('.subTotal').text(sumSubTotal);
+            $(parent).find('.counterComp').text(sales.length);
+
+            //obtener el TOTAL
+            if (!isNaN(sumSubTotal)) {
+                sumTotal += parseFloat(sumSubTotal);
+            }
+
+            compTotal += parseFloat($(sales).length);
+        });
+        $('.Total').text(sumTotal);
+        $('.nroTotalComp').text(compTotal);
+
+
+        
+    $('#profile').change(function () {
+        $("#tbody-profile").text("obteniendo información");
+             var idProfile = $("#profile option:selected").val();
+            APIController.GetProfile(idProfile).then((res)=> {
+                var data = res.Data.categories;  
+                
+                 var content = "";
+                for (var i = 0; i < data.length; i++) {
+                    content += '<tr id="cat-'+data[i].CategoryId+'">';
+                    content += '<td><i class="fa fa-plus text-inverse m-r-10" onclick=showComponets("cat-'+data[i].CategoryId +'")></i></td>';
+                    content += '<td>'+ data[i]["CategoryName"] +'</td>';                
+                    content += '</tr>' 
+
+                    content += '<tr class="cat-' + data[i].CategoryId + '" style="display:none">';
+                    content += '<td colspan="2">';                        
+                    content += '<table class="table-examenes-profile">';
+               
+                    for (var ii = 0; ii < data[i].Detail.length; ii  ++) {
+                        content += '<tr>';  
+                        if (data[i].Detail[ii].Active) {
+                            content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="'+data[i].Detail[ii].ComponentId+'" value="check" checked> <label for="'+data[i].Detail[ii].ComponentId+'"></label></div></td>'
+                        } else {
+                            content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="'+data[i].Detail[ii].ComponentId+'" value="check"> <label for="'+data[i].Detail[ii].ComponentId+'"></label></div></td>'
+                        }
+                            
+                        content += '<td>' ;
+                        content += data[i].Detail[ii].ComponentName;
+                        content += '</td>';
+                        content += '</tr>';
+                        }
+                        
+                        content += '</table>';
+                        
+                    
+                    content += '</td>';
+                    content += '</tr>';
+                }
+
+                $("#tbody-profile").empty();
+             $("#tbody-profile").append(content);
+            }); 
+
+    });
+        
+
+
+    });
+
+
+    $('.textarea_editor').wysihtml5();
+
+    function show(value) {
+        var td = $($("#" + value + " td")[0]).find("i");
+
+        let pClass = '.' + value;
+        if ($(pClass).css("display") == "none") {
+            $(pClass).fadeIn(1000);
+            $(pClass).show();
+            td.addClass('fa-minus');
+            td.removeClass('fa-plus');
+        }
+        else {
+            $(pClass).hide();
+            td.removeClass('fa-minus');
+            td.addClass('fa-plus');
+        }
+    }
+
+    function openModal() {
+        $("#perfilModal").modal("show");
+    }
+
+    function showComponets(value) {
+        var td = $($("#" + value + " td")[0]).find("i");
+
+        let pClass = '.' + value;
+        console.log(pClass);
+        if ($(pClass).css("display") == "none") {
+            $(pClass).fadeIn(1000);
+            $(pClass).show();
+            td.addClass('fa-minus');
+            td.removeClass('fa-plus');
+        }
+        else {
+            $(pClass).hide();
+            td.removeClass('fa-minus');
+            td.addClass('fa-plus');
+        }
+    }
+
+    function valor(val) {
+        console.log(val);
+    }
+
+</script>

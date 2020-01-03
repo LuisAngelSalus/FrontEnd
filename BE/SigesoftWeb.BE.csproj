@@ -49,6 +49,8 @@
     <Compile Include="ListSystemUserDto.cs" />
     <Compile Include="LoginDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtocolProfileDto.cs" />
+    <Compile Include="QuotationDto.cs" />
     <Compile Include="ValidatedAccessDto.cs" />
   </ItemGroup>
   <ItemGroup>

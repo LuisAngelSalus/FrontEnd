@@ -1045,7 +1045,7 @@
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\Detail.cshtml" />
     <Content Include="Views\Quotation\Index.cshtml" />
-    <Content Include="Views\Quotation\GenerateQuote.cshtml" />
+    <Content Include="Views\Quotation\RegisterQuotation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

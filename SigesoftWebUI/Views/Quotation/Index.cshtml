@@ -16,7 +16,7 @@
                         <th>Estado</th>
                         <th>F. US</th>
                         <th>Seguimiento</th>
-                        <th class="text-nowrap">Indicadores</th>                        
+                        <th class="text-nowrap">Indicadores</th>
                         <th class="text-nowrap">Action</th>
                     </tr>
                 </thead>
@@ -34,9 +34,9 @@
                         <td>
                             <a href="#" data-toggle="tooltip" data-original-title="estado"> <i class="fa fa-dot-circle-o text-inverse m-r-10"></i> </a>
                         </td>
-                        <td class="text-nowrap">                            
+                        <td class="text-nowrap">
                             <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                            
+
                         </td>
                     </tr>
                 </tbody>
@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="card-body">
-        <button onclick="location.href='@Url.Action("GenerateQuote","Quotation")'" class="btn btn-success waves-effect waves-light m-r-10">Nueva Cotización</button>
+        <button onclick="location.href='@Url.Action("RegisterQuotation","Quotation", new { id = 1})'" class="btn btn-success waves-effect waves-light m-r-10">Nueva Cotización</button>
     </div>
 </div>
 
@@ -86,7 +86,7 @@
 
     });
 
-    
+
 </script>
 
 
