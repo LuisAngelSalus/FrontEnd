@@ -143,6 +143,7 @@
     <Content Include="assets\images\logo-light-icon.png" />
     <Content Include="assets\images\logo-light-text.png" />
     <Content Include="assets\images\logo-text.png" />
+    <Content Include="assets\images\SLEmpresarial.png" />
     <Content Include="assets\images\users\1.jpg" />
     <Content Include="assets\images\users\2.jpg" />
     <Content Include="assets\images\users\3.jpg" />
@@ -372,6 +373,10 @@
     <Content Include="assets\plugins\jquery-datatables-editable\datatables.css" />
     <Content Include="assets\plugins\jquery-datatables-editable\jquery.dataTables.js" />
     <Content Include="assets\plugins\jquery\jquery.min.js" />
+    <Content Include="assets\plugins\Login\css\bootstrap.min.css" />
+    <Content Include="assets\plugins\Login\css\font-awesome.min.css" />
+    <Content Include="assets\plugins\Login\js\bootstrap.min.js" />
+    <Content Include="assets\plugins\Login\js\jquery.min.js" />
     <Content Include="assets\plugins\perfect-scrollbar\css\perfect-scrollbar.css" />
     <Content Include="assets\plugins\perfect-scrollbar\css\perfect-scrollbar.min.css" />
     <Content Include="assets\plugins\perfect-scrollbar\js\perfect-scrollbar.jquery.js" />
@@ -1076,6 +1081,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

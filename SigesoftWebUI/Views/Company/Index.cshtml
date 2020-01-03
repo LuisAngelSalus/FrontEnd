@@ -28,9 +28,11 @@
                         <td>@item.ContactName</td>
                         <td>@item.Mail</td>
                         <td class="text-nowrap">
-                            <a href="#" data-toggle="tooltip" data-original-title="Contactos" > <i onclick="Ver(@item.CompanyId)" class="fa fa-user text-primary"></i>  </a>
-                            <a href="@Url.Action("Detail","Company",new {id = @item.CompanyId })" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                            <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i></a>
+                            <div class="btn-list">
+                                <a class="" href="#" data-toggle="tooltip" data-original-title="Contactos"> <i onclick="Ver(@item.CompanyId)" class="fa fa-user btn waves-effect waves-light btn-primary"></i></a>
+                                <a class="" href="@Url.Action("Detail","Company",new {id = @item.CompanyId })" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil btn waves-effect waves-light btn-secondary"></i></a>
+                                <a class="" href="#" data-toggle="tooltip" data-original-title="Close"><i class="fa fa-close btn waves-effect waves-light btn-danger"></i></a>
+                            </div>
                         </td>
                     </tr>
                     }
