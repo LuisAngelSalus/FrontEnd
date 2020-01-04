@@ -1,10 +1,12 @@
-﻿using BL;
+﻿using BE;
+using BL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Utils;
 
 namespace SigesoftWebUI.Controllers
 {
@@ -23,6 +25,14 @@ namespace SigesoftWebUI.Controllers
             if (response != null)
             {
                 ViewBag.DataQuotation = response.Data;
+            }
+            else
+            {
+                var oGenerateCode = new GenerateCode();
+                var oQuotationDto = new QuotationDto();
+                var code = oGenerateCode.Code("COT","PAT",1);
+                oQuotationDto.Code = code;
+                ViewBag.DataQuotation = oQuotationDto;
             }
             return View();
         }

@@ -12,6 +12,7 @@ namespace BE
         public int ProtocolProfileId { get; set; }
         public string ProtocolProfileName { get; set; }
         public List<CategoryDto> categories { get; set; }
+        public List<CategoryDto> UnselectedCategories { get; set; }
     }
 
     public class CategoryDto
@@ -23,11 +24,12 @@ namespace BE
 
     public class ProfileDetailDto
     {
+        public int CategoryId { get; set; }
         public bool Active { get; set; }
         public string ComponentId { get; set; }
         public string ComponentName { get; set; }
-        public float? CostPrice { get; set; }
-        public float? BasePrice { get; set; }
+        public float? MinPrice { get; set; }
+        public float? ListPrice { get; set; }
         public float? SalePrice { get; set; }
     }
 }

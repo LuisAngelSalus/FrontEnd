@@ -8,6 +8,10 @@ namespace BE
 {
     public class QuotationDto
     {
+        public QuotationDto()
+        {
+            QuotationProfiles = new List<QuotationProfileDto>();
+        }
         public int QuotationId { get; set; }
         public string Code { get; set; }
         public int Version { get; set; }
@@ -29,6 +33,10 @@ namespace BE
 
     public class QuotationProfileDto
     {
+        public QuotationProfileDto()
+        {
+            ProfileComponents = new List<ProfileComponentDto>();
+        }
         public int QuotationProfileId { get; set; }
         public int QuotationId { get; set; }
         public int? ProfileId { get; set; }
