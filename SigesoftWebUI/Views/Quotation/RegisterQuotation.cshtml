@@ -301,7 +301,7 @@
 <script src="~/Scripts/APIController.js"></script>
 
 <script>
-
+    var obj = {};
     $(document).ready(function () {
         CalculateTotals();
         $('.table-main').on('change paste keyup', '.salePrice', function (e)
@@ -309,17 +309,17 @@
             CalculateTotals();   
         });  
 
-        //$('.modal-content .modal-body').change(function (e) {
+        $('.modal-content').on('change', '.checkbox', function (event) {
+            if (event.target.checked) {
+                //console.log("CHECKED", $(this).parent().parent().get(0), obj);
+                //console.log("TARGET", event.target.id);
+                ProcessObj(event.target.id, $(this).parent().parent().get(0), true);
+            } else {
+                //console.log("UNCHECKED", $(this).parent().parent().get(0), obj);
+                ProcessObj(event.target.id, $(this).parent().parent().get(0), false);
+            }
             
-        //    if (e.target.checked) {
-        //        console.log("chekeado", e.target);
-        //    } else {
-        //        console.log("deschekeado", e.target.parent().parent());
-        //    }
-        //});
 
-        $('.modal-content').on('change','.checkbox', function (event) {
-            console.log($(this).parent().parent().get(0));
         });
 
     });
@@ -328,11 +328,12 @@
         $("#tbody-profile").text("obteniendo información");
         $("#tbody-profile-unselectd").text("obteniendo información");
              var idProfile = $("#profile option:selected").val();
-            APIController.GetProfile(idProfile).then((res)=> {
+        APIController.GetProfile(idProfile).then((res) => {
+            LoadObj(res);
                 var data = res.Data.categories;                  
                 var unselectedData = res.Data.UnselectedCategories;                   
                 
-                //---------------Tabla---------------------------
+                //---------------Table-Profile---------------------------
                 var content = "";
                 for (var i = 0; i < data.length; i++) {
                     content += '<tr id="cat-'+data[i].CategoryId+'">';
@@ -343,7 +344,7 @@
                     content += '<tr class="cat-' + data[i].CategoryId + '" style="display:none">';
                     content += '<td colspan="2">';                        
                     content += '<table class="table-examenes-profile">';
-                    content += '<thead><th></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>' ;                    
+                    content += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>' ;                    
                     content += '<tboby>';
                     for (var ii = 0; ii < data[i].Detail.length; ii  ++) {
                         content += '<tr>';  
@@ -353,15 +354,20 @@
                         } else {
                             content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="'+data[i].Detail[ii].ComponentId+'" value="check"> <label for="'+data[i].Detail[ii].ComponentId+'"></label></div></td>'
                         }
-                        content += '<td style="display:none">' ;
+                        content += '<td class="catId" style="display:none">' ;
                         content += data[i].Detail[ii].CategoryId;
                         content += '</td>';
-                        content += '<td>' ;
+
+                        content += '<td class="catname" style="display:none">';
+                        content += data[i].CategoryName;
+                        content += '</td>';
+
+                        content += '<td class="compname">' ;
                         content += data[i].Detail[ii].ComponentName;
                         content += '</td>';
-                        content += '<td style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
-                        content += '<td style="text-align: center;"><label>'+data[i].Detail[ii].ListPrice+'</label></td>';                        
-                        content += '<td style="text-align: center;"><input type="text" value="'+data[i].Detail[ii].SalePrice+'" style="width:80px"> </td>';
+                        content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
+                        content += '<td class="listprice" style="text-align: center;"><label>'+data[i].Detail[ii].ListPrice+'</label></td>';                        
+                        content += '<td class="saleprice" style="text-align: center;"><input type="text" value="'+data[i].Detail[ii].SalePrice+'" style="width:80px"> </td>';
                         content += '</tr>';
                     }
                     content += '</tboby>';                        
@@ -385,7 +391,7 @@
                     contentUn += '<tr class="uncat-' + unselectedData[i].CategoryId + '" style="display:none">';
                     contentUn += '<td colspan="2">';                        
                     contentUn += '<table class="table-examenes-profile-UnSelected">';
-                    contentUn += '<thead><th></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>' ;                    
+                    contentUn += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>' ;                    
                     contentUn += '<tboby>';
                     for (var ii = 0; ii < unselectedData[i].Detail.length; ii  ++) {
                         contentUn += '<tr>';  
@@ -394,15 +400,20 @@
                         } else {
                             contentUn += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="'+unselectedData[i].Detail[ii].ComponentId+'" value="check"> <label for="'+unselectedData[i].Detail[ii].ComponentId+'"></label></div></td>'
                         }
-                        contentUn += '<td style="display:none">' ;
+                        contentUn += '<td class="catId" style="display:none">' ;
                         contentUn += unselectedData[i].Detail[ii].CategoryId;
                         contentUn += '</td>';
-                        contentUn += '<td>' ;
+
+                        contentUn += '<td class="catname" style="display:none">';
+                        contentUn += unselectedData[i].CategoryName;
+                        contentUn += '</td>';
+
+                        contentUn += '<td class="compname">' ;
                         contentUn += unselectedData[i].Detail[ii].ComponentName;
                         contentUn += '</td>';
-                        contentUn += '<td style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
-                        contentUn += '<td style="text-align: center;"><label>'+unselectedData[i].Detail[ii].ListPrice+'</label></td>';                        
-                        contentUn += '<td style="text-align: center;"><input type="text" value="'+unselectedData[i].Detail[ii].SalePrice+'" style="width:80px"> </td>';
+                        contentUn += '<td class="minprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
+                        contentUn += '<td class="listprice" style="text-align: center;"><label>'+unselectedData[i].Detail[ii].ListPrice+'</label></td>';                        
+                        contentUn += '<td class="saleprice" style="text-align: center;"><input type="text" value="'+unselectedData[i].Detail[ii].SalePrice+'" style="width:80px"> </td>';
                         contentUn += '</tr>';
                         }
 
@@ -449,7 +460,7 @@
         var td = $($("#" + value + " td")[0]).find("i");
 
         let pClass = '.' + value;
-        console.log(pClass);
+        //console.log(pClass);
         if ($(pClass).css("display") == "none") {
             $(pClass).fadeIn(1000);
             $(pClass).show();
@@ -495,6 +506,64 @@
 
     function AddProfile() {
         console.log("SSSS");
+    }
+
+    function LoadObj(res) {
+        //console.log("RESP", res);
+        obj = {};
+        var data = res.Data;
+        obj.profileId = data.ProtocolProfileId;
+        obj.profileName = data.ProtocolProfileName;
+
+        var categories = data.categories;
+        var profileComponents = [];
+        for (var i = 0; i < categories.length; i++) {        
+
+            var detail = categories[i].Detail;
+            for (var ii = 0; ii < detail.length; ii++) {
+                var profileComponent = {};
+                profileComponent.categoryId = categories[i].CategoryId;
+                profileComponent.categoryName = categories[i].CategoryName;
+                profileComponent.componentId = detail[ii].ComponentId;
+                profileComponent.componentName = detail[ii].ComponentName;
+
+                profileComponent.minPrice = detail[ii].MinPrice;
+                profileComponent.listPrice = detail[ii].ListPrice;
+                profileComponent.salePrice = detail[ii].SalePrice;
+                
+                profileComponents.push(profileComponent);
+            }
+        }
+        obj.profileComponents = profileComponents;
+        //console.log("DATOS", obj);
+    }
+
+    function ProcessObj(componentId, event, val) {
+        //console.log(componentId, event, val, obj.profileComponents);
+        //console.log($(event).find('.catId').get(0).innerText);
+        
+        //ADD
+        if (val) {
+            var profileComponent = {};
+            profileComponent.categoryId = parseInt($(event).find('.catId').get(0).innerText);
+            profileComponent.categoryName =  $(event).find('.catname').get(0).innerText;
+            profileComponent.componentId = componentId;
+            profileComponent.componentName = $(event).find('.compname').get(0).innerText;
+            profileComponent.minPrice = parseFloat($(event).find('.minprice label').get(0).innerText);
+            profileComponent.listPrice =  parseFloat($(event).find('.listprice label').get(0).innerText);
+            profileComponent.salePrice = parseFloat($(event).find('.saleprice input').get(0).value);    
+
+            obj.profileComponents.push(profileComponent);
+
+        }//DELETE
+        else {
+
+            obj.profileComponents = obj.profileComponents.filter(function( res ) {
+                return res.componentId !== componentId;
+            });
+        }
+        
+        console.log(obj);
     }
 
 </script>
