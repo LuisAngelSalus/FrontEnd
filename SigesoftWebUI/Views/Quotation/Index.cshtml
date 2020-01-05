@@ -1,52 +1,52 @@
 ﻿
-<div class="card">
-    <div class="card-body">
-        <h4 class="card-title">Matiz de Seguimiento</h4>
-        <h6 class="card-subtitle">Hacer seguimiento a las cotizaciones</h6>
-        <div class="table-responsive m-t-40">
-            <table id="table" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Nro Propuesta</th>
-                        <th>F. Envio</th>
-                        <th>F. Aceptación</th>
-                        <th>Empresa</th>
-                        <th>Servicio</th>
-                        <th>Costo</th>
-                        <th>Estado</th>
-                        <th>F. US</th>
-                        <th>Seguimiento</th>
-                        <th class="text-nowrap">Indicadores</th>                        
-                        <th class="text-nowrap">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>0001</td>
-                        <td>01/01/2000</td>
-                        <td>01/01/2000</td>
-                        <td>Atachocha SAC</td>
-                        <td> CSO Lima</td>
-                        <td>84.00</td>
-                        <td>Pendinte</td>
-                        <td>01/01/2000</td>
-                        <td>texto</td>
-                        <td>
-                            <a href="#" data-toggle="tooltip" data-original-title="estado"> <i class="fa fa-dot-circle-o text-inverse m-r-10"></i> </a>
-                        </td>
-                        <td class="text-nowrap">                            
-                            <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                            
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="card">
+        <div class="card-body" style="text-align:right">
+            <button onclick="location.href='@Url.Action("RegisterQuotation","Quotation", new { id = 0})'" class="btn btn-success waves-effect waves-light m-r-10">Crear  Cotización</button>
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Matiz de Seguimiento</h4>
+            <h6 class="card-subtitle">Hacer seguimiento a las cotizaciones</h6>
+            <div class="table-responsive m-t-40">
+                <table id="table" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nro Propuesta</th>
+                            <th>F. Envio</th>
+                            <th>F. Aceptación</th>
+                            <th>Empresa</th>
+                            <th>Servicio</th>
+                            <th>Costo</th>
+                            <th>Estado</th>
+                            <th>F. US</th>
+                            <th>Seguimiento</th>
+                            <th class="text-nowrap">Indicadores</th>
+                            <th class="text-nowrap">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0001</td>
+                            <td>01/01/2000</td>
+                            <td>01/01/2000</td>
+                            <td>Atachocha SAC</td>
+                            <td> CSO Lima</td>
+                            <td>84.00</td>
+                            <td>Pendinte</td>
+                            <td>01/01/2000</td>
+                            <td>texto</td>
+                            <td>
+                                <a href="#" data-toggle="tooltip" data-original-title="estado"> <i class="fa fa-dot-circle-o text-inverse m-r-10"></i> </a>
+                            </td>
+                            <td class="text-nowrap">
+                                <a href="@Url.Action("RegisterQuotation","Quotation", new { id = 1})" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <div class="card-body">
-        <button onclick="location.href='@Url.Action("GenerateQuote","Quotation")'" class="btn btn-success waves-effect waves-light m-r-10">Nueva Cotización</button>
-    </div>
-</div>
 
 <!-- ============================================================== -->
 <!-- All Jquery -->
@@ -86,7 +86,7 @@
 
     });
 
-    
+
 </script>
 
 

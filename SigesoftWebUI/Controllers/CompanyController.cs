@@ -51,5 +51,12 @@ namespace SigesoftWebUI.Views.Organization
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
              
         }
+
+        public JsonResult CompanyByRuc(string ruc)
+        {
+            var response = _companyBL.CompanyByRuc(ruc);
+
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
     }
 }

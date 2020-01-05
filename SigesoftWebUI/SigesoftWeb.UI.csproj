@@ -122,6 +122,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InfoSunatController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1046,10 +1047,11 @@
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\Detail.cshtml" />
     <Content Include="Views\Quotation\Index.cshtml" />
-    <Content Include="Views\Quotation\GenerateQuote.cshtml" />
+    <Content Include="Views\Quotation\RegisterQuotation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\InfoSunat\" />
     <Folder Include="Views\Session\" />
   </ItemGroup>
   <ItemGroup>

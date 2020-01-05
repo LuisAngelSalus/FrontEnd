@@ -68,5 +68,17 @@ namespace BL
             }
             return obj;
         }
+
+        public Response<CompanyDetailDto> CompanyByRuc(string ruc)
+        {
+            Response<CompanyDetailDto> obj = null;
+            var hCliente = _global.rspClientGET("Company/" + ruc);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
     }
 }
