@@ -60,4 +60,44 @@ namespace BE
         public decimal? SalePrice { get; set; }
         public int? InsertUserId { get; set; }
     }
+
+
+    #region Register
+
+    public class QuotationRegisterDto
+    {
+        public string Code { get; set; }
+        public int Version { get; set; }
+        public int UserCreatedId { get; set; }        
+        public int CompanyId { get; set; }        
+        public int CompanyHeadquarterId { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public int TypeFormatId { get; set; }
+        public string CommercialTerms { get; set; }
+        public int? InsertUserId { get; set; }
+        public List<QuotationProfileRegisterDto> QuotationProfiles { get; set; }
+    }
+
+    public class QuotationProfileRegisterDto
+    {
+        public int QuotationId { get; set; }
+        public int? ProfileId { get; set; }
+        public int? ServiceTypeId { get; set; }
+        public int? InsertUserId { get; set; }
+        public List<ProfileComponentRegisterDto> ProfileComponents { get; set; }
+    }
+
+    public class ProfileComponentRegisterDto
+    {
+        public int QuotationProfileId { get; set; }
+        public int? CategoryId { get; set; }
+        public string ComponentId { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? PriceList { get; set; }
+        public decimal? SalePrice { get; set; }
+        public int? InsertUserId { get; set; }
+    }
+
+    #endregion
 }

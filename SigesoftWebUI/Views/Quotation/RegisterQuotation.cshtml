@@ -1,5 +1,6 @@
 ﻿@{
-    string code = "";
+    string Code = "";
+    int CompanyId = 0;
     string CompanyRuc = "";
     string CompanyName = "";
     string CompanyDistrictName = "";
@@ -11,7 +12,8 @@
     string CommercialTerms = "";
     if (ViewBag.DataQuotation != null)
     {
-        code = ViewBag.DataQuotation.Code == null? "sin generar":ViewBag.DataQuotation.Code;
+        Code = ViewBag.DataQuotation.Code == null? "sin generar":ViewBag.DataQuotation.Code;
+        CompanyId =  ViewBag.DataQuotation.CompanyId;
         CompanyRuc = ViewBag.DataQuotation.CompanyRuc;
         CompanyName = ViewBag.DataQuotation.CompanyName;
         CompanyDistrictName = ViewBag.DataQuotation.CompanyDistrictName;
@@ -76,15 +78,16 @@
 
 <div class="row">
     <div class="card card-body">
-        <h3 class="box-title m-b-0">Cotización: <span>@code</span> </h3>
+        <h3 class="box-title m-b-0">Cotización: <span>@Code</span> </h3>
         <p class="text-muted m-b-30 font-13"> Datos de Empresa</p>
         <div class="row">
             <div class="col-sm-12 col-xs-12">
-                <form class="floating-labels">
+                <form >
                     <div class="form-row">
+                        <input type="hidden" id="txtCompanyId" value="@CompanyId" />
                         <div class="form-group col-md-4">
                             <label for="txtRuc">RUC</label>
-                            <input type="text" class="form-control" id="txtRuc" value="@CompanyRuc">
+                            <input type="text" class="form-control" id="txtRuc" value="@CompanyRuc" autofocus>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="txtCompanyName">Empresa</label>
@@ -135,6 +138,7 @@
             <thead>
                 <tr>
                     <th></th>
+                    <th style="display:none">ProfileId</th>
                     <th>PERFIL</th>
                     <th>SERVICIO</th>
                     <th class="col-center">N° EXAMENES</th>
@@ -143,85 +147,86 @@
                 </tr>
             </thead>
             <tbody id="tbody-main">
-                
-                @foreach (var profile in ViewBag.DataQuotation.QuotationProfiles)
-                    {
-                <tr id="perfil-@profile.QuotationProfileId" class="parent">
-                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
-                    <td>@profile.ProfileName</td>
-                    @*<td>@profile.ServiceTypeName</td>*@
-                    <td>
-                        <select class="form-control form-white" data-placeholder="Seleccione un servicio..." id="ddlService">
-                            <option value="-1" @(@profile.ServiceTypeId == -1 ? "selected" : "")>--Seleccionar--</option>
-                            <option value="1" @(@profile.ServiceTypeId == 1 ? "selected" : "")>Preocupacional</option>
-                            <option value="2" @(@profile.ServiceTypeId == 2 ? "selected" : "")>Periodico</option>
-                            <option value="3" @(@profile.ServiceTypeId == 3 ? "selected" : "")>Anual</option>
-                        </select>
-                    </td>
-                    
-                    <td class="counterComp col-center">0</td>
-                    <td class="subTotal col-center">0</td>
-                    <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick=""></i></td>
-                </tr>
-                        <tr class="perfil-@profile.QuotationProfileId child">
-                            <td colspan="6">
-                                <table class="table-examenes">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>EXAMENES - PERFIL</th>
-                                            <th class="col-center">PRECIO MÍNIMO</th>
-                                            <th class="col-center">PRECIO LISTA</th>
-                                            <th class="col-center">PRECIO VENTA</th>                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{
-                                            var valor = "";
-                                            for (int i = 0; i < profile.ProfileComponents.Count; i++)
-                                            {
-                                                var valorAntiguo = profile.ProfileComponents[i].CategoryName;
-                                                if (valor != valorAntiguo)
-                                                {
-                                                    valor = valorAntiguo;
-                                                    <tr id="perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
-                                                        <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName')"></i></td>
-                                                        <td colspan="4">@profile.ProfileComponents[i].CategoryName</td>
-                                                    </tr>
-                                                    i--;
-                                                }
-                                                else
-                                                {
-                                                    <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
-                                                        <td></td>
-                                                        <td>@profile.ProfileComponents[i].ComponentName</td>
-                                                        <td class="col-center">@profile.ProfileComponents[i].MinPrice</td>
-                                                        <td class="col-center">@profile.ProfileComponents[i].PriceList</td>
-                                                        <td class=" col-center"><input type="text" class="salePrice input-numeric" value="@profile.ProfileComponents[i].SalePrice"/> </td>
-                                                    </tr>
-                                                }
 
+                @foreach (var profile in ViewBag.DataQuotation.QuotationProfiles)
+                {
+                    <tr id="perfil-@profile.QuotationProfileId" class="parent">
+                        <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
+                        <td class="profileId">@profile.ProfileId</td>
+                        <td>@profile.ProfileName</td>
+                        @*<td>@profile.ServiceTypeName</td>*@
+                        <td>
+                            <select class="form-control form-white" data-placeholder="Seleccione un servicio..." id="ddlService">
+                                <option value="-1" @(@profile.ServiceTypeId == -1 ? "selected" : "")>--Seleccionar--</option>
+                                <option value="1" @(@profile.ServiceTypeId == 1 ? "selected" : "")>Preocupacional</option>
+                                <option value="2" @(@profile.ServiceTypeId == 2 ? "selected" : "")>Periodico</option>
+                                <option value="3" @(@profile.ServiceTypeId == 3 ? "selected" : "")>Anual</option>
+                            </select>
+                        </td>
+
+                        <td class="counterComp col-center">0</td>
+                        <td class="subTotal col-center">0</td>
+                        <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick=""></i></td>
+                    </tr>
+                    <tr class="perfil-@profile.QuotationProfileId child">
+                        <td colspan="6">
+                            <table class="table-examenes">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>EXAMENES - PERFIL</th>
+                                        <th class="col-center">PRECIO MÍNIMO</th>
+                                        <th class="col-center">PRECIO LISTA</th>
+                                        <th class="col-center">PRECIO VENTA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var valor = "";
+                                        for (int i = 0; i < profile.ProfileComponents.Count; i++)
+                                        {
+                                            var valorAntiguo = profile.ProfileComponents[i].CategoryName;
+                                            if (valor != valorAntiguo)
+                                            {
+                                                valor = valorAntiguo;
+                                                <tr id="perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
+                                                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName')"></i></td>
+                                                    <td colspan="4">@profile.ProfileComponents[i].CategoryName</td>
+                                                </tr>
+                                                i--;
                                             }
+                                            else
+                                            {
+                                                <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
+                                                    <td></td>
+                                                    <td>@profile.ProfileComponents[i].ComponentName</td>
+                                                    <td class="col-center">@profile.ProfileComponents[i].MinPrice</td>
+                                                    <td class="col-center">@profile.ProfileComponents[i].PriceList</td>
+                                                    <td class=" col-center"><input type="text" class="salePrice input-numeric" value="@profile.ProfileComponents[i].SalePrice" /> </td>
+                                                </tr>
+                                            }
+
                                         }
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    }                
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
 
                 @*<tr class="footer-Total">
-                    <td colspan="3" style="text-align:right">TOTALES</td>
-                    <td class="nroTotalComp col-center">
-                    </td>
-                    <td class="Total col-center">
-                    </td>
-                    <td></td>
-                </tr>*@
+                        <td colspan="3" style="text-align:right">TOTALES</td>
+                        <td class="nroTotalComp col-center">
+                        </td>
+                        <td class="Total col-center">
+                        </td>
+                        <td></td>
+                    </tr>*@
             </tbody>
         </table>
     </div>
     <div class="card card-body table-total">
-        <table class="table color-bordered-table muted-bordered-table" >
+        <table class="table color-bordered-table muted-bordered-table">
             <thead>
                 <tr>
                     <th></th>
@@ -231,242 +236,186 @@
                     <th class="Total col-center"></th>
                     <th></th>
                 </tr>
-            </thead>            
+            </thead>
         </table>
     </div>
+    <div class="card card-body">
+        <div class="col-4">
+            <button onclick="SaveQuotation()" class="btn btn-primary waves-effect waves-light m-r-10">Grabar Cotización</button>    
+        </div>        
+    </div>
 </div>
 
 
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Condiciones Comerciales  </h4>
-                <div class="btn-group" data-toggle="buttons" role="group">
-                    <label class="btn btn-outline btn-info">
-                        <input type="radio" name="options" autocomplete="off" value="male" checked="">
-                        <i class="ti-check text-active" aria-hidden="true"></i> Exportar
-                    </label>
-                    <label class="btn btn-outline btn-info">
-                        <input type="radio" name="options" autocomplete="off" value="female">
-                        <i class="ti-check text-active" aria-hidden="true"></i> Separar propuestas
-                    </label>
-                </div>
-                <form method="post" class="mt-2">
-                    <div class="form-group">
-                        <textarea class="textarea_editor form-control" rows="15" placeholder="Enter text ..."></textarea>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Condiciones Comerciales  </h4>
+                    <div class="btn-group" data-toggle="buttons" role="group">
+                        <label class="btn btn-outline btn-info">
+                            <input type="radio" name="options" autocomplete="off" value="male" checked="">
+                            <i class="ti-check text-active" aria-hidden="true"></i> Exportar
+                        </label>
+                        <label class="btn btn-outline btn-info">
+                            <input type="radio" name="options" autocomplete="off" value="female">
+                            <i class="ti-check text-active" aria-hidden="true"></i> Separar propuestas
+                        </label>
                     </div>
-                </form>
+                    <form method="post" class="mt-2">
+                        <div class="form-group">
+                            <textarea class="textarea_editor form-control" rows="15" placeholder="Enter text ..."></textarea>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- ============================================================== -->
-<!-- MODAL -->
-<!-- ============================================================== -->
-<div class="modal fade" id="perfilModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel1">Perfil: </h4>
-                <div class="col-md-6">
-                    <select class="form-control form-white" data-placeholder="Seleccione un perfil..." id="profile">
-                        <option value="-1">--Seleccionar--</option>
-                        <option value="1">Minero</option>
-                        <option value="2">Administrativo</option>
-                    </select>
+    <!-- ============================================================== -->
+    <!-- MODAL -->
+    <!-- ============================================================== -->
+    <div class="modal fade" id="perfilModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel1">Perfil: </h4>
+                    <div class="col-md-6">
+                        <select class="form-control form-white" data-placeholder="Seleccione un perfil..." id="profile">
+                            <option value="-1">--Seleccionar--</option>
+                            <option value="1">Minero</option>
+                            <option value="2">Administrativo</option>
+                        </select>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div>
+                <div>
 
-            </div>
-            <div class="modal-body tables-profile" style="font-size:10px;">
-
-                <table class="table color-table success-table ">
-                    <thead>
-                        <tr>
-                            <th style="width:20px;"></th>
-                            <th>PERFIL: </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-profile">
-                    </tbody>
-                </table>
-
-                <table class="table color-table muted-table ">
-                    <thead>
-                        <tr>
-                            <th style="width:20px;"></th>
-                            <th> </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-profile-unselectd">
-                    </tbody>
-                </table>
-
-            </div>
-            
-            <div class="modal-footer">
-                <div class="col-10">
-                    <input type="checkbox" id="chkProfile" value="check"><label for="chkProfile">Guardar Perfil</label>
                 </div>
-                <div class="col-2">
-                    <button type="button" class="btn btn-info" data-dismiss="modal" onclick="AddProfile()">Ok</button>
+                <div class="modal-body tables-profile" style="font-size:10px;">
+
+                    <table class="table color-table success-table ">
+                        <thead>
+                            <tr>
+                                <th style="width:20px;"></th>
+                                <th>PERFIL: </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-profile">
+                        </tbody>
+                    </table>
+
+                    <table class="table color-table muted-table ">
+                        <thead>
+                            <tr>
+                                <th style="width:20px;"></th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-profile-unselectd">
+                        </tbody>
+                    </table>
+
                 </div>
 
+                <div class="modal-footer">
+                    <div class="col-10">
+                        <input type="checkbox" id="chkProfile" value="check"><label for="chkProfile">Guardar Perfil</label>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-info" data-dismiss="modal" onclick="AddProfile()">Ok</button>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- ============================================================== -->
-<!-- All Jquery -->
-<!-- ============================================================== -->
-<script src="~/assets/plugins/jquery/jquery.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/assets/plugins/jquery/jquery.min.js"></script>
 
-<!-- wysuhtml5 Plugin JavaScript -->
-<script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
-<script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
-<script src="~/Scripts/APIController.js"></script>
+    <!-- wysuhtml5 Plugin JavaScript -->
+    <script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
+    <script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
+    <script src="~/Scripts/APIController.js"></script>
 
-<script>
-    var obj = {};
-    $(document).ready(function () {
-        
-        CalculateTotals();
-        $('.table-main').on('change paste keyup', '.salePrice', function (e)
-        {
-            CalculateTotals();   
-        });  
+    <script>
+        var obj = {};
+        $(document).ready(function () {
 
-         $('.tables-profile').on('change paste keyup', '.salepriceValue', function (e)
-         {
-             let componentId = $($(this).parent().parent().get(0)).find('input').get(0).id;
-             var component = obj.profileComponents.find(p => p.componentId == componentId);
-             //console.log("component", component);
-             //console.log("sSS",$($(this).parent().parent().get(0)).find('input').get(0).id);
-             if (component != undefined) {
-                 //console.log("Actualizar");
-                 RemoveItemObj(componentId);
-                 //obj.profileComponents = obj.profileComponents.filter(function( res ) {
-                 //   return res.componentId !== componentId;
-                 //});
-                 AddItemObj(componentId,$(this).parent().parent().get(0));       
-                 //obj.profileComponents.push(component);
-             }
-             //console.log(obj.profileComponents);    
-        });  
+            CalculateTotals();
+            $('.table-main').on('change paste keyup', '.salePrice', function (e) {
+                CalculateTotals();
+            });
 
-        $('.modal-content').on('change', '.checkbox', function (event) {
-            if (event.target.checked) {
-                ProcessObj(event.target.id, $(this).parent().parent().get(0), true);
-            } else {
-                ProcessObj(event.target.id, $(this).parent().parent().get(0), false);
-            }           
-        });
-
-        $('#txtRuc').change(function () {
-            let ruc = $('#txtRuc').val();            
-
-            APIController.GetCompanyByRuc(ruc).then((res) => {
-                //console.log("RES", res);
-                $('#txtCompanyName').val(res.Data.Name);       
-                $('#txtDistric').val(res.Data.District);       
-                $('#txtAddress').val(res.Data.Address);   
-
-                let content = "";
-                for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
-                    content += "<option value='"+res.Data.companyHeadquarter[i].CompanyHeadquarterId +"'>"+res.Data.companyHeadquarter[i].Address+"</option>";
+            $('.tables-profile').on('change paste keyup', '.salepriceValue', function (e) {
+                let componentId = $($(this).parent().parent().get(0)).find('input').get(0).id;
+                var component = obj.profileComponents.find(p => p.componentId == componentId);
+                //console.log("component", component);
+                //console.log("sSS",$($(this).parent().parent().get(0)).find('input').get(0).id);
+                if (component != undefined) {
+                    //console.log("Actualizar");
+                    RemoveItemObj(componentId);
+                    //obj.profileComponents = obj.profileComponents.filter(function( res ) {
+                    //   return res.componentId !== componentId;
+                    //});
+                    AddItemObj(componentId, $(this).parent().parent().get(0));
+                    //obj.profileComponents.push(component);
                 }
-
-                $('#ddlSede').append(content);
-
-                $('#txtCompanyName').attr('readonly', true);
-                $('#txtDistric').attr('readonly', true);
-                $('#txtAddress').attr('readonly', true);
-            }).catch((err) => {
-                alert("Sssss");
-                //console.log("ERR", err);
-                //$('#txtCompanyName').val("");       
-                //$('#txtDistric').val("");       
-                //$('#txtAddress').val("");       
-                //$('#txtCompanyName').attr('readonly', false);
-                //$('#txtDistric').attr('readonly', false);
-                //$('#txtAddress').attr('readonly', false);
-
-                APIController.GetInfoSunat(ruc).then((res) => {       
-                    console.log("RES", res);
-                $('#txtCompanyName').val(res.Data.RazonSocial);       
-                $('#txtDistric').val();       
-                $('#txtAddress').val(res.Data.CodigoZona);       
-
-                $('#txtCompanyName').attr('readonly', true);
-                $('#txtDistric').attr('readonly', true);
-                $('#txtAddress').attr('readonly', true);
-            }).catch((res) => {
-                console.log("ERR", res);
-                $('#txtCompanyName').val("");       
-                $('#txtDistric').val("");       
-                $('#txtAddress').val("");       
-                $('#txtCompanyName').attr('readonly', false);
-                $('#txtDistric').attr('readonly', false);
-                $('#txtAddress').attr('readonly', false);
+                //console.log(obj.profileComponents);
             });
-            });
-            //APIController.GetInfoSunat(ruc).then((res) => {                
-            //    $('#txtCompanyName').val(res.Data.RazonSocial);       
-            //    $('#txtDistric').val();       
-            //    $('#txtAddress').val(res.Data.CodigoZona);       
 
-            //    $('#txtCompanyName').attr('readonly', true);
-            //    $('#txtDistric').attr('readonly', true);
-            //    $('#txtAddress').attr('readonly', true);
-            //}).catch((res) => {
-            //    console.log("ERR", res);
-            //    $('#txtCompanyName').val("");       
-            //    $('#txtDistric').val("");       
-            //    $('#txtAddress').val("");       
-            //    $('#txtCompanyName').attr('readonly', false);
-            //    $('#txtDistric').attr('readonly', false);
-            //    $('#txtAddress').attr('readonly', false);
-            //});
+            $('.modal-content').on('change', '.checkbox', function (event) {
+                if (event.target.checked) {
+                    ProcessObj(event.target.id, $(this).parent().parent().get(0), true);
+                } else {
+                    ProcessObj(event.target.id, $(this).parent().parent().get(0), false);
+                }
+            });
+
+            $('#txtRuc').change(function () {
+                let ruc = $('#txtRuc').val();
+                $('#ddlSede').empty();
+                SearchCompany(ruc);
+
+            });
+
         });
-    });
 
-    $('#profile').change(function () {
-        $("#tbody-profile").text("obteniendo información");
-        $("#tbody-profile-unselectd").text("obteniendo información");
-             var idProfile = $("#profile option:selected").val();
-        APIController.GetProfile(idProfile).then((res) => {
-            LoadObj(res);
-                var data = res.Data.categories;                  
-                var unselectedData = res.Data.UnselectedCategories;                   
-                
+        $('#profile').change(function () {
+            $("#tbody-profile").text("obteniendo información");
+            $("#tbody-profile-unselectd").text("obteniendo información");
+            var idProfile = $("#profile option:selected").val();
+            APIController.GetProfile(idProfile).then((res) => {
+                LoadObj(res);
+                var data = res.Data.categories;
+                var unselectedData = res.Data.UnselectedCategories;
+
                 //---------------Table-Profile---------------------------
                 var content = "";
                 for (var i = 0; i < data.length; i++) {
-                    content += '<tr id="cat-'+data[i].CategoryId+'">';
-                    content += '<td style="width:20px;"></th><i class="fa fa-plus text-inverse m-r-10" onclick=showComponets("cat-'+data[i].CategoryId +'")></i></td>';
-                    content += '<td>'+ data[i]["CategoryName"] +'</td>';                
-                    content += '</tr>' 
+                    content += '<tr id="cat-' + data[i].CategoryId + '">';
+                    content += '<td style="width:20px;"></th><i class="fa fa-plus text-inverse m-r-10" onclick=showComponets("cat-' + data[i].CategoryId + '")></i></td>';
+                    content += '<td>' + data[i]["CategoryName"] + '</td>';
+                    content += '</tr>'
 
                     content += '<tr class="cat-' + data[i].CategoryId + '" style="display:none">';
-                    content += '<td colspan="2">';                        
+                    content += '<td colspan="2">';
                     content += '<table class="table-examenes-profile">';
-                    content += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>' ;                    
+                    content += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>';
                     content += '<tboby>';
-                    for (var ii = 0; ii < data[i].Detail.length; ii  ++) {
-                        content += '<tr>';  
-                        
+                    for (var ii = 0; ii < data[i].Detail.length; ii++) {
+                        content += '<tr>';
+
                         if (data[i].Detail[ii].Active) {
-                            content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="'+data[i].Detail[ii].ComponentId+'" value="check" checked> <label for="'+data[i].Detail[ii].ComponentId+'"></label></div></td>'
+                            content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + data[i].Detail[ii].ComponentId + '" value="check" checked> <label for="' + data[i].Detail[ii].ComponentId + '"></label></div></td>'
                         } else {
-                            content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="'+data[i].Detail[ii].ComponentId+'" value="check"> <label for="'+data[i].Detail[ii].ComponentId+'"></label></div></td>'
+                            content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + data[i].Detail[ii].ComponentId + '" value="check"> <label for="' + data[i].Detail[ii].ComponentId + '"></label></div></td>'
                         }
-                        content += '<td class="catId" style="display:none">' ;
+                        content += '<td class="catId" style="display:none">';
                         content += data[i].Detail[ii].CategoryId;
                         content += '</td>';
 
@@ -474,20 +423,20 @@
                         content += data[i].CategoryName;
                         content += '</td>';
 
-                        content += '<td class="compname">' ;
+                        content += '<td class="compname">';
                         content += data[i].Detail[ii].ComponentName;
                         content += '</td>';
                         content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
-                        content += '<td class="listprice" style="text-align: center;"><label>'+data[i].Detail[ii].ListPrice+'</label></td>';                        
-                        content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue" type="text" value="'+data[i].Detail[ii].SalePrice+'" style="width:80px"> </td>';
+                        content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';
+                        content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue" type="text" value="' + data[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
                         content += '</tr>';
                     }
-                    content += '</tboby>';                        
+                    content += '</tboby>';
                     content += '</table>';
                     content += '</td>';
                     content += '</tr>';
                 }
-                
+
                 $("#tbody-profile").empty();
                 $("#tbody-profile").append(content);
                 //-----------------------------------------------
@@ -495,24 +444,24 @@
                 //---------------UnSelectd-----------------------
                 var contentUn = "";
                 for (var i = 0; i < unselectedData.length; i++) {
-                    contentUn += '<tr id="uncat-'+unselectedData[i].CategoryId+'">';
-                    contentUn += '<td  style="width:20px;"><i class="fa fa-plus text-inverse m-r-10" onclick=showComponets("uncat-'+unselectedData[i].CategoryId +'")></i></td>';
-                    contentUn += '<td>'+ unselectedData[i]["CategoryName"] +'</td>';                
-                    contentUn += '</tr>' 
+                    contentUn += '<tr id="uncat-' + unselectedData[i].CategoryId + '">';
+                    contentUn += '<td  style="width:20px;"><i class="fa fa-plus text-inverse m-r-10" onclick=showComponets("uncat-' + unselectedData[i].CategoryId + '")></i></td>';
+                    contentUn += '<td>' + unselectedData[i]["CategoryName"] + '</td>';
+                    contentUn += '</tr>'
 
                     contentUn += '<tr class="uncat-' + unselectedData[i].CategoryId + '" style="display:none">';
-                    contentUn += '<td colspan="2">';                        
+                    contentUn += '<td colspan="2">';
                     contentUn += '<table class="table-examenes-profile-UnSelected">';
-                    contentUn += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>' ;                    
+                    contentUn += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>';
                     contentUn += '<tboby>';
-                    for (var ii = 0; ii < unselectedData[i].Detail.length; ii  ++) {
-                        contentUn += '<tr>';  
+                    for (var ii = 0; ii < unselectedData[i].Detail.length; ii++) {
+                        contentUn += '<tr>';
                         if (unselectedData[i].Detail[ii].Active) {
-                            contentUn += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="'+unselectedData[i].Detail[ii].ComponentId+'" value="check" checked> <label for="'+unselectedData[i].Detail[ii].ComponentId+'"></label></div></td>'
+                            contentUn += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + unselectedData[i].Detail[ii].ComponentId + '" value="check" checked> <label for="' + unselectedData[i].Detail[ii].ComponentId + '"></label></div></td>'
                         } else {
-                            contentUn += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="'+unselectedData[i].Detail[ii].ComponentId+'" value="check"> <label for="'+unselectedData[i].Detail[ii].ComponentId+'"></label></div></td>'
+                            contentUn += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + unselectedData[i].Detail[ii].ComponentId + '" value="check"> <label for="' + unselectedData[i].Detail[ii].ComponentId + '"></label></div></td>'
                         }
-                        contentUn += '<td class="catId" style="display:none">' ;
+                        contentUn += '<td class="catId" style="display:none">';
                         contentUn += unselectedData[i].Detail[ii].CategoryId;
                         contentUn += '</td>';
 
@@ -520,19 +469,19 @@
                         contentUn += unselectedData[i].CategoryName;
                         contentUn += '</td>';
 
-                        contentUn += '<td class="compname">' ;
+                        contentUn += '<td class="compname">';
                         contentUn += unselectedData[i].Detail[ii].ComponentName;
                         contentUn += '</td>';
                         contentUn += '<td class="minprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
-                        contentUn += '<td class="listprice" style="text-align: center;"><label>'+unselectedData[i].Detail[ii].ListPrice+'</label></td>';                        
-                        contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue" type="text" value="'+unselectedData[i].Detail[ii].SalePrice+'" style="width:80px"> </td>';
+                        contentUn += '<td class="listprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].ListPrice + '</label></td>';
+                        contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue" type="text" value="' + unselectedData[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
                         contentUn += '</tr>';
-                        }
+                    }
 
                     contentUn += '</tboby>';
                     contentUn += '</table>';
-                        
-                    
+
+
                     contentUn += '</td>';
                     contentUn += '</tr>';
                 }
@@ -541,216 +490,390 @@
                 //-----------------------------------------------
 
 
-            }); 
-
-    });
- 
-    $('.textarea_editor').wysihtml5();
-
-    function show(value) {
-        var td = $($("#" + value + " td")[0]).find("i");
-
-        let pClass = '.' + value;
-        if ($(pClass).css("display") == "none") {
-            $(pClass).fadeIn(1000);
-            $(pClass).show();
-            td.addClass('fa-minus');
-            td.removeClass('fa-plus');
-        }
-        else {
-            $(pClass).hide();
-            td.removeClass('fa-minus');
-            td.addClass('fa-plus');
-        }
-    }
-
-    function openModal() {   
-        $('#profile').val(-1).trigger('change');
-        $('#tbody-profile').empty();
-        $('#tbody-profile-unselectd').empty();        
-        $("#perfilModal").modal("show");
-    }
-
-    function showComponets(value) {
-        var td = $($("#" + value + " td")[0]).find("i");
-
-        let pClass = '.' + value;
-        //console.log(pClass);
-        if ($(pClass).css("display") == "none") {
-            $(pClass).fadeIn(1000);
-            $(pClass).show();
-            td.addClass('fa-minus');
-            td.removeClass('fa-plus');
-        }
-        else {
-            $(pClass).hide();
-            td.removeClass('fa-minus');
-            td.addClass('fa-plus');
-        }
-    }
-
-    function CalculateTotals() {
-         var sumTotal = 0;
-        var compTotal = 0;
-       $(".table-main > tbody > .child").each(function (index, tr) {
-            var sumSubTotal = 0;
-           var sales = $(tr).find('.salePrice');           
-            $(sales).each(function () {
-                var value = $(this).get(0).value;
-                //obtener el SUBTOTAL
-                if (!isNaN(value) && value.length != 0) {
-                    sumSubTotal += parseFloat(value);
-                }
             });
 
-            var parent = $(tr).prev().get(0);
-            $(parent).find('.subTotal').text(sumSubTotal);
-            $(parent).find('.counterComp').text(sales.length);
-
-            //obtener el TOTAL
-            if (!isNaN(sumSubTotal)) {
-                sumTotal += parseFloat(sumSubTotal);
-            }
-
-            compTotal += parseFloat($(sales).length);
         });
-        $('.Total').text(sumTotal);
-        $('.nroTotalComp').text(compTotal);
 
-    }
+        $('.textarea_editor').wysihtml5();
 
-    function AddProfile() {
-        let data = obj;
-        let idPerfil = "perfil-"+Math.random().toString(36).substring(7);
-        var content = "";
-        content += "<tr id='"+idPerfil+"' class='parent'>";
-        content += "<td><i class='fa fa-plus text-inverse m-r-10' onclick=show('"+ idPerfil+"')></i></td>";
-        content += "<td>" + data.profileName + "</td>";
-        content += "<td>";
+        function InfoSunat(ruc) {
+            APIController.GetInfoSunat(ruc).then((res) => {
+                console.log("res", res);
+                swal("Búsqueda correcta");
+                SaveCompany(res.Data);
 
-        content += "<select class='form-control form-white' data-placeholder='Seleccione un servicio...' id='ddlService'>";
-        content += "<option value='-1')>--Seleccionar--</option>";
-        content += "<option value='1'>Preocupacional</option>";
-        content += "<option value='2'>Periodico</option>";
-        content += "<option value='3'>Anual</option>";
-        content += "</select>";
-
-        content += "</td>";
-        content += "<td class='counterComp col-center'>0</td>";
-        content += "<td class='subTotal col-center'>0</td>";
-        content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' ></i></td>";
-        content += "</tr>";
-
-        content += "<tr class='"+idPerfil+" child' >";
-        content += "<td colspan='6'>";
-        content += "<table class='table-examenes'>";
-
-        content += "<thead>";
-        content += "<tr>";
-        content += "<th></th>";
-        content += "<th>EXAMENES - PERFIL</th>";
-        content += "<th class='col-center'>PRECIO MÍNIMO</th>";
-        content += "<th class='col-center'>PRECIO LISTA</th>";
-        content += "<th class='col-center'>PRECIO VENTA</th>  ";                                          
-        content += "</tr>";
-        content += "</thead>";
-               
-        content += "<tbody>";
-
-       
-
-        var valor = "";
-        var components = data.profileComponents;
-        let quotationProfileId = "perfil-" + Math.random().toString(36).substring(7);
-        for (let i = 0; i < components.length; i++) {
-            let valorAntiguo = components[i].categoryName;
-              
-            if (valor != valorAntiguo) {
-                valor = valorAntiguo;              
-                content += "<tr id='" + quotationProfileId + "-" + components[i].categoryName + "'>";
-                content += "<td><i class='fa fa-minus text-inverse m-r-10' onclick=show('" + quotationProfileId + "-" + components[i].categoryName + "')></i></td>";
-                content += "<td colspan='4'>" + components[i].categoryName + "</td>";
-                content += "</tr>";
-                i--;
-            } else {
-                content += "<tr class="+ quotationProfileId + "-" + components[i].categoryName +">";
-                content += "<td></td>";
-                content += "<td>"+components[i].componentName+"</td>";
-                content += "<td class='col-center'>"+components[i].minPrice+"</td>";
-                content += "<td class='col-center'>"+components[i].listPrice+"</td>";
-                content += "<td class='col-center'><input type='text' class='salePrice input-numeric' value="+components[i].salePrice+"> </td>";
-                content += "</tr>";
-            }
-            
+            }).catch((res) => {
+                console.log("ERRaaaaa", res);
+                swal.close();
+                $('#txtCompanyName').val("");
+                $('#txtDistric').val("");
+                $('#txtAddress').val("");
+                $('#txtCompanyName').attr('readonly', false);
+                $('#txtDistric').attr('readonly', false);
+                $('#txtAddress').attr('readonly', false);
+            });
         }
 
-        content += "</tbody>";
-        content += "</table>";
-        content += "</td>";
-        content += "</tr>";
-        $('#tbody-main').append(content);
+        function show(value) {
+            var td = $($("#" + value + " td")[0]).find("i");
 
-        CalculateTotals();
-    }
-
-    function LoadObj(res) {
-        //console.log("RESP", res);
-        obj = {};
-        var data = res.Data;
-        obj.profileId = data.ProtocolProfileId;
-        obj.profileName = data.ProtocolProfileName;
-
-        var categories = data.categories;
-        var profileComponents = [];
-        for (var i = 0; i < categories.length; i++) {        
-
-            var detail = categories[i].Detail;
-            for (var ii = 0; ii < detail.length; ii++) {
-                var profileComponent = {};
-                profileComponent.categoryId = categories[i].CategoryId;
-                profileComponent.categoryName = categories[i].CategoryName;
-                profileComponent.componentId = detail[ii].ComponentId;
-                profileComponent.componentName = detail[ii].ComponentName;
-
-                profileComponent.minPrice = detail[ii].MinPrice;
-                profileComponent.listPrice = detail[ii].ListPrice;
-                profileComponent.salePrice = detail[ii].SalePrice;
-                
-                profileComponents.push(profileComponent);
+            let pClass = '.' + value;
+            if ($(pClass).css("display") == "none") {
+                $(pClass).fadeIn(1000);
+                $(pClass).show();
+                td.addClass('fa-minus');
+                td.removeClass('fa-plus');
+            }
+            else {
+                $(pClass).hide();
+                td.removeClass('fa-minus');
+                td.addClass('fa-plus');
             }
         }
-        obj.profileComponents = profileComponents;        
-    }
 
-    function ProcessObj(componentId, event, val) {
-        //console.log(componentId, event, val, obj.profileComponents);
-        //console.log($(event).find('.catId').get(0).innerText);        
-        //ADD
-        if (val) {
-            AddItemObj(componentId,event);       
-        }//DELETE
-        else {
-            RemoveItemObj(componentId);
+        function openModal() {
+            $('#profile').val(-1).trigger('change');
+            $('#tbody-profile').empty();
+            $('#tbody-profile-unselectd').empty();
+            $("#perfilModal").modal("show");
         }
-    }
 
-    function AddItemObj(componentId,event) {
+        function showComponets(value) {
+            var td = $($("#" + value + " td")[0]).find("i");
+
+            let pClass = '.' + value;
+            //console.log(pClass);
+            if ($(pClass).css("display") == "none") {
+                $(pClass).fadeIn(1000);
+                $(pClass).show();
+                td.addClass('fa-minus');
+                td.removeClass('fa-plus');
+            }
+            else {
+                $(pClass).hide();
+                td.removeClass('fa-minus');
+                td.addClass('fa-plus');
+            }
+        }
+
+        function CalculateTotals() {
+            var sumTotal = 0;
+            var compTotal = 0;
+            $(".table-main > tbody > .child").each(function (index, tr) {
+                var sumSubTotal = 0;
+                var sales = $(tr).find('.salePrice');
+                $(sales).each(function () {
+                    var value = $(this).get(0).value;
+                    //obtener el SUBTOTAL
+                    if (!isNaN(value) && value.length != 0) {
+                        sumSubTotal += parseFloat(value);
+                    }
+                });
+
+                var parent = $(tr).prev().get(0);
+                $(parent).find('.subTotal').text(sumSubTotal);
+                $(parent).find('.counterComp').text(sales.length);
+
+                //obtener el TOTAL
+                if (!isNaN(sumSubTotal)) {
+                    sumTotal += parseFloat(sumSubTotal);
+                }
+
+                compTotal += parseFloat($(sales).length);
+            });
+            $('.Total').text(sumTotal);
+            $('.nroTotalComp').text(compTotal);
+
+        }
+
+        function AddProfile() {
+            let data = obj;
+            let idPerfil = "perfil-" + Math.random().toString(36).substring(7);
+            var content = "";
+            content += "<tr id='" + idPerfil + "' class='parent'>";
+            content += "<td><i class='fa fa-plus text-inverse m-r-10' onclick=show('" + idPerfil + "')></i></td>";
+            content += "<td class='profileId' style='display:none'>" + data.profileId + "</td>";
+            content += "<td>" + data.profileName + "</td>";
+            content += "<td>";
+
+            content += "<select class='form-control form-white' data-placeholder='Seleccione un servicio...' id='ddlService'>";
+            content += "<option value='-1'>--Seleccionar--</option>";
+            content += "<option value='1'>Preocupacional</option>";
+            content += "<option value='2'>Periodico</option>";
+            content += "<option value='3'>Anual</option>";
+            content += "</select>";
+
+            content += "</td>";
+            content += "<td class='counterComp col-center'>0</td>";
+            content += "<td class='subTotal col-center'>0</td>";
+            content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' ></i></td>";
+            content += "</tr>";
+
+            content += "<tr class='" + idPerfil + " child' >";
+            content += "<td colspan='6'>";
+            content += "<table class='table-examenes'>";
+
+            content += "<thead>";
+            content += "<tr>";
+            content += "<th></th>";
+            content += "<th style='display:none'>CatId</th>";
+            content += "<th style='display:none'>CompId</th>";
+            content += "<th>EXAMENES - PERFIL</th>";
+            content += "<th class='col-center'>PRECIO MÍNIMO</th>";
+            content += "<th class='col-center'>PRECIO LISTA</th>";
+            content += "<th class='col-center'>PRECIO VENTA</th>  ";
+            content += "</tr>";
+            content += "</thead>";
+
+            content += "<tbody>";
+
+
+
+            var valor = "";
+            var components = data.profileComponents;
+            let quotationProfileId = "perfil-" + Math.random().toString(36).substring(7);
+            for (let i = 0; i < components.length; i++) {
+                let valorAntiguo = components[i].categoryName;
+
+                if (valor != valorAntiguo) {
+                    valor = valorAntiguo;
+                    content += "<tr id='" + quotationProfileId + "-" + components[i].categoryName + "'>";
+                    content += "<td><i class='fa fa-minus text-inverse m-r-10' onclick=show('" + quotationProfileId + "-" + components[i].categoryName + "')></i></td>";
+                    content += "<td colspan='4'>" + components[i].categoryName + "</td>";
+                    content += "</tr>";
+                    i--;
+                } else {
+                    content += "<tr class=" + quotationProfileId + "-" + components[i].categoryName + ">";
+                    content += "<td></td>";
+
+                    content += "<td style='display:none'>"+components[i].categoryId+"</td>";
+                    content += "<td style='display:none'>"+components[i].componentId+"</td>";
+
+                    content += "<td>" + components[i].componentName + "</td>";
+                    content += "<td class='col-center'>" + components[i].minPrice + "</td>";
+                    content += "<td class='col-center'>" + components[i].listPrice + "</td>";
+                    content += "<td class='col-center'><input type='text' class='salePrice input-numeric' value=" + components[i].salePrice + "> </td>";
+                    content += "</tr>";
+                }
+
+            }
+
+            content += "</tbody>";
+            content += "</table>";
+            content += "</td>";
+            content += "</tr>";
+            $('#tbody-main').append(content);
+
+            CalculateTotals();
+        }
+
+        function LoadObj(res) {
+            //console.log("RESP", res);
+            obj = {};
+            var data = res.Data;            
+            obj.profileId = data.ProtocolProfileId;
+            obj.profileName = data.ProtocolProfileName;
+
+            var categories = data.categories;
+            var profileComponents = [];
+            for (var i = 0; i < categories.length; i++) {
+
+                var detail = categories[i].Detail;
+                for (var ii = 0; ii < detail.length; ii++) {
+                    var profileComponent = {};
+                    profileComponent.categoryId = categories[i].CategoryId;
+                    profileComponent.categoryName = categories[i].CategoryName;
+                    profileComponent.componentId = detail[ii].ComponentId;
+                    profileComponent.componentName = detail[ii].ComponentName;
+
+                    profileComponent.minPrice = detail[ii].MinPrice;
+                    profileComponent.listPrice = detail[ii].ListPrice;
+                    profileComponent.salePrice = detail[ii].SalePrice;
+
+                    profileComponents.push(profileComponent);
+                }
+            }
+            obj.profileComponents = profileComponents;
+        }
+
+        function ProcessObj(componentId, event, val) {
+            //console.log(componentId, event, val, obj.profileComponents);
+            //console.log($(event).find('.catId').get(0).innerText);
+            //ADD
+            if (val) {
+                AddItemObj(componentId, event);
+            }//DELETE
+            else {
+                RemoveItemObj(componentId);
+            }
+        }
+
+        function AddItemObj(componentId, event) {
             var profileComponent = {};
             profileComponent.categoryId = parseInt($(event).find('.catId').get(0).innerText);
-            profileComponent.categoryName =  $(event).find('.catname').get(0).innerText;
+            profileComponent.categoryName = $(event).find('.catname').get(0).innerText;
             profileComponent.componentId = componentId;
             profileComponent.componentName = $(event).find('.compname').get(0).innerText;
             profileComponent.minPrice = parseFloat($(event).find('.minprice label').get(0).innerText);
-            profileComponent.listPrice =  parseFloat($(event).find('.listprice label').get(0).innerText);
-            profileComponent.salePrice = parseFloat($(event).find('.saleprice input').get(0).value);    
+            profileComponent.listPrice = parseFloat($(event).find('.listprice label').get(0).innerText);
+            profileComponent.salePrice = parseFloat($(event).find('.saleprice input').get(0).value);
 
             obj.profileComponents.push(profileComponent);
-    }
+        }
 
-    function RemoveItemObj(componentId) {
-            obj.profileComponents = obj.profileComponents.filter(function( res ) {
+        function RemoveItemObj(componentId) {
+            obj.profileComponents = obj.profileComponents.filter(function (res) {
                 return res.componentId !== componentId;
             });
-    }
+        }
 
-</script>
+        function SaveCompany(resp) {
+
+            var data = {
+                "Name": resp.RazonSocial,
+                "IdentificationNumber": resp.Ruc,
+                "Address": resp.CodigoZona,
+                "PhoneNumber": "",
+                "ContactName": "",
+                "Mail": "",
+                "District": "",
+                "PhoneCompany": "",
+                "companyHeadquarter": new Array()
+            }
+
+            var detail = resp.details;
+            for (var i = 0; i < detail.length; i++) {
+                var headquarter = {
+                    "RecordType": "Temporal",
+                    "RecordStatus": "Agregado",
+                    "Name": detail[i].NombreVia,
+                    "Address": detail[i].TipoZona,
+                    "PhoneNumber": "",
+                }
+                data.companyHeadquarter.push(headquarter);
+            }
+
+            APIController.SaveCompany(data).then((res) => {
+
+                //$("#txtRuc").focus();
+                console.log("RES", res);
+                SearchCompany(res.Data.IdentificationNumber);
+                //$('#txtRuc').val(res.Data.IdentificationNumber);
+                //$('#txtCompanyName').val(res.Data.Name);
+                //$('#txtDistric').val();
+                //$('#txtAddress').val(res.Data.Address);
+                //    //let content = "";
+                //    //for (var i = 0; i < res.Data.details.length; i++) {
+                //    //    content += "<option value='"+res.Data.companyHeadquarter[i].CompanyHeadquarterId +"'>"+res.Data.companyHeadquarter[i].Address+"</option>";
+                //    //}
+                //$('#txtCompanyName').attr('readonly', true);
+                //$('#txtDistric').attr('readonly', true);
+                //$('#txtAddress').attr('readonly', true);
+
+            });
+        }
+
+        function SearchCompany(ruc) {
+            APIController.GetCompanyByRuc(ruc).then((res) => {
+                $('#txtCompanyId').val(res.Data.CompanyId   );
+                $('#txtCompanyName').val(res.Data.Name);
+                $('#txtDistric').val(res.Data.District);
+                $('#txtAddress').val(res.Data.Address);
+
+                let content = "";
+                for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
+                    content += "<option value='" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "'>" + res.Data.companyHeadquarter[i].Address + "</option>";
+                }
+
+                $('#ddlSede').append(content);
+
+                $('#txtCompanyName').attr('readonly', true);
+                $('#txtDistric').attr('readonly', true);
+                $('#txtAddress').attr('readonly', true);
+
+                $("#txtFullName").focus();
+            }).catch((err) => {
+                swal({
+                    title: "Empresa no registrada",
+                    text: "¿Desea buscar en Sunat?",
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                }, function () {
+                    InfoSunat(ruc);
+                });
+
+            });
+        }
+
+        function SaveQuotation() {
+            swal({
+              title: "Registro de Cotización",
+              text: "¿Está seguro de guardar está cotización?",
+              type: "info",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              showLoaderOnConfirm: true
+            }, function () {
+                    APISaveQuotation();
+            });
+        }
+
+        function APISaveQuotation() {
+
+            var data = {
+                "Code": "",
+                "Version": "",
+                "UserCreatedId": 1,
+                "UserName": "",
+                "CompanyId": $("#txtCompanyId").val(),
+                "CompanyHeadquarterId": $( "#ddlSede option:selected" ).val(),
+                "FullName": $("#txtFullName").val(),
+                "Email": $("#txtEmail").val(), 
+                "ProfileComponents":[]
+            }
+
+            $("#tbody-main tr").each(function (index, tr) {
+                
+                if ($(tr).hasClass('parent')) {
+                    var idParent = $(tr).attr('id');
+                    var oQuotationProfile = {};
+                    oQuotationProfile.ProfileId = $(this).find("td").eq(1).html();
+                    var serviceType = $(this).find("td").eq(3);
+                    oQuotationProfile.ServiceTypeId = $(serviceType.get(0)).find("#ddlService").val(),
+                    oQuotationProfile.ProfileComponents = [];                   
+                    
+                    $("#tbody-main tr").each(function (index, tr) {
+
+                        if ($(tr).hasClass(idParent)) {
+                            
+                            //console.log($(this).find("tbody > tr").get(0));
+                            //console.log($(tr).find("tbody > tr"));
+                            $(tr).find("tbody > tr").each(function () {
+                                var oProfileComponent = {};
+                                //console.log($(this).find("td").eq(1).html());
+                                oProfileComponent.CategoryId = $(this).find("td").eq(1).html();
+                                oProfileComponent.ComponentId = $(this).find("td").eq(2).html();
+                                oProfileComponent.MinPrice = $(this).find("td").eq(4).html();
+                                oProfileComponent.PriceList = $(this).find("td").eq(5).html();
+                                oProfileComponent.SalePrice = $(this).find("input").val();
+                                //oProfileComponent.InsertUserId
+                                oQuotationProfile.ProfileComponents.push(oProfileComponent);
+                            });
+                        }
+                    });
+
+                     data.ProfileComponents.push(oQuotationProfile);
+                }
+            });
+
+            console.log("data",data);
+
+
+            setTimeout(function () {
+            swal("Se grabó correctamente");
+          }, 2000);
+        }
+
+    </script>
