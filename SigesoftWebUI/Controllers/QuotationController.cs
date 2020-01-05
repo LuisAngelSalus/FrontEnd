@@ -30,8 +30,9 @@ namespace SigesoftWebUI.Controllers
             {
                 var oGenerateCode = new GenerateCode();
                 var oQuotationDto = new QuotationDto();
-                var code = oGenerateCode.Code("COT","PAT",1);
-                oQuotationDto.Code = code;
+                //var code = "el nro de cotización se generará al grabar la cotización"; 
+                //oGenerateCode.Code("COT","PAT",1);
+                //oQuotationDto.Code = code;
                 ViewBag.DataQuotation = oQuotationDto;
             }
             return View();

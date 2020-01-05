@@ -57,6 +57,36 @@
 
         });
     }
+
+    var infoSunat = function (ruc) {
+        return new Promise((resolve, reject) => {            
+            let url = '/InfoSunat/Info?ruc=' + ruc
+            fetch(url, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+    }
+
+    var CompanyByRuc = function (ruc) {
+        return new Promise((resolve, reject) => {
+            
+            let url = '/Company/CompanyByRuc?ruc=' + ruc
+            fetch(url, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -80,8 +110,25 @@
             return new Promise((resolve, reject) => {
                 profile(ProfileId).then(res => resolve(res));
             });
+        },
+
+        GetInfoSunat: function (ruc) {
+            return new Promise((resolve, reject) => {
+                infoSunat(ruc)
+                    .then(res => resolve(res))
+                    .catch(err => { reject(err); });
+            });
+        },
+
+        GetCompanyByRuc: function (ruc) {
+            return new Promise((resolve, reject) => {
+                CompanyByRuc(ruc)
+                    .then(res => resolve(res))
+                    .catch(err => { reject(err); });
+            });
         }
 
+        
     }
 
 })();

@@ -9,10 +9,9 @@
     string Email = "";
     int TypeFormatId = -1;
     string CommercialTerms = "";
-
     if (ViewBag.DataQuotation != null)
     {
-        code = ViewBag.DataQuotation.Code;
+        code = ViewBag.DataQuotation.Code == null? "sin generar":ViewBag.DataQuotation.Code;
         CompanyRuc = ViewBag.DataQuotation.CompanyRuc;
         CompanyName = ViewBag.DataQuotation.CompanyName;
         CompanyDistrictName = ViewBag.DataQuotation.CompanyDistrictName;
@@ -60,6 +59,15 @@
     .input-numeric{
         width:80px;
     }
+
+    .table-main{
+        margin-bottom:0px;
+    }
+
+    .table-total{
+        padding-top:0px;
+        padding-bottom:0px;
+    }
 </style>
 <link href="~/assets/css/pages/floating-label.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/assets/plugins/html5-editor/bootstrap-wysihtml5.css" />
@@ -68,45 +76,46 @@
 
 <div class="row">
     <div class="card card-body">
-        <h3 class="box-title m-b-0">Cotización: @code</h3>
-        <p class="text-muted m-b-30 font-13"> Datos de cotización</p>
+        <h3 class="box-title m-b-0">Cotización: <span>@code</span> </h3>
+        <p class="text-muted m-b-30 font-13"> Datos de Empresa</p>
         <div class="row">
             <div class="col-sm-12 col-xs-12">
                 <form class="floating-labels">
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="exampleInputEmail1">RUC</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" value="@CompanyRuc">
+                            <label for="txtRuc">RUC</label>
+                            <input type="text" class="form-control" id="txtRuc" value="@CompanyRuc">
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="exampleInputEmail1">Empresa</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" value="@CompanyName">
+                            <label for="txtCompanyName">Empresa</label>
+                            <input type="text" class="form-control" id="txtCompanyName" value="@CompanyName">
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="exampleInputPassword1">Distrito</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" value="@CompanyDistrictName">
+                            <label for="txtDistric">Distrito</label>
+                            <input type="text" class="form-control" id="txtDistric" value="@CompanyDistrictName">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="exampleInputEmail1">Dirección</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" value="@CompanyAddress">
+                            <label for="txtAddress">Dirección</label>
+                            <input type="text" class="form-control" id="txtAddress" value="@CompanyAddress">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="exampleInputEmail1">Sede</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" value="@CompanyHeadquarterId">
+                            <select class="form-control form-white" data-placeholder="Seleccione una sede..." id="ddlSede">                                
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="exampleInputEmail1">Primer Contacto</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" value="@FullName">
+                            <label for="txtFullName">Primer Contacto</label>
+                            <input type="text" class="form-control" id="txtFullName" value="@FullName">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="exampleInputEmail1">Correo</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" value="@Email">
+                            <label for="txtEmail">Correo</label>
+                            <input type="email" class="form-control" id="txtEmail" value="@Email">
                         </div>
                     </div>
                 </form>
@@ -133,18 +142,27 @@
                     <th class="col-center">ACCIONES</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tbody-main">
                 
-                    @foreach (var profile in ViewBag.DataQuotation.QuotationProfiles)
+                @foreach (var profile in ViewBag.DataQuotation.QuotationProfiles)
                     {
-                        <tr id="perfil-@profile.QuotationProfileId" class="parent">
-                            <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
-                            <td>@profile.ProfileName</td>
-                            <td>@profile.ServiceTypeName</td>
-                            <td class="counterComp col-center">0</td>
-                            <td class="subTotal col-center">0</td>
-                            <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick=""></i></td>
-                        </tr>
+                <tr id="perfil-@profile.QuotationProfileId" class="parent">
+                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
+                    <td>@profile.ProfileName</td>
+                    @*<td>@profile.ServiceTypeName</td>*@
+                    <td>
+                        <select class="form-control form-white" data-placeholder="Seleccione un servicio..." id="ddlService">
+                            <option value="-1" @(@profile.ServiceTypeId == -1 ? "selected" : "")>--Seleccionar--</option>
+                            <option value="1" @(@profile.ServiceTypeId == 1 ? "selected" : "")>Preocupacional</option>
+                            <option value="2" @(@profile.ServiceTypeId == 2 ? "selected" : "")>Periodico</option>
+                            <option value="3" @(@profile.ServiceTypeId == 3 ? "selected" : "")>Anual</option>
+                        </select>
+                    </td>
+                    
+                    <td class="counterComp col-center">0</td>
+                    <td class="subTotal col-center">0</td>
+                    <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick=""></i></td>
+                </tr>
                         <tr class="perfil-@profile.QuotationProfileId child">
                             <td colspan="6">
                                 <table class="table-examenes">
@@ -170,6 +188,7 @@
                                                         <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName')"></i></td>
                                                         <td colspan="4">@profile.ProfileComponents[i].CategoryName</td>
                                                     </tr>
+                                                    i--;
                                                 }
                                                 else
                                                 {
@@ -188,18 +207,31 @@
                                 </table>
                             </td>
                         </tr>
-                    }
-                
+                    }                
 
-                <tr class="footer-Total">
+                @*<tr class="footer-Total">
                     <td colspan="3" style="text-align:right">TOTALES</td>
                     <td class="nroTotalComp col-center">
                     </td>
                     <td class="Total col-center">
                     </td>
                     <td></td>
-                </tr>
+                </tr>*@
             </tbody>
+        </table>
+    </div>
+    <div class="card card-body table-total">
+        <table class="table color-bordered-table muted-bordered-table" >
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th style="text-align:right">TOTALES</th>
+                    <th class="nroTotalComp col-center"></th>
+                    <th class="Total col-center"></th>
+                    <th></th>
+                </tr>
+            </thead>            
         </table>
     </div>
 </div>
@@ -251,9 +283,9 @@
             <div>
 
             </div>
-            <div class="modal-body" style="font-size:10px;">
+            <div class="modal-body tables-profile" style="font-size:10px;">
 
-                <table class="table color-table success-table">
+                <table class="table color-table success-table ">
                     <thead>
                         <tr>
                             <th style="width:20px;"></th>
@@ -303,25 +335,105 @@
 <script>
     var obj = {};
     $(document).ready(function () {
+        
         CalculateTotals();
         $('.table-main').on('change paste keyup', '.salePrice', function (e)
         {
             CalculateTotals();   
         });  
 
+         $('.tables-profile').on('change paste keyup', '.salepriceValue', function (e)
+         {
+             let componentId = $($(this).parent().parent().get(0)).find('input').get(0).id;
+             var component = obj.profileComponents.find(p => p.componentId == componentId);
+             //console.log("component", component);
+             //console.log("sSS",$($(this).parent().parent().get(0)).find('input').get(0).id);
+             if (component != undefined) {
+                 //console.log("Actualizar");
+                 RemoveItemObj(componentId);
+                 //obj.profileComponents = obj.profileComponents.filter(function( res ) {
+                 //   return res.componentId !== componentId;
+                 //});
+                 AddItemObj(componentId,$(this).parent().parent().get(0));       
+                 //obj.profileComponents.push(component);
+             }
+             //console.log(obj.profileComponents);    
+        });  
+
         $('.modal-content').on('change', '.checkbox', function (event) {
             if (event.target.checked) {
-                //console.log("CHECKED", $(this).parent().parent().get(0), obj);
-                //console.log("TARGET", event.target.id);
                 ProcessObj(event.target.id, $(this).parent().parent().get(0), true);
             } else {
-                //console.log("UNCHECKED", $(this).parent().parent().get(0), obj);
                 ProcessObj(event.target.id, $(this).parent().parent().get(0), false);
-            }
-            
-
+            }           
         });
 
+        $('#txtRuc').change(function () {
+            let ruc = $('#txtRuc').val();            
+
+            APIController.GetCompanyByRuc(ruc).then((res) => {
+                //console.log("RES", res);
+                $('#txtCompanyName').val(res.Data.Name);       
+                $('#txtDistric').val(res.Data.District);       
+                $('#txtAddress').val(res.Data.Address);   
+
+                let content = "";
+                for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
+                    content += "<option value='"+res.Data.companyHeadquarter[i].CompanyHeadquarterId +"'>"+res.Data.companyHeadquarter[i].Address+"</option>";
+                }
+
+                $('#ddlSede').append(content);
+
+                $('#txtCompanyName').attr('readonly', true);
+                $('#txtDistric').attr('readonly', true);
+                $('#txtAddress').attr('readonly', true);
+            }).catch((err) => {
+                alert("Sssss");
+                //console.log("ERR", err);
+                //$('#txtCompanyName').val("");       
+                //$('#txtDistric').val("");       
+                //$('#txtAddress').val("");       
+                //$('#txtCompanyName').attr('readonly', false);
+                //$('#txtDistric').attr('readonly', false);
+                //$('#txtAddress').attr('readonly', false);
+
+                APIController.GetInfoSunat(ruc).then((res) => {       
+                    console.log("RES", res);
+                $('#txtCompanyName').val(res.Data.RazonSocial);       
+                $('#txtDistric').val();       
+                $('#txtAddress').val(res.Data.CodigoZona);       
+
+                $('#txtCompanyName').attr('readonly', true);
+                $('#txtDistric').attr('readonly', true);
+                $('#txtAddress').attr('readonly', true);
+            }).catch((res) => {
+                console.log("ERR", res);
+                $('#txtCompanyName').val("");       
+                $('#txtDistric').val("");       
+                $('#txtAddress').val("");       
+                $('#txtCompanyName').attr('readonly', false);
+                $('#txtDistric').attr('readonly', false);
+                $('#txtAddress').attr('readonly', false);
+            });
+            });
+            //APIController.GetInfoSunat(ruc).then((res) => {                
+            //    $('#txtCompanyName').val(res.Data.RazonSocial);       
+            //    $('#txtDistric').val();       
+            //    $('#txtAddress').val(res.Data.CodigoZona);       
+
+            //    $('#txtCompanyName').attr('readonly', true);
+            //    $('#txtDistric').attr('readonly', true);
+            //    $('#txtAddress').attr('readonly', true);
+            //}).catch((res) => {
+            //    console.log("ERR", res);
+            //    $('#txtCompanyName').val("");       
+            //    $('#txtDistric').val("");       
+            //    $('#txtAddress').val("");       
+            //    $('#txtCompanyName').attr('readonly', false);
+            //    $('#txtDistric').attr('readonly', false);
+            //    $('#txtAddress').attr('readonly', false);
+            //});
+        });
     });
 
     $('#profile').change(function () {
@@ -367,7 +479,7 @@
                         content += '</td>';
                         content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
                         content += '<td class="listprice" style="text-align: center;"><label>'+data[i].Detail[ii].ListPrice+'</label></td>';                        
-                        content += '<td class="saleprice" style="text-align: center;"><input type="text" value="'+data[i].Detail[ii].SalePrice+'" style="width:80px"> </td>';
+                        content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue" type="text" value="'+data[i].Detail[ii].SalePrice+'" style="width:80px"> </td>';
                         content += '</tr>';
                     }
                     content += '</tboby>';                        
@@ -413,7 +525,7 @@
                         contentUn += '</td>';
                         contentUn += '<td class="minprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
                         contentUn += '<td class="listprice" style="text-align: center;"><label>'+unselectedData[i].Detail[ii].ListPrice+'</label></td>';                        
-                        contentUn += '<td class="saleprice" style="text-align: center;"><input type="text" value="'+unselectedData[i].Detail[ii].SalePrice+'" style="width:80px"> </td>';
+                        contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue" type="text" value="'+unselectedData[i].Detail[ii].SalePrice+'" style="width:80px"> </td>';
                         contentUn += '</tr>';
                         }
 
@@ -452,7 +564,10 @@
         }
     }
 
-    function openModal() {
+    function openModal() {   
+        $('#profile').val(-1).trigger('change');
+        $('#tbody-profile').empty();
+        $('#tbody-profile-unselectd').empty();        
         $("#perfilModal").modal("show");
     }
 
@@ -505,7 +620,77 @@
     }
 
     function AddProfile() {
-        console.log("SSSS");
+        let data = obj;
+        let idPerfil = "perfil-"+Math.random().toString(36).substring(7);
+        var content = "";
+        content += "<tr id='"+idPerfil+"' class='parent'>";
+        content += "<td><i class='fa fa-plus text-inverse m-r-10' onclick=show('"+ idPerfil+"')></i></td>";
+        content += "<td>" + data.profileName + "</td>";
+        content += "<td>";
+
+        content += "<select class='form-control form-white' data-placeholder='Seleccione un servicio...' id='ddlService'>";
+        content += "<option value='-1')>--Seleccionar--</option>";
+        content += "<option value='1'>Preocupacional</option>";
+        content += "<option value='2'>Periodico</option>";
+        content += "<option value='3'>Anual</option>";
+        content += "</select>";
+
+        content += "</td>";
+        content += "<td class='counterComp col-center'>0</td>";
+        content += "<td class='subTotal col-center'>0</td>";
+        content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' ></i></td>";
+        content += "</tr>";
+
+        content += "<tr class='"+idPerfil+" child' >";
+        content += "<td colspan='6'>";
+        content += "<table class='table-examenes'>";
+
+        content += "<thead>";
+        content += "<tr>";
+        content += "<th></th>";
+        content += "<th>EXAMENES - PERFIL</th>";
+        content += "<th class='col-center'>PRECIO MÍNIMO</th>";
+        content += "<th class='col-center'>PRECIO LISTA</th>";
+        content += "<th class='col-center'>PRECIO VENTA</th>  ";                                          
+        content += "</tr>";
+        content += "</thead>";
+               
+        content += "<tbody>";
+
+       
+
+        var valor = "";
+        var components = data.profileComponents;
+        let quotationProfileId = "perfil-" + Math.random().toString(36).substring(7);
+        for (let i = 0; i < components.length; i++) {
+            let valorAntiguo = components[i].categoryName;
+              
+            if (valor != valorAntiguo) {
+                valor = valorAntiguo;              
+                content += "<tr id='" + quotationProfileId + "-" + components[i].categoryName + "'>";
+                content += "<td><i class='fa fa-minus text-inverse m-r-10' onclick=show('" + quotationProfileId + "-" + components[i].categoryName + "')></i></td>";
+                content += "<td colspan='4'>" + components[i].categoryName + "</td>";
+                content += "</tr>";
+                i--;
+            } else {
+                content += "<tr class="+ quotationProfileId + "-" + components[i].categoryName +">";
+                content += "<td></td>";
+                content += "<td>"+components[i].componentName+"</td>";
+                content += "<td class='col-center'>"+components[i].minPrice+"</td>";
+                content += "<td class='col-center'>"+components[i].listPrice+"</td>";
+                content += "<td class='col-center'><input type='text' class='salePrice input-numeric' value="+components[i].salePrice+"> </td>";
+                content += "</tr>";
+            }
+            
+        }
+
+        content += "</tbody>";
+        content += "</table>";
+        content += "</td>";
+        content += "</tr>";
+        $('#tbody-main').append(content);
+
+        CalculateTotals();
     }
 
     function LoadObj(res) {
@@ -534,16 +719,22 @@
                 profileComponents.push(profileComponent);
             }
         }
-        obj.profileComponents = profileComponents;
-        //console.log("DATOS", obj);
+        obj.profileComponents = profileComponents;        
     }
 
     function ProcessObj(componentId, event, val) {
         //console.log(componentId, event, val, obj.profileComponents);
-        //console.log($(event).find('.catId').get(0).innerText);
-        
+        //console.log($(event).find('.catId').get(0).innerText);        
         //ADD
         if (val) {
+            AddItemObj(componentId,event);       
+        }//DELETE
+        else {
+            RemoveItemObj(componentId);
+        }
+    }
+
+    function AddItemObj(componentId,event) {
             var profileComponent = {};
             profileComponent.categoryId = parseInt($(event).find('.catId').get(0).innerText);
             profileComponent.categoryName =  $(event).find('.catname').get(0).innerText;
@@ -554,16 +745,12 @@
             profileComponent.salePrice = parseFloat($(event).find('.saleprice input').get(0).value);    
 
             obj.profileComponents.push(profileComponent);
+    }
 
-        }//DELETE
-        else {
-
+    function RemoveItemObj(componentId) {
             obj.profileComponents = obj.profileComponents.filter(function( res ) {
                 return res.componentId !== componentId;
             });
-        }
-        
-        console.log(obj);
     }
 
 </script>
