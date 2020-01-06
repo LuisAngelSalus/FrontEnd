@@ -2,46 +2,38 @@
     var obj = {};
 $(document).ready(function () {
 
-        CalculateTotals();
+    CalculateTotals();
         $('.table-main').on('change paste keyup', '.salePrice', function (e) {
         CalculateTotals();
-});
+    });
 
-        $('.tables-profile').on('change paste keyup', '.salepriceValue', function (e) {
+    $('.tables-profile').on('change paste keyup', '.salepriceValue', function (e) {
         let componentId = $($(this).parent().parent().get(0)).find('input').get(0).id;
-    var component = obj.profileComponents.find(p => p.componentId == componentId);
-    //console.log("component", component);
-    //console.log("sSS",$($(this).parent().parent().get(0)).find('input').get(0).id);
-            if (component != undefined) {
-        //console.log("Actualizar");
-        RemoveItemObj(componentId);
-                //obj.profileComponents = obj.profileComponents.filter(function( res ) {
-        //   return res.componentId !== componentId;
-        //});
-        AddItemObj(componentId, $(this).parent().parent().get(0));
-    //obj.profileComponents.push(component);
-}
-//console.log(obj.profileComponents);
-});
+        var component = obj.profileComponents.find(p => p.componentId == componentId);
+            if (component != undefined) {    
+            RemoveItemObj(componentId);    
+            AddItemObj(componentId, $(this).parent().parent().get(0));    
+        }
 
-        $('.modal-content').on('change', '.checkbox', function (event) {
+    });
+
+    $('.modal-content').on('change', '.checkbox', function (event) {
             if (event.target.checked) {
         ProcessObj(event.target.id, $(this).parent().parent().get(0), true);
             } else {
         ProcessObj(event.target.id, $(this).parent().parent().get(0), false);
-}
-});
+        }
+    });
 
-        $('#txtRuc').change(function () {
+    $('#txtRuc').change(function () {
         let ruc = $('#txtRuc').val();
-    $('#ddlSede').empty();
-    SearchCompany(ruc);
+        $('#ddlSede').empty();
+        SearchCompany(ruc);
+    });
 
 });
 
-});
-
-    $('#profile').change(function () {
+$('#profile').change(function () {
         $("#tbody-profile").text("obteniendo información");
     $("#tbody-profile-unselectd").text("obteniendo información");
     var idProfile = $("#profile option:selected").val();

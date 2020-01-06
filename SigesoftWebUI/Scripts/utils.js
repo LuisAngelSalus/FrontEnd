@@ -16,8 +16,7 @@
     }
 }
 
-function newAlert(elem, title, message) {
-    console.log($(elem));
+function newAlert(elem, title, message) {    
     var id = $(elem).attr('id');
     
     let content = "";
@@ -31,14 +30,13 @@ function newAlert(elem, title, message) {
     $('.content-alert').append(content);
 
     $("#vali-" + id).delay(2000).slideUp(200, function () {
-        $(this).alert('close');
+        $(this).alert('close'); 
     });
 }
 
-function InputError(elem) {
-    console.log(elem);
+function InputError(elem) {    
     $(elem).addClass('error');
 }
 
-  
+
 
