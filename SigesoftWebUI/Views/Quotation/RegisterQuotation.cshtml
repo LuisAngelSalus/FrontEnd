@@ -283,9 +283,9 @@
                     <h4 class="modal-title" id="exampleModalLabel1">Perfil: </h4>
                     <div class="col-md-6">
                         <select class="form-control form-white" data-placeholder="Seleccione un perfil..." id="profile">
-                            <option value="-1">--Seleccionar--</option>
+                            @*<option value="-1">--Seleccionar--</option>
                             <option value="1">Minero</option>
-                            <option value="2">Administrativo</option>
+                            <option value="2">Administrativo</option>*@
                         </select>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -532,6 +532,19 @@
         }
 
         function openModal() {
+            $('#chkProfile').prop('checked', false);
+            $('#profile').empty();
+
+            APIController.GetddlProtocolProfile().then((resp) => {
+                let content = "";
+                content += "<option value='-1'>--Seleccionar--</option>";
+                for (var i = 0; i < resp.Data.length; i++) {
+                    content += "<option value='" + resp.Data[i].Id + "'>" + resp.Data[i].Value + "</option>";
+                }
+                    
+                $('#profile').append(content);
+            });
+
             $('#profile').val(-1).trigger('change');
             $('#tbody-profile').empty();
             $('#tbody-profile-unselectd').empty();
@@ -586,7 +599,59 @@
 
         }
 
+        function SaveProfile() {              
+                swal({
+                    title: "Crear nuevo perfil",
+                    text: "Escriba el nombre del perfil",
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    inputPlaceholder: "nonbre de perfil"
+                }, function (inputValue) {
+                    if (inputValue === false) return false;
+                        if (inputValue === "") {
+                            swal.showInputError("El nombre de perfil es obligatorio!");
+                            return false
+                        } else {
+                            var parameters = LoadParametersProtocolProfile(inputValue);
+                            APIController.SaveProtocolProfile(parameters).then((res) => {
+                                swal("Bien", "El perfil creado es: " + inputValue, "success");
+                            });
+                        }
+                    
+                });         
+
+        }
+
+        function LoadParametersProtocolProfile(nameProfile) {
+            let objPro = {
+                "Name": nameProfile,
+                "ProfileDetail": []
+            }
+
+            var detail = obj.profileComponents;
+            for (var i = 0; i < detail.length; i++) {
+                var component = {};
+
+                component.ComponentId = detail[i].componentId;
+                component.CategoryId = detail[i].categoryId;
+                component.CategoryName = detail[i].categoryName;
+                component.MinPrice = detail[i].minPrice;
+                component.ListPrice = detail[i].listPrice;
+                component.SalePrice = detail[i].salePrice;
+                objPro.ProfileDetail.push(component);
+            }           
+
+            return objPro;
+        }
+
+
         function AddProfile() {
+
+            if ($("#chkProfile").is(":checked")) {
+                SaveProfile();
+            }
+
             let data = obj;
             let idPerfil = "perfil-" + Math.random().toString(36).substring(7);
             var content = "";

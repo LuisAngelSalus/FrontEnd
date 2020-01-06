@@ -123,6 +123,7 @@
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoSunatController.cs" />
+    <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1059,6 +1060,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\InfoSunat\" />
+    <Folder Include="Views\ProtocolProfile\" />
     <Folder Include="Views\Session\" />
   </ItemGroup>
   <ItemGroup>

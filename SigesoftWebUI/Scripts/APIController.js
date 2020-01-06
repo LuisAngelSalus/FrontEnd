@@ -87,6 +87,38 @@
         });
     }
 
+    var saveProtocolProfile = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/ProtocolProfile/Save', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
+    var ddlProtocolProfile = function () {
+        return new Promise((resolve, reject) => {
+
+            fetch('/ProtocolProfile/DropdownList', {              
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -126,9 +158,19 @@
                     .then(res => resolve(res))
                     .catch(err => { reject(err); });
             });
-        }
+        },
 
-        
+        SaveProtocolProfile: function (parameters) {
+            return new Promise((resolve, reject) => {
+                saveProtocolProfile(parameters).then(res => resolve(res));
+            });
+        },
+
+        GetddlProtocolProfile: function () {
+            return new Promise((resolve, reject) => {
+                ddlProtocolProfile().then(res => resolve(res));
+            });
+        },
     }
 
 })();
