@@ -82,7 +82,8 @@ namespace BE
     public class QuotationProfileRegisterDto
     {
         public int QuotationId { get; set; }
-        public int? ProfileId { get; set; }
+        //public int? ProfileId { get; set; }
+        public string ProfileName { get; set; }
         public int? ServiceTypeId { get; set; }
         public int? InsertUserId { get; set; }
         public List<ProfileComponentRegisterDto> ProfileComponents { get; set; }
@@ -91,8 +92,10 @@ namespace BE
     public class ProfileComponentRegisterDto
     {
         public int QuotationProfileId { get; set; }
+        public string CategoryName { get; set; }
         public int? CategoryId { get; set; }
         public string ComponentId { get; set; }
+        public string ComponentName { get; set; }
         public decimal? MinPrice { get; set; }
         public decimal? PriceList { get; set; }
         public decimal? SalePrice { get; set; }

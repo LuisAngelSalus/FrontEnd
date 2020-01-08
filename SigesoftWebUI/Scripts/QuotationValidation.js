@@ -2,13 +2,13 @@
     e.preventDefault();
     //1)eliminar la clase error
     clearErrors();
-    //Valida inputs
+    //2)Valida inputs
     var validateRuc = validateInput("txtRuc", "Ruc requerido");
     var validateFullName = validateInput("txtFullName", "Primer Contacto requerido");
     var validateEmail = validateInput("txtEmail", "Email requerido");
     var validateTableQuotation = ValidateTableQuotation();
     
-    //Retornar resultado de validación
+    //3)Retornar resultado de validación
     if (validateRuc && validateFullName && validateEmail && validateTableQuotation) {       
         return true;
     } else {   
@@ -18,7 +18,7 @@
 
 function validateInput(id, message) {
     let element = document.getElementById(id);    
-    if (!element.checkValidity()) {       
+    if (!element.checkValidity()) {        
         newAlert(element, "VALIDACIÓN", message);
         InputError(element);
         return false;
@@ -30,15 +30,16 @@ function clearErrors() {
     $("#txtRuc").removeClass('error');
     $("#txtFullName").removeClass('error');
     $("#txtEmail").removeClass('error');
+    $("#tbody-main").parent().parent().removeClass('error');
 }
 
 function ValidateTableQuotation() {   
-    ValidateTable('tbody-main');
+   return ValidateTable('tbody-main');
 }
 
 function ValidateTable(tbodyId) {
-
     var rowCounter = $('#' + tbodyId + ' tr').length;
+    console.log("WWW", rowCounter);
     if (rowCounter == 0) {
         console.log($('#' + tbodyId).parent());
         $('#' + tbodyId).parent().parent().removeClass('card');

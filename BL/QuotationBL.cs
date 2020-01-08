@@ -34,8 +34,17 @@ namespace BL
             }
             return obj;
         }
+        
+        public Response<QuotationRegisterDto> Save(QuotationRegisterDto data)
+        {
+            Response<QuotationRegisterDto> obj = null;
+          
+            var hCliente = _global.rspClient("Quotation/" , data);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<QuotationRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;           
+        }
     }
-
-
-
 }

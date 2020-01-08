@@ -19,7 +19,7 @@ namespace SigesoftWebUI.Controllers
             return View();
         }
 
-        public ActionResult RegisterQuotation(int id)
+        public ActionResult Register(int id)
         {
             var response = _quotationBL.GetQuotation(id);
             if (response != null)
@@ -28,7 +28,7 @@ namespace SigesoftWebUI.Controllers
             }
             else
             {
-                var oGenerateCode = new GenerateCode();
+                var oGenerateCode    = new GenerateCode();
                 var oQuotationDto = new QuotationDto();
                 //var code = "el nro de cotización se generará al grabar la cotización"; 
                 //oGenerateCode.Code("COT","PAT",1);
@@ -41,6 +41,13 @@ namespace SigesoftWebUI.Controllers
         public JsonResult GetProfile(int profileId)
         {
             var response = _quotationBL.GetProfile(profileId);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult Save(QuotationRegisterDto data)
+        {
+            var response = _quotationBL.Save(data);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }

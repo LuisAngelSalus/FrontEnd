@@ -1,9 +1,14 @@
 ﻿
-    var obj = {};
+var obj = {};
 $(document).ready(function () {
 
+    if ($("#txtCompanyId").val() != 0) {
+        SearchCompany($("#txtRuc").val());
+        
+    }
+
     CalculateTotals();
-        $('.table-main').on('change paste keyup', '.salePrice', function (e) {
+    $('.table-main').on('change paste keyup', '.salePrice', function (e) {
         CalculateTotals();
     });
 
@@ -44,99 +49,98 @@ $('#profile').change(function () {
 
     //---------------Table-Profile---------------------------
     var content = "";
-            for (var i = 0; i < data.length; i++) {
-        content += '<tr id="cat-' + data[i].CategoryId + '">';
-                content += '<td style="width:20px;"></th><i class="fa fa-plus text-inverse m-r-10" onclick=showComponets("cat-' + data[i].CategoryId + '")></i></td > ';
-content += '<td>' + data[i]["CategoryName"] + '</td>';
-content += '</tr>'
+        for (var i = 0; i < data.length; i++) {
+            content += '<tr id="cat-' + data[i].CategoryId + '">';
+            content += '<td style="width:20px;"></th><i class="fa fa-plus text-inverse m-r-10" onclick=showComponets("cat-' + data[i].CategoryId + '")></i></td > ';
+            content += '<td>' + data[i]["CategoryName"] + '</td>';
+            content += '</tr>'
 
-content += '<tr class="cat-' + data[i].CategoryId + '" style="display:none">';
-content += '<td colspan="2">';
-content += '<table class="table-examenes-profile">';
-content += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>';
-content += '<tboby>';
-for (var ii = 0; ii < data[i].Detail.length; ii++) {
-    content += '<tr>';
+            content += '<tr class="cat-' + data[i].CategoryId + '" style="display:none">';
+            content += '<td colspan="2">';
+            content += '<table class="table-examenes-profile">';
+            content += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>';
+            content += '<tboby>';
+        for (var ii = 0; ii < data[i].Detail.length; ii++) {
+            content += '<tr>';
 
-    if (data[i].Detail[ii].Active) {
-        content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + data[i].Detail[ii].ComponentId + '" value="check" checked> <label for="' + data[i].Detail[ii].ComponentId + '"></label></div></td>'
-    } else {
-        content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + data[i].Detail[ii].ComponentId + '" value="check"> <label for="' + data[i].Detail[ii].ComponentId + '"></label></div></td>'
-    }
-    content += '<td class="catId" style="display:none">';
-    content += data[i].Detail[ii].CategoryId;
-    content += '</td>';
+            if (data[i].Detail[ii].Active) {
+                content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + data[i].Detail[ii].ComponentId + '" value="check" checked> <label for="' + data[i].Detail[ii].ComponentId + '"></label></div></td>'
+            } else {
+                content += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + data[i].Detail[ii].ComponentId + '" value="check"> <label for="' + data[i].Detail[ii].ComponentId + '"></label></div></td>'
+            }
+            content += '<td class="catId" style="display:none">';
+            content += data[i].Detail[ii].CategoryId;
+            content += '</td>';
 
-    content += '<td class="catname" style="display:none">';
-    content += data[i].CategoryName;
-    content += '</td>';
+            content += '<td class="catname" style="display:none">';
+            content += data[i].CategoryName;
+            content += '</td>';
 
-    content += '<td class="compname">';
-    content += data[i].Detail[ii].ComponentName;
-    content += '</td>';
-    content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
-    content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';
-    content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue" type="text" value="' + data[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
-    content += '</tr>';
-}
-content += '</tboby>';
-content += '</table>';
-content += '</td>';
-content += '</tr>';
+            content += '<td class="compname">';
+            content += data[i].Detail[ii].ComponentName;
+            content += '</td>';
+            content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
+            content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';
+            content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue" type="text" value="' + data[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
+            content += '</tr>';
+        }
+            content += '</tboby>';
+            content += '</table>';
+            content += '</td>';
+            content += '</tr>';
+        }
+
+        $("#tbody-profile").empty();
+        $("#tbody-profile").append(content);
+        //-----------------------------------------------
+
+        //---------------UnSelectd-----------------------
+        var contentUn = "";
+        for (var i = 0; i < unselectedData.length; i++) {
+            contentUn += '<tr id="uncat-' + unselectedData[i].CategoryId + '">';
+            contentUn += '<td  style="width:20px;"><i class="fa fa-plus text-inverse m-r-10" onclick=showComponets("uncat-' + unselectedData[i].CategoryId + '")></i></td>';
+            contentUn += '<td>' + unselectedData[i]["CategoryName"] + '</td>';
+            contentUn += '</tr>'
+
+            contentUn += '<tr class="uncat-' + unselectedData[i].CategoryId + '" style="display:none">';
+            contentUn += '<td colspan="2">';
+            contentUn += '<table class="table-examenes-profile-UnSelected">';
+            contentUn += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>';
+            contentUn += '<tboby>';
+            for (var ii = 0; ii < unselectedData[i].Detail.length; ii++) {
+                contentUn += '<tr>';
+                if (unselectedData[i].Detail[ii].Active) {
+                    contentUn += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + unselectedData[i].Detail[ii].ComponentId + '" value="check" checked> <label for="' + unselectedData[i].Detail[ii].ComponentId + '"></label></div></td>'
+                } else {
+                    contentUn += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + unselectedData[i].Detail[ii].ComponentId + '" value="check"> <label for="' + unselectedData[i].Detail[ii].ComponentId + '"></label></div></td>'
+                }
+                contentUn += '<td class="catId" style="display:none">';
+                contentUn += unselectedData[i].Detail[ii].CategoryId;
+                contentUn += '</td>';
+
+                contentUn += '<td class="catname" style="display:none">';
+                contentUn += unselectedData[i].CategoryName;
+                contentUn += '</td>';
+
+                contentUn += '<td class="compname">';
+                contentUn += unselectedData[i].Detail[ii].ComponentName;
+                contentUn += '</td>';
+                contentUn += '<td class="minprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
+                contentUn += '<td class="listprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].ListPrice + '</label></td>';
+                contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue" type="text" value="' + unselectedData[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
+                contentUn += '</tr>';
             }
 
-$("#tbody-profile").empty();
-$("#tbody-profile").append(content);
-//-----------------------------------------------
+            contentUn += '</tboby>';
+            contentUn += '</table>';
 
-//---------------UnSelectd-----------------------
-var contentUn = "";
-for (var i = 0; i < unselectedData.length; i++) {
-    contentUn += '<tr id="uncat-' + unselectedData[i].CategoryId + '">';
-    contentUn += '<td  style="width:20px;"><i class="fa fa-plus text-inverse m-r-10" onclick=showComponets("uncat-' + unselectedData[i].CategoryId + '")></i></td>';
-    contentUn += '<td>' + unselectedData[i]["CategoryName"] + '</td>';
-    contentUn += '</tr>'
 
-    contentUn += '<tr class="uncat-' + unselectedData[i].CategoryId + '" style="display:none">';
-    contentUn += '<td colspan="2">';
-    contentUn += '<table class="table-examenes-profile-UnSelected">';
-    contentUn += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>';
-    contentUn += '<tboby>';
-    for (var ii = 0; ii < unselectedData[i].Detail.length; ii++) {
-        contentUn += '<tr>';
-        if (unselectedData[i].Detail[ii].Active) {
-            contentUn += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + unselectedData[i].Detail[ii].ComponentId + '" value="check" checked> <label for="' + unselectedData[i].Detail[ii].ComponentId + '"></label></div></td>'
-        } else {
-            contentUn += '<td style="width:40px">  <div class="checkbox"> <input type="checkbox" id="' + unselectedData[i].Detail[ii].ComponentId + '" value="check"> <label for="' + unselectedData[i].Detail[ii].ComponentId + '"></label></div></td>'
+            contentUn += '</td>';
+            contentUn += '</tr>';
         }
-        contentUn += '<td class="catId" style="display:none">';
-        contentUn += unselectedData[i].Detail[ii].CategoryId;
-        contentUn += '</td>';
-
-        contentUn += '<td class="catname" style="display:none">';
-        contentUn += unselectedData[i].CategoryName;
-        contentUn += '</td>';
-
-        contentUn += '<td class="compname">';
-        contentUn += unselectedData[i].Detail[ii].ComponentName;
-        contentUn += '</td>';
-        contentUn += '<td class="minprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
-        contentUn += '<td class="listprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].ListPrice + '</label></td>';
-        contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue" type="text" value="' + unselectedData[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
-        contentUn += '</tr>';
-    }
-
-    contentUn += '</tboby>';
-    contentUn += '</table>';
-
-
-    contentUn += '</td>';
-    contentUn += '</tr>';
-}
-$("#tbody-profile-unselectd").empty();
-$("#tbody-profile-unselectd").append(contentUn);
-            //-----------------------------------------------
-
+        $("#tbody-profile-unselectd").empty();
+        $("#tbody-profile-unselectd").append(contentUn);
+        //-----------------------------------------------
 
         });
 
@@ -145,8 +149,7 @@ $("#tbody-profile-unselectd").append(contentUn);
 $('.textarea_editor').wysihtml5();
 
 function InfoSunat(ruc) {
-    APIController.GetInfoSunat(ruc).then((res) => {
-        console.log("res", res);
+    APIController.GetInfoSunat(ruc).then((res) => {        
         swal("Búsqueda correcta");
         SaveCompany(res.Data);
 
@@ -292,7 +295,6 @@ function LoadParametersProtocolProfile(nameProfile) {
     return objPro;
 }
 
-
 function AddProfile() {
 
     if ($("#chkProfile").is(":checked")) {
@@ -305,7 +307,8 @@ function AddProfile() {
     content += "<tr id='" + idPerfil + "' class='parent'>";
     content += "<td><i class='fa fa-plus text-inverse m-r-10' onclick=show('" + idPerfil + "')></i></td>";
     content += "<td class='profileId' style='display:none'>" + data.profileId + "</td>";
-    content += "<td>" + data.profileName + "</td>";
+    //content += "<td>" + data.profileName + "</td>";
+    content += "<td><input class='form-control' type='text' value='"+data.profileName+"' /></td>";
     content += "<td>";
 
     content += "<select class='form-control form-white' data-placeholder='Seleccione un servicio...' id='ddlService'>";
@@ -318,7 +321,7 @@ function AddProfile() {
     content += "</td>";
     content += "<td class='counterComp col-center'>0</td>";
     content += "<td class='subTotal col-center'>0</td>";
-    content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' ></i></td>";
+    content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveProfile(event)'></i></td>";
     content += "</tr>";
 
     content += "<tr class='" + idPerfil + " child' >";
@@ -336,26 +339,24 @@ function AddProfile() {
     content += "<th class='col-center'>PRECIO VENTA</th>  ";
     content += "</tr>";
     content += "</thead>";
-
     content += "<tbody>";
-
-
 
     var valor = "";
     var components = data.profileComponents;
     let quotationProfileId = "perfil-" + Math.random().toString(36).substring(7);
     for (let i = 0; i < components.length; i++) {
-        let valorAntiguo = components[i].categoryName;
+        let cateName = components[i].categoryName.replace(/\s/g, "_");
+        let valorAntiguo = components[i].categoryName.replace(/\s/g, "_");
 
         if (valor != valorAntiguo) {
             valor = valorAntiguo;
-            content += "<tr id='" + quotationProfileId + "-" + components[i].categoryName + "'>";
-            content += "<td><i class='fa fa-minus text-inverse m-r-10' onclick=show('" + quotationProfileId + "-" + components[i].categoryName + "')></i></td>";
-            content += "<td colspan='4'>" + components[i].categoryName + "</td>";
+            content += "<tr id='" + quotationProfileId + "-" + cateName + "'>";
+            content += "<td><i class='fa fa-minus text-inverse m-r-10' onclick=show('" + quotationProfileId + "-" + cateName + "')></i></td>";
+            content += "<td colspan='4'>" + cateName + "</td>";
             content += "</tr>";
             i--;
         } else {
-            content += "<tr class=" + quotationProfileId + "-" + components[i].categoryName + ">";
+            content += "<tr class=" + quotationProfileId + "-" + cateName + ">";
             content += "<td></td>";
 
             content += "<td style='display:none'>" + components[i].categoryId + "</td>";
@@ -448,7 +449,7 @@ function SaveCompany(resp) {
         "PhoneNumber": "",
         "ContactName": "",
         "Mail": "",
-        "District": "",
+        "District": resp.Distrito,
         "PhoneCompany": "",
         "companyHeadquarter": new Array()
     }
@@ -465,23 +466,8 @@ function SaveCompany(resp) {
         data.companyHeadquarter.push(headquarter);
     }
 
-    APIController.SaveCompany(data).then((res) => {
-
-        //$("#txtRuc").focus();
-        console.log("RES", res);
+    APIController.SaveCompany(data).then((res) => {               
         SearchCompany(res.Data.IdentificationNumber);
-        //$('#txtRuc').val(res.Data.IdentificationNumber);
-        //$('#txtCompanyName').val(res.Data.Name);
-        //$('#txtDistric').val();
-        //$('#txtAddress').val(res.Data.Address);
-        //    //let content = "";
-        //    //for (var i = 0; i < res.Data.details.length; i++) {
-        //    //    content += "<option value='"+res.Data.companyHeadquarter[i].CompanyHeadquarterId +"'>"+res.Data.companyHeadquarter[i].Address+"</option>";
-        //    //}
-        //$('#txtCompanyName').attr('readonly', true);
-        //$('#txtDistric').attr('readonly', true);
-        //$('#txtAddress').attr('readonly', true);
-
     });
 }
 
@@ -489,7 +475,7 @@ function SearchCompany(ruc) {
     APIController.GetCompanyByRuc(ruc).then((res) => {
         $('#txtCompanyId').val(res.Data.CompanyId);
         $('#txtCompanyName').val(res.Data.Name);
-        $('#txtDistric').val(res.Data.District);
+        $('#txtDistric').val(res.Data.  District);
         $('#txtAddress').val(res.Data.Address);
 
         let content = "";
@@ -504,6 +490,12 @@ function SearchCompany(ruc) {
         $('#txtAddress').attr('readonly', true);
 
         $("#txtFullName").focus();
+
+        //EN CASO SEA EDICIÓN
+        if ($('#txtCompanyHeadquarterId').val()!=0) {
+            $("#ddlSede").val($('#txtCompanyHeadquarterId').val());
+        }
+        
     }).catch((err) => {
         swal({
             title: "Empresa no registrada",
@@ -545,7 +537,7 @@ function APISaveQuotation() {
         "CompanyHeadquarterId": $("#ddlSede option:selected").val(),
         "FullName": $("#txtFullName").val(),
         "Email": $("#txtEmail").val(),
-        "ProfileComponents": []
+        "QuotationProfiles": []
     }
 
     $("#tbody-main tr").each(function (index, tr) {
@@ -553,39 +545,100 @@ function APISaveQuotation() {
         if ($(tr).hasClass('parent')) {
             var idParent = $(tr).attr('id');
             var oQuotationProfile = {};
-            oQuotationProfile.ProfileId = $(this).find("td").eq(1).html();
+            oQuotationProfile.ProfileName = $(this).find("input").val(); 
             var serviceType = $(this).find("td").eq(3);
             oQuotationProfile.ServiceTypeId = $(serviceType.get(0)).find("#ddlService").val(),
-                oQuotationProfile.ProfileComponents = [];
+            oQuotationProfile.ProfileComponents = [];
 
             $("#tbody-main tr").each(function (index, tr) {
 
                 if ($(tr).hasClass(idParent)) {
-
-                    //console.log($(this).find("tbody > tr").get(0));
-                    //console.log($(tr).find("tbody > tr"));
                     $(tr).find("tbody > tr").each(function () {
-                        var oProfileComponent = {};
-                        //console.log($(this).find("td").eq(1).html());
-                        oProfileComponent.CategoryId = $(this).find("td").eq(1).html();
-                        oProfileComponent.ComponentId = $(this).find("td").eq(2).html();
-                        oProfileComponent.MinPrice = $(this).find("td").eq(4).html();
-                        oProfileComponent.PriceList = $(this).find("td").eq(5).html();
-                        oProfileComponent.SalePrice = $(this).find("input").val();
-                        //oProfileComponent.InsertUserId
-                        oQuotationProfile.ProfileComponents.push(oProfileComponent);
+                        
+                        if (GetNameCategory($(this).find("td").eq(1).html()) != "----") {
+                            var oProfileComponent = {};
+                            oProfileComponent.CategoryName = GetNameCategory($(this).find("td").eq(1).html());
+                            oProfileComponent.CategoryId = $(this).find("td").eq(1).html();
+                            oProfileComponent.ComponentId = $(this).find("td").eq(2).html();
+                            oProfileComponent.ComponentName = $(this).find("td").eq(3).html();
+                            oProfileComponent.MinPrice = $(this).find("td").eq(4).html();
+                            oProfileComponent.PriceList = $(this).find("td").eq(5).html();
+                            oProfileComponent.SalePrice = $(this).find("input").val();
+                            //oProfileComponent.InsertUserId
+                            oQuotationProfile.ProfileComponents.push(oProfileComponent);
+                        }                        
                     });
                 }
             });
 
-            data.ProfileComponents.push(oQuotationProfile);
+            data.QuotationProfiles.push(oQuotationProfile);
         }
     });
 
+    APIController.SaveQuotation(data).then((res) => {
+        swal("Correcto", "Cotización grabada", "success")
+    });
     console.log("data", data);
+}
 
+function GetNameCategory(id) {
+    if (id == 1) {
+        return "LABORATORIO"
+    } else if (id == 2) {
+        return "ODONTOLOGÍA"
+    } else if (id == 4) {
+        return "GINECOLOGÍA"
+    } else if (id == 5) {
+        return "CARDIOLOGÍA"
+    } else if (id == 6) {
+        return "RAYOS X"
+    } else if (id == 7) {
+        return "PSICOLOGÍA"
+    } else if (id == 10) {
+        return "TRIAJE"
+    } else if (id == 11) {
+        return "MEDICINA"
+    } else if (id == 12) {
+        return "NEUOMOLOGÍA"
+    } else if (id == 13) {
+        return "INMUNIZACIONES"
+    } else if (id == 14) {
+        return "OFTALOMOLOGÍA"
+    } else if (id == 17) {
+        return "UROLOGÍA"
+    } else if (id == 18) {
+        return "NEUROLOGÍA"
+    } else if (id == 19) {
+        return "AUDIOMETRÍA"
+    } else if (id == 20) {
+        return "PSICOPRUEBAS"
+    } else if (id == 21) {
+        return "ADMINISTRACIÓN"
+    } else if (id == 22) {
+        return "ALTURA 1.8M"
+    } else if (id == 23) {
+        return "PSICOSENSOMÉTRICO"
+    } else if (id == 24) {
+        return "ESPIROMETRÍA"
+    } else {
+        return "----"
+    }
+    
 
-    setTimeout(function () {
-        swal("Se grabó correctamente");
-    }, 2000);
+}
+
+function RemoveProfile(event) {
+    var idTr = $(event.target).parent().parent().attr('id');    
+    $("#tbody-main tr").each(function (index, tr) {
+        if ($(tr).hasClass(idTr)) {
+            $(tr).hide();
+        }
+    })
+
+    $(event.target).parent().parent().hide();
+    
+}
+
+function RemoveComponent(event) {
+    $(event.target).parent().parent().hide();
 }

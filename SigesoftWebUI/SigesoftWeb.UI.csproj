@@ -1060,7 +1060,7 @@
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\Detail.cshtml" />
     <Content Include="Views\Quotation\Index.cshtml" />
-    <Content Include="Views\Quotation\RegisterQuotation.cshtml" />
+    <Content Include="Views\Quotation\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

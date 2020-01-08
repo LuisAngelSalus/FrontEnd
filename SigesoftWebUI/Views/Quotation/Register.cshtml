@@ -45,6 +45,7 @@
                 <form >
                     <div class="form-row">
                         <input type="hidden" id="txtCompanyId" value="@CompanyId" />
+                        <input type="hidden" id="txtCompanyHeadquarterId" value="@CompanyHeadquarterId" />
                         <div class="form-group col-md-4">
                             <label for="txtRuc">RUC</label>
                             <input type="text" class="form-control" id="txtRuc" maxlength="11" value="@CompanyRuc" onkeypress="validateInputNumber(event)" autofocus required>
@@ -52,12 +53,12 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="txtCompanyName">Empresa</label>
-                            <input type="text" class="form-control" id="txtCompanyName" value="@CompanyName" readonly >
-                            
+                            <input type="text" class="form-control" id="txtCompanyName" value="@CompanyName" readonly>
+
                         </div>
                         <div class="form-group col-md-4">
                             <label for="txtDistric">Distrito</label>
-                            <input type="text" class="form-control" id="txtDistric" value="@CompanyDistrictName" readonly >
+                            <input type="text" class="form-control" id="txtDistric" value="@CompanyDistrictName" readonly>
                         </div>
                     </div>
 
@@ -67,7 +68,7 @@
                             <input type="text" class="form-control" id="txtAddress" value="@CompanyAddress" readonly>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="exampleInputEmail1">Sede</label>
+                            <label for="ddlSede">Sede</label>
                             <select class="form-control form-white" data-placeholder="Seleccione una sede..." id="ddlSede">
                             </select>
                         </div>
@@ -96,8 +97,8 @@
         <button onclick="openModal()" class="btn btn-success waves-effect waves-light m-r-10">Agregar Perfil</button>
     </div>
 
-    <div class="card card-body">
-        <table class="table color-bordered-table info-bordered-table table-main">
+    <div class="card card-body table-responsive">
+        <table class="table color-bordered-table info-bordered-table table-main ">
             <thead>
                 <tr>
                     <th></th>
@@ -114,9 +115,9 @@
                 @foreach (var profile in ViewBag.DataQuotation.QuotationProfiles)
                 {
                     <tr id="perfil-@profile.QuotationProfileId" class="parent">
-                        <td><i class="fa fa-plus text-inverse m-r-10" onclick="@profile.QuotationProfileId"></i></td>
-                        <td class="profileId">@profile.ProfileId</td>
-                        <td>@profile.ProfileName</td>
+                        <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
+                        <td style="display:none" class="profileId">@profile.ProfileId</td>
+                        <td><input class="form-control" type="text" value="@profile.ProfileName"/></td>
                         <td>
                             <select class="form-control form-white" data-placeholder="Seleccione un servicio..." id="ddlService">
                                 <option value="-1" @(@profile.ServiceTypeId == -1 ? "selected" : "")>--Seleccionar--</option>
@@ -128,7 +129,7 @@
 
                         <td class="counterComp col-center">0</td>
                         <td class="subTotal col-center">0</td>
-                        <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick=""></i></td>
+                        <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveProfile(event)"></i></td>
                     </tr>
                     <tr class="perfil-@profile.QuotationProfileId child">
                         <td colspan="6">
@@ -140,6 +141,7 @@
                                         <th class="col-center">PRECIO MÍNIMO</th>
                                         <th class="col-center">PRECIO LISTA</th>
                                         <th class="col-center">PRECIO VENTA</th>
+                                        <th class="col-center"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -152,8 +154,9 @@
                                             {
                                                 valor = valorAntiguo;
                                                 <tr id="perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
-                                                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="@profile.QuotationProfileId@profile.ProfileComponents[i].CategoryName"></i></td>
+                                                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName')"></i></td>
                                                     <td colspan="4">@profile.ProfileComponents[i].CategoryName</td>
+                                                    <td class="col-center"></td>
                                                 </tr>
                                                 i--;
                                             }
@@ -165,6 +168,7 @@
                                                     <td class="col-center">@profile.ProfileComponents[i].MinPrice</td>
                                                     <td class="col-center">@profile.ProfileComponents[i].PriceList</td>
                                                     <td class=" col-center"><input type="text" class="salePrice input-numeric" value="@profile.ProfileComponents[i].SalePrice" /> </td>
+                                                    <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveComponent(event)"></i></td>
                                                 </tr>
                                             }
 
