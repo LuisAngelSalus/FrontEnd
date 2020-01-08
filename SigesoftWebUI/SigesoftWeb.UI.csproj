@@ -125,6 +125,7 @@
     <Compile Include="Controllers\InfoSunatController.cs" />
     <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
+    <Compile Include="Controllers\SecuentialController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -374,6 +375,7 @@
     <Content Include="assets\plugins\dropify\src\js\dropify.js" />
     <Content Include="assets\plugins\html5-editor\bootstrap-wysihtml5.css" />
     <Content Include="assets\plugins\html5-editor\bootstrap-wysihtml5.js" />
+    <Content Include="assets\plugins\html5-editor\wysiwyg-color.css" />
     <Content Include="assets\plugins\html5-editor\wysihtml5-0.3.0.js" />
     <Content Include="assets\plugins\jquery-datatables-editable\dataTables.bootstrap.js" />
     <Content Include="assets\plugins\jquery-datatables-editable\datatables.css" />
@@ -1066,6 +1068,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\InfoSunat\" />
     <Folder Include="Views\ProtocolProfile\" />
+    <Folder Include="Views\Secuential\" />
     <Folder Include="Views\Session\" />
   </ItemGroup>
   <ItemGroup>

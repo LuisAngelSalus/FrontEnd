@@ -38,13 +38,23 @@ namespace BL
         public Response<QuotationRegisterDto> Save(QuotationRegisterDto data)
         {
             Response<QuotationRegisterDto> obj = null;
-          
-            var hCliente = _global.rspClient("Quotation/" , data);
+                var hCliente = _global.rspClient("Quotation/", data);
+                if (hCliente.IsSuccessStatusCode)
+                {
+                    obj = new JavaScriptSerializer().Deserialize<Response<QuotationRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);
+                }
+                return obj;         
+        }
+
+        public Response<QuotationUpdateDto> Update(QuotationUpdateDto data)
+        {
+            Response<QuotationUpdateDto> obj = null;
+            var hCliente = _global.rspClientPUT("Quotation/", data);
             if (hCliente.IsSuccessStatusCode)
             {
-                obj = new JavaScriptSerializer().Deserialize<Response<QuotationRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);
+                obj = new JavaScriptSerializer().Deserialize<Response<QuotationUpdateDto>>(hCliente.Content.ReadAsStringAsync().Result);
             }
-            return obj;           
+            return obj;
         }
     }
 }

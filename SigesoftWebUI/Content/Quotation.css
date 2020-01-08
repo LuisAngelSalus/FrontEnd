@@ -1,5 +1,4 @@
 ﻿ .component
-
 {
     display: none;
 }
@@ -45,3 +44,6 @@
 }
 
 
+.salePrice{
+    margin:auto;
+}

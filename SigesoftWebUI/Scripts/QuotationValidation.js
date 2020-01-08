@@ -1,14 +1,17 @@
 ﻿function ValidateQuotation(e) {
+
     e.preventDefault();
-    //1)eliminar la clase error
+
+    //I)eliminar la clase error
     clearErrors();
-    //2)Valida inputs
+
+    //II)Valida inputs
     var validateRuc = validateInput("txtRuc", "Ruc requerido");
     var validateFullName = validateInput("txtFullName", "Primer Contacto requerido");
     var validateEmail = validateInput("txtEmail", "Email requerido");
     var validateTableQuotation = ValidateTableQuotation();
-    
-    //3)Retornar resultado de validación
+    console.log("SSSs", validateTableQuotation);
+    //II)Retornar resultado de validación
     if (validateRuc && validateFullName && validateEmail && validateTableQuotation) {       
         return true;
     } else {   
@@ -39,7 +42,7 @@ function ValidateTableQuotation() {
 
 function ValidateTable(tbodyId) {
     var rowCounter = $('#' + tbodyId + ' tr').length;
-    console.log("WWW", rowCounter);
+    
     if (rowCounter == 0) {
         console.log($('#' + tbodyId).parent());
         $('#' + tbodyId).parent().parent().removeClass('card');
@@ -47,6 +50,25 @@ function ValidateTable(tbodyId) {
         return false;
     }
     else {
-        return true;
+        var breakOut;
+        $('#' + tbodyId + ' tr').each(function (index, tr) {
+            var trr = $(tr).find('#ddlService');
+            if ($(trr).val() === "-1") {
+                InputError($(trr));
+                breakOut = true;
+                return false;
+            } 
+
+        });
+
+        if (breakOut) {
+            breakOut = false;
+            return false;
+        } else {
+            console.log("¡????");
+            return true;
+        }
+
+        
     }
 } 

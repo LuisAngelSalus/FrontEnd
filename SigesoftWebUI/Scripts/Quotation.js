@@ -166,9 +166,10 @@ function InfoSunat(ruc) {
 
 function show(value) {
     var td = $($("#" + value + " td")[0]).find("i");
-
+    
     let pClass = '.' + value;
-    if ($(pClass).css("display") == "none") {
+    
+    if ($(pClass).css("display") == "none") {           
         $(pClass).fadeIn(1000);
         $(pClass).show();
         td.addClass('fa-minus');
@@ -306,8 +307,10 @@ function AddProfile() {
     var content = "";
     content += "<tr id='" + idPerfil + "' class='parent'>";
     content += "<td><i class='fa fa-plus text-inverse m-r-10' onclick=show('" + idPerfil + "')></i></td>";
+    content += "<td>TEMPORAL</td>";
+    content += "<td>AGREGADO</td>";
     content += "<td class='profileId' style='display:none'>" + data.profileId + "</td>";
-    //content += "<td>" + data.profileName + "</td>";
+    
     content += "<td><input class='form-control' type='text' value='"+data.profileName+"' /></td>";
     content += "<td>";
 
@@ -325,7 +328,7 @@ function AddProfile() {
     content += "</tr>";
 
     content += "<tr class='" + idPerfil + " child' >";
-    content += "<td colspan='6'>";
+    content += "<td colspan='8'>";
     content += "<table class='table-examenes'>";
 
     content += "<thead>";
@@ -333,6 +336,8 @@ function AddProfile() {
     content += "<th></th>";
     content += "<th style='display:none'>CatId</th>";
     content += "<th style='display:none'>CompId</th>";
+    content += "<th>RecordType</th>";
+    content += "<th>RecordStatus</th>";
     content += "<th>EXAMENES - PERFIL</th>";
     content += "<th class='col-center'>PRECIO MÍNIMO</th>";
     content += "<th class='col-center'>PRECIO LISTA</th>";
@@ -352,7 +357,7 @@ function AddProfile() {
             valor = valorAntiguo;
             content += "<tr id='" + quotationProfileId + "-" + cateName + "'>";
             content += "<td><i class='fa fa-minus text-inverse m-r-10' onclick=show('" + quotationProfileId + "-" + cateName + "')></i></td>";
-            content += "<td colspan='4'>" + cateName + "</td>";
+            content += "<td colspan='6'>" + cateName + "</td>";
             content += "</tr>";
             i--;
         } else {
@@ -361,7 +366,8 @@ function AddProfile() {
 
             content += "<td style='display:none'>" + components[i].categoryId + "</td>";
             content += "<td style='display:none'>" + components[i].componentId + "</td>";
-
+            content += "<td>TEMPORAL</td>";
+            content += "<td>AGREGADO</td>";
             content += "<td>" + components[i].componentName + "</td>";
             content += "<td class='col-center'>" + components[i].minPrice + "</td>";
             content += "<td class='col-center'>" + components[i].listPrice + "</td>";
@@ -529,14 +535,18 @@ function SaveQuotation(e) {
 function APISaveQuotation() {
 
     var data = {
-        "Code": "",
-        "Version": "",
+        "QuotationId": $("#txtQuotationId").val(),
+        "Code": $("#spanCode").html(),
+        "Version": $("#spanVersion").html(),
         "UserCreatedId": 1,
         "UserName": "",
         "CompanyId": $("#txtCompanyId").val(),
         "CompanyHeadquarterId": $("#ddlSede option:selected").val(),
         "FullName": $("#txtFullName").val(),
         "Email": $("#txtEmail").val(),
+        "CommercialTerms": $("#txtCommercialTerms").val(),
+        "UserCreatedId":4,
+        "InsertUserId": 4,
         "QuotationProfiles": []
     }
 
@@ -574,11 +584,17 @@ function APISaveQuotation() {
             data.QuotationProfiles.push(oQuotationProfile);
         }
     });
+    if (data.QuotationId ==0) {
+        APIController.SaveQuotation(data).then((res) => {
+            swal("Correcto", "El nro de cotizacion es :" + res.Data.Code, "success");
+            $("#spanCode").html(res.Data.Code);
 
-    APIController.SaveQuotation(data).then((res) => {
-        swal("Correcto", "Cotización grabada", "success")
-    });
-    console.log("data", data);
+        });
+    } else if (data.QuotationId > 0) {
+        APIController.UpdateQuotation(data).then((res) => {
+            swal("Correcto", "Cotización Actualizada", "success");          
+        });
+    }  
 }
 
 function GetNameCategory(id) {
@@ -591,7 +607,7 @@ function GetNameCategory(id) {
     } else if (id == 5) {
         return "CARDIOLOGÍA"
     } else if (id == 6) {
-        return "RAYOS X"
+        return "RAYOS_X"
     } else if (id == 7) {
         return "PSICOLOGÍA"
     } else if (id == 10) {

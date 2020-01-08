@@ -29,21 +29,7 @@
                 }).catch(err => { console.log(err); reject() });
         });
     }
-
-    //var quotation = function (id) {
-    //    return new Promise((resolve, reject) => {
-    //        let url = '/Quotation/QuotationById?id=' + id
-    //        fetch(url, {
-    //            headers: { 'Content-Type': 'application/json' }
-    //        })
-    //            .then(res => res.json())
-    //            .then(data => {
-    //                return resolve(data);
-    //            }).catch(err => { console.log(err); reject() });
-
-    //    });
-    //}
-
+    
     var saveQuotation = function (parameters) {
         return new Promise((resolve, reject) => {
 
@@ -60,7 +46,22 @@
         });
 
     }
+    var updateQuotation = function (parameters) {
+        return new Promise((resolve, reject) => {
 
+            fetch('/Quotation/Update', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
     var profile = function (id) {
         return new Promise((resolve, reject) => {
             let url = '/Quotation/GetProfile?profileId=' + id
@@ -136,22 +137,22 @@
 
     }
 
-    //var saveQuotation = function (parameters) {
-    //    return new Promise((resolve, reject) => {
+    var secuential = function (parameters){
+        return new Promise((resolve, reject) => {
 
-    //        fetch('/ProtocolProfile/Save', {
-    //            method: 'POST',
-    //            body: JSON.stringify(parameters),
-    //            headers: { 'Content-Type': 'application/json' }
-    //        })
-    //            .then(res => res.json())
-    //            .then(data => {
-    //                return resolve(data);
-    //            }).catch(err => { console.log(err); reject() });
+            fetch('/Secuential/GetSecuential', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
 
-    //    });
+        });
+    }
 
-    //}
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -164,12 +165,6 @@
                 viewContactsByCompany(companyId).then(res => resolve(res));
             });
         },
-
-        //GetQuotation: function (quotationId) {
-        //    return new Promise((resolve, reject) => {
-        //        quotation(quotationId).then(res => resolve(res));
-        //    });
-        //},
 
         GetProfile: function (ProfileId) {
             return new Promise((resolve, reject) => {
@@ -208,6 +203,18 @@
         SaveQuotation: function (parameters) {
             return new Promise((resolve, reject) => {                
                 saveQuotation(parameters).then(res => resolve(res));
+            });
+        },
+
+        UpdateQuotation: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateQuotation(parameters).then(res => resolve(res));
+            });
+        },
+
+        GetSecuential: function (parameters) {
+            return new Promise((resolve, reject) => {
+                secuential(parameters).then(res => resolve(res));
             });
         }
     }

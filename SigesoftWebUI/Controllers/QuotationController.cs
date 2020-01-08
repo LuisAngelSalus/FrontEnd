@@ -28,11 +28,7 @@ namespace SigesoftWebUI.Controllers
             }
             else
             {
-                var oGenerateCode    = new GenerateCode();
                 var oQuotationDto = new QuotationDto();
-                //var code = "el nro de cotización se generará al grabar la cotización"; 
-                //oGenerateCode.Code("COT","PAT",1);
-                //oQuotationDto.Code = code;
                 ViewBag.DataQuotation = oQuotationDto;
             }
             return View();
@@ -51,5 +47,12 @@ namespace SigesoftWebUI.Controllers
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
+        public JsonResult Update(QuotationUpdateDto data)
+        {
+            var response = _quotationBL.Update(data);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+
+        }
+        
     }
 }

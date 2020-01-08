@@ -46,6 +46,7 @@
     <Compile Include="InfoSunatBL.cs" />
     <Compile Include="ProtocolProfileBL.cs" />
     <Compile Include="QuotationBL.cs" />
+    <Compile Include="SecuentialBL.cs" />
     <Compile Include="SecurityBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
