@@ -1,0 +1,47 @@
+﻿ .component
+
+{
+    display: none;
+}
+
+.table-examenes {
+    font-size: 12px;
+    margin: auto;
+    width: 90%;
+}
+
+.child {
+    display: none;
+}
+
+
+.table-examenes-profile {
+    font-size: 12px;
+    margin: auto;
+    width: 90%;
+}
+
+.table-examenes-profile-UnSelected {
+    font-size: 12px;
+    margin: auto;
+    width: 90%;
+}
+
+.col-center {
+    text-align: center;
+}
+
+.input-numeric {
+    width: 80px;
+}
+
+.table-main {
+    margin-bottom: 0px;
+}
+
+.table-total {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+

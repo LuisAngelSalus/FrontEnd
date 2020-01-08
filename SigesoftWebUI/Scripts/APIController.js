@@ -30,10 +30,26 @@
         });
     }
 
-    var quotation = function (id) {
+    //var quotation = function (id) {
+    //    return new Promise((resolve, reject) => {
+    //        let url = '/Quotation/QuotationById?id=' + id
+    //        fetch(url, {
+    //            headers: { 'Content-Type': 'application/json' }
+    //        })
+    //            .then(res => res.json())
+    //            .then(data => {
+    //                return resolve(data);
+    //            }).catch(err => { console.log(err); reject() });
+
+    //    });
+    //}
+
+    var saveQuotation = function (parameters) {
         return new Promise((resolve, reject) => {
-            let url = '/Quotation/RegisterQuotation?id=' + id
-            fetch(url, {
+
+            fetch('/Quotation/Save', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
@@ -42,6 +58,7 @@
                 }).catch(err => { console.log(err); reject() });
 
         });
+
     }
 
     var profile = function (id) {
@@ -87,6 +104,54 @@
         });
     }
 
+    var saveProtocolProfile = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/ProtocolProfile/Save', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
+    var ddlProtocolProfile = function () {
+        return new Promise((resolve, reject) => {
+
+            fetch('/ProtocolProfile/DropdownList', {              
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
+    //var saveQuotation = function (parameters) {
+    //    return new Promise((resolve, reject) => {
+
+    //        fetch('/ProtocolProfile/Save', {
+    //            method: 'POST',
+    //            body: JSON.stringify(parameters),
+    //            headers: { 'Content-Type': 'application/json' }
+    //        })
+    //            .then(res => res.json())
+    //            .then(data => {
+    //                return resolve(data);
+    //            }).catch(err => { console.log(err); reject() });
+
+    //    });
+
+    //}
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -100,11 +165,11 @@
             });
         },
 
-        GetQuotation: function (quotationId) {
-            return new Promise((resolve, reject) => {
-                quotation(quotationId).then(res => resolve(res));
-            });
-        },
+        //GetQuotation: function (quotationId) {
+        //    return new Promise((resolve, reject) => {
+        //        quotation(quotationId).then(res => resolve(res));
+        //    });
+        //},
 
         GetProfile: function (ProfileId) {
             return new Promise((resolve, reject) => {
@@ -126,9 +191,25 @@
                     .then(res => resolve(res))
                     .catch(err => { reject(err); });
             });
-        }
+        },
 
-        
+        SaveProtocolProfile: function (parameters) {
+            return new Promise((resolve, reject) => {
+                saveProtocolProfile(parameters).then(res => resolve(res));
+            });
+        },
+
+        GetddlProtocolProfile: function () {
+            return new Promise((resolve, reject) => {
+                ddlProtocolProfile().then(res => resolve(res));
+            });
+        },
+
+        SaveQuotation: function (parameters) {
+            return new Promise((resolve, reject) => {                
+                saveQuotation(parameters).then(res => resolve(res));
+            });
+        }
     }
 
 })();

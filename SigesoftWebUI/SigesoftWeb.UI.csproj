@@ -123,6 +123,7 @@
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoSunatController.cs" />
+    <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -372,6 +373,9 @@
     <Content Include="assets\plugins\dropify\src\images\test-image-1.jpg" />
     <Content Include="assets\plugins\dropify\src\images\test-image-2.jpg" />
     <Content Include="assets\plugins\dropify\src\js\dropify.js" />
+    <Content Include="assets\plugins\html5-editor\bootstrap-wysihtml5.css" />
+    <Content Include="assets\plugins\html5-editor\bootstrap-wysihtml5.js" />
+    <Content Include="assets\plugins\html5-editor\wysihtml5-0.3.0.js" />
     <Content Include="assets\plugins\jquery-datatables-editable\dataTables.bootstrap.js" />
     <Content Include="assets\plugins\jquery-datatables-editable\datatables.css" />
     <Content Include="assets\plugins\jquery-datatables-editable\jquery.dataTables.js" />
@@ -389,6 +393,10 @@
     <Content Include="assets\plugins\sparkline\jquery.charts-sparkline.js" />
     <Content Include="assets\plugins\sparkline\jquery.sparkline.min.js" />
     <Content Include="assets\plugins\styleswitcher\jQuery.style.switcher.js" />
+    <Content Include="assets\plugins\sweetalert\jquery.sweet-alert.custom.js" />
+    <Content Include="assets\plugins\sweetalert\sweetalert-dev.js" />
+    <Content Include="assets\plugins\sweetalert\sweetalert.css" />
+    <Content Include="assets\plugins\sweetalert\sweetalert.min.js" />
     <Content Include="assets\plugins\tiny-editable\mindmup-editabletable.js" />
     <Content Include="assets\plugins\tiny-editable\numeric-input-example.js" />
     <Content Include="assets\plugins\toast-master\css\jquery.toast.css" />
@@ -690,8 +698,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\common.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Quotation.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -1029,6 +1039,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Quotation.js" />
+    <Content Include="Scripts\QuotationValidation.js" />
+    <Content Include="Scripts\utils.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1048,11 +1061,12 @@
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\Detail.cshtml" />
     <Content Include="Views\Quotation\Index.cshtml" />
-    <Content Include="Views\Quotation\RegisterQuotation.cshtml" />
+    <Content Include="Views\Quotation\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\InfoSunat\" />
+    <Folder Include="Views\ProtocolProfile\" />
     <Folder Include="Views\Session\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,14 @@
+﻿.alertCustom {       
+}
+
+.error {
+    border: solid 2px #ff0000;
+}
+.content-alert {
+    right: 10px;
+    margin: 5px;
+    position: fixed;
+    z-index: 999;
+}
+
+

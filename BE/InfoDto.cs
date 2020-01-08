@@ -18,6 +18,7 @@ namespace BE
         public string Interior { get; set; }
         public string Lote { get; set; }
         public string Departamento { get; set; }
+        public string Distrito { get; set; }
         public string Manzana { get; set; }
         public List<DetailDto> details { get; set; }
     }

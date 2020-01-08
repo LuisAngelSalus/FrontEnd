@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="CompanyBL.cs" />
     <Compile Include="InfoSunatBL.cs" />
+    <Compile Include="ProtocolProfileBL.cs" />
     <Compile Include="QuotationBL.cs" />
     <Compile Include="SecurityBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
