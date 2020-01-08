@@ -111,10 +111,11 @@
                     <th style="display:none">ProfileId</th>
                     <th>PERFIL</th>
                     <th>SERVICIO</th>
-                    <th class="col-center">N° EXAMENES</th>
+                    <th class="col-center">CANTIDAD</th>
                     <th class="col-center">SUBTOTAL</th>
+                    <th class="col-center">ID</th>
                     <th class="col-center">ACCIONES</th>
-                </tr>
+                </tr>   
             </thead>
             <tbody id="tbody-main">
 
@@ -122,12 +123,12 @@
                 {
                 <tr id="perfil-@profile.QuotationProfileId" class="parent">
                     <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
-                    <td>@profile.RecordType</td>
-                    <td>@profile.RecordStatus</td>
+                    <td class="RecordType">@profile.RecordType</td>
+                    <td class="RecordStatus">@profile.RecordStatus</td>
                     <td style="display:none" class="profileId">@profile.ProfileId</td>
-                    <td><input class="form-control" type="text" value="@profile.ProfileName" /></td>
+                    <td><input class="form-control input-perfil" type="text" value="@profile.ProfileName" /></td>
                     <td>
-                        <select class="form-control form-white" data-placeholder="Seleccione un servicio..." id="ddlService">
+                        <select class="form-control form-white select-Service" data-placeholder="Seleccione un servicio..." id="ddlService">
                             <option value="-1" @(@profile.ServiceTypeId == -1 ? "selected" : "")>--Seleccionar--</option>
                             <option value="1" @(@profile.ServiceTypeId == 1 ? "selected" : "")>Preocupacional</option>
                             <option value="2" @(@profile.ServiceTypeId == 2 ? "selected" : "")>Periodico</option>
@@ -137,14 +138,15 @@
 
                     <td class="counterComp col-center">0</td>
                     <td class="subTotal col-center">0</td>
+                    <td>@profile.QuotationProfileId</td>
                     <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveProfile(event)"></i></td>
                 </tr>
                     <tr class="perfil-@profile.QuotationProfileId child">
-                        <td colspan="8">
+                        <td colspan="9">
                             <table class="table-examenes">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th></th>                                        
                                         <th>RecordType</th>
                                         <th>RecordStatus</th>
                                         <th>EXAMENES - PERFIL</th>
@@ -173,16 +175,18 @@
                                             }
                                             else
                                             {
-                                <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
-                                    <td></td>
-                                    <td>@profile.ProfileComponents[i].RecordType</td>
-                                    <td>@profile.ProfileComponents[i].RecordStatus</td>
-                                    <td>@profile.ProfileComponents[i].ComponentName</td>
-                                    <td class="col-center">@profile.ProfileComponents[i].MinPrice</td>
-                                    <td class="col-center">@profile.ProfileComponents[i].PriceList</td>
-                                    <td class=" col-center"><input type="text" class="salePrice input-numeric form-control" value="@profile.ProfileComponents[i].SalePrice" /> </td>
-                                    <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveComponent(event)"></i></td>
-                                </tr>
+                                                <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
+                                                    <td>@profile.ProfileComponents[i].ProfileComponentId</td>
+                                                    <td style="display:none">@profile.ProfileComponents[i].CategoryId</td>
+                                                    <td style="display:none">@profile.ProfileComponents[i].ComponentId</td>
+                                                    <td class="RecordType">@profile.ProfileComponents[i].RecordType</td>
+                                                    <td class="RecordStatus">@profile.ProfileComponents[i].RecordStatus</td>
+                                                    <td>@profile.ProfileComponents[i].ComponentName</td>
+                                                    <td class="col-center">@profile.ProfileComponents[i].MinPrice</td>
+                                                    <td class="col-center">@profile.ProfileComponents[i].PriceList</td>
+                                                    <td class="col-center"><input type="text" class="salePrice input-numeric form-control" value="@profile.ProfileComponents[i].SalePrice" /> </td>
+                                                    <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveComponent(event)"></i></td>
+                                                </tr>
                                             }
 
                                         }

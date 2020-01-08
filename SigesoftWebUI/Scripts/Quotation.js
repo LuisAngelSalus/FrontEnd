@@ -1,5 +1,4 @@
-﻿
-var obj = {};
+﻿var obj = {};
 $(document).ready(function () {
 
     if ($("#txtCompanyId").val() != 0) {
@@ -307,14 +306,14 @@ function AddProfile() {
     var content = "";
     content += "<tr id='" + idPerfil + "' class='parent'>";
     content += "<td><i class='fa fa-plus text-inverse m-r-10' onclick=show('" + idPerfil + "')></i></td>";
-    content += "<td>TEMPORAL</td>";
-    content += "<td>AGREGADO</td>";
+    content += "<td class='RecordType'>TEMPORAL</td>";
+    content += "<td class='RecordStatus'>AGREGADO</td>";
     content += "<td class='profileId' style='display:none'>" + data.profileId + "</td>";
     
-    content += "<td><input class='form-control' type='text' value='"+data.profileName+"' /></td>";
+    content += "<td><input class='form-control input-perfil' type='text' value='"+data.profileName+"' /></td>";
     content += "<td>";
 
-    content += "<select class='form-control form-white' data-placeholder='Seleccione un servicio...' id='ddlService'>";
+    content += "<select class='form-control form-white select-Service' data-placeholder='Seleccione un servicio...' id='ddlService'>";
     content += "<option value='-1'>--Seleccionar--</option>";
     content += "<option value='1'>Preocupacional</option>";
     content += "<option value='2'>Periodico</option>";
@@ -324,6 +323,7 @@ function AddProfile() {
     content += "</td>";
     content += "<td class='counterComp col-center'>0</td>";
     content += "<td class='subTotal col-center'>0</td>";
+    content += "<td class='col-center'>0</td>";
     content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveProfile(event)'></i></td>";
     content += "</tr>";
 
@@ -342,6 +342,7 @@ function AddProfile() {
     content += "<th class='col-center'>PRECIO MÍNIMO</th>";
     content += "<th class='col-center'>PRECIO LISTA</th>";
     content += "<th class='col-center'>PRECIO VENTA</th>  ";
+    content += "<th class='col-center'></th>";
     content += "</tr>";
     content += "</thead>";
     content += "<tbody>";
@@ -362,16 +363,17 @@ function AddProfile() {
             i--;
         } else {
             content += "<tr class=" + quotationProfileId + "-" + cateName + ">";
-            content += "<td></td>";
+            content += "<td>" + components[i].profileComponentId     + "</td>";
 
             content += "<td style='display:none'>" + components[i].categoryId + "</td>";
             content += "<td style='display:none'>" + components[i].componentId + "</td>";
-            content += "<td>TEMPORAL</td>";
-            content += "<td>AGREGADO</td>";
+            content += "<td class='RecordType'>TEMPORAL</td>";
+            content += "<td class='RecordStatus'>AGREGADO</td>";
             content += "<td>" + components[i].componentName + "</td>";
             content += "<td class='col-center'>" + components[i].minPrice + "</td>";
             content += "<td class='col-center'>" + components[i].listPrice + "</td>";
-            content += "<td class='col-center'><input type='text' class='salePrice input-numeric' value=" + components[i].salePrice + "> </td>";
+            content += "<td class='col-center'><input type='text' class='form-control salePrice input-numeric' value=" + components[i].salePrice + "> </td>";
+            content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveComponent(event)'></i></td>";
             content += "</tr>";
         }
 
@@ -555,25 +557,31 @@ function APISaveQuotation() {
         if ($(tr).hasClass('parent')) {
             var idParent = $(tr).attr('id');
             var oQuotationProfile = {};
+            oQuotationProfile.QuotationProfileId = $(this).find("td").eq(8).html();
             oQuotationProfile.ProfileName = $(this).find("input").val(); 
-            var serviceType = $(this).find("td").eq(3);
+            var serviceType = $(this).find("td").eq(5);
             oQuotationProfile.ServiceTypeId = $(serviceType.get(0)).find("#ddlService").val(),
             oQuotationProfile.ProfileComponents = [];
-
+            oQuotationProfile.RecordType = $(this).find(".RecordType").html(); 
+            oQuotationProfile.RecordStatus = $(this).find(".RecordStatus").html();
             $("#tbody-main tr").each(function (index, tr) {
 
                 if ($(tr).hasClass(idParent)) {
                     $(tr).find("tbody > tr").each(function () {
-                        
+                        console.log("B", GetNameCategory($(this).find("td").eq(1).html()));
                         if (GetNameCategory($(this).find("td").eq(1).html()) != "----") {
+                        
                             var oProfileComponent = {};
+                            oProfileComponent.ProfileComponentId = $(this).find("td").eq(0).html();
                             oProfileComponent.CategoryName = GetNameCategory($(this).find("td").eq(1).html());
                             oProfileComponent.CategoryId = $(this).find("td").eq(1).html();
                             oProfileComponent.ComponentId = $(this).find("td").eq(2).html();
-                            oProfileComponent.ComponentName = $(this).find("td").eq(3).html();
-                            oProfileComponent.MinPrice = $(this).find("td").eq(4).html();
-                            oProfileComponent.PriceList = $(this).find("td").eq(5).html();
+                            oProfileComponent.ComponentName = $(this).find("td").eq(5).html();
+                            oProfileComponent.MinPrice = $(this).find("td").eq(6).html();
+                            oProfileComponent.PriceList = $(this).find("td").eq(7).html();
                             oProfileComponent.SalePrice = $(this).find("input").val();
+                            oProfileComponent.RecordType = $(this).find(".RecordType").html();
+                            oProfileComponent.RecordStatus = $(this).find(".RecordStatus").html();
                             //oProfileComponent.InsertUserId
                             oQuotationProfile.ProfileComponents.push(oProfileComponent);
                         }                        
@@ -586,11 +594,13 @@ function APISaveQuotation() {
     });
     if (data.QuotationId ==0) {
         APIController.SaveQuotation(data).then((res) => {
+            console.log("DATA INSERT", data);
             swal("Correcto", "El nro de cotizacion es :" + res.Data.Code, "success");
             $("#spanCode").html(res.Data.Code);
 
         });
     } else if (data.QuotationId > 0) {
+        console.log("DATA UPDATE", data);
         APIController.UpdateQuotation(data).then((res) => {
             swal("Correcto", "Cotización Actualizada", "success");          
         });
@@ -644,17 +654,80 @@ function GetNameCategory(id) {
 }
 
 function RemoveProfile(event) {
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
     var idTr = $(event.target).parent().parent().attr('id');    
-    $("#tbody-main tr").each(function (index, tr) {
-        if ($(tr).hasClass(idTr)) {
-            $(tr).hide();
-        }
-    })
-
-    $(event.target).parent().parent().hide();
+    console.log(recordType, recordStatus);
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {       
+        
+        $("#tbody-main tr").each(function (index, tr) {
+            if ($(tr).hasClass(idTr)) {
+                $(tr).remove();
+            }
+        })
+        $(event.target).parent().parent().remove();
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("ELIMINADOLOGICO");
+        $("#tbody-main tr").each(function (index, tr) {
+            if ($(tr).hasClass(idTr)) {
+                $(tr).hide();
+                $(tr).find(".RecordStatus").text("ELIMINADOLOGICO");
+                $(tr).find(".RecordType").text("NOTEMPORAL");
+            }
+        })
+        $(event.target).parent().parent().hide();
+    }
     
 }
 
 function RemoveComponent(event) {
-    $(event.target).parent().parent().hide();
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
+
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
+        $(event.target).parent().parent().remove();
+        
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("ELIMINADOLOGICO");
+        $(event.target).parent().parent().hide();
+    }    
+    
 }
+
+$('.table-main').on('change', '.input-numeric', function (event) {
+    
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
+    console.log(recordType, recordStatus);
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("MODIFICADO");
+    }
+})
+
+$('.table-main').on('change', '.input-perfil', function (event) {
+
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
+    console.log(recordType, recordStatus);
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("MODIFICADO");
+    }
+})
+
+$('.table-main').on('change', '.select-Service', function (event) {
+
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
+    console.log(recordType, recordStatus);
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("MODIFICADO");
+    }
+})

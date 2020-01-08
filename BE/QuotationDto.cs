@@ -123,22 +123,26 @@ namespace BE
         public string Email { get; set; }
         public string CommercialTerms { get; set; }
         public int? InsertUserId { get; set; }
+
         public List<QuotationProfileUpdateDto> QuotationProfiles { get; set; }
     }
 
     public class QuotationProfileUpdateDto
     {
         public int QuotationId { get; set; }
-        //public int? ProfileId { get; set; }
+        public int? QuotationProfileId { get; set; }
         public string ProfileName { get; set; }
         public int? ServiceTypeId { get; set; }
-        public int? InsertUserId { get; set; }
+        public int? UpdateUserId { get; set; }
+        public RecordStatus RecordStatus { get; set; }
+        public RecordType RecordType { get; set; }
         public List<ProfileComponentUpdateDto> ProfileComponents { get; set; }
     }
 
     public class ProfileComponentUpdateDto
     {
         public int QuotationProfileId { get; set; }
+        public int ProfileComponentId { get; set; }
         public string CategoryName { get; set; }
         public int? CategoryId { get; set; }
         public string ComponentId { get; set; }
@@ -146,7 +150,9 @@ namespace BE
         public decimal? MinPrice { get; set; }
         public decimal? PriceList { get; set; }
         public decimal? SalePrice { get; set; }
-        public int? InsertUserId { get; set; }
+        public int? UpdateUserId { get; set; }
+        public RecordStatus RecordStatus { get; set; }
+        public RecordType RecordType { get; set; }
     }
 
     #endregion
