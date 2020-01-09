@@ -148,7 +148,6 @@
     <Content Include="assets\images\logo-text.png" />
     <Content Include="assets\images\SIGESOft.png" />
     <Content Include="assets\images\SLEmpresarial.png" />
-    <Content Include="assets\images\SLSigesoft.png" />
     <Content Include="assets\images\users\1.jpg" />
     <Content Include="assets\images\users\2.jpg" />
     <Content Include="assets\images\users\3.jpg" />
@@ -173,6 +172,15 @@
     <Content Include="assets\plugins\bootstrap\js\popper.min.js" />
     <Content Include="assets\plugins\c3-master\c3.min.css" />
     <Content Include="assets\plugins\c3-master\c3.min.js" />
+    <Content Include="assets\plugins\Chart.js\Chart.js" />
+    <Content Include="assets\plugins\Chart.js\Chart.min.js" />
+    <Content Include="assets\plugins\Chart.js\chartjs.init.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.Bar.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.Core.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.Doughnut.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.Line.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.PolarArea.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.Radar.js" />
     <Content Include="assets\plugins\chartist-js\dist\chartist-init.css" />
     <Content Include="assets\plugins\chartist-js\dist\chartist-init.js" />
     <Content Include="assets\plugins\chartist-js\dist\chartist.css" />

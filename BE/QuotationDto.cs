@@ -156,4 +156,29 @@ namespace BE
     }
 
     #endregion
+
+
+    #region Filter
+
+    public class ParamsQuotationFilterDto
+    {
+        public string NroQuotation { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string CompanyName { get; set; }
+    }
+    public class QuotationFilterDto
+    {
+        public int QuotationId { get; set; }
+        public string NroQuotation { get; set; }
+        public string ShippingDate { get; set; }
+        public string AcceptanceDate { get; set; }
+        public string CompanyName { get; set; }
+        public decimal Total { get; set; }
+        public string StatusName { get; set; }
+        public string USDate { get; set; }
+        public string TrackingDescription { get; set; }
+    }
+    
+    #endregion
 }

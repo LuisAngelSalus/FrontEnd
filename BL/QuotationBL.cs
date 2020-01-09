@@ -56,5 +56,16 @@ namespace BL
             }
             return obj;
         }
+
+        public Response<List<QuotationFilterDto>> Filter(ParamsQuotationFilterDto parameters)
+        {
+            Response<List<QuotationFilterDto>> obj = null;
+            var hCliente = _global.rspClient("Quotation/Filter/", parameters);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<QuotationFilterDto>>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
     }
 }

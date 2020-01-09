@@ -46,6 +46,7 @@
         });
 
     }
+
     var updateQuotation = function (parameters) {
         return new Promise((resolve, reject) => {
 
@@ -62,6 +63,7 @@
         });
 
     }
+
     var profile = function (id) {
         return new Promise((resolve, reject) => {
             let url = '/Quotation/GetProfile?profileId=' + id
@@ -153,6 +155,23 @@
         });
     }
 
+    var filterQuotation = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Quotation/Filter', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+    }
+
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -215,6 +234,12 @@
         GetSecuential: function (parameters) {
             return new Promise((resolve, reject) => {
                 secuential(parameters).then(res => resolve(res));
+            });
+        },
+
+        FilterQuotation: function (parameters) {
+            return new Promise((resolve, reject) => {
+                filterQuotation(parameters).then(res => resolve(res));
             });
         }
     }

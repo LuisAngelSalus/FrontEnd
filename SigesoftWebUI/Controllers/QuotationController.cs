@@ -19,6 +19,13 @@ namespace SigesoftWebUI.Controllers
             return View();
         }
 
+        public JsonResult Filter(ParamsQuotationFilterDto parameters)
+        {
+            var response = _quotationBL.Filter(parameters);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+
+        }
+
         public ActionResult Register(int id)
         {
             var response = _quotationBL.GetQuotation(id);
