@@ -171,6 +171,22 @@
         });
     }
 
+    var saveQuoteTracking = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/QuoteTracking/Save', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
 
     return {
         SaveCompany: function (parameters) {
@@ -240,6 +256,12 @@
         FilterQuotation: function (parameters) {
             return new Promise((resolve, reject) => {
                 filterQuotation(parameters).then(res => resolve(res));
+            });
+        },
+
+        SaveQuoteTracking: function (parameters) {
+            return new Promise((resolve, reject) => {
+                saveQuoteTracking(parameters).then(res => resolve(res));
             });
         }
     }

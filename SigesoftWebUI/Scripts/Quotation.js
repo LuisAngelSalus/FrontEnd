@@ -1,4 +1,5 @@
-﻿var obj = {};
+﻿
+var obj = {};
 $(document).ready(function () {
 
     if ($("#txtCompanyId").val() != 0) {
@@ -597,18 +598,22 @@ function APISaveQuotation() {
             console.log("DATA INSERT", data);
             swal("Correcto", "El nro de cotizacion es :" + res.Data.Code, "success");
             $("#spanCode").html(res.Data.Code);
-
+            
         });
     } else if (data.QuotationId > 0) {
         console.log("DATA UPDATE", data);
         APIController.UpdateQuotation(data).then((res) => {
-            swal("Correcto", "Cotización Actualizada", "success");          
+            swal("Correcto", "Cotización Actualizada", "success", function () {
+
+            });        
         });
     }  
+    //window.location.href = "/Quotation/Index/";
 }
 
 function GetNameCategory(id) {
     if (id == 1) {
+
         return "LABORATORIO"
     } else if (id == 2) {
         return "ODONTOLOGÍA"

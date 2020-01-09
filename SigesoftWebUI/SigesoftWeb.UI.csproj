@@ -125,6 +125,7 @@
     <Compile Include="Controllers\InfoSunatController.cs" />
     <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
+    <Compile Include="Controllers\QuoteTrackingController.cs" />
     <Compile Include="Controllers\SecuentialController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1077,6 +1078,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\InfoSunat\" />
     <Folder Include="Views\ProtocolProfile\" />
+    <Folder Include="Views\QuoteTracking\" />
     <Folder Include="Views\Secuential\" />
     <Folder Include="Views\Session\" />
   </ItemGroup>

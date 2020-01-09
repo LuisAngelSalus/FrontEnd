@@ -54,6 +54,7 @@
     <Compile Include="ProtocolProfileDto.cs" />
     <Compile Include="ProtocolProfileRegisterDto.cs" />
     <Compile Include="QuotationDto.cs" />
+    <Compile Include="QuoteTrackingRegisterDto.cs" />
     <Compile Include="SecuentialDto.cs" />
     <Compile Include="ValidatedAccessDto.cs" />
   </ItemGroup>

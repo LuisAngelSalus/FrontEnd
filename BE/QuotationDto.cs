@@ -178,7 +178,15 @@ namespace BE
         public string StatusName { get; set; }
         public string USDate { get; set; }
         public string TrackingDescription { get; set; }
+        public List<QuoteTrackingFilterDto> QuoteTrackings { get; set; }
     }
-    
+
+    public class QuoteTrackingFilterDto
+    {
+        public int QuoteTrackingId { get; set; }
+        public int QuotationId { get; set; }
+        public DateTime? Date { get; set; }
+        public string Commentary { get; set; }
+    }
     #endregion
 }

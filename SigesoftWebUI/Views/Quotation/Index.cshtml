@@ -1,89 +1,94 @@
-﻿
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Filtros </h4>
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <label for="txtRuc">RUC</label>
-                            <input type="text" class="form-control" id="txtRuc" maxlength="11" value="" autofocus>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="txtNroCotizacion">Nro Cotización</label>
-                            <input type="text" class="form-control" id="txtNroCotizacion"  value="" >
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="dtpEnd">Estado</label>
-                            <select class="form-control form-white select-Service" data-placeholder="Seleccione un estado..." id="ddlStatus">
-                                <option value="-1">--Todos--</option>
-                                <option value="1">Seguimiento</option>
-                                <option value="2">Aceptada</option>
-                                <option value="3">Descartada</option>
-                                <option value="3">En Creación</option>
-                            </select>
-                        </div>
+﻿<style>
+
+    .indicator {
+        text-align: center;
+    }
+</style>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Filtros </h4>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="txtRuc">RUC</label>
+                        <input type="text" class="form-control" id="txtRuc" maxlength="11" value="" autofocus>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <label for="dtpStart">Fecha Inicio</label>
-                            <input class="form-control" type="date" value="2011-08-19" id="dtpStart">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="dtpEnd">Fecha Fin</label>
-                            <input class="form-control" type="date" value="2011-08-19" id="dtpEnd">
-                        </div>
-                        
-                        <div class="form-group col-md-4">
-                            <label for="dtpEnd"></label>
-                            <input type="button"  class="btn btn-info btn-filter" value="Filtrar" />
-                        </div>
+                    <div class="form-group col-md-4">
+                        <label for="txtNroCotizacion">Nro Cotización</label>
+                        <input type="text" class="form-control" id="txtNroCotizacion" value="">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="dtpEnd">Estado</label>
+                        <select class="form-control form-white select-Service" data-placeholder="Seleccione un estado..." id="ddlStatus">
+                            <option value="-1">--Todos--</option>
+                            <option value="1">Seguimiento</option>
+                            <option value="2">Aceptada</option>
+                            <option value="3">Descartada</option>
+                            <option value="3">En Creación</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="dtpStart">Fecha Inicio</label>
+                        <input class="form-control" type="date" id="dtpStart">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="dtpEnd">Fecha Fin</label>
+                        <input class="form-control" type="date" id="dtpEnd">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="dtpEnd"></label>
+                        <input type="button" class="btn btn-info btn-filter" value="Filtrar" onclick="Filter()" />
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title"></h4>
-                    <div class="row">
-                        <div class="col-md-6 col-12">
-                            <canvas id="chart3" height="120"></canvas>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="table-responsive">
-                                <table class="table ">
-                                    <tr>
-                                        <td>Seguimiento</td>
-                                        <td>300</td>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"></h4>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <canvas id="chart3" height="120"></canvas>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="table-responsive">
+                            <table class="table ">
+                                <tr>
+                                    <td>Seguimiento</td>
+                                    <td>300</td>
 
-                                    </tr>
-                                    <tr>
-                                        <td>Aceptada</td>
-                                        <td>50</td>
+                                </tr>
+                                <tr>
+                                    <td>Aceptada</td>
+                                    <td>50</td>
 
-                                    </tr>
-                                    <tr>
-                                        <td>Descartada</td>
-                                        <td>50</td>
+                                </tr>
+                                <tr>
+                                    <td>Descartada</td>
+                                    <td>50</td>
 
-                                    </tr>
-                                    <tr>
-                                        <td>En creación</td>
-                                        <td>100</td>
-                                    </tr>                                    
-                                </table>
-                            </div>
+                                </tr>
+                                <tr>
+                                    <td>En creación</td>
+                                    <td>100</td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 
-<div class="card">                    
+<div class="card">
     <div class="card-body">
         <button onclick="location.href='@Url.Action("Register","Quotation", new { id = 0})'" class="btn btn-success waves-effect waves-light m-r-10">Crear  Cotización</button>
         <div class="table-responsive">
@@ -92,24 +97,45 @@
                     <tr>
                         <th>ID</th>
                         <th>Nro Propuesta</th>
-                        <th>F. Envio</th>
+                        @*<th>F. Envio</th>*@
                         <th>F. Aceptación</th>
                         <th>Empresa</th>
                         <th>Costo</th>
                         <th>Estado</th>
                         <th>F. US</th>
                         <th>Seguimiento</th>
-                        <th class="text-nowrap">Indicadores</th>
-                        <th class="text-nowrap">Action</th>
+                        <th class="text-nowrap">Indicador</th>
+                        <th class="text-nowrap">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tbody-filter-quotation">
-                   
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="TrackingModal" tabindex="-1" role="dialog" aria-labelledby="TrackingModalLabel1">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Registrar Seguimiento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <input type="hidden" id="txthiddenQuotation" />
+            <div class="modal-body" style="padding:0">                                    
+                <div class="form-group col-12">
+                    <label for="txtComentary">Comentario</label>
+                    <textarea type="text" class="form-control" id="txtComentary"></textarea>
+                </div>                                                           
+            </div>
+            <div class="modal-footer">
+                <button onclick="SaveTracking()" type="button" class="btn btn-warning" data-dismiss="modal">Grabar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- ============================================================== -->
 <!-- All Jquery -->
@@ -119,36 +145,13 @@
 <script src="~/assets/plugins/Chart.js/Chart.min.js"></script>
 
 <script>
+
     $(document).ready(function () {
-        var params = {
-            "NroQuotation": $("#txtNroCotizacion").val(),
-            "StartDate": $("#dtpStart").val(),
-            "EndDate": $("#dtpEnd").val(),
-            "CompanyName": $("#txtRuc").val(),
-        }
-        APIController.FilterQuotation(params).then((resp) => {
-            var content = "";
-            console.log("RESP", resp);
-            var data = resp.Data;
-            for (var i = 0; i < data.length; i++) {
-                content += "<tr>";
-                content += "<td>" + data[i].QuotationId + "</td>";
-                content += "<td>" + data[i].NroQuotation + "</td>";
-                content += "<td>" + data[i].ShippingDate + "</td>";
-                content += "<td>" + data[i].AcceptanceDate + "</td>";
-                content += "<td>" + data[i].CompanyName + "</td>";
-                content += "<td>" + data[i].Total + "</td>";
-                content += "<td>" + data[i].StatusName + "</td>";
-                content += "<td>" + data[i].USDate + "</td>";
-                content += "<td>" + data[i].TrackingDescription+"</td>";
-                content += "<td></td>";
-                content += "<td><a onclick='SSS("+data[i].QuotationId+")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
-                 @*<a href='@Url.Action('Detail','Company',new {id = @item.CompanyId })' data-toggle='tooltip' data-original-title='Edit'><i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a>*@
-                content += "</tr>";
-            }
-            $("#tbody-filter-quotation").append(content);
-        });
-            
+
+        loadDates();
+
+        Filter();
+
         var ctx3 = document.getElementById("chart3").getContext("2d");
         var data3 = [
             {
@@ -190,42 +193,90 @@
             responsive: true
         });
 
-        $('#table').dataTable({
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-
     });
 
-    function SSS(id) {        
+    function edit(id) {
         console.log(id);
         var url = '@Url.Action("Register", "Quotation", new { id = "js-id" })'
             .replace("js-id", encodeURIComponent(id));
 
         location.href = url;
     }
+
+    function Filter() {
+        $("#tbody-filter-quotation").empty();
+        var params = {
+            "NroQuotation": $("#txtNroCotizacion").val(),
+            "StartDate": $("#dtpStart").val(),
+            "EndDate": $("#dtpEnd").val(),
+            "CompanyName": $("#txtRuc").val(),
+        }
+
+        APIController.FilterQuotation(params).then((resp) => {
+            $(".odd").remove();
+            var content = "";
+            var data = resp.Data;
+            console.log("FILTER", data);
+            for (var i = 0; i < data.length; i++) {
+                content += "<tr>";
+                content += "<td>" + data[i].QuotationId + "</td>";
+                content += "<td>" + data[i].NroQuotation + "</td>";
+                //content += "<td>" + data[i].ShippingDate + "</td>";
+                content += "<td>" + data[i].AcceptanceDate + "</td>";
+                content += "<td>" + data[i].CompanyName + "</td>";
+                content += "<td>" + data[i].Total + "</td>";
+                content += "<td>" + data[i].StatusName + "</td>";
+                content += "<td>" + data[i].USDate + "</td>";
+                content += "<td>" + data[i].TrackingDescription+"</td>";
+                content += "<td class='indicator'><i class='fa fa-circle waves-effect waves-light'></i></td>";
+                content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a><a onclick='AddTracking("+data[i].QuotationId+")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-phone btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "</tr>";
+            }
+            $("#tbody-filter-quotation").append(content);
+        });
+    }
+
+    function loadDates() {
+        // body...
+        var today = new Date();
+        var lastDay = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd<10){
+            dd='0'+dd;
+        }
+        if(mm<10){
+            mm='0'+mm;
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        var mmLast = lastDay.getMonth() + 2; //January is 0!
+        today = yyyy + '-01-01';
+        lastDay = yyyy + '-01-31';
+
+        document.getElementById("dtpStart").defaultValue = today + "";
+        document.getElementById("dtpEnd").defaultValue =lastDay+"";
+    }
+
+    function AddTracking(id) {
+        $("#TrackingModal").modal("show");
+        $("#txthiddenQuotation").val(id);
+    }
+
+    function SaveTracking() {
+        var params = {
+            "QuotationId":$("#txthiddenQuotation").val(),
+            "Commentary": $("#txtComentary").val(),
+            "InsertUserId": 1
+        }
+        APIController.SaveQuoteTracking(params).then((resp) => {
+            console.log("DATA", resp);
+
+        });
+    }
+
 </script>
 
 
