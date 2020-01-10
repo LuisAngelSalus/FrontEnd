@@ -115,11 +115,11 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>RecordType</th>
-                    <th>RecordStatus</th>
+                    <th style="display:none">RecordType</th>
+                    <th style="display:none">RecordStatus</th>
                     <th style="display:none">ProfileId</th>
                     <th>PERFIL</th>
-                    <th>SERVICIO</th>
+                    <th>TIPO EMO</th>
                     <th class="col-center">CANTIDAD</th>
                     <th class="col-center">SUBTOTAL</th>
                     <th class="col-center">ID</th>
@@ -132,8 +132,8 @@
                 {
                 <tr id="perfil-@profile.QuotationProfileId" class="parent">
                     <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
-                    <td class="RecordType">@profile.RecordType</td>
-                    <td class="RecordStatus">@profile.RecordStatus</td>
+                    <td  style="display:none" class="RecordType">@profile.RecordType</td>
+                    <td style="display:none" class="RecordStatus">@profile.RecordStatus</td>
                     <td style="display:none" class="profileId">@profile.ProfileId</td>
                     <td><input class="form-control input-perfil" type="text" value="@profile.ProfileName" /></td>
                     <td>
@@ -156,8 +156,8 @@
                                 <thead>
                                     <tr>
                                         <th></th>                                        
-                                        <th>RecordType</th>
-                                        <th>RecordStatus</th>
+                                        <th  style="display:none">RecordType</th>
+                                        <th  style="display:none">RecordStatus</th>
                                         <th>EXAMENES - PERFIL</th>
                                         <th class="col-center">PRECIO MÍNIMO</th>
                                         <th class="col-center">PRECIO LISTA</th>
@@ -178,18 +178,18 @@
                                                     <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName')"></i></td>
                                                     
                                                     <td colspan="6">@profile.ProfileComponents[i].CategoryName</td>
-                                                    <td class="col-center"></td>
+                                                    <td  style="display:none" class="col-center"></td>
                                                 </tr>
                                                 i--;
                                             }
                                             else
                                             {
                                                 <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
-                                                    <td>@profile.ProfileComponents[i].ProfileComponentId</td>
+                                                    <td style="color:white" >@profile.ProfileComponents[i].ProfileComponentId</td>
                                                     <td style="display:none">@profile.ProfileComponents[i].CategoryId</td>
                                                     <td style="display:none">@profile.ProfileComponents[i].ComponentId</td>
-                                                    <td class="RecordType">@profile.ProfileComponents[i].RecordType</td>
-                                                    <td class="RecordStatus">@profile.ProfileComponents[i].RecordStatus</td>
+                                                    <td  style="display:none" class="RecordType">@profile.ProfileComponents[i].RecordType</td>
+                                                    <td  style="display:none" class="RecordStatus">@profile.ProfileComponents[i].RecordStatus</td>
                                                     <td>@profile.ProfileComponents[i].ComponentName</td>
                                                     <td class="col-center">@profile.ProfileComponents[i].MinPrice</td>
                                                     <td class="col-center">@profile.ProfileComponents[i].PriceList</td>

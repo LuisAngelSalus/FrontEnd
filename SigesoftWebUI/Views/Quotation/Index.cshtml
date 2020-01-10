@@ -104,7 +104,7 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>ID</th>
+                        <th style="display:none">ID</th>
                         <th>Nro Propuesta</th>
                         <th>F. Aceptación</th>
                         <th>Empresa</th>
@@ -133,6 +133,7 @@
             <input type="hidden" id="txthiddenQuotationTracking" value="0" />
             <input type="hidden" id="txthiddenQuotation" value="0" />
             <input type="hidden" id="txthiddentxtDate" value="0" />
+            <input type="hidden" id="txthiddenStatusQuotationId" value="0" />
             <div class="modal-body" style="padding:0">
                 <div class="form-group col-12">
                     <label for="txtComentary">Comentario</label>
@@ -161,6 +162,14 @@
         loadDates();
 
         Filter();    
+        
+        $('#tbody-filter-quotation').on('change', '.select-StatusQuotation', function (event) {            
+            let quotationId = event.target.id.split('-')[1];         
+            let id = event.target.id;            
+            let StatusQuotationId = $("#" + id + " option:selected").val();   
+            $("#txthiddenStatusQuotationId").val(StatusQuotationId);
+            AddTracking(quotationId);
+        });
 
     });
 
@@ -178,23 +187,36 @@
             "StartDate": $("#dtpStart").val(),
             "EndDate": $("#dtpEnd").val(),
             "CompanyName": $("#txtRuc").val(),
+            "StatusQuotationId": $("#ddlStatus option:selected").val()             
         }
 
         APIController.FilterQuotation(params).then((resp) => {
             $(".odd").remove();
             var content = "";
             var data = resp.Data;
-            console.log("data", data);
             for (let i = 0; i < data.length; i++) {
                 var quotationId = data[i].QuotationId;
                 content += "<tr id='track-"+quotationId+"'>";
                 content += "<td><i class='fa fa-plus text-inverse' onclick=show('track-" + quotationId + "')></i></td>";
-                content += "<td>" + quotationId + "</td>";
+                content += "<td style='display:none'>" + quotationId + "</td>";
                 content += "<td>" + data[i].NroQuotation + "</td>";
                 content += "<td>" + data[i].AcceptanceDate + "</td>";
                 content += "<td>" + data[i].CompanyName + "</td>";
                 content += "<td>" + data[i].Total + "</td>";
-                content += "<td>" + data[i].StatusQuotationName + "</td>";
+
+                content += "<td>";
+
+
+                content += "<select class='form-control form-white select-StatusQuotation' data-placeholder='Seleccione un estado...' id='ddlStatusQuotation-"+quotationId+"'>";  
+                //content += "<option value='-1' "+ selected(-1,data[i].StatusQuotationId)+"></option>";  
+                content += "<option value='1' "+selected(1,data[i].StatusQuotationId)+">Seguimiento</option>";  
+                content += "<option value='2' "+selected(2,data[i].StatusQuotationId)+">Aceptada</option>";  
+                content += "<option value='3' "+selected(3,data[i].StatusQuotationId)+">Descartada</option>";  
+                content += "</select>";  
+
+
+                content += "</td>";
+
                 content += "<td>" + data[i].USDate + "</td>";
                 content += "<td>" + data[i].TrackingDescription+"</td>";
                 content += "<td class='indicator'><i class='fa fa-circle waves-effect waves-light'></i></td>";
@@ -204,12 +226,11 @@
                 content += "<tr style='display:none' class='track-"+quotationId+"'>";
                 content += "<td colspan='10'>";
 
-
                 content += "<div class='table-responsive' id='table-Tracking-"+quotationId+"'>"
                 content += "<table id='table-tracking' class='table color-table muted-table'>";
                 content += "<thead>";
                 content += "<tr>";
-                content += "<th>ID</th>";
+                content += "<th style='display:none'>ID</th>";
                 content += "<th>Fecha</th>";
                 content += "<th>Comentario</th>";
                 content += "<th class='text-nowrap'></th>";
@@ -220,7 +241,7 @@
                 for (var ii = 0; ii < detail.length; ii++) {                   
 
                     content += "<tr id='tr-"+detail[ii].QuoteTrackingId+"'>";
-                    content += "<td>" + detail[ii].QuoteTrackingId + "</td>";
+                    content += "<td  style='display:none'>" + detail[ii].QuoteTrackingId + "</td>";
                     content += "<td>" + GetDateFormat(detail[ii].Date) + "</td>";
                     content += "<td>" + detail[ii].Commentary + "</td>";                                        
                     content += "<td style='width:80px'><div class='btn-list'><a onclick='EditTracking(" + detail[ii].QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></div></td>";
@@ -236,9 +257,7 @@
 
 
             }
-            $("#tbody-filter-quotation").append(content);
-
-            
+            $("#tbody-filter-quotation").append(content);            
             StatisticalGraph(data);
         });
     }
@@ -285,15 +304,18 @@
             APIController.SaveQuoteTracking(params).then((resp) => {
                 var data = resp.Data;
                 let content = "";
-                //content += "<tr>";
                 content += "<tr id='tr-"+data.QuoteTrackingId+"'>";
-                content += "<td>" + data.QuoteTrackingId + "</td>";
+                content += "<td  style='display:none'>" + data.QuoteTrackingId + "</td>";
                 content += "<td>" + GetDateFormat(data.Date) + "</td>";
                 content += "<td>" + data.Commentary + "</td>";
                 content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "</tr>";
 
                 $("#tbody-Tracking-" + data.QuotationId).append(content);
+
+                APIController.UpdateQuotation({"QuotationId": $("#txthiddenQuotation").val(), "StatusQuotationId": $("#txthiddenStatusQuotationId").val()}).then((res) => {
+                    Filter();
+                });
 
                 ClearPoupTracking();
             });
@@ -409,28 +431,30 @@
             responsive: true
         });
     }
-
     
-function show(value) {
-        
-    var td = $($("#" + value + " td")[0]).find("i");
-    console.log("CA",td,value);
-    let pClass = '.' + value;
+    function show(value) {        
+        var td = $($("#" + value + " td")[0]).find("i");        
+        let pClass = '.' + value;
     
-    if ($(pClass).css("display") == "none") {           
-        $(pClass).fadeIn(1000);
-        $(pClass).show();
-        td.addClass('fa-minus');
-        td.removeClass('fa-plus');
+        if ($(pClass).css("display") == "none") {           
+            $(pClass).fadeIn(1000);
+            $(pClass).show();
+            td.addClass('fa-minus');
+            td.removeClass('fa-plus');
+        }
+        else {
+            $(pClass).hide();
+            td.removeClass('fa-minus');
+            td.addClass('fa-plus');
+        }
     }
-    else {
-        $(pClass).hide();
-        td.removeClass('fa-minus');
-        td.addClass('fa-plus');
+    
+    function selected(value, id) {
+        if (value == id) {
+            return 'selected';
+        }
+        return '';
     }
-}
-
-
 </script>
 
 

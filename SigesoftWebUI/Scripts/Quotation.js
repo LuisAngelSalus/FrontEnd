@@ -3,14 +3,14 @@ var obj = {};
 $(document).ready(function () {
 
     if ($("#txtQuotationId").val() != 0) {
-        console.log("SI");
-        $(".select-StatusQuotation").attr("disabled", false);            
+        $(".select-StatusQuotation").attr("disabled", false);
+    } else {        
+        $('#ddlStatusQuotation option[value=1]').attr('selected', 'selected');
     }
 
     if ($("#txtCompanyId").val() != 0) {
         SearchCompany($("#txtRuc").val());        
     }
-
 
     CalculateTotals();
     $('.table-main').on('change paste keyup', '.salePrice', function (e) {
@@ -312,8 +312,8 @@ function AddProfile() {
     var content = "";
     content += "<tr id='" + idPerfil + "' class='parent'>";
     content += "<td><i class='fa fa-plus text-inverse m-r-10' onclick=show('" + idPerfil + "')></i></td>";
-    content += "<td class='RecordType'>TEMPORAL</td>";
-    content += "<td class='RecordStatus'>AGREGADO</td>";
+    content += "<td style='display:none' class='RecordType'>TEMPORAL</td>";
+    content += "<td style='display:none' class='RecordStatus'>AGREGADO</td>";
     content += "<td class='profileId' style='display:none'>" + data.profileId + "</td>";
     
     content += "<td><input class='form-control input-perfil' type='text' value='"+data.profileName+"' /></td>";
@@ -342,8 +342,8 @@ function AddProfile() {
     content += "<th></th>";
     content += "<th style='display:none'>CatId</th>";
     content += "<th style='display:none'>CompId</th>";
-    content += "<th>RecordType</th>";
-    content += "<th>RecordStatus</th>";
+    content += "<th style='display:none'>RecordType</th>";
+    content += "<th style='display:none'>RecordStatus</th>";
     content += "<th>EXAMENES - PERFIL</th>";
     content += "<th class='col-center'>PRECIO MÍNIMO</th>";
     content += "<th class='col-center'>PRECIO LISTA</th>";
@@ -369,12 +369,12 @@ function AddProfile() {
             i--;
         } else {
             content += "<tr class=" + quotationProfileId + "-" + cateName + ">";
-            content += "<td>" + components[i].profileComponentId     + "</td>";
+            content += "<td style='color:white'>" + components[i].profileComponentId     + "</td>";
 
             content += "<td style='display:none'>" + components[i].categoryId + "</td>";
             content += "<td style='display:none'>" + components[i].componentId + "</td>";
-            content += "<td class='RecordType'>TEMPORAL</td>";
-            content += "<td class='RecordStatus'>AGREGADO</td>";
+            content += "<td style='display:none'class='RecordType'>TEMPORAL</td>";
+            content += "<td style='display:none'class='RecordStatus'>AGREGADO</td>";
             content += "<td>" + components[i].componentName + "</td>";
             content += "<td class='col-center'>" + components[i].minPrice + "</td>";
             content += "<td class='col-center'>" + components[i].listPrice + "</td>";
@@ -616,7 +616,6 @@ function APISaveQuotation() {
             });        
         });
     }  
-    //window.location.href = "/Quotation/Index/";
 }
 
 function GetNameCategory(id) {
