@@ -21,8 +21,32 @@ namespace BL
                 {
                     obj = new JavaScriptSerializer().Deserialize<Response<QuoteTrackingRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);
                 }
-                return obj;
-            
+                return obj;            
+        }
+
+        public Response<ListQuoteTrackingDto> Update(QuoteTrackingUpdateDto data)
+        {
+            Response<ListQuoteTrackingDto> obj = null;
+
+            var hCliente = _global.rspClientPUT("QuoteTracking/"+ data.QuoteTrackingId, data);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<ListQuoteTrackingDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
+        public Response<ListQuoteTrackingDto> GetQuoteTracking(int id)
+        {
+            Response<ListQuoteTrackingDto> obj = null;
+
+            var hCliente = _global.rspClientGET("QuoteTracking/"+id);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<ListQuoteTrackingDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+
         }
 
     }

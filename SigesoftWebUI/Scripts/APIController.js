@@ -188,6 +188,37 @@
 
     }
 
+    var updateQuoteTracking = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/QuoteTracking/Update', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
+    var quotationtracking = function (id) {
+        return new Promise((resolve, reject) => {
+            let url = '/QuoteTracking/GetQuoteTracking?id=' + id
+            fetch(url, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -263,7 +294,18 @@
             return new Promise((resolve, reject) => {
                 saveQuoteTracking(parameters).then(res => resolve(res));
             });
-        }
+        },
+
+        GetQuotationtracking: function (id) {
+            return new Promise((resolve, reject) => {
+                quotationtracking(id).then(res => resolve(res));
+            });
+        },
+        UpdateQuoteTracking: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateQuoteTracking(parameters).then(res => resolve(res));
+            });
+        },
     }
 
 })();

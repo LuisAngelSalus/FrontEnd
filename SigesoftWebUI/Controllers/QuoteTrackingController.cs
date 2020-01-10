@@ -19,5 +19,20 @@ namespace SigesoftWebUI.Controllers
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
+
+        public JsonResult Update(QuoteTrackingUpdateDto data)
+        {
+            var response = _quoteTrackingBL.Update(data);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetQuoteTracking(int id)
+        {            
+            var response = _quoteTrackingBL.GetQuoteTracking(id);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 }

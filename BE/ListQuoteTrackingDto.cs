@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-   public class QuoteTrackingRegisterDto
+   public class ListQuoteTrackingDto
     {
         public int QuoteTrackingId { get; set; }
         public int QuotationId { get; set; }
         public DateTime? Date { get; set; }
         public string Commentary { get; set; }
-        public int InsertUserId { get; set; }
     }
 }

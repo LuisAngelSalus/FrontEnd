@@ -550,6 +550,8 @@ function APISaveQuotation() {
         "CommercialTerms": $("#txtCommercialTerms").val(),
         "UserCreatedId":4,
         "InsertUserId": 4,
+        "TotalQuotation": $(".Total").html(),
+        "StatusQuotationId":1,
         "QuotationProfiles": []
     }
 
@@ -593,7 +595,8 @@ function APISaveQuotation() {
             data.QuotationProfiles.push(oQuotationProfile);
         }
     });
-    if (data.QuotationId ==0) {
+    if (data.QuotationId == 0) {
+        console.log("INSERT", data);
         APIController.SaveQuotation(data).then((res) => {
             console.log("DATA INSERT", data);
             swal("Correcto", "El nro de cotizacion es :" + res.Data.Code, "success");

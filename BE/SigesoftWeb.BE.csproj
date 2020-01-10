@@ -48,6 +48,7 @@
     <Compile Include="InfoDto.cs" />
     <Compile Include="ListCompanyContactDto.cs" />
     <Compile Include="ListCompanyDto.cs" />
+    <Compile Include="ListQuoteTrackingDto.cs" />
     <Compile Include="ListSystemUserDto.cs" />
     <Compile Include="LoginDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="ProtocolProfileRegisterDto.cs" />
     <Compile Include="QuotationDto.cs" />
     <Compile Include="QuoteTrackingRegisterDto.cs" />
+    <Compile Include="QuoteTrackingUpdateDto.cs" />
     <Compile Include="SecuentialDto.cs" />
     <Compile Include="ValidatedAccessDto.cs" />
   </ItemGroup>
