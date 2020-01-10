@@ -27,6 +27,7 @@ namespace BE
         public string FullName { get; set; }
         public string Email { get; set; }
         public string CommercialTerms { get; set; }
+        public int? StatusQuotationId { get; set; }
         public int? InsertUserId { get; set; }
         public List<QuotationProfileDto> QuotationProfiles { get; set; }
     }

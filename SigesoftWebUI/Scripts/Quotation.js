@@ -2,10 +2,15 @@
 var obj = {};
 $(document).ready(function () {
 
-    if ($("#txtCompanyId").val() != 0) {
-        SearchCompany($("#txtRuc").val());
-        
+    if ($("#txtQuotationId").val() != 0) {
+        console.log("SI");
+        $(".select-StatusQuotation").attr("disabled", false);            
     }
+
+    if ($("#txtCompanyId").val() != 0) {
+        SearchCompany($("#txtRuc").val());        
+    }
+
 
     CalculateTotals();
     $('.table-main').on('change paste keyup', '.salePrice', function (e) {
@@ -551,7 +556,7 @@ function APISaveQuotation() {
         "UserCreatedId":4,
         "InsertUserId": 4,
         "TotalQuotation": $(".Total").html(),
-        "StatusQuotationId":1,
+        "StatusQuotationId": $(".select-StatusQuotation option:selected").val(),
         "QuotationProfiles": []
     }
 
@@ -596,15 +601,15 @@ function APISaveQuotation() {
         }
     });
     if (data.QuotationId == 0) {
-        console.log("INSERT", data);
         APIController.SaveQuotation(data).then((res) => {
-            console.log("DATA INSERT", data);
-            swal("Correcto", "El nro de cotizacion es :" + res.Data.Code, "success");
-            $("#spanCode").html(res.Data.Code);
-            
+            swal({ title: "Correcto", text: "El nro de cotizacion es :" + res.Data.Code, type: "success" },
+                function () {
+                    $("#spanCode").html(res.Data.Code);
+                    window.location.href = "/Quotation/Index/";
+                });
         });
+              
     } else if (data.QuotationId > 0) {
-        console.log("DATA UPDATE", data);
         APIController.UpdateQuotation(data).then((res) => {
             swal("Correcto", "Cotización Actualizada", "success", function () {
 

@@ -9,10 +9,12 @@
     var validateRuc = validateInput("txtRuc", "Ruc requerido");
     var validateFullName = validateInput("txtFullName", "Primer Contacto requerido");
     var validateEmail = validateInput("txtEmail", "Email requerido");
+    var validateHeadquarter = validateddlHeadquarter("ddlSede","Sede requerida"); 
+    console.log("validateHeadquarter", validateHeadquarter);
     var validateTableQuotation = ValidateTableQuotation();
-    console.log("SSSs", validateTableQuotation);
+    
     //II)Retornar resultado de validación
-    if (validateRuc && validateFullName && validateEmail && validateTableQuotation) {       
+    if (validateRuc && validateFullName && validateEmail && validateTableQuotation && validateHeadquarter) {       
         return true;
     } else {   
         return false;
@@ -72,3 +74,12 @@ function ValidateTable(tbodyId) {
         
     }
 } 
+
+function validateddlHeadquarter(element,message) {    
+    var val = $("#" + element+" option:selected").val();    
+    if (val == undefined) {       
+        newAlert(element, "VALIDACIÓN", message);
+        return false;
+    }
+    return true;
+}

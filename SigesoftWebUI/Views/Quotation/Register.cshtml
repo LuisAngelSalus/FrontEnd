@@ -11,6 +11,7 @@
     string FullName = "";
     string Email = "";
     string CommercialTerms = "";
+    int StatusQuotationId = -1;
     if (ViewBag.DataQuotation != null)
     {
         QuotationId = ViewBag.DataQuotation.QuotationId;
@@ -25,6 +26,7 @@
         FullName = ViewBag.DataQuotation.FullName;
         Email = ViewBag.DataQuotation.Email;
         CommercialTerms = ViewBag.DataQuotation.CommercialTerms;
+        StatusQuotationId = ViewBag.DataQuotation.StatusQuotationId == null ? -1 :ViewBag.DataQuotation.StatusQuotationId;
     }
 }
 
@@ -84,6 +86,15 @@
                         <div class="form-group col-md-4">
                             <label for="txtEmail">Correo</label>
                             <input type="email" class="form-control" id="txtEmail" maxlength="150" value="@Email" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="ddlStatusQuotation">Estado Cotización</label>
+                            <select class="form-control form-white select-StatusQuotation" data-placeholder="Seleccione un estado..." id="ddlStatusQuotation" disabled>  
+                                <option value="-1" @(@StatusQuotationId== -1 ? "selected" : "")></option>
+                                <option value="1" @(@StatusQuotationId == 1 ? "selected" : "")>Seguimiento</option>
+                                <option value="2" @(@StatusQuotationId == 2 ? "selected" : "")>Aceptada</option>
+                                <option value="3" @(@StatusQuotationId == 3 ? "selected" : "")>Descartada</option>
+                            </select>
                         </div>
                     </div>
                     
