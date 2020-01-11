@@ -5,110 +5,156 @@
     {
         companyId = ViewBag.Detail.CompanyId;
     }
-
 }
 
 <link rel="stylesheet" href="~/assets/plugins/dropify/dist/css/dropify.min.css">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card mb-2">
+            <div class="card-body pt-2 pb-2">
+                <h3 class="box-title m-b-0 text-center">Información de Empresa</h3>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
-
-    <div class="col-md-6">
-        <div class="card card-body">
-            <h3 class="box-title m-b-0">Información de Empresa</h3>
-            <div class="row">
-                <div class="col-sm-12 col-xs-12">
-                    <form>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row pb-2">
+                    <div class="col">
                         <div class="form-group">
                             <label for="txtIdentificationNumber">RUC<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="txtIdentificationNumber" value="@ViewBag.Detail.IdentificationNumber" placeholder="Ingresar RUC">
+                            <input type="text" class="form-control" id="txtIdentificationNumber" value="@ViewBag.Detail.IdentificationNumber" placeholder="Ingresar RUC" maxlength="11" required pattern="[0-9]+">
                         </div>
                         <div class="form-group">
                             <label for="txtCompanyName">Empresa<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="txtCompanyName" value="@ViewBag.Detail.Name" placeholder="Ingresar Nombre Empresa">
                         </div>
+                    </div>
+                    <div class="col">
+                        <div class="card-body m-0 p-0">
+                            <input type="file" id="input-file-now" class="dropify" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
                             <label for="txtAddress">Dirección<span class="text-danger"></span></label>
                             <input type="text" class="form-control" id="txtAddress" value="@ViewBag.Detail.Address" placeholder="Ingresar Dirección">
                         </div>
-                        <div class="form-group">
-                            <label for="txtDistric">Distrito<span class="text-danger"></span></label>
-                            <input type="text" class="form-control" id="txtDistrict" value="@ViewBag.Detail.District" placeholder="Ingresar Teléfono">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="txtDistric">Distrito<span class="text-danger"></span></label>
+                                    <input type="text" class="form-control" id="txtDistrict" value="@ViewBag.Detail.District" placeholder="Ingresar Distrito">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="txtPhoneCompany">Teléfono Empresa<span class="text-danger"></span></label>
+                                    <input type="tel" class="form-control" id="txtPhoneCompany" value="@ViewBag.Detail.PhoneCompany" placeholder="Ingresar Teléfono">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="txtPhoneCompany">Teléfono Empresa<span class="text-danger"></span></label>
-                            <input type="tel" class="form-control" id="txtPhoneCompany" value="@ViewBag.Detail.PhoneCompany" placeholder="Ingresar Teléfono">
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="txtContactName">Contacto<span class="text-danger"></span></label>
+                                    <input type="text" class="form-control" id="txtContactName" value="@ViewBag.Detail.ContactName" placeholder="Ingresar Contacto">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="txtContactName">Contacto<span class="text-danger"></span></label>
-                            <input type="text" class="form-control" id="txtContactName" value="@ViewBag.Detail.ContactName" placeholder="Ingresar Contacto">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group mb-2">
+                                    <label for="txtPhoneNumber">Teléfono Contacto<span class="text-danger"></span></label>
+                                    <input type="tel" class="form-control" id="txtPhoneNumber" value="@ViewBag.Detail.PhoneNumber" placeholder="Ingresar Teléfono">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group mb-2">
+                                    <label for="txtEmail">Email<span class="text-danger"></span></label>
+                                    <input type="text" class="form-control" id="txtMail" value="@ViewBag.Detail.Mail" placeholder="Ingresar Email">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="txtPhoneNumber">Teléfono Contacto<span class="text-danger"></span></label>
-                            <input type="tel" class="form-control" id="txtPhoneNumber" value="@ViewBag.Detail.PhoneNumber" placeholder="Ingresar Teléfono">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-lg-12 col-xlg-2">
+                            <div class="card">
+                                <button type="button" id="btnNewHeadquarter" class="btn waves-effect waves-light btn-outline-primary">Nueva Sede</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="txtEmail">Email<span class="text-danger"></span></label>
-                            <input type="text" class="form-control" id="txtMail" value="@ViewBag.Detail.Mail" placeholder="Ingresar Email">
+
+                        <div class="table-responsive table-headquarter">
+                            <table id="mainTable" class="table editable-table table-bordered table-striped m-b-0">
+                                <thead>
+                                    <tr>
+                                        @*<th>RecordType</th>
+                                <th>RecordStatus</th>*@
+                                        <th>Sede</th>
+                                        <th>Dirección</th>
+                                        <th>Teléfono</th>
+                                        <th class="text-nowrap">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.Detail.companyHeadquarter)
+                                    {
+                                        <tr>
+                                            <td style="display:none" class="RecordType">@item.RecordType</td>
+                                            <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
+                                            <td style="display:none">@item.CompanyHeadquarterId</td>
+                                            <td class="disableTd">@item.Name</td>
+                                            <td class="disableTd"> @item.Address</td>
+                                            <td class="disableTd"> @item.PhoneNumber</td>
+                                            <td class="disableBtn text-nowrap">
+                                                <i id="edit-@item.CompanyHeadquarterId" class="btnEdit fa fa-pencil text-inverse m-r-10"></i>
+                                                <i id="delete-@item.CompanyHeadquarterId" class="btnDelete fa fa-close text-danger"></i>
+                                            </td>
+                                            <td style="display:none">@item.CompanyId</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
-                    </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-6 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Adjuntar Logo de Empresa</h4>
-                <input type="file" id="input-file-now" class="dropify" />
-            </div>
-        </div>
-    </div>
 
 </div>
-<div class="card">
-    <div class="card-body">
-        <div class="col-lg-12 col-xlg-2">
-            <div class="card">
-                <button type="button" id="btnNewHeadquarter" class="btn waves-effect waves-light btn-outline-primary">Nueva Sede</button>
-            </div>
-        </div>
 
-        <div class="table-responsive table-headquarter">
-            <table id="mainTable" class="table editable-table table-bordered table-striped m-b-0">
-                <thead>
-                    <tr>
-                        @*<th>RecordType</th>
-                            <th>RecordStatus</th>*@
-                        <th>Sede</th>
-                        <th>Dirección</th>
-                        <th>Teléfono</th>
-                        <th class="text-nowrap">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in ViewBag.Detail.companyHeadquarter)
-                    {
-                        <tr>
-                            <td style="display:none" class="RecordType">@item.RecordType</td>
-                            <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
-                            <td style="display:none">@item.CompanyHeadquarterId</td>
-                            <td class="disableTd">@item.Name</td>
-                            <td class="disableTd"> @item.Address</td>
-                            <td class="disableTd"> @item.PhoneNumber</td>
-                            <td class="disableBtn text-nowrap">
-                                <i id="edit-@item.CompanyHeadquarterId" class="btnEdit fa fa-pencil text-inverse m-r-10"></i>
-                                <i id="delete-@item.CompanyHeadquarterId" class="btnDelete fa fa-close text-danger"></i>
-                            </td>
-                            <td style="display:none">@item.CompanyId</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-</div>
 <div class="row">
     <div class="col-md-6">
         <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">Grabar Empresa</button>
@@ -129,19 +175,26 @@
 <!-- ============================================================== -->
 <!-- jQuery file upload -->
 <script src="~/assets/plugins/dropify/dist/js/dropify.min.js"></script>
-<script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.0/dist/bootstrap-validate.js"></script>    
+<script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.0/dist/bootstrap-validate.js"></script>
 
 <script>
 
-    bootstrapValidate('#txtMail','email:Ingrese un email correcto');
+    bootstrapValidate('#txtMail', 'email:Ingrese un email correcto');
     bootstrapValidate('#txtIdentificationNumber', 'required:Campo requerido');
     bootstrapValidate('#txtIdentificationNumber', 'max:11:Máximo 11 caracteres');
-    bootstrapValidate('#txtIdentificationNumber','integer:solo números');
-    
+    bootstrapValidate('#txtIdentificationNumber', 'integer:solo números');
+
 </script>
 <script>
     $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
-    $('.dropify').dropify();
+    $('.dropify').dropify({
+        messages: {
+            'default': 'Arrastar y Soltar logo de la empresa',
+            'replace': 'Arrastar y Soltar para reemplazar',
+            'remove':  'Remover',
+            'error':   'Ups, Ocurrió un problema.'
+        }
+    });
     $(document).ready(function () {
 
         $(".disableBtn").removeAttr("tabindex");

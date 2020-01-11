@@ -1,48 +1,96 @@
-﻿
+﻿<style>
+    #tableOrganizations_wrapper {
+        font-size: 12px;
+    }
+
+    #tableOrganizations tbody tr td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        vertical-align: middle;
+    }
+
+    .cancelBtn{
+        display:none;
+    }
+</style>
+
+<div class="card mb-2">
+    <div class="card-body pt-2 pb-2">
+        <h3 class="card-title">Listado de Empresas</h3>
+        <h5 class="card-subtitle mb-0">Mantenimiento de Empresas</h5>
+    </div>
+</div>
+
 <div class="card">
+
     <div class="card-body">
-        <h4 class="card-title">Listado de Empresas</h4>
-        <h6 class="card-subtitle">Mantenimiento de Empresas</h6>
-        <div class="table-responsive m-t-40">
-            <table id="tableOrganizations" class="table table-bordered table-striped">
-                <thead>
+        <div class="row">
+            <div class="col">
+                <div class="card-body m-0 p-0">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group mb-0">
+                                <label>Empresa</label>
+                                <input type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group mb-0">
+                                <label>Fecha</label>
+                                <input class="form-control input-daterange-datepicker" type="text" name="daterange" value="01/01/2015 - 01/31/2015" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card-body m-0 p-0" style="padding-top: 32px !important;">
+                                <button class="btn btn-secondary waves-effect waves-light">Buscar</button>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="card-body m-0 p-0 text-right" style="padding-top: 32px !important;">
+                                <button onclick="location.href='@Url.Action("Detail","Company",new {id = 0})'" class="btn btn-success waves-effect waves-light m-r-10">Registrar Empresa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive m-t-20">
+            <table id="tableOrganizations" class="table table-bordered table-hover">
+                <thead class="table-info">
                     <tr>
-                        <th>Empresa</th>
+                        <th>EMPRESA</th>
                         <th>RUC</th>
-                        <th>Dirección</th>
-                        <th>Teléfono</th>
-                        <th>Nombre Contacto</th>
-                        <th>Email</th>
-                        <th class="text-nowrap">Action</th>
+                        <th>DIRECCIÓN</th>
+                        <th>TELEFONO</th>
+                        <th>NOMBRE CONTACTO</th>
+                        <th>EMAIL</th>
+                        <th class="text-nowrap">&ensp;</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     @foreach (var item in ViewBag.data)
                     {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@item.IdentificationNumber</td>
-                        <td>@item.Address</td>
-                        <td>@item.PhoneNumber</td>
-                        <td>@item.ContactName</td>
-                        <td>@item.Mail</td>
-                        <td class="text-nowrap">
-                            <div class="btn-list">
-                                <a class="" href="#" data-toggle="tooltip" data-original-title="Contactos"> <i onclick="Ver(@item.CompanyId)" class="fa fa-user btn waves-effect waves-light btn-primary"></i></a>
-                                <a class="" href="@Url.Action("Detail","Company",new {id = @item.CompanyId })" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil btn waves-effect waves-light btn-secondary"></i></a>
-                                <a class="" href="#" data-toggle="tooltip" data-original-title="Close"><i class="fa fa-close btn waves-effect waves-light btn-danger"></i></a>
-                            </div>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.IdentificationNumber</td>
+                            <td>@item.Address</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>@item.ContactName</td>
+                            <td>@item.Mail</td>
+                            <td class="text-nowrap text-right">
+                                <div class="btn-list">
+                                    <a class="" href="#" data-toggle="tooltip" data-original-title="Contactos"> <i onclick="Ver(@item.CompanyId)" class="fa fa-user btn waves-effect waves-light btn-primary"></i></a>
+                                    <a class="" href="@Url.Action("Detail","Company",new {id = @item.CompanyId })" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil btn waves-effect waves-light btn-secondary"></i></a>
+                                    @*<a class="" href="#" data-toggle="tooltip" data-original-title="Close"><i class="fa fa-close btn waves-effect waves-light btn-danger"></i></a>*@
+                                </div>
+                            </td>
+                        </tr>
                     }
 
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="card-body">
-        <button onclick="location.href='@Url.Action("Detail","Company",new {id = 0})'" class="btn btn-success waves-effect waves-light m-r-10">Registrar Empresa</button>
     </div>
 </div>
 
@@ -67,12 +115,11 @@
                         </tr>
                     </thead>
                     <tbody id="table-contacts">
-                        
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>                
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -83,13 +130,26 @@
 <!-- ============================================================== -->
 <script src="~/assets/plugins/jquery/jquery.min.js"></script>
 <script src="~/Scripts/APIController.js"></script>
+<!--Custom JavaScript -->
+<script src="~/assets/js/custom.min.js"></script>
+<script src="~/assets/plugins/moment/moment.js"></script>
+<script src="~/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+<!-- Clock Plugin JavaScript -->
+<script src="~/assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+<!-- Color Picker Plugin JavaScript -->
+<script src="~/assets/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+<script src="~/assets/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+<script src="~/assets/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+<!-- Date Picker Plugin JavaScript -->
+<script src="~/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<!-- Date range Plugin JavaScript -->
+<script src="~/assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<script src="~/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 
 <script>
     $(document).ready(function () {
-
-       
-
         $('#tableOrganizations').dataTable({
+            dom: 'lfrtip',
             "language": {
                 "sProcessing": "Procesando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
@@ -118,27 +178,87 @@
 
     });
 
-    function Ver(companyId) {        
+    function Ver(companyId) {
         $("#exampleModal").modal("show");
 
-         APIController.GetContacts(companyId).then((res) => {          
-             var data = res.Data;             
-             var content = "";
-             for (var i = 0; i < data.length; i++) {                 
+        APIController.GetContacts(companyId).then((res) => {
+            var data = res.Data;
+            var content = "";
+            for (var i = 0; i < data.length; i++) {
                 content += '<tr>';
-                content += '<td>'+ data[i]["CompanyHeadquarterName"] +'</td>';
-                content += '<td>'+ data[i]["FullName"] +'</td>';
-                content += '<td>'+ data[i]["TypeUs"] +'</td>';
-                 content += '<td>' + data[i]["Dni"] + '</td>';
-                 content += '<td>'+ data[i]["CM"] +'</td>';
-                content += '<td>'+ data[i]["Phone"] +'</td>';
-                content += '<td>'+ data[i]["Email"] +'</td>';
+                content += '<td>' + data[i]["CompanyHeadquarterName"] + '</td>';
+                content += '<td>' + data[i]["FullName"] + '</td>';
+                content += '<td>' + data[i]["TypeUs"] + '</td>';
+                content += '<td>' + data[i]["Dni"] + '</td>';
+                content += '<td>' + data[i]["CM"] + '</td>';
+                content += '<td>' + data[i]["Phone"] + '</td>';
+                content += '<td>' + data[i]["Email"] + '</td>';
                 content += '</tr>'
-             }
-             $("#table-contacts").empty();
-             $("#table-contacts").append(content);
+            }
+            $("#table-contacts").empty();
+            $("#table-contacts").append(content);
         });
 
+    }
+
+    // Daterange picker
+    $('.input-daterange-datepicker').daterangepicker({
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-danger',
+        cancelClass: 'btn-inverse',
+        "locale": {
+            "format": "MM/DD/YYYY",
+            "separator": " - ",
+            "applyLabel": "Aceptar",
+            "fromLabel": "Desde",
+            "toLabel": "Hasta",
+            "customRangeLabel": "Custom",
+            "daysOfWeek": [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            "monthNames": [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],
+            "firstDay": 1
         }
+    });
+    $('.input-daterange-timepicker').daterangepicker({
+        timePicker: true,
+        format: 'MM/DD/YYYY h:mm A',
+        timePickerIncrement: 30,
+        timePicker12Hour: true,
+        timePickerSeconds: false,
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-danger',
+        cancelClass: 'btn-inverse'
+    });
+    $('.input-limit-datepicker').daterangepicker({
+        format: 'MM/DD/YYYY',
+        //minDate: '06/01/2015',
+        //maxDate: '06/30/2015',
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-danger',
+        cancelClass: 'btn-inverse',
+        dateLimit: {
+            days: 6
+        }
+    });
 </script>
 
