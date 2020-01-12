@@ -173,7 +173,6 @@ function show(value) {
     var td = $($("#" + value + " td")[0]).find("i");
     
     let pClass = '.' + value;
-    
     if ($(pClass).css("display") == "none") {           
         $(pClass).fadeIn(1000);
         $(pClass).show();
@@ -211,7 +210,6 @@ function showComponets(value) {
     var td = $($("#" + value + " td")[0]).find("i");
 
     let pClass = '.' + value;
-    //console.log(pClass);
     if ($(pClass).css("display") == "none") {
         $(pClass).fadeIn(1000);
         $(pClass).show();
@@ -395,7 +393,6 @@ function AddProfile() {
 }
 
 function LoadObj(res) {
-    //console.log("RESP", res);
     obj = {};
     var data = res.Data;
     obj.profileId = data.ProtocolProfileId;
@@ -423,9 +420,7 @@ function LoadObj(res) {
     obj.profileComponents = profileComponents;
 }
 
-function ProcessObj(componentId, event, val) {
-    //console.log(componentId, event, val, obj.profileComponents);
-    //console.log($(event).find('.catId').get(0).innerText);
+function ProcessObj(componentId, event, val) {    
     //ADD
     if (val) {
         AddItemObj(componentId, event);
@@ -576,7 +571,6 @@ function APISaveQuotation() {
 
                 if ($(tr).hasClass(idParent)) {
                     $(tr).find("tbody > tr").each(function () {
-                        console.log("B", GetNameCategory($(this).find("td").eq(1).html()));
                         if (GetNameCategory($(this).find("td").eq(1).html()) != "----") {
                         
                             var oProfileComponent = {};
@@ -602,8 +596,10 @@ function APISaveQuotation() {
     });
     if (data.QuotationId == 0) {
         APIController.SaveQuotation(data).then((res) => {
-            swal({ title: "Correcto", text: "El nro de cotizacion es :" + res.Data.Code, type: "success" },
+            swal({ title: "Correcto", text: "El nro de cotizacion esssss :" + res.Data.Code, type: "success" },
                 function () {
+                    console.log("AAAA",res.Data);
+                    SaveTracking(res.Data.QuotationId);
                     $("#spanCode").html(res.Data.Code);
                     window.location.href = "/Quotation/Index/";
                 });
@@ -616,6 +612,18 @@ function APISaveQuotation() {
             });        
         });
     }  
+}
+
+function SaveTracking(quotationId) { 
+    console.log("quotationId", quotationId);
+    var params = {
+        "QuotationId": quotationId,
+        "Commentary": "Cotización Creada",
+        "InsertUserId": 1
+    }
+    APIController.SaveQuoteTracking(params).then((resp) => {
+
+    });
 }
 
 function GetNameCategory(id) {
@@ -668,8 +676,7 @@ function GetNameCategory(id) {
 function RemoveProfile(event) {
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
-    var idTr = $(event.target).parent().parent().attr('id');    
-    console.log(recordType, recordStatus);
+    var idTr = $(event.target).parent().parent().attr('id');        
     if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {       
         
         $("#tbody-main tr").each(function (index, tr) {
@@ -712,7 +719,7 @@ $('.table-main').on('change', '.input-numeric', function (event) {
     
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
-    console.log(recordType, recordStatus);
+    
     if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
     } else {
         $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
@@ -724,7 +731,7 @@ $('.table-main').on('change', '.input-perfil', function (event) {
 
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
-    console.log(recordType, recordStatus);
+    
     if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
     } else {
         $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
@@ -736,7 +743,7 @@ $('.table-main').on('change', '.select-Service', function (event) {
 
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
-    console.log(recordType, recordStatus);
+    
     if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
     } else {
         $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");

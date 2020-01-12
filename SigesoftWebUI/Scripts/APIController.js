@@ -273,6 +273,7 @@
         },
 
         UpdateQuotation: function (parameters) {
+            console.log("PP", parameters);
             return new Promise((resolve, reject) => {
                 updateQuotation(parameters).then(res => resolve(res));
             });
