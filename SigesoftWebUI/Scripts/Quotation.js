@@ -596,7 +596,7 @@ function APISaveQuotation() {
     });
     if (data.QuotationId == 0) {
         APIController.SaveQuotation(data).then((res) => {
-            swal({ title: "Correcto", text: "El nro de cotizacion esssss :" + res.Data.Code, type: "success" },
+            swal({ title: "Correcto", text: "El nro de cotizacion es :" + res.Data.Code, type: "success" },
                 function () {
                     console.log("AAAA",res.Data);
                     SaveTracking(res.Data.QuotationId);

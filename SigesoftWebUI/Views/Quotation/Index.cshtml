@@ -337,8 +337,8 @@
                 var data = resp.Data;
                 $("#tr-" + data.QuoteTrackingId).empty();                
                 let content = "";
-                content += "<td>" + data.QuoteTrackingId + "</td>";
-                content += "<td>" + $("#txthiddentxtDate").val() + "</td>";
+                content += "<td style='display:none'>" + data.QuoteTrackingId + "</td>";
+                content += "<td>" +formatDate(new Date(GetDateFormat($("#txthiddentxtDate").val())))  + "</td>";
                 content += "<td>" + data.Commentary + "</td>";
                 content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";                
 
@@ -370,7 +370,6 @@
 
       return day + ' ' + monthNames[monthIndex] + ' ' + year;
     }
-
 
     function EditTracking(id) {        
         ClearPoupTracking();
