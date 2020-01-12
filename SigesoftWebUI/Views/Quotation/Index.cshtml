@@ -1,92 +1,460 @@
-﻿
-    <div class="card">
-        <div class="card-body" style="text-align:right">
-            <button onclick="location.href='@Url.Action("Register","Quotation", new { id = 0})'" class="btn btn-success waves-effect waves-light m-r-10">Crear  Cotización</button>
-        </div>
-        <div class="card-body">
-            <h4 class="card-title">Matiz de Seguimiento</h4>
-            <h6 class="card-subtitle">Hacer seguimiento a las cotizaciones</h6>
-            <div class="table-responsive m-t-40">
-                <table id="table" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nro Propuesta</th>
-                            <th>F. Envio</th>
-                            <th>F. Aceptación</th>
-                            <th>Empresa</th>
-                            <th>Servicio</th>
-                            <th>Costo</th>
-                            <th>Estado</th>
-                            <th>F. US</th>
-                            <th>Seguimiento</th>
-                            <th class="text-nowrap">Indicadores</th>
-                            <th class="text-nowrap">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0001</td>
-                            <td>01/01/2000</td>
-                            <td>01/01/2000</td>
-                            <td>Atachocha SAC</td>
-                            <td> CSO Lima</td>
-                            <td>84.00</td>
-                            <td>Pendinte</td>
-                            <td>01/01/2000</td>
-                            <td>texto</td>
-                            <td>
-                                <a href="#" data-toggle="tooltip" data-original-title="estado"> <i class="fa fa-dot-circle-o text-inverse m-r-10"></i> </a>
-                            </td>
-                            <td class="text-nowrap">
-                                <a href="@Url.Action("Register","Quotation", new { id = 1})" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+﻿<style>
 
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    .indicator {
+        text-align: center;
+    }
+
+    #table-tracking {
+        width:90%;
+        margin:auto
+    }
+</style>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Filtros </h4>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="txtRuc">RUC</label>
+                        <input type="text" class="form-control" id="txtRuc" maxlength="11" value="" autofocus>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="txtNroCotizacion">Nro Cotización</label>
+                        <input type="text" class="form-control" id="txtNroCotizacion" value="">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="dtpEnd">Estado</label>
+                        <select class="form-control form-white select-Service" data-placeholder="Seleccione un estado..." id="ddlStatus">
+                            <option value="-1">--Todos--</option>
+                            <option value="1">Seguimiento</option>
+                            <option value="2">Aceptada</option>
+                            <option value="3">Descartada</option>
+                            <option value="3">En Creación</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="dtpStart">Fecha Inicio</label>
+                        <input class="form-control" type="date" id="dtpStart">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="dtpEnd">Fecha Fin</label>
+                        <input class="form-control" type="date" id="dtpEnd">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="dtpEnd"></label>
+                        <input type="button" class="btn btn-info btn-filter" value="Filtrar" onclick="Filter()" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"></h4>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <canvas id="chart3" height="120"></canvas>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="table-responsive">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Gráfico Cotización</th>
+                                    </tr>                                    
+                                </thead> 
+                                <tbody>
+                                    <tr>
+                                        <td>Seguimiento</td>
+                                        <td id="statusTracking">0</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Aceptada</td>
+                                        <td id="statusAccepted">0</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Descartada</td>
+                                        <td id="statusdiscarded">0</td>
+
+                                    </tr>
+                                </tbody>                                
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-body">        
+        <button onclick="location.href='@Url.Action("Register","Quotation", new { id = 0})'" class="btn btn-success waves-effect waves-light m-b-10">Crear  Cotización</button>            
+        <div class="table-responsive">
+            <table id="table" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th style="display:none">ID</th>
+                        <th>Nro Propuesta</th>
+                        <th>F. Aceptación</th>
+                        <th>Empresa</th>
+                        <th>Costo</th>
+                        <th>Estado</th>
+                        <th>F. US</th>
+                        <th>Seguimiento</th>
+                        <th class="text-nowrap">Indicador</th>
+                        <th class="text-nowrap">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-filter-quotation">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="TrackingModal" tabindex="-1" role="dialog" aria-labelledby="TrackingModalLabel1">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Registrar Seguimiento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <input type="hidden" id="txthiddenQuotationTracking" value="0" />
+            <input type="hidden" id="txthiddenQuotation" value="0" />
+            <input type="hidden" id="txthiddentxtDate" value="0" />
+            <input type="hidden" id="txthiddenStatusQuotationId" value="0" />
+            <div class="modal-body" style="padding:0">
+                <div class="form-group col-12">
+                    <label for="txtComentary">Comentario</label>
+                    <textarea type="text" class="form-control" id="txtComentary" autofocus></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="SaveTracking()" type="button" class="btn btn-warning" data-dismiss="modal">Grabar</button>
+            </div>
+        </div> 
+    </div>
+</div>
+
 
 <!-- ============================================================== -->
 <!-- All Jquery -->
 <!-- ============================================================== -->
 <script src="~/assets/plugins/jquery/jquery.min.js"></script>
 <script src="~/Scripts/APIController.js"></script>
+<script src="~/assets/plugins/Chart.js/Chart.min.js"></script>
 
 <script>
+
     $(document).ready(function () {
 
-        $('#table').dataTable({
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
+        loadDates();
+
+        Filter();    
+        
+        $('#tbody-filter-quotation').on('change', '.select-StatusQuotation', function (event) {            
+            let quotationId = event.target.id.split('-')[1];         
+            let id = event.target.id;            
+            let StatusQuotationId = $("#" + id + " option:selected").val();   
+            $("#txthiddenStatusQuotationId").val(StatusQuotationId);
+            AddTracking(quotationId);
         });
 
     });
 
+    function edit(id) {
+        var url = '@Url.Action("Register", "Quotation", new { id = "js-id" })'
+            .replace("js-id", encodeURIComponent(id));
 
+        location.href = url;
+    }
+
+    function Filter() {
+        $("#tbody-filter-quotation").empty();
+        var params = {
+            "NroQuotation": $("#txtNroCotizacion").val(),
+            "StartDate": $("#dtpStart").val(),
+            "EndDate": $("#dtpEnd").val(),
+            "CompanyName": $("#txtRuc").val(),
+            "StatusQuotationId": $("#ddlStatus option:selected").val()             
+        }
+
+        APIController.FilterQuotation(params).then((resp) => {
+            $(".odd").remove();
+            var content = "";
+            var data = resp.Data;
+            for (let i = 0; i < data.length; i++) {
+                var quotationId = data[i].QuotationId;
+                content += "<tr id='track-"+quotationId+"'>";
+                content += "<td><i class='fa fa-plus text-inverse' onclick=show('track-" + quotationId + "')></i></td>";
+                content += "<td style='display:none'>" + quotationId + "</td>";
+                content += "<td>" + data[i].NroQuotation + "</td>";
+                content += "<td>" + data[i].AcceptanceDate + "</td>";
+                content += "<td>" + data[i].CompanyName + "</td>";
+                content += "<td>" + data[i].Total + "</td>";
+
+                content += "<td>";
+
+
+                content += "<select class='form-control form-white select-StatusQuotation' data-placeholder='Seleccione un estado...' id='ddlStatusQuotation-"+quotationId+"'>";  
+                //content += "<option value='-1' "+ selected(-1,data[i].StatusQuotationId)+"></option>";  
+                content += "<option value='1' "+selected(1,data[i].StatusQuotationId)+">Seguimiento</option>";  
+                content += "<option value='2' "+selected(2,data[i].StatusQuotationId)+">Aceptada</option>";  
+                content += "<option value='3' "+selected(3,data[i].StatusQuotationId)+">Descartada</option>";  
+                content += "</select>";  
+
+
+                content += "</td>";
+
+                content += "<td>" + data[i].USDate + "</td>";
+                content += "<td>" + data[i].TrackingDescription+"</td>";
+                content += "<td class='indicator'><i class='fa fa-circle waves-effect waves-light'></i></td>";
+                content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a><a onclick='AddTracking(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-phone btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "</tr>";
+
+                content += "<tr style='display:none' class='track-"+quotationId+"'>";
+                content += "<td colspan='10'>";
+
+                content += "<div class='table-responsive' id='table-Tracking-"+quotationId+"'>"
+                content += "<table id='table-tracking' class='table color-table muted-table'>";
+                content += "<thead>";
+                content += "<tr>";
+                content += "<th style='display:none'>ID</th>";
+                content += "<th>Fecha</th>";
+                content += "<th>Comentario</th>";
+                content += "<th class='text-nowrap'></th>";
+                content += "</tr>";
+                content += "</thead>";
+                content += "<tbody id='tbody-Tracking-"+quotationId+"'>";
+                var detail = data[i].QuoteTrackings;
+                for (var ii = 0; ii < detail.length; ii++) {                   
+
+                    content += "<tr id='tr-"+detail[ii].QuoteTrackingId+"'>";
+                    content += "<td  style='display:none'>" + detail[ii].QuoteTrackingId + "</td>";
+                    content += "<td>" + GetDateFormat(detail[ii].Date) + "</td>";
+                    content += "<td>" + detail[ii].Commentary + "</td>";                                        
+                    content += "<td style='width:80px'><div class='btn-list'><a onclick='EditTracking(" + detail[ii].QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></div></td>";
+                    content += "</tr>";
+                }
+                content += "</tbody>";
+                content += "</table>";
+                content += "</div>";
+
+
+                content += "</td>";
+                content += "</tr>";
+
+
+            }
+            $("#tbody-filter-quotation").append(content);            
+            StatisticalGraph(data);
+        });
+    }
+
+    function loadDates() {
+        // body...
+        var today = new Date();
+        var lastDay = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd<10){
+            dd='0'+dd;
+        }
+        if(mm<10){
+            mm='0'+mm;
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        var mmLast = lastDay.getMonth() + 2; //January is 0!
+        today = yyyy + '-01-01';
+        lastDay = yyyy + '-01-31';
+
+        document.getElementById("dtpStart").defaultValue = today + "";
+        document.getElementById("dtpEnd").defaultValue =lastDay+"";
+    }
+
+    function AddTracking(id) {
+        ClearPoupTracking();
+        $("#TrackingModal").modal("show");
+        $("#txthiddenQuotation").val(id);
+    }
+
+    function SaveTracking() {
+
+        let quotationTrackingId = $("#txthiddenQuotationTracking").val();
+        if (quotationTrackingId == 0) {
+            var params = {
+                "QuotationId": $("#txthiddenQuotation").val(),
+                "Commentary": $("#txtComentary").val(),
+                "InsertUserId": 1
+            }
+            APIController.SaveQuoteTracking(params).then((resp) => {
+                var data = resp.Data;
+                let content = "";
+                content += "<tr id='tr-"+data.QuoteTrackingId+"'>";
+                content += "<td  style='display:none'>" + data.QuoteTrackingId + "</td>";
+                content += "<td>" + GetDateFormat(data.Date) + "</td>";
+                content += "<td>" + data.Commentary + "</td>";
+                content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "</tr>";
+
+                $("#tbody-Tracking-" + data.QuotationId).append(content);
+
+                APIController.UpdateQuotation({"QuotationId": $("#txthiddenQuotation").val(), "StatusQuotationId": $("#txthiddenStatusQuotationId").val()}).then((res) => {
+                    Filter();
+                });
+
+                ClearPoupTracking();
+            });
+        } else if (quotationTrackingId > 0) {
+            
+            var params = {  
+                "QuoteTrackingId": $("#txthiddenQuotationTracking").val(),
+                "QuotationId": $("#txthiddenQuotation").val(),
+                "Commentary": $("#txtComentary").val(),
+                "Date": $("#txtDate").val(),
+                "UpdateUserId": 1
+            }
+
+            APIController.UpdateQuoteTracking(params).then((resp) => {
+                var data = resp.Data;
+                $("#tr-" + data.QuoteTrackingId).empty();                
+                let content = "";
+                content += "<td>" + data.QuoteTrackingId + "</td>";
+                content += "<td>" + $("#txthiddentxtDate").val() + "</td>";
+                content += "<td>" + data.Commentary + "</td>";
+                content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";                
+
+                $("#tr-" + data.QuoteTrackingId).append(content);
+
+                ClearPoupTracking();
+            });
+        }
+        
+    }
+
+    function GetDateFormat(str) {
+        var value = new Date(parseInt(str.replace(/(^.*\()|([+-].*$)/g, '')));
+        var dat = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+        return dat;
+    }
+
+    function EditTracking(id) {        
+        ClearPoupTracking();
+        
+        APIController.GetQuotationtracking(id).then((resp) => {
+            let data = resp.Data;
+            
+            $("#txtComentary" ).focus();
+            $("#TrackingModal").modal("show");
+            $("#txthiddenQuotation").val(data.QuotationId);
+            $("#txtComentary").val(data.Commentary);
+            $("#txthiddenQuotationTracking").val(data.QuoteTrackingId);
+            $("#txthiddentxtDate").val(GetDateFormat(data.Date));
+            
+        });
+    }
+
+    function ClearPoupTracking() {
+        $("#txthiddenQuotationTracking").val(0);        
+        $("#txthiddentxtDate").val(0);
+        $("#txthiddenQuotation").val(0);
+        $("#txtComentary").val("");        
+    }
+
+    function StatisticalGraph(data) {
+
+        var ctx3 = document.getElementById("chart3").getContext("2d");
+        var statusTracking = 0;
+        var statusAccepted = 0;
+        var statusdiscarded = 0;
+
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].StatusQuotationId == 1) {
+                statusTracking++;
+            }else if (data[i].StatusQuotationId == 2) {
+                statusAccepted++;
+            }else if (data[i].StatusQuotationId == 3) {
+                statusdiscarded++;
+            }
+        }
+
+        $("#statusTracking").html(statusTracking);
+        $("#statusAccepted").html(statusAccepted);
+        $("#statusdiscarded").html(statusdiscarded);
+
+        console.log(statusTracking);    
+        var data3 = [
+            {
+                value: statusTracking,
+                color: "#009efb",
+                highlight: "#009efb",
+                label: "Seguimiento"
+            },
+            {
+                value: statusAccepted,
+                color: "#edf1f5",
+                highlight: "#edf1f5",
+                label: "Aceptada"
+            },
+            {
+                value: statusdiscarded,
+                color: "#2f3d4a",
+                highlight: "#2f3d4a",
+                label: "Descartada"
+            }            
+        ];
+
+        var myPieChart = new Chart(ctx3).Pie(data3, {
+            segmentShowStroke: true,
+            segmentStrokeColor: "#fff",
+            segmentStrokeWidth: 0,
+            animationSteps: 100,
+            tooltipCornerRadius: 0,
+            animationEasing: "easeOutBounce",
+            animateRotate: true,
+            animateScale: false,
+            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
+            responsive: true
+        });
+    }
+    
+    function show(value) {        
+        var td = $($("#" + value + " td")[0]).find("i");        
+        let pClass = '.' + value;
+    
+        if ($(pClass).css("display") == "none") {           
+            $(pClass).fadeIn(1000);
+            $(pClass).show();
+            td.addClass('fa-minus');
+            td.removeClass('fa-plus');
+        }
+        else {
+            $(pClass).hide();
+            td.removeClass('fa-minus');
+            td.addClass('fa-plus');
+        }
+    }
+    
+    function selected(value, id) {
+        if (value == id) {
+            return 'selected';
+        }
+        return '';
+    }
 </script>
 
 

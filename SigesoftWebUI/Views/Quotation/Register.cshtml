@@ -1,5 +1,7 @@
 ﻿@{
+    int QuotationId = 0;
     string Code = "";
+    int Version = 0;
     int CompanyId = 0;
     string CompanyRuc = "";
     string CompanyName = "";
@@ -8,11 +10,13 @@
     int CompanyHeadquarterId = -1;
     string FullName = "";
     string Email = "";
-    int TypeFormatId = -1;
     string CommercialTerms = "";
+    int StatusQuotationId = -1;
     if (ViewBag.DataQuotation != null)
     {
+        QuotationId = ViewBag.DataQuotation.QuotationId;
         Code = ViewBag.DataQuotation.Code == null ? "sin generar" : ViewBag.DataQuotation.Code;
+        Version = ViewBag.DataQuotation.Version;
         CompanyId = ViewBag.DataQuotation.CompanyId;
         CompanyRuc = ViewBag.DataQuotation.CompanyRuc;
         CompanyName = ViewBag.DataQuotation.CompanyName;
@@ -21,8 +25,8 @@
         CompanyHeadquarterId = ViewBag.DataQuotation.CompanyHeadquarterId;
         FullName = ViewBag.DataQuotation.FullName;
         Email = ViewBag.DataQuotation.Email;
-        TypeFormatId = ViewBag.DataQuotation.TypeFormatId;
         CommercialTerms = ViewBag.DataQuotation.CommercialTerms;
+        StatusQuotationId = ViewBag.DataQuotation.StatusQuotationId == null ? -1 :ViewBag.DataQuotation.StatusQuotationId;
     }
 }
 
@@ -32,29 +36,29 @@
 <link href="~/assets/css/colors/default-dark.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.min.css">
 <link href="~/Content/Quotation.css" rel="stylesheet" />    
+<link href="~/assets/plugins/html5-editor/wysiwyg-color.css" rel="stylesheet" />     
 <link href="~/Content/common.css" rel="stylesheet" />
 <div class="content-alert">    
 </div>
 
 <div class="row">
     <div class="card card-body">
-        <h3 class="box-title m-b-0">Cotización: <span>@Code</span> </h3>
-        <p class="text-muted m-b-30 font-13"> Datos de Empresa</p>
+        <h3 class="box-title m-b-0">Cotización: <span id="spanCode">@Code</span></h3>
+        <p class="text-muted m-b-30 font-13"> Versión <span id="spanVersion">@Version</span></p>
         <div class="row">
             <div class="col-sm-12 col-xs-12">
-                <form >
-                    <div class="form-row">
+                <form>
+                    <div class="form-row">                        
+                        <input type="hidden" id="txtQuotationId" value="@QuotationId" />
                         <input type="hidden" id="txtCompanyId" value="@CompanyId" />
                         <input type="hidden" id="txtCompanyHeadquarterId" value="@CompanyHeadquarterId" />
                         <div class="form-group col-md-4">
                             <label for="txtRuc">RUC</label>
                             <input type="text" class="form-control" id="txtRuc" maxlength="11" value="@CompanyRuc" onkeypress="validateInputNumber(event)" autofocus required>
-
                         </div>
                         <div class="form-group col-md-4">
                             <label for="txtCompanyName">Empresa</label>
                             <input type="text" class="form-control" id="txtCompanyName" value="@CompanyName" readonly>
-
                         </div>
                         <div class="form-group col-md-4">
                             <label for="txtDistric">Distrito</label>
@@ -83,8 +87,17 @@
                             <label for="txtEmail">Correo</label>
                             <input type="email" class="form-control" id="txtEmail" maxlength="150" value="@Email" required>
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="ddlStatusQuotation">Estado Cotización</label>
+                            <select class="form-control form-white select-StatusQuotation" data-placeholder="Seleccione un estado..." id="ddlStatusQuotation" disabled>  
+                                <option value="-1" @(@StatusQuotationId== -1 ? "selected" : "")></option>
+                                <option value="1" @(@StatusQuotationId == 1 ? "selected" : "")>Seguimiento</option>
+                                <option value="2" @(@StatusQuotationId == 2 ? "selected" : "")>Aceptada</option>
+                                <option value="3" @(@StatusQuotationId == 3 ? "selected" : "")>Descartada</option>
+                            </select>
+                        </div>
                     </div>
-                    <button onclick="SaveQuotation(event)" class="btn btn-primary waves-effect waves-light m-r-10">Grabar Cotización</button>
+                    
                 </form>
             </div>
         </div>
@@ -102,41 +115,49 @@
             <thead>
                 <tr>
                     <th></th>
+                    <th style="display:none">RecordType</th>
+                    <th style="display:none">RecordStatus</th>
                     <th style="display:none">ProfileId</th>
                     <th>PERFIL</th>
-                    <th>SERVICIO</th>
-                    <th class="col-center">N° EXAMENES</th>
+                    <th>TIPO EMO</th>
+                    <th class="col-center">CANTIDAD</th>
                     <th class="col-center">SUBTOTAL</th>
+                    <th class="col-center">ID</th>
                     <th class="col-center">ACCIONES</th>
-                </tr>
+                </tr>   
             </thead>
             <tbody id="tbody-main">
 
                 @foreach (var profile in ViewBag.DataQuotation.QuotationProfiles)
                 {
-                    <tr id="perfil-@profile.QuotationProfileId" class="parent">
-                        <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
-                        <td style="display:none" class="profileId">@profile.ProfileId</td>
-                        <td><input class="form-control" type="text" value="@profile.ProfileName"/></td>
-                        <td>
-                            <select class="form-control form-white" data-placeholder="Seleccione un servicio..." id="ddlService">
-                                <option value="-1" @(@profile.ServiceTypeId == -1 ? "selected" : "")>--Seleccionar--</option>
-                                <option value="1" @(@profile.ServiceTypeId == 1 ? "selected" : "")>Preocupacional</option>
-                                <option value="2" @(@profile.ServiceTypeId == 2 ? "selected" : "")>Periodico</option>
-                                <option value="3" @(@profile.ServiceTypeId == 3 ? "selected" : "")>Anual</option>
-                            </select>
-                        </td>
+                <tr id="perfil-@profile.QuotationProfileId" class="parent">
+                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
+                    <td  style="display:none" class="RecordType">@profile.RecordType</td>
+                    <td style="display:none" class="RecordStatus">@profile.RecordStatus</td>
+                    <td style="display:none" class="profileId">@profile.ProfileId</td>
+                    <td><input class="form-control input-perfil" type="text" value="@profile.ProfileName" /></td>
+                    <td>
+                        <select class="form-control form-white select-Service" data-placeholder="Seleccione un servicio..." id="ddlService">
+                            <option value="-1" @(@profile.ServiceTypeId == -1 ? "selected" : "")>--Seleccionar--</option>
+                            <option value="1" @(@profile.ServiceTypeId == 1 ? "selected" : "")>Preocupacional</option>
+                            <option value="2" @(@profile.ServiceTypeId == 2 ? "selected" : "")>Periodico</option>
+                            <option value="3" @(@profile.ServiceTypeId == 3 ? "selected" : "")>Anual</option>
+                        </select>
+                    </td>
 
-                        <td class="counterComp col-center">0</td>
-                        <td class="subTotal col-center">0</td>
-                        <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveProfile(event)"></i></td>
-                    </tr>
+                    <td class="counterComp col-center">0</td>
+                    <td class="subTotal col-center">0</td>
+                    <td>@profile.QuotationProfileId</td>
+                    <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveProfile(event)"></i></td>
+                </tr>
                     <tr class="perfil-@profile.QuotationProfileId child">
-                        <td colspan="6">
+                        <td colspan="9">
                             <table class="table-examenes">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th></th>                                        
+                                        <th  style="display:none">RecordType</th>
+                                        <th  style="display:none">RecordStatus</th>
                                         <th>EXAMENES - PERFIL</th>
                                         <th class="col-center">PRECIO MÍNIMO</th>
                                         <th class="col-center">PRECIO LISTA</th>
@@ -155,19 +176,24 @@
                                                 valor = valorAntiguo;
                                                 <tr id="perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
                                                     <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName')"></i></td>
-                                                    <td colspan="4">@profile.ProfileComponents[i].CategoryName</td>
-                                                    <td class="col-center"></td>
+                                                    
+                                                    <td colspan="6">@profile.ProfileComponents[i].CategoryName</td>
+                                                    <td  style="display:none" class="col-center"></td>
                                                 </tr>
                                                 i--;
                                             }
                                             else
                                             {
                                                 <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
-                                                    <td></td>
+                                                    <td style="color:white" >@profile.ProfileComponents[i].ProfileComponentId</td>
+                                                    <td style="display:none">@profile.ProfileComponents[i].CategoryId</td>
+                                                    <td style="display:none">@profile.ProfileComponents[i].ComponentId</td>
+                                                    <td  style="display:none" class="RecordType">@profile.ProfileComponents[i].RecordType</td>
+                                                    <td  style="display:none" class="RecordStatus">@profile.ProfileComponents[i].RecordStatus</td>
                                                     <td>@profile.ProfileComponents[i].ComponentName</td>
                                                     <td class="col-center">@profile.ProfileComponents[i].MinPrice</td>
                                                     <td class="col-center">@profile.ProfileComponents[i].PriceList</td>
-                                                    <td class=" col-center"><input type="text" class="salePrice input-numeric" value="@profile.ProfileComponents[i].SalePrice" /> </td>
+                                                    <td class="col-center"><input type="text" class="salePrice input-numeric form-control" value="@profile.ProfileComponents[i].SalePrice" /> </td>
                                                     <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveComponent(event)"></i></td>
                                                 </tr>
                                             }
@@ -195,12 +221,7 @@
                 </tr>
             </thead>
         </table>
-    </div>
-    <div class="card card-body">
-        <div class="col-4">
-
-        </div>
-    </div>
+    </div>    
 </div>
 
 
@@ -208,20 +229,10 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Condiciones Comerciales  </h4>
-                <div class="btn-group" data-toggle="buttons" role="group">
-                    <label class="btn btn-outline btn-info">
-                        <input type="radio" name="options" autocomplete="off" value="male" checked="">
-                        <i class="ti-check text-active" aria-hidden="true"></i> Exportar
-                    </label>
-                    <label class="btn btn-outline btn-info">
-                        <input type="radio" name="options" autocomplete="off" value="female">
-                        <i class="ti-check text-active" aria-hidden="true"></i> Separar propuestas
-                    </label>
-                </div>
+                <h4 class="card-title">Condiciones Comerciales  </h4>              
                 <form method="post" class="mt-2">
                     <div class="form-group">
-                        <textarea class="textarea_editor form-control" rows="15" placeholder="Enter text ..."></textarea>
+                        <textarea id="txtCommercialTerms" class="textarea_editor form-control"  rows="15" placeholder="Enter text ...">@CommercialTerms</textarea>
                     </div>
                 </form>
             </div>
@@ -229,71 +240,92 @@
     </div>
 </div>
 
-<!-- ============================================================== -->
-<!-- MODAL -->
-<!-- ============================================================== -->
-<div class="modal fade" id="perfilModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel1">Perfil: </h4>
-                <div class="col-md-6">
-                    <select class="form-control form-white" data-placeholder="Seleccione un perfil..." id="profile">                        
-                    </select>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info">Exportar Propuesta</button>
+                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(77px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item" onclick="">PDF</a>
+                        <a class="dropdown-item" onclick="">Excel</a>
+                        <a class="dropdown-item" onclick="">Separar Propuesta</a>
+                    </div>
                 </div>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div>
-
-            </div>
-            <div class="modal-body tables-profile" style="font-size:10px;">
-
-                <table class="table color-table success-table ">
-                    <thead>
-                        <tr>
-                            <th style="width:20px;"></th>
-                            <th>PERFIL: </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-profile">
-                    </tbody>
-                </table>
-
-                <table class="table color-table muted-table ">
-                    <thead>
-                        <tr>
-                            <th style="width:20px;"></th>
-                            <th> </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-profile-unselectd">
-                    </tbody>
-                </table>
-
-            </div>
-
-            <div class="modal-footer">
-                <div class="col-10">
-                    <input type="checkbox" id="chkProfile" value="check"><label for="chkProfile">Guardar Perfil</label>
-                </div>
-                <div class="col-2">
-                    <button type="button" class="btn btn-info" data-dismiss="modal" onclick="AddProfile()">Ok</button>
-                </div>
-
+                <button onclick="SaveQuotation(event)" class="btn btn-primary waves-effect waves-light m-r-10">Grabar Cotización</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ============================================================== -->
-<!-- All Jquery -->
-<!-- ============================================================== -->
-<script src="~/assets/plugins/jquery/jquery.min.js"></script>
+                <!-- ============================================================== -->
+                <!-- MODAL -->
+                <!-- ============================================================== -->
+                <div class="modal fade" id="perfilModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="exampleModalLabel1">Perfil: </h4>
+                                <div class="col-md-6">
+                                    <select class="form-control form-white" data-placeholder="Seleccione un perfil..." id="profile">
+                                    </select>
+                                </div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div>
 
-<!-- wysuhtml5 Plugin JavaScript -->
-<script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
-<script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
-<script src="~/Scripts/APIController.js"></script>
-<script src="~/Scripts/Quotation.js"></script>
-<script src="~/Scripts/QuotationValidation.js"></script>     
+                            </div>
+                            <div class="modal-body tables-profile" style="font-size:10px;">
+
+                                <table class="table color-table success-table ">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:20px;"></th>
+                                            <th>PERFIL: </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-profile">
+                                    </tbody>
+                                </table>
+
+                                <table class="table color-table muted-table ">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:20px;"></th>
+                                            <th> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-profile-unselectd">
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <div class="col-10">
+                                    <input type="checkbox" id="chkProfile" value="check"><label for="chkProfile">Guardar Perfil</label>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal" onclick="AddProfile()">Ok</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- All Jquery -->
+                <!-- ============================================================== -->
+                <script src="~/assets/plugins/jquery/jquery.min.js"></script>
+
+                <!-- wysuhtml5 Plugin JavaScript -->
+                <script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
+                <script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
+                <script src="~/Scripts/APIController.js"></script>
+                <script src="~/Scripts/Quotation.js"></script>
+                <script src="~/Scripts/QuotationValidation.js"></script>
 

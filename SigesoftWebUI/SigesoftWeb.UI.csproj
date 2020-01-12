@@ -125,6 +125,8 @@
     <Compile Include="Controllers\InfoSunatController.cs" />
     <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
+    <Compile Include="Controllers\QuoteTrackingController.cs" />
+    <Compile Include="Controllers\SecuentialController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -147,7 +149,6 @@
     <Content Include="assets\images\logo-text.png" />
     <Content Include="assets\images\SIGESOft.png" />
     <Content Include="assets\images\SLEmpresarial.png" />
-    <Content Include="assets\images\SLSigesoft.png" />
     <Content Include="assets\images\users\1.jpg" />
     <Content Include="assets\images\users\2.jpg" />
     <Content Include="assets\images\users\3.jpg" />
@@ -182,6 +183,15 @@
     <Content Include="assets\plugins\bootstrap\js\popper.min.js" />
     <Content Include="assets\plugins\c3-master\c3.min.css" />
     <Content Include="assets\plugins\c3-master\c3.min.js" />
+    <Content Include="assets\plugins\Chart.js\Chart.js" />
+    <Content Include="assets\plugins\Chart.js\Chart.min.js" />
+    <Content Include="assets\plugins\Chart.js\chartjs.init.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.Bar.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.Core.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.Doughnut.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.Line.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.PolarArea.js" />
+    <Content Include="assets\plugins\Chart.js\src\Chart.Radar.js" />
     <Content Include="assets\plugins\chartist-js\dist\chartist-init.css" />
     <Content Include="assets\plugins\chartist-js\dist\chartist-init.js" />
     <Content Include="assets\plugins\chartist-js\dist\chartist.css" />
@@ -393,6 +403,7 @@
     <Content Include="assets\plugins\dropify\src\js\dropify.js" />
     <Content Include="assets\plugins\html5-editor\bootstrap-wysihtml5.css" />
     <Content Include="assets\plugins\html5-editor\bootstrap-wysihtml5.js" />
+    <Content Include="assets\plugins\html5-editor\wysiwyg-color.css" />
     <Content Include="assets\plugins\html5-editor\wysihtml5-0.3.0.js" />
     <Content Include="assets\plugins\jquery-asColorPicker-master\.gitattributes" />
     <Content Include="assets\plugins\jquery-asColorPicker-master\.gitignore" />
@@ -1328,6 +1339,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\InfoSunat\" />
     <Folder Include="Views\ProtocolProfile\" />
+    <Folder Include="Views\QuoteTracking\" />
+    <Folder Include="Views\Secuential\" />
     <Folder Include="Views\Session\" />
   </ItemGroup>
   <ItemGroup>

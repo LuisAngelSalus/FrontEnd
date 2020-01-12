@@ -2,9 +2,14 @@
 var obj = {};
 $(document).ready(function () {
 
+    if ($("#txtQuotationId").val() != 0) {
+        $(".select-StatusQuotation").attr("disabled", false);
+    } else {        
+        $('#ddlStatusQuotation option[value=1]').attr('selected', 'selected');
+    }
+
     if ($("#txtCompanyId").val() != 0) {
-        SearchCompany($("#txtRuc").val());
-        
+        SearchCompany($("#txtRuc").val());        
     }
 
     CalculateTotals();
@@ -166,9 +171,10 @@ function InfoSunat(ruc) {
 
 function show(value) {
     var td = $($("#" + value + " td")[0]).find("i");
-
+    
     let pClass = '.' + value;
-    if ($(pClass).css("display") == "none") {
+    
+    if ($(pClass).css("display") == "none") {           
         $(pClass).fadeIn(1000);
         $(pClass).show();
         td.addClass('fa-minus');
@@ -306,12 +312,14 @@ function AddProfile() {
     var content = "";
     content += "<tr id='" + idPerfil + "' class='parent'>";
     content += "<td><i class='fa fa-plus text-inverse m-r-10' onclick=show('" + idPerfil + "')></i></td>";
+    content += "<td style='display:none' class='RecordType'>TEMPORAL</td>";
+    content += "<td style='display:none' class='RecordStatus'>AGREGADO</td>";
     content += "<td class='profileId' style='display:none'>" + data.profileId + "</td>";
-    //content += "<td>" + data.profileName + "</td>";
-    content += "<td><input class='form-control' type='text' value='"+data.profileName+"' /></td>";
+    
+    content += "<td><input class='form-control input-perfil' type='text' value='"+data.profileName+"' /></td>";
     content += "<td>";
 
-    content += "<select class='form-control form-white' data-placeholder='Seleccione un servicio...' id='ddlService'>";
+    content += "<select class='form-control form-white select-Service' data-placeholder='Seleccione un servicio...' id='ddlService'>";
     content += "<option value='-1'>--Seleccionar--</option>";
     content += "<option value='1'>Preocupacional</option>";
     content += "<option value='2'>Periodico</option>";
@@ -321,11 +329,12 @@ function AddProfile() {
     content += "</td>";
     content += "<td class='counterComp col-center'>0</td>";
     content += "<td class='subTotal col-center'>0</td>";
+    content += "<td class='col-center'>0</td>";
     content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveProfile(event)'></i></td>";
     content += "</tr>";
 
     content += "<tr class='" + idPerfil + " child' >";
-    content += "<td colspan='6'>";
+    content += "<td colspan='8'>";
     content += "<table class='table-examenes'>";
 
     content += "<thead>";
@@ -333,10 +342,13 @@ function AddProfile() {
     content += "<th></th>";
     content += "<th style='display:none'>CatId</th>";
     content += "<th style='display:none'>CompId</th>";
+    content += "<th style='display:none'>RecordType</th>";
+    content += "<th style='display:none'>RecordStatus</th>";
     content += "<th>EXAMENES - PERFIL</th>";
     content += "<th class='col-center'>PRECIO MÍNIMO</th>";
     content += "<th class='col-center'>PRECIO LISTA</th>";
     content += "<th class='col-center'>PRECIO VENTA</th>  ";
+    content += "<th class='col-center'></th>";
     content += "</tr>";
     content += "</thead>";
     content += "<tbody>";
@@ -352,20 +364,22 @@ function AddProfile() {
             valor = valorAntiguo;
             content += "<tr id='" + quotationProfileId + "-" + cateName + "'>";
             content += "<td><i class='fa fa-minus text-inverse m-r-10' onclick=show('" + quotationProfileId + "-" + cateName + "')></i></td>";
-            content += "<td colspan='4'>" + cateName + "</td>";
+            content += "<td colspan='6'>" + cateName + "</td>";
             content += "</tr>";
             i--;
         } else {
             content += "<tr class=" + quotationProfileId + "-" + cateName + ">";
-            content += "<td></td>";
+            content += "<td style='color:white'>" + components[i].profileComponentId     + "</td>";
 
             content += "<td style='display:none'>" + components[i].categoryId + "</td>";
             content += "<td style='display:none'>" + components[i].componentId + "</td>";
-
+            content += "<td style='display:none'class='RecordType'>TEMPORAL</td>";
+            content += "<td style='display:none'class='RecordStatus'>AGREGADO</td>";
             content += "<td>" + components[i].componentName + "</td>";
             content += "<td class='col-center'>" + components[i].minPrice + "</td>";
             content += "<td class='col-center'>" + components[i].listPrice + "</td>";
-            content += "<td class='col-center'><input type='text' class='salePrice input-numeric' value=" + components[i].salePrice + "> </td>";
+            content += "<td class='col-center'><input type='text' class='form-control salePrice input-numeric' value=" + components[i].salePrice + "> </td>";
+            content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveComponent(event)'></i></td>";
             content += "</tr>";
         }
 
@@ -529,14 +543,20 @@ function SaveQuotation(e) {
 function APISaveQuotation() {
 
     var data = {
-        "Code": "",
-        "Version": "",
+        "QuotationId": $("#txtQuotationId").val(),
+        "Code": $("#spanCode").html(),
+        "Version": $("#spanVersion").html(),
         "UserCreatedId": 1,
         "UserName": "",
         "CompanyId": $("#txtCompanyId").val(),
         "CompanyHeadquarterId": $("#ddlSede option:selected").val(),
         "FullName": $("#txtFullName").val(),
         "Email": $("#txtEmail").val(),
+        "CommercialTerms": $("#txtCommercialTerms").val(),
+        "UserCreatedId":4,
+        "InsertUserId": 4,
+        "TotalQuotation": $(".Total").html(),
+        "StatusQuotationId": $(".select-StatusQuotation option:selected").val(),
         "QuotationProfiles": []
     }
 
@@ -545,25 +565,31 @@ function APISaveQuotation() {
         if ($(tr).hasClass('parent')) {
             var idParent = $(tr).attr('id');
             var oQuotationProfile = {};
+            oQuotationProfile.QuotationProfileId = $(this).find("td").eq(8).html();
             oQuotationProfile.ProfileName = $(this).find("input").val(); 
-            var serviceType = $(this).find("td").eq(3);
+            var serviceType = $(this).find("td").eq(5);
             oQuotationProfile.ServiceTypeId = $(serviceType.get(0)).find("#ddlService").val(),
             oQuotationProfile.ProfileComponents = [];
-
+            oQuotationProfile.RecordType = $(this).find(".RecordType").html(); 
+            oQuotationProfile.RecordStatus = $(this).find(".RecordStatus").html();
             $("#tbody-main tr").each(function (index, tr) {
 
                 if ($(tr).hasClass(idParent)) {
                     $(tr).find("tbody > tr").each(function () {
-                        
+                        console.log("B", GetNameCategory($(this).find("td").eq(1).html()));
                         if (GetNameCategory($(this).find("td").eq(1).html()) != "----") {
+                        
                             var oProfileComponent = {};
+                            oProfileComponent.ProfileComponentId = $(this).find("td").eq(0).html();
                             oProfileComponent.CategoryName = GetNameCategory($(this).find("td").eq(1).html());
                             oProfileComponent.CategoryId = $(this).find("td").eq(1).html();
                             oProfileComponent.ComponentId = $(this).find("td").eq(2).html();
-                            oProfileComponent.ComponentName = $(this).find("td").eq(3).html();
-                            oProfileComponent.MinPrice = $(this).find("td").eq(4).html();
-                            oProfileComponent.PriceList = $(this).find("td").eq(5).html();
+                            oProfileComponent.ComponentName = $(this).find("td").eq(5).html();
+                            oProfileComponent.MinPrice = $(this).find("td").eq(6).html();
+                            oProfileComponent.PriceList = $(this).find("td").eq(7).html();
                             oProfileComponent.SalePrice = $(this).find("input").val();
+                            oProfileComponent.RecordType = $(this).find(".RecordType").html();
+                            oProfileComponent.RecordStatus = $(this).find(".RecordStatus").html();
                             //oProfileComponent.InsertUserId
                             oQuotationProfile.ProfileComponents.push(oProfileComponent);
                         }                        
@@ -574,15 +600,27 @@ function APISaveQuotation() {
             data.QuotationProfiles.push(oQuotationProfile);
         }
     });
+    if (data.QuotationId == 0) {
+        APIController.SaveQuotation(data).then((res) => {
+            swal({ title: "Correcto", text: "El nro de cotizacion es :" + res.Data.Code, type: "success" },
+                function () {
+                    $("#spanCode").html(res.Data.Code);
+                    window.location.href = "/Quotation/Index/";
+                });
+        });
+              
+    } else if (data.QuotationId > 0) {
+        APIController.UpdateQuotation(data).then((res) => {
+            swal("Correcto", "Cotización Actualizada", "success", function () {
 
-    APIController.SaveQuotation(data).then((res) => {
-        swal("Correcto", "Cotización grabada", "success")
-    });
-    console.log("data", data);
+            });        
+        });
+    }  
 }
 
 function GetNameCategory(id) {
     if (id == 1) {
+
         return "LABORATORIO"
     } else if (id == 2) {
         return "ODONTOLOGÍA"
@@ -591,7 +629,7 @@ function GetNameCategory(id) {
     } else if (id == 5) {
         return "CARDIOLOGÍA"
     } else if (id == 6) {
-        return "RAYOS X"
+        return "RAYOS_X"
     } else if (id == 7) {
         return "PSICOLOGÍA"
     } else if (id == 10) {
@@ -628,17 +666,80 @@ function GetNameCategory(id) {
 }
 
 function RemoveProfile(event) {
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
     var idTr = $(event.target).parent().parent().attr('id');    
-    $("#tbody-main tr").each(function (index, tr) {
-        if ($(tr).hasClass(idTr)) {
-            $(tr).hide();
-        }
-    })
-
-    $(event.target).parent().parent().hide();
+    console.log(recordType, recordStatus);
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {       
+        
+        $("#tbody-main tr").each(function (index, tr) {
+            if ($(tr).hasClass(idTr)) {
+                $(tr).remove();
+            }
+        })
+        $(event.target).parent().parent().remove();
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("ELIMINADOLOGICO");
+        $("#tbody-main tr").each(function (index, tr) {
+            if ($(tr).hasClass(idTr)) {
+                $(tr).hide();
+                $(tr).find(".RecordStatus").text("ELIMINADOLOGICO");
+                $(tr).find(".RecordType").text("NOTEMPORAL");
+            }
+        })
+        $(event.target).parent().parent().hide();
+    }
     
 }
 
 function RemoveComponent(event) {
-    $(event.target).parent().parent().hide();
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
+
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
+        $(event.target).parent().parent().remove();
+        
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("ELIMINADOLOGICO");
+        $(event.target).parent().parent().hide();
+    }    
+    
 }
+
+$('.table-main').on('change', '.input-numeric', function (event) {
+    
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
+    console.log(recordType, recordStatus);
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("MODIFICADO");
+    }
+})
+
+$('.table-main').on('change', '.input-perfil', function (event) {
+
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
+    console.log(recordType, recordStatus);
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("MODIFICADO");
+    }
+})
+
+$('.table-main').on('change', '.select-Service', function (event) {
+
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
+    console.log(recordType, recordStatus);
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("MODIFICADO");
+    }
+})
