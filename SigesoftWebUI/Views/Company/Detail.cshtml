@@ -20,13 +20,14 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <div class="card">
+        <div class="card mb-2">
             <div class="card-body">
                 <div class="row pb-2">
                     <div class="col">
                         <div class="form-group">
+                            <input type="hidden" id="txtCompanyId" value="@companyId" />
                             <label for="txtIdentificationNumber">RUC<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="txtIdentificationNumber" value="@ViewBag.Detail.IdentificationNumber" placeholder="Ingresar RUC" maxlength="11" required pattern="[0-9]+">
+                            <input type="text" class="form-control" id="txtIdentificationNumber" value="@ViewBag.Detail.IdentificationNumber" placeholder="Ingresar RUC" maxlength="11">
                         </div>
                         <div class="form-group">
                             <label for="txtCompanyName">Empresa<span class="text-danger">*</span></label>
@@ -89,7 +90,8 @@
                             <div class="col">
                                 <div class="form-group mb-2">
                                     <label for="txtPhoneNumber">Teléfono Contacto<span class="text-danger"></span></label>
-                                    <input type="tel" class="form-control" id="txtPhoneNumber" value="@ViewBag.Detail.PhoneNumber" placeholder="Ingresar Teléfono">
+                                    <input type="text" class="form-control" id="txtPhoneNumber" value="@ViewBag.Detail.PhoneNumber" placeholder="Ingresar Teléfono">
+
                                 </div>
                             </div>
                             <div class="col">
@@ -105,20 +107,20 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="card">
+                <div class="card mb-2">
                     <div class="card-body">
-                        <div class="col-lg-12 col-xlg-2">
-                            <div class="card">
+                        <div class="col-lg-12 col-xlg-2 p-0">
+                            <div class="card mb-1">
                                 <button type="button" id="btnNewHeadquarter" class="btn waves-effect waves-light btn-outline-primary">Nueva Sede</button>
                             </div>
                         </div>
 
-                        <div class="table-responsive table-headquarter">
+                        <div class="table-responsive table-headquarter" style="height:138px">
                             <table id="mainTable" class="table editable-table table-bordered table-striped m-b-0">
                                 <thead>
                                     <tr>
                                         @*<th>RecordType</th>
-                                <th>RecordStatus</th>*@
+                                            <th>RecordStatus</th>*@
                                         <th>Sede</th>
                                         <th>Dirección</th>
                                         <th>Teléfono</th>
@@ -151,13 +153,18 @@
             </div>
         </div>
     </div>
-
-
 </div>
-
 <div class="row">
-    <div class="col-md-6">
-        <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">Grabar Empresa</button>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-lg p-0">
+                    <div class="col-lg-2 offset-6 card mb-1 text-center">
+                        <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">Grabar Empresa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- ============================================================== -->
@@ -184,6 +191,14 @@
     bootstrapValidate('#txtIdentificationNumber', 'max:11:Máximo 11 caracteres');
     bootstrapValidate('#txtIdentificationNumber', 'integer:solo números');
 
+
+    
+    bootstrapValidate('#txtPhoneCompany', 'required:Campo requerido');
+    bootstrapValidate('#txtPhoneCompany', 'integer:solo números');
+
+    bootstrapValidate('#txtPhoneNumber', 'required:Campo requerido');
+    bootstrapValidate('#txtPhoneNumber', 'integer:solo números');
+
 </script>
 <script>
     $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
@@ -196,6 +211,69 @@
         }
     });
     $(document).ready(function () {
+
+        $('#txtRuc').change(function () {
+            let ruc = $('#txtRuc').val();
+            $('#ddlSede').empty();
+            SearchCompany(ruc);
+        });
+
+        function SearchCompany(ruc) {
+            APIController.GetCompanyByRuc(ruc).then((res) => {
+                $('#txtCompanyId').val(res.Data.CompanyId);
+                $('#txtCompanyName').val(res.Data.Name);
+                $('#txtDistric').val(res.Data.  District);
+                $('#txtAddress').val(res.Data.Address);
+
+                //let content = "";
+                //for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
+                //    content += "<option value='" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "'>" + res.Data.companyHeadquarter[i].Address + "</option>";
+                //}
+
+                //$('#ddlSede').append(content);
+
+                $('#txtCompanyName').attr('readonly', false);
+                $('#txtDistric').attr('readonly', false);
+                $('#txtAddress').attr('readonly', false);
+
+                $("#txtContactName").focus();
+
+                //EN CASO SEA EDICIÓN
+                //if ($('#txtCompanyHeadquarterId').val()!=0) {
+                //    $("#ddlSede").val($('#txtCompanyHeadquarterId').val());
+                //}
+        
+            }).catch((err) => {
+                swal({
+                    title: "Empresa no registrada",
+                    text: "¿Desea buscar en Sunat?",
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                }, function () {
+                    InfoSunat(ruc);
+                });
+
+            });
+        }
+
+        function InfoSunat(ruc) {
+            APIController.GetInfoSunat(ruc).then((res) => {
+                console.log(res.data);
+                swal("Búsqueda correcta");
+                SaveCompany(res.Data);
+
+            }).catch((res) => {
+                swal.close();
+                $('#txtCompanyName').val("");
+                $('#txtDistric').val("");
+                $('#txtAddress').val("");
+                $('#txtCompanyName').attr('readonly', false);
+                $('#txtDistric').attr('readonly', false);
+                $('#txtAddress').attr('readonly', false);
+            });
+        }
 
         $(".disableBtn").removeAttr("tabindex");
         $(".disableTd").removeAttr("tabindex");
