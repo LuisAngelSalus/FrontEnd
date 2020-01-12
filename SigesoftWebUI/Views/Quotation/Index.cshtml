@@ -106,13 +106,12 @@
                         <th></th>
                         <th style="display:none">ID</th>
                         <th>Nro Propuesta</th>
-                        <th>F. Envio</th>
                         <th>F. Aceptación</th>
                         <th>Empresa</th>
                         <th>Costo</th>
                         <th>Estado</th>
                         <th>F. US</th>
-                        <th>Descrip. US</th>
+                        <th>Seguimiento</th>
                         <th class="text-nowrap">Indicador</th>
                         <th class="text-nowrap">Acciones</th>
                     </tr>
@@ -155,7 +154,6 @@
 <script src="~/assets/plugins/jquery/jquery.min.js"></script>
 <script src="~/Scripts/APIController.js"></script>
 <script src="~/assets/plugins/Chart.js/Chart.min.js"></script>
-<script src="~/Scripts/moment.js"></script>
 
 <script>
 
@@ -186,8 +184,8 @@
         $("#tbody-filter-quotation").empty();
         var params = {
             "NroQuotation": $("#txtNroCotizacion").val(),
-            "StartDate":  moment($("#dtpStart").val()).format("YYYY/MM/DD"), //$("#dtpStart").val(),
-            "EndDate": moment($("#dtpEnd").val()).format("YYYY/MM/DD"), //$("#dtpEnd").val(),
+            "StartDate": $("#dtpStart").val(),
+            "EndDate": $("#dtpEnd").val(),
             "CompanyName": $("#txtRuc").val(),
             "StatusQuotationId": $("#ddlStatus option:selected").val()             
         }
@@ -202,7 +200,6 @@
                 content += "<td><i class='fa fa-plus text-inverse' onclick=show('track-" + quotationId + "')></i></td>";
                 content += "<td style='display:none'>" + quotationId + "</td>";
                 content += "<td>" + data[i].NroQuotation + "</td>";
-                content += "<td>" + formatDate(new Date(data[i].ShippingDate)) + "</td>";
                 content += "<td>" + data[i].AcceptanceDate + "</td>";
                 content += "<td>" + data[i].CompanyName + "</td>";
                 content += "<td>" + data[i].Total + "</td>";
@@ -220,7 +217,7 @@
 
                 content += "</td>";
 
-                content += "<td>" + formatDate(new Date(data[i].USDate )) + "</td>";
+                content += "<td>" + data[i].USDate + "</td>";
                 content += "<td>" + data[i].TrackingDescription+"</td>";
                 content += "<td class='indicator'><i class='fa fa-circle waves-effect waves-light'></i></td>";
                 content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a><a onclick='AddTracking(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-phone btn waves-effect waves-light btn-secondary'></i></a></td>";
@@ -234,7 +231,7 @@
                 content += "<thead>";
                 content += "<tr>";
                 content += "<th style='display:none'>ID</th>";
-                content += "<th style='width:180px'>Fecha</th>";
+                content += "<th>Fecha</th>";
                 content += "<th>Comentario</th>";
                 content += "<th class='text-nowrap'></th>";
                 content += "</tr>";
@@ -245,7 +242,7 @@
 
                     content += "<tr id='tr-"+detail[ii].QuoteTrackingId+"'>";
                     content += "<td  style='display:none'>" + detail[ii].QuoteTrackingId + "</td>";
-                    content += "<td>" + formatDate(new Date(detail[ii].Date)) + "</td>";
+                    content += "<td>" + GetDateFormat(detail[ii].Date) + "</td>";
                     content += "<td>" + detail[ii].Commentary + "</td>";                                        
                     content += "<td style='width:80px'><div class='btn-list'><a onclick='EditTracking(" + detail[ii].QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></div></td>";
                     content += "</tr>";
@@ -309,17 +306,16 @@
                 let content = "";
                 content += "<tr id='tr-"+data.QuoteTrackingId+"'>";
                 content += "<td  style='display:none'>" + data.QuoteTrackingId + "</td>";
-                content += "<td>" + formatDate(new Date(GetDateFormat(data.Date))) + "</td>";
+                content += "<td>" + GetDateFormat(data.Date) + "</td>";
                 content += "<td>" + data.Commentary + "</td>";
                 content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "</tr>";
 
                 $("#tbody-Tracking-" + data.QuotationId).append(content);
-                if ($("#txthiddenStatusQuotationId").val() !=0) {
-                    APIController.UpdateQuotation({"QuotationId": $("#txthiddenQuotation").val(), "StatusQuotationId": $("#txthiddenStatusQuotationId").val()}).then((res) => {
+
+                APIController.UpdateQuotation({"QuotationId": $("#txthiddenQuotation").val(), "StatusQuotationId": $("#txthiddenStatusQuotationId").val()}).then((res) => {
                     Filter();
                 });
-                }                
 
                 ClearPoupTracking();
             });
@@ -356,22 +352,6 @@
         return dat;
     }
 
-    function formatDate(date) {
-      var monthNames = [
-        "Enero", "Febrero", "Marzo",
-        "Abril", "Mayo", "Junio", "Julio",
-        "Agosto", "Setiembre", "Octubre",
-        "Noviembre", "Diciembre"
-      ];
-
-      var day = date.getDate();
-      var monthIndex = date.getMonth();
-      var year = date.getFullYear();
-
-      return day + ' ' + monthNames[monthIndex] + ' ' + year;
-    }
-
-
     function EditTracking(id) {        
         ClearPoupTracking();
         
@@ -383,7 +363,7 @@
             $("#txthiddenQuotation").val(data.QuotationId);
             $("#txtComentary").val(data.Commentary);
             $("#txthiddenQuotationTracking").val(data.QuoteTrackingId);
-            $("#txthiddentxtDate").val(data.Date);
+            $("#txthiddentxtDate").val(GetDateFormat(data.Date));
             
         });
     }
@@ -416,6 +396,7 @@
         $("#statusAccepted").html(statusAccepted);
         $("#statusdiscarded").html(statusdiscarded);
 
+        console.log(statusTracking);    
         var data3 = [
             {
                 value: statusTracking,

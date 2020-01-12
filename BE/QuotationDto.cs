@@ -71,7 +71,6 @@ namespace BE
 
     public class QuotationRegisterDto
     {
-        public int QuotationId { get; set; }
         public string Code { get; set; }
         public int Version { get; set; }
         public int UserCreatedId { get; set; }        
@@ -193,7 +192,7 @@ namespace BE
     {
         public int QuoteTrackingId { get; set; }
         public int QuotationId { get; set; }
-        public string Date { get; set; }
+        public DateTime? Date { get; set; }
         public string Commentary { get; set; }
     }
     #endregion
