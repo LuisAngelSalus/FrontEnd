@@ -12,6 +12,7 @@ namespace BE
         public QuotationDto()
         {
             QuotationProfiles = new List<QuotationProfileDto>();
+            AdditionalComponentsQuotes = new List<AdditionalComponentsQuoteDto>();
         }
         public int QuotationId { get; set; }
         public string Code { get; set; }
@@ -30,6 +31,23 @@ namespace BE
         public int? StatusQuotationId { get; set; }
         public int? InsertUserId { get; set; }
         public List<QuotationProfileDto> QuotationProfiles { get; set; }
+        public List<AdditionalComponentsQuoteDto> AdditionalComponentsQuotes { get; set; }
+    }
+
+    public class AdditionalComponentsQuoteDto
+    {
+
+        public int AdditionalComponentsQuoteId { get; set; }
+        public int? CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public string ComponentId { get; set; }
+        public string ComponentName { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? PriceList { get; set; }
+        public decimal? SalePrice { get; set; }
+        public int? InsertUserId { get; set; }
+        public RecordStatus RecordStatus { get; set; }
+        public RecordType RecordType { get; set; }
     }
 
     public class QuotationProfileDto
@@ -71,6 +89,7 @@ namespace BE
 
     public class QuotationRegisterDto
     {
+        public string QuotationId { get; set; }
         public string Code { get; set; }
         public int Version { get; set; }
         public int UserCreatedId { get; set; }        
@@ -83,6 +102,7 @@ namespace BE
         public decimal? TotalQuotation { get; set; }
         public int? InsertUserId { get; set; }
         public List<QuotationProfileRegisterDto> QuotationProfiles { get; set; }
+        public List<AdditionalComponentsQuoteRegisterDto> AdditionalComponentsQuotes { get; set; }
     }
 
     public class QuotationProfileRegisterDto
@@ -93,6 +113,7 @@ namespace BE
         public int? ServiceTypeId { get; set; }
         public int? InsertUserId { get; set; }
         public List<ProfileComponentRegisterDto> ProfileComponents { get; set; }
+        
     }
 
     public class ProfileComponentRegisterDto
@@ -100,6 +121,19 @@ namespace BE
         public int QuotationProfileId { get; set; }
         public string CategoryName { get; set; }
         public int? CategoryId { get; set; }
+        public string ComponentId { get; set; }
+        public string ComponentName { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? PriceList { get; set; }
+        public decimal? SalePrice { get; set; }
+        public int? InsertUserId { get; set; }
+    }
+
+    public class AdditionalComponentsQuoteRegisterDto
+    {
+        public int QuotationId { get; set; }
+        public int? CategoryId { get; set; }
+        public string CategoryName { get; set; }
         public string ComponentId { get; set; }
         public string ComponentName { get; set; }
         public decimal? MinPrice { get; set; }
@@ -130,6 +164,7 @@ namespace BE
         public int? InsertUserId { get; set; }
 
         public List<QuotationProfileUpdateDto> QuotationProfiles { get; set; }
+        public List<AdditionalComponentsQuoteUpdateDto> AdditionalComponentsQuotes { get; set; }
     }
 
     public class QuotationProfileUpdateDto
@@ -160,6 +195,20 @@ namespace BE
         public RecordType RecordType { get; set; }
     }
 
+    public class AdditionalComponentsQuoteUpdateDto
+    {
+        public int QuotationId { get; set; }
+        public int? CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public string ComponentId { get; set; }
+        public string ComponentName { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? PriceList { get; set; }
+        public decimal? SalePrice { get; set; }
+        public int? InsertUserId { get; set; }
+        public RecordStatus RecordStatus { get; set; }
+        public RecordType RecordType { get; set; }
+    }
     #endregion
 
 

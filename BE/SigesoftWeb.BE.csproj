@@ -48,6 +48,7 @@
     <Compile Include="InfoDto.cs" />
     <Compile Include="ListCompanyContactDto.cs" />
     <Compile Include="ListCompanyDto.cs" />
+    <Compile Include="ListComponentDto.cs" />
     <Compile Include="ListQuoteTrackingDto.cs" />
     <Compile Include="ListSystemUserDto.cs" />
     <Compile Include="LoginDto.cs" />

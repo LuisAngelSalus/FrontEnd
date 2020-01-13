@@ -50,16 +50,22 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult Save(QuotationRegisterDto data)
         {
-            var response = _quotationBL.Save(data);
+             var response = _quotationBL.Save(data);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
+
         public JsonResult Update(QuotationUpdateDto data)
         {
             var response = _quotationBL.Update(data);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
-        
+
+        public JsonResult GetComponents()
+        {
+            var response = _quotationBL.GetComponents();
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
     }
 }

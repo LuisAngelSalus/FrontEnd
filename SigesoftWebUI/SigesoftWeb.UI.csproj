@@ -143,6 +143,8 @@
     <Content Include="assets\css\spinners.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\images\favicon.png" />
+    <Content Include="assets\images\Isotipo SalusLaboris.png" />
+    <Content Include="assets\images\letras.png" />
     <Content Include="assets\images\logo-icon.png" />
     <Content Include="assets\images\logo-light-icon.png" />
     <Content Include="assets\images\logo-light-text.png" />
@@ -1306,6 +1308,7 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
