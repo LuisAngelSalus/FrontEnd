@@ -106,6 +106,7 @@
                         <th></th>
                         <th style="display:none">ID</th>
                         <th>Nro Propuesta</th>
+                        <th>F. Envio</th>
                         <th>F. Aceptación</th>
                         <th>Empresa</th>
                         <th>Costo</th>
@@ -194,12 +195,14 @@
             $(".odd").remove();
             var content = "";
             var data = resp.Data;
+            console.log("data", data);
             for (let i = 0; i < data.length; i++) {
                 var quotationId = data[i].QuotationId;
                 content += "<tr id='track-"+quotationId+"'>";
                 content += "<td><i class='fa fa-plus text-inverse' onclick=show('track-" + quotationId + "')></i></td>";
                 content += "<td style='display:none'>" + quotationId + "</td>";
                 content += "<td>" + data[i].NroQuotation + "</td>";
+                content += "<td>" + formatDate(new Date(data[i].ShippingDate)) + "</td>";
                 content += "<td>" + formatDate(new Date(data[i].AcceptanceDate)) + "</td>";
                 content += "<td>" + data[i].CompanyName + "</td>";
                 content += "<td>" + data[i].Total + "</td>";
@@ -341,10 +344,6 @@
                 $("#tr-" + data.QuoteTrackingId).append(content);
 
                 ClearPoupTracking();
-
-                //APIController.UpdateQuotation({"QuotationId":  $("#txthiddenQuotation").val()}).then((resp) => {
-
-                //});
             });
         }
         
@@ -357,6 +356,8 @@
     }
 
     function formatDate(date) {
+        
+        
       var monthNames = [
         "Enero", "Febrero", "Marzo",
         "Abril", "Mayo", "Junio", "Julio",
@@ -366,10 +367,13 @@
 
       var day = date.getDate();
       var monthIndex = date.getMonth();
-      var year = date.getFullYear();
-
+        var year = date.getFullYear();
+        if (year == 1969) {
+            return "";
+        }
       return day + ' ' + monthNames[monthIndex] + ' ' + year;
     }
+
     function EditTracking(id) {        
         ClearPoupTracking();
         
