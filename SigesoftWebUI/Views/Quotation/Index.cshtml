@@ -200,7 +200,7 @@
                 content += "<td><i class='fa fa-plus text-inverse' onclick=show('track-" + quotationId + "')></i></td>";
                 content += "<td style='display:none'>" + quotationId + "</td>";
                 content += "<td>" + data[i].NroQuotation + "</td>";
-                content += "<td>" + data[i].AcceptanceDate + "</td>";
+                content += "<td>" + formatDate(new Date(data[i].AcceptanceDate)) + "</td>";
                 content += "<td>" + data[i].CompanyName + "</td>";
                 content += "<td>" + data[i].Total + "</td>";
 
@@ -217,7 +217,7 @@
 
                 content += "</td>";
 
-                content += "<td>" + data[i].USDate + "</td>";
+                content += "<td>" + formatDate(new Date(data[i].USDate)) + "</td>";
                 content += "<td>" + data[i].TrackingDescription+"</td>";
                 content += "<td class='indicator'><i class='fa fa-circle waves-effect waves-light'></i></td>";
                 content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a><a onclick='AddTracking(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-phone btn waves-effect waves-light btn-secondary'></i></a></td>";
@@ -334,13 +334,17 @@
                 $("#tr-" + data.QuoteTrackingId).empty();                
                 let content = "";
                 content += "<td style='display:none'>" + data.QuoteTrackingId + "</td>";
-                content += "<td>" +formatDate(new Date(GetDateFormat($("#txthiddentxtDate").val())))  + "</td>";
+                content += "<td>" +$("#txthiddentxtDate").val()  + "</td>";
                 content += "<td>" + data.Commentary + "</td>";
                 content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";                
 
                 $("#tr-" + data.QuoteTrackingId).append(content);
 
                 ClearPoupTracking();
+
+                //APIController.UpdateQuotation({"QuotationId":  $("#txthiddenQuotation").val()}).then((resp) => {
+
+                //});
             });
         }
         
