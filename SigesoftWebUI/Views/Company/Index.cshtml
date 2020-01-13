@@ -9,8 +9,8 @@
         vertical-align: middle;
     }
 
-    .cancelBtn{
-        display:none;
+    .cancelBtn {
+        display: none;
     }
 </style>
 
@@ -29,20 +29,14 @@
                 <div class="card-body m-0 p-0">
                     <div class="row">
                         <div class="col-md-2">
-                            <div class="form-group mb-0">
+                            <div class="form-group mb-0" data-column="0">
                                 <label>Empresa</label>
-                                <input type="text" class="form-control" value="">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group mb-0">
-                                <label>Fecha</label>
-                                <input class="form-control input-daterange-datepicker" type="text" name="daterange" value="01/01/2015 - 01/31/2015" />
+                                <input id="col0_filter" type="text" class="form-control column_filter" value="">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="card-body m-0 p-0" style="padding-top: 32px !important;">
-                                <button class="btn btn-secondary waves-effect waves-light">Buscar</button>
+                                <button id="btnBuscar" class="btn btn-secondary waves-effect waves-light">Buscar</button>
                             </div>
                         </div>
                         <div class="col-md">
@@ -131,7 +125,7 @@
 <script src="~/assets/plugins/jquery/jquery.min.js"></script>
 <script src="~/Scripts/APIController.js"></script>
 <!--Custom JavaScript -->
-<script src="~/assets/js/custom.min.js"></script>
+@*<script src="~/assets/js/custom.min.js"></script>*@
 <script src="~/assets/plugins/moment/moment.js"></script>
 <script src="~/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
 <!-- Clock Plugin JavaScript -->
@@ -147,6 +141,31 @@
 <script src="~/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 
 <script>
+
+    minDateFilter = "";
+    maxDateFilter = "";
+    //$.fn.dataTableExt.afnFiltering.push(
+    //    function (oSettings, aData, iDataIndex) {
+    //        if (typeof aData._date == 'undefined') {
+    //            aData._date = new Date(aData[0]).getTime();
+    //        }
+
+    //        if (minDateFilter && !isNaN(minDateFilter)) {
+    //            if (aData._date < minDateFilter) {
+    //                return false;
+    //            }
+    //        }
+
+    //        if (maxDateFilter && !isNaN(maxDateFilter)) {
+    //            if (aData._date > maxDateFilter) {
+    //                return false;
+    //            }
+    //        }
+
+    //        return true;
+    //    }
+    //);
+
     $(document).ready(function () {
         $('#tableOrganizations').dataTable({
             dom: 'lfrtip',
@@ -176,7 +195,24 @@
             }
         });
 
+
+        $('body').on('click', '#btnBuscar', function () {
+            filterColumn(0);
+        });
+
+        $("#txtFecha").val("");
+
+        //$('input.column_filter').on( 'keyup click', function () {
+        //    filterColumn( $(this).parents('div').attr('data-column') );
+        //} );
+
     });
+
+    function filterColumn(i) {
+        $('#tableOrganizations').DataTable().column(i).search(
+            $('#col' + i + '_filter').val()
+        ).draw();
+    }
 
     function Ver(companyId) {
         $("#exampleModal").modal("show");
@@ -201,18 +237,34 @@
 
     }
 
+    var table = $('#tableOrganizations').DataTable({
+        deferRender: true,
+        "autoWidth": false,
+        "search": {
+            "regex": true,
+            "caseInsensitive": false,
+        },
+    });
+
     // Daterange picker
     $('.input-daterange-datepicker').daterangepicker({
         buttonClasses: ['btn', 'btn-sm'],
         applyClass: 'btn-danger',
         cancelClass: 'btn-inverse',
         "locale": {
-            "format": "MM/DD/YYYY",
-            "separator": " - ",
-            "applyLabel": "Aceptar",
-            "fromLabel": "Desde",
-            "toLabel": "Hasta",
+            "format": "DD/MM/YYYY",
+            //"separator": " - ",
+            //"applyLabel": "Aceptar",
+            //"fromLabel": "Desde",
+            //"toLabel": "Hasta",
+            //"customRangeLabel": "Custom",
+            "separator": " to ",
+            "applyLabel": "Apply",
+            "cancelLabel": "Cancel",
+            "fromLabel": "From",
+            "toLabel": "To",
             "customRangeLabel": "Custom",
+            "weekLabel": "W",
             "daysOfWeek": [
                 "Do",
                 "Lu",
@@ -237,8 +289,14 @@
                 "Diciembre"
             ],
             "firstDay": 1
-        }
+        },
+        "opens": "center",
+    }, function (start, end, label) {
+        maxDateFilter = end;
+        minDateFilter = start;
+        table.draw();
     });
+
     $('.input-daterange-timepicker').daterangepicker({
         timePicker: true,
         format: 'MM/DD/YYYY h:mm A',
@@ -261,4 +319,3 @@
         }
     });
 </script>
-

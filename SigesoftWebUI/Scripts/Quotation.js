@@ -463,7 +463,8 @@ function SaveCompany(resp) {
     var data = {
         "Name": resp.RazonSocial,
         "IdentificationNumber": resp.Ruc,
-        "Address": resp.CodigoZona,
+        //"Address": resp.CodigoZona,
+        "Address": resp.TipoVia + ' ' + resp.CodigoZona + ' N°' + resp.Numero + ' ' + resp.NombreVia + ' ' + resp.TipoZona,
         "PhoneNumber": "",
         "ContactName": "",
         "Mail": "",
@@ -477,8 +478,10 @@ function SaveCompany(resp) {
         var headquarter = {
             "RecordType": "Temporal",
             "RecordStatus": "Agregado",
-            "Name": detail[i].NombreVia,
-            "Address": detail[i].TipoZona,
+            //"Name": detail[i].NombreVia,
+            //"Address": detail[i].TipoZona,
+            "Name": detail[i].TipoZona,
+            "Address": detail[i].TipoVia + ' ' + detail[i].NombreVia + ' N°' + detail[i].Numero,
             "PhoneNumber": "",
         }
         data.companyHeadquarter.push(headquarter);

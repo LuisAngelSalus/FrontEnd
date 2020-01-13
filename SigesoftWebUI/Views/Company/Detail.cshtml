@@ -212,23 +212,35 @@
     });
     $(document).ready(function () {
 
-        $('#txtRuc').change(function () {
-            let ruc = $('#txtRuc').val();
-            $('#ddlSede').empty();
+        $('#txtIdentificationNumber').change(function () {
+            let ruc = $('#txtIdentificationNumber').val();
+            //$('#ddlSede').empty();
             SearchCompany(ruc);
         });
 
         function SearchCompany(ruc) {
             APIController.GetCompanyByRuc(ruc).then((res) => {
+                console.log(res.data);
                 $('#txtCompanyId').val(res.Data.CompanyId);
                 $('#txtCompanyName').val(res.Data.Name);
-                $('#txtDistric').val(res.Data.  District);
+                $('#txtDistrict').val(res.Data.District);
                 $('#txtAddress').val(res.Data.Address);
 
-                //let content = "";
-                //for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
-                //    content += "<option value='" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "'>" + res.Data.companyHeadquarter[i].Address + "</option>";
-                //}
+                let content = "";
+                for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
+                    //content += "<option value='" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "'>" + res.Data.companyHeadquarter[i].Address + "</option>";
+                    content += "<tr>";
+
+                    content += "<td style='display:none' class='RecordType'>" + res.Data.companyHeadquarter[i].RecordType + "</td>";
+                    content += "<td style='display:none' class='RecordStatus'>" + res.Data.companyHeadquarter[i].RecordStatus + "</td>";
+                    content += "<td style='display:none'>" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "</td>";
+                    content += "<td tabindex='1'>" + res.Data.companyHeadquarter[i].Name + "</td>";
+                    content += "<td tabindex='1'>" + res.Data.companyHeadquarter[i].Address + "</td>";
+                    content += "<td tabindex='1'> </td>";
+                    content += "<td class='disableBtn'><i id='"+"edit-"+res.Data.companyHeadquarter[i].CompanyHeadquarterId+"' class='btnEdit fa fa-pencil text-inverse m-r-10'></i><i id='"+"delete-"+res.Data.companyHeadquarter[i].CompanyHeadquarterId+"' class='btnDelete fa fa-close text-danger'></i></td>";
+                    content += " </tr>";
+                }
+                $("tbody").append(content);
 
                 //$('#ddlSede').append(content);
 
@@ -270,10 +282,42 @@
                 $('#txtDistric').val("");
                 $('#txtAddress').val("");
                 $('#txtCompanyName').attr('readonly', false);
-                $('#txtDistric').attr('readonly', false);
+                $('#txtDistrict').attr('readonly', false);
                 $('#txtAddress').attr('readonly', false);
             });
         }
+
+        function SaveCompany(resp) {
+
+            var data = {
+                "Name": resp.RazonSocial,
+                "IdentificationNumber": resp.Ruc,
+                "Address": resp.TipoVia + ' ' + resp.CodigoZona + ' N°' + resp.Numero + ' ' + resp.NombreVia + ' ' + resp.TipoZona,
+                "PhoneNumber": "",
+                "ContactName": "",
+                "Mail": "",
+                "District": resp.Distrito,
+                "PhoneCompany": "",
+                "companyHeadquarter": new Array()
+            }
+
+            var detail = resp.details;
+            for (var i = 0; i < detail.length; i++) {
+                var headquarter = {
+                    "RecordType": "Temporal",
+                    "RecordStatus": "Agregado",
+                    "Name": detail[i].TipoZona,
+                    "Address": detail[i].TipoVia + ' ' + detail[i].NombreVia + ' N°' + detail[i].Numero,
+                    "PhoneNumber": "",
+                }
+                data.companyHeadquarter.push(headquarter);
+            }
+
+            APIController.SaveCompany(data).then((res) => {               
+                SearchCompany(res.Data.IdentificationNumber);
+            });
+        }
+
 
         $(".disableBtn").removeAttr("tabindex");
         $(".disableTd").removeAttr("tabindex");

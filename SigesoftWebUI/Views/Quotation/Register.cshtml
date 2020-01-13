@@ -290,7 +290,7 @@
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(77px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-                        <a class="dropdown-item" onclick="">PDF</a>
+                        <a class="dropdown-item" href="@Url.Action("GetHTMLPageAsPDF","Quotation")" target="_blank">PDF</a>
                         <a class="dropdown-item" onclick="">Excel</a>
                         <a class="dropdown-item" onclick="">Separar Propuesta</a>
                     </div>
@@ -349,7 +349,7 @@
                     <input type="checkbox" id="chkProfile" value="check"><label for="chkProfile">Guardar Perfil</label>
                 </div>
                 <div class="col-2">
-                    <button type="button" class="btn btn-info" data-dismiss="modal" onclick="AddProfile()">Ok</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal" onclick="AddProfile()">Aceptar</button>
                 </div>
 
             </div>
