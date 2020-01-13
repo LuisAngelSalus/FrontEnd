@@ -67,5 +67,17 @@ namespace BL
             }
             return obj;
         }
+
+        public Response<List<ListComponentDto>> GetComponents()
+        {
+            Response<List<ListComponentDto>> obj = null;
+            var hCliente = _global.rspClientGET("ComponentWin/");
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<ListComponentDto>>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+        
     }
 }

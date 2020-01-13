@@ -1,5 +1,4 @@
-﻿
-var obj = {};
+﻿var obj = {};
 $(document).ready(function () {
 
     if ($("#txtQuotationId").val() != 0) {
@@ -39,6 +38,11 @@ $(document).ready(function () {
         let ruc = $('#txtRuc').val();
         $('#ddlSede').empty();
         SearchCompany(ruc);
+    });
+
+
+    $('#tbody-Add-Examns').on('autocompletechange', '.tags', function (event) {
+        getDataComponent(this.value, event);
     });
 
 });
@@ -560,7 +564,8 @@ function APISaveQuotation() {
         "InsertUserId": 4,
         "TotalQuotation": $(".Total").html(),
         "StatusQuotationId": $(".select-StatusQuotation option:selected").val(),
-        "QuotationProfiles": []
+        "QuotationProfiles": [],
+        "AdditionalComponentsQuotes": []
     }
 
     $("#tbody-main tr").each(function (index, tr) {
@@ -579,7 +584,6 @@ function APISaveQuotation() {
 
                 if ($(tr).hasClass(idParent)) {
                     $(tr).find("tbody > tr").each(function () {
-                        console.log("B", GetNameCategory($(this).find("td").eq(1).html()));
                         if (GetNameCategory($(this).find("td").eq(1).html()) != "----") {
                         
                             var oProfileComponent = {};
@@ -603,10 +607,29 @@ function APISaveQuotation() {
             data.QuotationProfiles.push(oQuotationProfile);
         }
     });
+
+    $("#tbody-Add-Examns tr").each(function (index, tr) {        
+        var oAddExam = {};
+        oAddExam.quotationId = $("#txtQuotationId").val();
+        oAddExam.CategoryId = $(this).find("td").eq(4).html();
+        oAddExam.CategoryName = $(this).find("td").eq(5).html();
+        oAddExam.ComponentId = $(this).find("td").eq(6).html();
+        oAddExam.ComponentName = $(this).find("td").eq(7).html();
+        oAddExam.MinPrice = $(this).find("td").eq(9).html();
+        oAddExam.PriceList = $(this).find("td").eq(10).html();
+        oAddExam.SalePrice = $(this).parent().parent().find(".AddExamPreVen").val()
+        oAddExam.RecordType = $(this).find(".RecordType").html();
+        oAddExam.RecordStatus = $(this).find(".RecordStatus").html();
+        oAddExam.InsertUserId = 1;
+        data.AdditionalComponentsQuotes.push(oAddExam);
+    });
+
+
     if (data.QuotationId == 0) {
         APIController.SaveQuotation(data).then((res) => {
             swal({ title: "Correcto", text: "El nro de cotizacion es :" + res.Data.Code, type: "success" },
                 function () {
+                    SaveTracking(res.Data.QuotationId);
                     $("#spanCode").html(res.Data.Code);
                     window.location.href = "/Quotation/Index/";
                 });
@@ -619,6 +642,18 @@ function APISaveQuotation() {
             });        
         });
     }  
+}
+
+function SaveTracking(quotationId) {
+    console.log("quotationId", quotationId);
+    var params = {
+        "QuotationId": quotationId,
+        "Commentary": "Cotización Creada",
+        "InsertUserId": 1
+    }
+    APIController.SaveQuoteTracking(params).then((resp) => {
+
+    });
 }
 
 function GetNameCategory(id) {
@@ -746,3 +781,93 @@ $('.table-main').on('change', '.select-Service', function (event) {
         $(event.target).parent().parent().find(".RecordStatus").text("MODIFICADO");
     }
 })
+
+
+function AddAdditionalExamns() {
+    let availableTags = [];
+    let data = [];
+    if (localStorage.getItem('components') == null) {        
+        APIController.GetComponents().then((res) => {            
+            //ADD LOCALSTORAGE
+            localStorage.setItem('components', JSON.stringify(res.Data));
+            data = res.Data;   
+            availableTags = data.map((res) => {
+                return res.Name;
+            });
+
+            addRowAddExam();
+
+            $(".tags").autocomplete({
+                source: availableTags
+            });
+
+        });
+    } else {
+        data = JSON.parse(localStorage.getItem('components'));  
+        availableTags = data.map((res) => {
+            return res.Name;
+        });
+
+        addRowAddExam();
+    
+        $(".tags").autocomplete({
+            source: availableTags
+        });
+    }
+}
+
+function addRowAddExam() {
+
+    let idExamAdd = "ExamAdd-" + Math.random().toString(36).substring(7);
+    let content = "";
+    content += "<tr id='" + idExamAdd + "'>";
+    content += "<td style='display:none' class='RecordType'>TEMPORAL</td>";
+    content += "<td style='display:none' class='RecordStatus'>AGREGADO</td>";
+
+
+    content += "<td style='display:none' class='AddExamID'></td>";
+    content += "<td style='display:none' class='AddExamQuotationId'></td>";
+    content += "<td style='display:none' class='AddExamCatId'></td>";
+    content += "<td style='display:none' class='AddExamCatName'></td>";
+    content += "<td style='display:none' class='AddExamCompId'></td>";
+    content += "<td style='display:none' class='AddExamCompName'></td>";
+
+    content += "<td><input class='form-control tags'></td>"
+    content += "<td class='AddExamPreMin'></td>"
+    content += "<td class='AddExamPreLis'></td>"
+    content += "<td><input style='width:80px' type='text' class='form-control AddExamPreVen'  value=''></td>"
+    content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveAddExamn(event)'></i></td>"
+    content += "</tr>";
+    $('#tbody-Add-Examns').append(content);
+}
+
+function getDataComponent(value, event) {   
+    let data = JSON.parse(localStorage.getItem('components'));
+    
+    const result = data.filter(word => word.Name == value);
+    console.log("DATa", result);
+    $(event.target).parent().parent().find(".AddExamPreMin").text(result[0].CostPrice == null ? 0 : result[0].CostPrice);
+    $(event.target).parent().parent().find(".AddExamPreLis").text(result[0].BasePrice == null ? 0 : result[0].BasePrice);
+
+    //$(event.target).parent().parent().find(".AddExamQuotationId").text(result[0].CategoryId);
+    $(event.target).parent().parent().find(".AddExamCatId").text(result[0].CategoryId);
+    $(event.target).parent().parent().find(".AddExamCatName").text(result[0].CategoryName);
+    $(event.target).parent().parent().find(".AddExamCompId").text(result[0].ComponentId);
+    $(event.target).parent().parent().find(".AddExamCompName").text(result[0].Name);
+
+    $(event.target).parent().parent().find(".AddExamPreVen").val(0);
+}
+
+function RemoveAddExamn(event) {
+    var recordType = $(event.target).parent().parent().find(".RecordType").html();
+    var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
+    var idTr = $(event.target).parent().parent().attr('id');
+    console.log(recordType, recordStatus, idTr);
+    if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {        
+        $(event.target).parent().parent().remove();
+    } else {
+        $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");
+        $(event.target).parent().parent().find(".RecordStatus").text("ELIMINADOLOGICO");        
+        $(event.target).parent().parent().hide();
+    }
+}
