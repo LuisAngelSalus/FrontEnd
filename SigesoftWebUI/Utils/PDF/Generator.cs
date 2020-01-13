@@ -57,13 +57,38 @@ namespace SigesoftWebUI.Utils.PDF
                             </style>
                         </head>
                         <body>
-                            <table>
-                                <tr>
-                                    <th></th>
-                                    <th>Perfil 1</th>
-                                    <th>Perfil 2</th>
-                                    <th>Perfil 3</th>
-                                </tr>");
+                            <div>
+                                <table style='margin-right:5%; margin-left:5%;'>
+                                    <tr>
+                                        <td rowspan='3' style='padding: 0px; width: 300px; '><img src='assets/images/SLEmpresarial.png' style='width: 200px; ' alt=''></td>
+                                        <td rowspan = '3' >
+                                            <div style = 'text-align: center;width: 300px;' >
+                                                <h3 style = 'margin: 0px;'> VISTA PREVIA </h3>
+                                                <h3 style = 'margin: 0px;'> COTIZACIÓN </h3>
+                                            </div>
+                                        </td>
+                                        <td style = 'padding: 0px;'> Propuesta </td>
+                                        <td style = 'padding: 0px;width: 200px;'> 360.19 V1 </td>
+                                    </tr>
+                                    <tr>
+                                        <td style = 'padding: 0px;' > Fecha </td>
+                                        <td style = 'padding: 0px;width: 200px;' > 11 Nov 2019 </td>
+                                    </tr>
+                                    <tr>
+                                        <td style = 'padding: 0px;' > Página </td>
+                                        <td style = 'padding: 0px;width: 200px;' > 18 - 27 </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            &ensp;
+                            <div>
+                                <table style='margin-right: 20%; margin-left: 20%;'>
+                                    <tr>
+                                        <th></th>
+                                        <th>Perfil 1</th>
+                                        <th>Perfil 2</th>
+                                        <th>Perfil 3</th>
+                                    </tr>");
 
             foreach (var item in employess)
             {
@@ -81,7 +106,8 @@ namespace SigesoftWebUI.Utils.PDF
             }
 
             sb.Append(@"
-                            </table>
+                                </table>
+                            </div>
                         </body>    
                         </html>");
 
