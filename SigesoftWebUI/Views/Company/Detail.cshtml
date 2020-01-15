@@ -1,11 +1,16 @@
 ﻿
 @{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
     var companyId = 0;
     if (ViewBag.Detail.companyHeadquarter.Count != 0)
     {
         companyId = ViewBag.Detail.CompanyId;
     }
 }
+
+    
 
 <link rel="stylesheet" href="~/assets/plugins/dropify/dist/css/dropify.min.css">
 <div class="row">
@@ -192,7 +197,7 @@
     bootstrapValidate('#txtIdentificationNumber', 'integer:solo números');
 
 
-    
+
     bootstrapValidate('#txtPhoneCompany', 'required:Campo requerido');
     bootstrapValidate('#txtPhoneCompany', 'integer:solo números');
 
@@ -254,7 +259,7 @@
                 //if ($('#txtCompanyHeadquarterId').val()!=0) {
                 //    $("#ddlSede").val($('#txtCompanyHeadquarterId').val());
                 //}
-        
+
             }).catch((err) => {
                 swal({
                     title: "Empresa no registrada",
@@ -313,7 +318,7 @@
                 data.companyHeadquarter.push(headquarter);
             }
 
-            APIController.SaveCompany(data).then((res) => {               
+            APIController.SaveCompany(data).then((res) => {
                 SearchCompany(res.Data.IdentificationNumber);
             });
         }
