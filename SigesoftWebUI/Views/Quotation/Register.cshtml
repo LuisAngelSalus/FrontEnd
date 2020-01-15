@@ -1,4 +1,9 @@
 ﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
     int QuotationId = 0;
     string Code = "";
     int Version = 0;
@@ -30,15 +35,17 @@
     }
 }
 
+@section Styles{
+    <link href="~/assets/css/pages/floating-label.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/assets/plugins/html5-editor/bootstrap-wysihtml5.css" />
 
-<link href="~/assets/css/pages/floating-label.css" rel="stylesheet" />
-<link rel="stylesheet" href="~/assets/plugins/html5-editor/bootstrap-wysihtml5.css" />
-<link href="~/assets/css/colors/default-dark.css" rel="stylesheet" />
-<link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.min.css">
-<link href="~/Content/Quotation.css" rel="stylesheet" />
-<link href="~/assets/plugins/html5-editor/wysiwyg-color.css" rel="stylesheet" />
-<link href="~/Content/common.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link href="~/Content/Quotation.css" rel="stylesheet" />
+    <link href="~/assets/plugins/html5-editor/wysiwyg-color.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+}
+
+
 <div class="content-alert">
 </div>
 

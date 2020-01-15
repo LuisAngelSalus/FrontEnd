@@ -1,18 +1,51 @@
-﻿<style>
-    #tableOrganizations_wrapper {
-        font-size: 12px;
-    }
+﻿@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-    #tableOrganizations tbody tr td {
-        padding-top: 5px;
-        padding-bottom: 5px;
-        vertical-align: middle;
-    }
+@section Styles{
+    <style type="text/css">
+        #tableOrganizations_wrapper {
+            font-size: 12px;
+        }
 
-    .cancelBtn {
-        display: none;
-    }
-</style>
+        #tableOrganizations tbody tr td {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            vertical-align: middle;
+        }
+
+        .cancelBtn {
+            display: none;
+        }
+
+        .table-info, .table-info > td, .table-info > th {
+            background-color: #2e548f;
+            color: #ffffff;
+        }
+
+        .color-table.success-table thead th {
+            background-color: #2e548f;
+            color: #ffffff;
+        }
+
+        .table-hover .table-info:hover {
+            background-color: #2e548f;
+        }
+
+        table.dataTable thead .sorting:after {
+            color: rgb(255, 255, 255);
+        }
+
+        .btn-primary, .btn-primary.disabled {
+            background: #0dc4c6 !important;
+        }
+
+            .btn-primary:hover, .btn-primary.disabled:hover {
+                border: 1px solid #ffffff;
+            }
+    </style>
+}
 
 <div class="card mb-2">
     <div class="card-body pt-2 pb-2">
@@ -99,13 +132,13 @@
                 <table class="table color-table success-table ">
                     <thead>
                         <tr>
-                            <th>Sede</th>
-                            <th>Nombre</th>
+                            <th>SEDE</th>
+                            <th>NONBRE</th>
                             <th>US</th>
                             <th>DNI</th>
                             <th>CM</th>
-                            <th>Teléfono</th>
-                            <th>Email</th>
+                            <th>TELEFONO</th>
+                            <th>EMAIL</th>
                         </tr>
                     </thead>
                     <tbody id="table-contacts">
@@ -113,7 +146,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

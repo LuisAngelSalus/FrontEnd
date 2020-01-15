@@ -1,5 +1,5 @@
 ﻿@{
-    var dataUSer = @ViewBag.DATAUSER;    
+    var dataUSer = @ViewBag.DATAUSER;
 }
 <!DOCTYPE html>
 <html>
@@ -42,6 +42,95 @@
     <link href="~/Content/common.css" rel="stylesheet" />
     @*@Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")*@
+    <style type="text/css">
+        .card-no-border .left-sidebar, .card-no-border .sidebar-nav {
+            background: #2e548f;
+        }
+
+        .sidebar-nav > ul > li.active > a {
+            color: #ffffff;
+        }
+
+        .sidebar-nav ul li a {
+            color: #ffffff;
+        }
+
+            .sidebar-nav ul li a.active {
+                color: #ffffff;
+            }
+
+            .sidebar-nav ul li a:hover {
+                color: #2e548f;
+                background: #ffffff;
+            }
+
+        .sidebar-nav > ul > li > a.has-arrow::after:hover {
+            color: #2e548f;
+        }
+
+        .sidebar-nav ul li a:hover i {
+            color: #2e548f;
+        }
+
+        .sidebar-nav > ul > li > a.active {
+            background: #2e548f;
+        }
+
+        .sidebar-nav > ul > li.active > a i {
+            color: #2e548f;
+        }
+
+        .sidebar-nav > ul > li.active > a.has-arrow::after {
+            border-width: 3px 0 0 3px;
+            border-style: solid;
+            border-color: #2e548f;
+        }
+
+        .btn {
+            border: 1px solid transparent;
+        }
+
+        .btn-outline-secondary {
+            background-color: #2e548f;
+            box-shadow: none;
+            margin-top: 10px;
+        }
+
+            .btn-outline-secondary.active, .btn-outline-secondary:active, .show > .btn-outline-secondary.dropdown-toggle {
+                background-color: #2e548f;
+                border-color: #fdfeff;
+                box-shadow: -4px 3px 0px 0px rgb(255, 255, 255);
+            }
+
+            .btn-outline-secondary:hover {
+                color: #2e548f;
+                background-color: #ffffff !important;
+                border-color: #acc3dd;
+            }
+
+        .sidebar-nav .has-arrow::after {
+            border-width: 3px 0 0 3px;
+            border-style: solid;
+            border-color: #ffffff;
+        }
+
+        .sidebar-nav > ul > li > a i {
+            color: #ffffff;
+        }
+
+        .sidebar-nav > ul > li.active > .borderli {
+            /*border-color: white !important;
+                border: solid;
+                border-right: none;
+                border-left: none;*/
+            color: #2e548f;
+            background-color: #ffffff;
+            border-color: #acc3dd;
+            border-radius: 5px;
+        }
+    </style>
+
+    @RenderSection("Styles", false)
 </head>
 <body class="fix-header fix-sidebar card-no-border">
     <!-- ============================================================== -->
@@ -79,14 +168,15 @@
                             <!-- dark Logo text -->
                             <img src="~/assets/images/letras.png" alt="homepage" style="width:160px;" class="dark-logo" />
                             <!-- Light Logo text -->
-                            <img src="~/assets/images/letras.png" class="light-logo" style="width:160px;" alt="homepage" />
+                            <img src="~/assets/images/letras.png" class="light-logo" style="width: 160px;" alt="homepage" />
                         </span>
                     </a>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
-                <div class="navbar-collapse" style="padding-left:0px;">
+                <div class="navbar-collapse" style="        padding-left: 0px;
+">
                     <!-- ============================================================== -->
                     <!-- toggle and nav items -->
                     <!-- ============================================================== -->
@@ -266,25 +356,21 @@
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar">
                 <!-- Sidebar navigation-->
-                <nav class="sidebar-nav">
+                <nav class="sidebar-nav pt-1">
                     <ul id="sidebarnav">
-                        <li class="user-profile">
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img src="~/assets/images/users/profile.png" alt="user" /><span class="hide-menu">Steave Jobs </span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="javascript:void()">My Profile </a></li>
-                                <li><a href="javascript:void()">My Balance</a></li>
-                                <li><a href="javascript:void()">Inbox</a></li>
-                                <li><a href="javascript:void()">Account Setting</a></li>
-                                <li><a href="javascript:void()">Logout</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-devider"></li>
-                        <li class="nav-small-cap">PERSONAL</li>
-                        <li>
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Comercial<span class="label label-rouded label-themecolor pull-right">4</span></span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="@Url.Content("~/Company/Index")">Empresas</a></li>
-                                <li><a href="@Url.Content("~/Quotation/Index")">Matriz de Seguimiento</a></li>
+                        @*<li class="nav-small-cap">PERSONAL</li>*@
+                        <li class="active">
+                            <a class="has-arrow waves-effect waves-dark borderli" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Comercial</span></a>
+                            <ul aria-expanded="true" class="collapse">
+                                <li>
+                                    <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Company/Index")">Empresas</a>
+                                </li>
+                                <li>
+                                    <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Quotation/Index")">Matriz de Seguimiento</a>
+                                </li>
+                                @*<li>
+                                        <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Quotation/Register/0")">Nueva Cotización</a>
+                                    </li>*@
                             </ul>
                         </li>
                     </ul>
@@ -350,6 +436,6 @@
     <script src="~/Scripts/utils.js"></script>
     @*@Scripts.Render("~/bundles/jquery")*@
 
-    @*@RenderSection("scripts", required: false)*@
+    @RenderSection("scripts", required: false)
 </body>
 </html>
