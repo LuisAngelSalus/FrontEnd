@@ -14,10 +14,43 @@
             width: 90%;
             margin: auto
         }
+
+        .label-seguimiento{
+            background-color: #ffc107;
+        }
+
+        .label-aceptada{
+            background-color: #09a009;
+        }
+
+        .label-descartada {
+            background-color: #fb3a3a;
+        }
+
+        .label{
+            width: 76%;
+            text-align: center;
+            padding: 7px 5px;
+        }
+
+        .table{
+            color: #000000 !important;
+        }
+
+        #table thead th{
+            background-color: #2e548f;
+            color: white;
+        }
     </style>
 
-}
 
+}
+<div class="card mb-2">
+    <div class="card-body pt-2 pb-2">
+        <h3 class="card-title">Matriz de Seguimiento</h3>
+        <h5 class="card-subtitle mb-0">Cotizaciones</h5>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-6">
@@ -80,17 +113,17 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Seguimiento</td>
+                                        <td><span class="label label-seguimiento">Seguimiento</span></td>
                                         <td id="statusTracking">0</td>
 
                                     </tr>
                                     <tr>
-                                        <td>Aceptada</td>
-                                        <td id="statusAccepted">0</td>
+                                        <td><span class="label label-aceptada">Aceptada</span></td>
+                                        <td id="statusAccepted">0</td> 
 
                                     </tr>
                                     <tr>
-                                        <td>Descartada</td>
+                                        <td><span class="label label-descartada">Descartada</span></td>
                                         <td id="statusdiscarded">0</td>
 
                                     </tr>
@@ -114,7 +147,7 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th style="display:none">ID</th>
+                        <th style=" display: none">ID</th>
                         <th>Nro Propuesta</th>
                         <th>F. Envio</th>
                         <th>F. Aceptación</th>
@@ -229,7 +262,7 @@
                 content += "<td>" + formatDate(new Date(data[i].USDate)) + "</td>";
                 content += "<td>" + data[i].TrackingDescription+"</td>";
                 content += "<td class='indicator'><i class='fa fa-circle waves-effect waves-light'></i></td>";
-                content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a><a onclick='AddTracking(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-phone btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a><a onclick='AddTracking(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-phone btn waves-effect waves-light btn-info'></i></a></td>";
                 content += "</tr>";
 
                 content += "<tr style='display:none' class='track-"+quotationId+"'>";
@@ -428,20 +461,23 @@
         var data3 = [
             {
                 value: statusTracking,
-                color: "#009efb",
-                highlight: "#009efb",
+                //color: "#009efb",
+                color: "#ffc107",
+                highlight: "#ffe69d",
                 label: "Seguimiento"
             },
             {
                 value: statusAccepted,
-                color: "#edf1f5",
-                highlight: "#edf1f5",
+                //color: "#edf1f5",
+                color: "#09a009",
+                highlight: "#7ab77a",
                 label: "Aceptada"
             },
             {
                 value: statusdiscarded,
-                color: "#2f3d4a",
-                highlight: "#2f3d4a",
+                //color: "#2f3d4a",
+                color: "#fb3a3a",
+                highlight: "#f19b9b",
                 label: "Descartada"
             }
         ];
