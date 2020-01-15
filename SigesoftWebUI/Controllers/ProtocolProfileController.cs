@@ -31,5 +31,13 @@ namespace SigesoftWebUI.Controllers
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
+
+        public JsonResult Autocomplete(string value)
+        {
+            var response = _protocolProfileBL.Autocomplete(value);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+
+        }
+        
     }
 }

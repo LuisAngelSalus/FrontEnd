@@ -46,5 +46,16 @@ namespace BL
             }
             return obj;
         }
+
+        public Response<List<DropdownListDto>> Autocomplete(string value)
+        {
+            Response<List<DropdownListDto>> obj = null;
+            var hCliente = _global.rspClientGET("ProtocolProfile/"+value+"/AutocompleteByName");
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<DropdownListDto>>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
     }
 }
