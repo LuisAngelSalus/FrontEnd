@@ -1,4 +1,9 @@
 ﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
     int QuotationId = 0;
     string Code = "";
     int Version = 0;
@@ -30,15 +35,17 @@
     }
 }
 
+@section Styles{
+    <link href="~/assets/css/pages/floating-label.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/assets/plugins/html5-editor/bootstrap-wysihtml5.css" />
 
-<link href="~/assets/css/pages/floating-label.css" rel="stylesheet" />
-<link rel="stylesheet" href="~/assets/plugins/html5-editor/bootstrap-wysihtml5.css" />
-<link href="~/assets/css/colors/default-dark.css" rel="stylesheet" />
-<link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.min.css">
-<link href="~/Content/Quotation.css" rel="stylesheet" />
-<link href="~/assets/plugins/html5-editor/wysiwyg-color.css" rel="stylesheet" />
-<link href="~/Content/common.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link href="~/Content/Quotation.css" rel="stylesheet" />
+    <link href="~/assets/plugins/html5-editor/wysiwyg-color.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+}
+
+
 <div class="content-alert">
 </div>
 
@@ -244,23 +251,23 @@
                     <tbody id="tbody-Add-Examns">
                         @foreach (var examAddi in ViewBag.DataQuotation.AdditionalComponentsQuotes)
                         {
-                        <tr id="@examAddi.AdditionalComponentsQuoteId">
-                           
-                            <td style="display:none" class="RecordType">@examAddi.RecordType</td>                           
-                            <td style="display:none" class="RecordStatus">@examAddi.RecordStatus</td>                            
-                            <td style="display:none" class="AddExamID">@examAddi.AdditionalComponentsQuoteId</td>                                                    
-                            <td style="display:none" class="AddExamCatId">@examAddi.CategoryId</td>
-                            <td style="display:none" class="AddExamCatName">@examAddi.CategoryName</td>
-                            <td style="display:none" class="AddExamCompId">@examAddi.ComponentId</td>
-                            <td style="display:none" class="AddExamCompName">@examAddi.ComponentName</td>
-                            <td>@examAddi.ComponentName</td>
-                            <td class='AddExamPreMin'>@examAddi.MinPrice</td>
-                            <td class='AddExamPreLis'>@examAddi.PriceList</td>
-                            <td>@examAddi.SalePrice</td>
-                            <td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveAddExamn(event)'></i></td>
-                        </tr>
+                            <tr id="@examAddi.AdditionalComponentsQuoteId">
+
+                                <td style="display:none" class="RecordType">@examAddi.RecordType</td>
+                                <td style="display:none" class="RecordStatus">@examAddi.RecordStatus</td>
+                                <td style="display:none" class="AddExamID">@examAddi.AdditionalComponentsQuoteId</td>
+                                <td style="display:none" class="AddExamCatId">@examAddi.CategoryId</td>
+                                <td style="display:none" class="AddExamCatName">@examAddi.CategoryName</td>
+                                <td style="display:none" class="AddExamCompId">@examAddi.ComponentId</td>
+                                <td style="display:none" class="AddExamCompName">@examAddi.ComponentName</td>
+                                <td>@examAddi.ComponentName</td>
+                                <td class='AddExamPreMin'>@examAddi.MinPrice</td>
+                                <td class='AddExamPreLis'>@examAddi.PriceList</td>
+                                <td>@examAddi.SalePrice</td>
+                                <td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveAddExamn(event)'></i></td>
+                            </tr>
                         }
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -358,15 +365,13 @@
     </div>
 </div>
 
-<!-- ============================================================== -->
-<!-- All Jquery -->
-<!-- ============================================================== -->
-<script src="~/assets/plugins/jquery/jquery.min.js"></script>
 
-<!-- wysuhtml5 Plugin JavaScript -->
-<script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
-<script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
-<script src="~/Scripts/APIController.js"></script>
-<script src="~/Scripts/Quotation.js"></script>
-<script src="~/Scripts/QuotationValidation.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"</script>
+@section scripts{
+    <!-- wysuhtml5 Plugin JavaScript -->
+    <script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
+    <script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
+    <script src="~/Scripts/APIController.js"></script>
+    <script src="~/Scripts/Quotation.js"></script>
+    <script src="~/Scripts/QuotationValidation.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+}

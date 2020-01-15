@@ -10,9 +10,11 @@
     }
 }
 
-    
+@section Styles{
+    <link rel="stylesheet" href="~/assets/plugins/dropify/dist/css/dropify.min.css">
+}
 
-<link rel="stylesheet" href="~/assets/plugins/dropify/dist/css/dropify.min.css">
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card mb-2">
@@ -172,40 +174,39 @@
         </div>
     </div>
 </div>
-<!-- ============================================================== -->
-<!-- All Jquery -->
-<!-- ============================================================== -->
-<script src="~/assets/plugins/jquery/jquery.min.js"></script>
-<!-- Editable -->
-<script src="~/assets/plugins/jquery-datatables-editable/jquery.dataTables.js"></script>
-<script src="~/assets/plugins/datatables/dataTables.bootstrap.js"></script>
-<script src="~/assets/plugins/tiny-editable/mindmup-editabletable.js"></script>
-<script src="~/assets/plugins/tiny-editable/numeric-input-example.js"></script>
-<script src="~/Scripts/APIController.js"></script>
-<!-- ============================================================== -->
-<!-- Plugins for this page -->
-<!-- ============================================================== -->
-<!-- jQuery file upload -->
-<script src="~/assets/plugins/dropify/dist/js/dropify.min.js"></script>
-<script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.0/dist/bootstrap-validate.js"></script>
 
-<script>
+@section scripts{
 
-    bootstrapValidate('#txtMail', 'email:Ingrese un email correcto');
-    bootstrapValidate('#txtIdentificationNumber', 'required:Campo requerido');
-    bootstrapValidate('#txtIdentificationNumber', 'max:11:Máximo 11 caracteres');
-    bootstrapValidate('#txtIdentificationNumber', 'integer:solo números');
+    <!-- Editable -->
+    <script src="~/assets/plugins/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="~/assets/plugins/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/assets/plugins/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="~/assets/plugins/tiny-editable/numeric-input-example.js"></script>
+    <script src="~/Scripts/APIController.js"></script>
+    <!-- ============================================================== -->
+    <!-- Plugins for this page -->
+    <!-- ============================================================== -->
+    <!-- jQuery file upload -->
+    <script src="~/assets/plugins/dropify/dist/js/dropify.min.js"></script>
+    <script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.0/dist/bootstrap-validate.js"></script>
 
+    <script type="text/javascript">
+
+        bootstrapValidate('#txtMail', 'email:Ingrese un email correcto');
+        bootstrapValidate('#txtIdentificationNumber', 'required:Campo requerido');
+        bootstrapValidate('#txtIdentificationNumber', 'max:11:Máximo 11 caracteres');
+        bootstrapValidate('#txtIdentificationNumber', 'integer:solo números');
 
 
-    bootstrapValidate('#txtPhoneCompany', 'required:Campo requerido');
-    bootstrapValidate('#txtPhoneCompany', 'integer:solo números');
 
-    bootstrapValidate('#txtPhoneNumber', 'required:Campo requerido');
-    bootstrapValidate('#txtPhoneNumber', 'integer:solo números');
+        bootstrapValidate('#txtPhoneCompany', 'required:Campo requerido');
+        bootstrapValidate('#txtPhoneCompany', 'integer:solo números');
 
-</script>
-<script>
+        bootstrapValidate('#txtPhoneNumber', 'required:Campo requerido');
+        bootstrapValidate('#txtPhoneNumber', 'integer:solo números');
+
+    </script>
+    <script type="text/javascript">
     $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
     $('.dropify').dropify({
         messages: {
@@ -432,10 +433,13 @@
 
     }
 
+    </script>
 
-</script>
+    <!-- ============================================================== -->
+    <!-- Style switcher -->
+    <!-- ============================================================== -->
+    <script src="~/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+}
 
-<!-- ============================================================== -->
-<!-- Style switcher -->
-<!-- ============================================================== -->
-<script src="~/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+
+

@@ -3,48 +3,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    #tableOrganizations_wrapper {
-        font-size: 12px;
-    }
+@section Styles{
+    <style type="text/css">
+        #tableOrganizations_wrapper {
+            font-size: 12px;
+        }
 
-    #tableOrganizations tbody tr td {
-        padding-top: 5px;
-        padding-bottom: 5px;
-        vertical-align: middle;
-    }
+        #tableOrganizations tbody tr td {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            vertical-align: middle;
+        }
 
-    .cancelBtn {
-        display: none;
-    }
+        .cancelBtn {
+            display: none;
+        }
 
-    .table-info, .table-info>td, .table-info>th{
-        background-color: #2e548f;
-        color: #ffffff;
-    }
+        .table-info, .table-info > td, .table-info > th {
+            background-color: #2e548f;
+            color: #ffffff;
+        }
 
-    .color-table.success-table thead th {
-        background-color: #2e548f;
-        color: #ffffff;
-    }
+        .color-table.success-table thead th {
+            background-color: #2e548f;
+            color: #ffffff;
+        }
 
-    .table-hover .table-info:hover {
-        background-color: #2e548f;
-    }
+        .table-hover .table-info:hover {
+            background-color: #2e548f;
+        }
 
-    table.dataTable thead .sorting:after {
-        color: rgb(255, 255, 255);
-    }
+        table.dataTable thead .sorting:after {
+            color: rgb(255, 255, 255);
+        }
 
-    .btn-primary, .btn-primary.disabled {
-        background: #0dc4c6 !important;
-    }
+        .btn-primary, .btn-primary.disabled {
+            background: #0dc4c6 !important;
+        }
 
-    .btn-primary:hover, .btn-primary.disabled:hover{
-        border: 1px solid #ffffff;
-    }
-
-</style>
+            .btn-primary:hover, .btn-primary.disabled:hover {
+                border: 1px solid #ffffff;
+            }
+    </style>
+}
 
 <div class="card mb-2">
     <div class="card-body pt-2 pb-2">

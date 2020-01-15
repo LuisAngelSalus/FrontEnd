@@ -42,7 +42,7 @@
     <link href="~/Content/common.css" rel="stylesheet" />
     @*@Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")*@
-    <style>
+    <style type="text/css">
         .card-no-border .left-sidebar, .card-no-border .sidebar-nav {
             background: #2e548f;
         }
@@ -59,27 +59,28 @@
                 color: #ffffff;
             }
 
-            .sidebar-nav ul li a:hover{
+            .sidebar-nav ul li a:hover {
                 color: #2e548f;
                 background: #ffffff;
             }
 
-            .sidebar-nav > ul > li > a.has-arrow::after:hover{
-                color: #2e548f;
-            }
-
-            .sidebar-nav ul li a:hover i{
-                color: #2e548f;
-            }
-
-        .sidebar-nav > ul > li > a.active{
-            background: #2e548f;
-        }
-        .sidebar-nav > ul > li.active > a i{
+        .sidebar-nav > ul > li > a.has-arrow::after:hover {
             color: #2e548f;
         }
 
-        .sidebar-nav > ul > li.active > a.has-arrow::after{
+        .sidebar-nav ul li a:hover i {
+            color: #2e548f;
+        }
+
+        .sidebar-nav > ul > li > a.active {
+            background: #2e548f;
+        }
+
+        .sidebar-nav > ul > li.active > a i {
+            color: #2e548f;
+        }
+
+        .sidebar-nav > ul > li.active > a.has-arrow::after {
             border-width: 3px 0 0 3px;
             border-style: solid;
             border-color: #2e548f;
@@ -92,43 +93,44 @@
         .btn-outline-secondary {
             background-color: #2e548f;
             box-shadow: none;
-            margin-top:10px;
+            margin-top: 10px;
         }
 
-        .btn-outline-secondary.active, .btn-outline-secondary:active, .show > .btn-outline-secondary.dropdown-toggle {
-            background-color: #2e548f;
-            border-color: #fdfeff;
-            box-shadow: -4px 3px 0px 0px rgb(255, 255, 255);
-        }
+            .btn-outline-secondary.active, .btn-outline-secondary:active, .show > .btn-outline-secondary.dropdown-toggle {
+                background-color: #2e548f;
+                border-color: #fdfeff;
+                box-shadow: -4px 3px 0px 0px rgb(255, 255, 255);
+            }
 
-        .btn-outline-secondary:hover {
-            color: #2e548f;
-            background-color: #ffffff !important;
-            border-color: #acc3dd;
-        }
+            .btn-outline-secondary:hover {
+                color: #2e548f;
+                background-color: #ffffff !important;
+                border-color: #acc3dd;
+            }
 
-        .sidebar-nav .has-arrow::after{
+        .sidebar-nav .has-arrow::after {
             border-width: 3px 0 0 3px;
             border-style: solid;
             border-color: #ffffff;
         }
-    
-        .sidebar-nav > ul > li > a i{
+
+        .sidebar-nav > ul > li > a i {
             color: #ffffff;
         }
 
         .sidebar-nav > ul > li.active > .borderli {
             /*border-color: white !important;
-            border: solid;
-            border-right: none;
-            border-left: none;*/
+                border: solid;
+                border-right: none;
+                border-left: none;*/
             color: #2e548f;
             background-color: #ffffff;
             border-color: #acc3dd;
-            border-radius:5px;
-
+            border-radius: 5px;
         }
     </style>
+
+    @RenderSection("Styles", false)
 </head>
 <body class="fix-header fix-sidebar card-no-border">
     <!-- ============================================================== -->
@@ -354,7 +356,7 @@
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar">
                 <!-- Sidebar navigation-->
-                <nav class="sidebar-nav pt-1" >
+                <nav class="sidebar-nav pt-1">
                     <ul id="sidebarnav">
                         @*<li class="nav-small-cap">PERSONAL</li>*@
                         <li class="active">
@@ -367,8 +369,8 @@
                                     <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Quotation/Index")">Matriz de Seguimiento</a>
                                 </li>
                                 @*<li>
-                                    <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Quotation/Register/0")">Nueva Cotización</a>
-                                </li>*@
+                                        <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Quotation/Register/0")">Nueva Cotización</a>
+                                    </li>*@
                             </ul>
                         </li>
                     </ul>
@@ -434,6 +436,6 @@
     <script src="~/Scripts/utils.js"></script>
     @*@Scripts.Render("~/bundles/jquery")*@
 
-    @*@RenderSection("scripts", required: false)*@
+    @RenderSection("scripts", required: false)
 </body>
 </html>
