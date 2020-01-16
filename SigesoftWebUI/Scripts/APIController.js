@@ -139,6 +139,21 @@
 
     }
 
+    var autocompleteProtocolProfile = function (value) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/ProtocolProfile/Autocomplete?value=' + value, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
     var secuential = function (parameters){
         return new Promise((resolve, reject) => {
 
@@ -276,6 +291,12 @@
         GetddlProtocolProfile: function () {
             return new Promise((resolve, reject) => {
                 ddlProtocolProfile().then(res => resolve(res));
+            });
+        },
+
+        AutocompleteProtocolProfile: function (value) {
+            return new Promise((resolve, reject) => {
+                autocompleteProtocolProfile(value).then(res => resolve(res));
             });
         },
 

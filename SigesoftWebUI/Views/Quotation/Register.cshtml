@@ -143,13 +143,14 @@
                         <td style="display:none" class="RecordType">@profile.RecordType</td>
                         <td style="display:none" class="RecordStatus">@profile.RecordStatus</td>
                         <td style="display:none" class="profileId">@profile.ProfileId</td>
-                        <td><input class="form-control input-perfil" type="text" value="@profile.ProfileName" /></td>
+                        <td><input class="form-control input-perfil" type="text" value="@profile.ProfileName" disabled /></td>
                         <td>
-                            <select class="form-control form-white select-Service" data-placeholder="Seleccione un servicio..." id="ddlService">
+                            <select class="form-control form-white select-Service" data-placeholder="Seleccione un servicio..." id="ddlService" disabled>
                                 <option value="-1" @(@profile.ServiceTypeId == -1 ? "selected" : "")>--Seleccionar--</option>
                                 <option value="1" @(@profile.ServiceTypeId == 1 ? "selected" : "")>Preocupacional</option>
                                 <option value="2" @(@profile.ServiceTypeId == 2 ? "selected" : "")>Periodico</option>
                                 <option value="3" @(@profile.ServiceTypeId == 3 ? "selected" : "")>Anual</option>
+                                <option value="4" @(@profile.ServiceTypeId == 4 ? "selected" : "")>Visita</option>
                             </select>
                         </td>
 
@@ -315,16 +316,23 @@
 <div class="modal fade" id="perfilModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel1">Perfil: </h4>
-                <div class="col-md-6">
-                    <select class="form-control form-white" data-placeholder="Seleccione un perfil..." id="profile">
-                    </select>
-                </div>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
+            @*<div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel1">Perfil: </h4>
+                    <div class="col-md-6">
+                        <select class="form-control form-white" data-placeholder="Seleccione un perfil..." id="profile">
+                        </select>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>*@
             <div>
-
+                <form class="form-inline p-3">
+                    <input type="text" name="search" id="search" class="form-control form-control-lg rounded-0 border-info" placeholder="Buscar..." style="width:80%" />
+                    <input type="submit" name="submit" value="Search" class="btn btn-info btn-lg rounded-0" style="width:20%" />
+                </form>
+            </div>
+            <div class="col-9" style="position:absolute; margin-top:60px; z-index:2000;">
+                <div class="list-group" id="show-list">
+                </div>
             </div>
             <div class="modal-body tables-profile" style="font-size:10px;">
 
@@ -343,7 +351,7 @@
                     <thead>
                         <tr>
                             <th style="width:20px;"></th>
-                            <th> </th>
+                            <th>SELECCIONE MÁS EXÁMENES OCUPACIONALES</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-profile-unselectd">
@@ -353,11 +361,11 @@
             </div>
 
             <div class="modal-footer">
-                <div class="col-10">
-                    <input type="checkbox" id="chkProfile" value="check"><label for="chkProfile">Guardar Perfil</label>
-                </div>
-                <div class="col-2">
-                    <button type="button" class="btn btn-info" data-dismiss="modal" onclick="AddProfile()">Aceptar</button>
+                @*<div class="col-10">
+                        <input type="checkbox" id="chkProfile" value="check"><label for="chkProfile">Guardar Perfil</label>
+                    </div>*@
+                <div class="col-12 col-md-4">
+                    <button type="button" class="btn btn-info" data-dismiss="modal" onclick="AddProfile()">Seleccionar</button>
                 </div>
 
             </div>
@@ -365,13 +373,40 @@
     </div>
 </div>
 
+<!-- ============================================================== -->
+<!-- MODAL -->
+<!-- ============================================================== -->
 
-@section scripts{
-    <!-- wysuhtml5 Plugin JavaScript -->
-    <script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
-    <script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
-    <script src="~/Scripts/APIController.js"></script>
-    <script src="~/Scripts/Quotation.js"></script>
-    <script src="~/Scripts/QuotationValidation.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-}
+<div id="changeNameProfile" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Perfil para la cotización</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input class="form-control" type="text"  id="txtNameProfileQuotation" value="" />
+            </div>
+            <div class="modal-footer">
+                <button onclick="SaveProfile()" type="button" class="btn btn-primary">OK</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script src="~/assets/plugins/jquery/jquery.min.js"></script>
+
+<!-- wysuhtml5 Plugin JavaScript -->
+<script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
+<script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
+<script src="~/Scripts/APIController.js"></script>
+<script src="~/Scripts/Quotation.js"></script>
+<script src="~/Scripts/QuotationValidation.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"</script>

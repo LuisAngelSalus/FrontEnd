@@ -77,6 +77,10 @@ namespace BL
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
             }
+            else
+            {
+                obj = new Response<CompanyDetailDto>();
+            }
             return obj;
         }
 
