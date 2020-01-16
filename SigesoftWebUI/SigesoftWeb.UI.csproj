@@ -1595,6 +1595,7 @@
     <Content Include="Views\Quotation\Register.cshtml" />
     <Content Include="Views\View.cshtml" />
     <Content Include="Views\Generals\SesionExpirada.cshtml" />
+    <Content Include="Views\Generals\UserUnknown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
