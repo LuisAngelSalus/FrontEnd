@@ -1,5 +1,8 @@
-﻿@{
-    var dataUSer = @ViewBag.DATAUSER;
+﻿@using SigesoftWebUI.Models
+@{
+    var dataUSer = @ViewBag.DATAUSER; //debería dejar de usarse este tipo de manejo de session
+
+    var usuarioSession = (SessionModel)Session[Resources.Constante.SessionUsuario];
 }
 <!DOCTYPE html>
 <html>
@@ -431,7 +434,12 @@
     <script src="~/assets/plugins/sweetalert/sweetalert.min.js"></script>
     <script src="~/assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
     <script src="~/Scripts/utils.js"></script>
-    @*@Scripts.Render("~/bundles/jquery")*@
+
+    <script type="text/javascript">
+        var timer = '@FormsAuthentication.Timeout.TotalSeconds';
+        var SessionTimeout = '@ViewBag.SessionTimeout';
+        var userId = '@usuarioSession.SystemUserId'
+    </script>
 
     <script>
         

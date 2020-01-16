@@ -1,4 +1,5 @@
 ﻿using BE;
+using SigesoftWebUI.Controllers.Base;
 using System.Web.Mvc;
 
 namespace SigesoftWebUI.Controllers
@@ -45,7 +46,31 @@ namespace SigesoftWebUI.Controllers
             return RedirectToRoute("General_login");
         }
 
-     
+        [AllowAnonymous]
+        public ActionResult SesionExpirada(string returnUrl)
+        {
+            AsignarUrlRetorno(returnUrl);
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult UserUnknown()
+        {
+            return View();
+        }
+
+        protected virtual void AsignarUrlRetorno(string returnUrl)
+        {
+            if (string.IsNullOrEmpty(returnUrl) && Request.UrlReferrer != null)
+                returnUrl = Server.UrlEncode(Request.UrlReferrer.PathAndQuery);
+
+            if (Url.IsLocalUrl(returnUrl) && !string.IsNullOrEmpty(returnUrl))
+            {
+                ViewBag.ReturnURL = returnUrl;
+            }
+        }
+
+
         //public ActionResult Home()
         //{
         //    return View("~/Views/Generals/Index.cshtml", ViewBag.MENU);
