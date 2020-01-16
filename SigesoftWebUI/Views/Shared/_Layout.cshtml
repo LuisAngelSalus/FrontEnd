@@ -43,9 +43,6 @@
     @*@Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")*@
     <style type="text/css">
-        .card-no-border .left-sidebar, .card-no-border .sidebar-nav {
-            background: #2e548f;
-        }
 
         .sidebar-nav > ul > li.active > a {
             color: #ffffff;
@@ -436,6 +433,14 @@
     <script src="~/Scripts/utils.js"></script>
     @*@Scripts.Render("~/bundles/jquery")*@
 
+    <script>
+        
+        var userGlobal = '@dataUSer';
+
+        
+    </script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
+

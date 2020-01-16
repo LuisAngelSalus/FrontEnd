@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SigesoftWebUI.Views.Organization
 {
+    [Authorize]
     public class CompanyController : Controller
     {
         CompanyBL _companyBL = new CompanyBL();

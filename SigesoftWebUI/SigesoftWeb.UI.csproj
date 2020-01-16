@@ -256,6 +256,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoSunatController.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Models\ModelCompanyDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Seguridad\AuthorizeFilter.cs" />
     <Compile Include="Utils\PDF\Generator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +282,7 @@
     <Content Include="assets\css\spinners.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\images\favicon.png" />
+    <Content Include="assets\images\favicon_SALUS.ico" />
     <Content Include="assets\images\Isotipo SalusLaboris.png" />
     <Content Include="assets\images\letras.png" />
     <Content Include="assets\images\logo-icon.png" />
@@ -1587,6 +1590,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\InfoSunat\" />
     <Folder Include="Views\ProtocolProfile\" />
     <Folder Include="Views\QuoteTracking\" />

@@ -36,62 +36,76 @@
         .table{
             color: #000000 !important;
         }
+        #table {
+            font-size: 12px;
+        }
 
-        #table thead th{
+        #table thead th {
             background-color: #2e548f;
             color: white;
         }
+
     </style>
 
 
 }
 <div class="card mb-2">
     <div class="card-body pt-2 pb-2">
-        <h3 class="card-title">Matriz de Seguimiento</h3>
-        <h5 class="card-subtitle mb-0">Cotizaciones</h5>
+        <h3 class="card-title font-weight-bold">MATRIZ DE SEGUIMIENTO</h3>
+        <h5 class="card-subtitle mb-0" style="font-weight: 700;">Cotizaciones</h5>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-6">
         <div class="card">
+            <div class="card-header" style="background-color:white;">
+                <h5 class="card-title mb-0 font-weight-bold">FILTROS</h5>
+            </div>
             <div class="card-body">
-                <h4 class="card-title">Filtros </h4>
                 <div class="row">
-                    <div class="form-group col-md-4">
-                        <label for="txtRuc">RUC</label>
-                        <input type="text" class="form-control" id="txtRuc" maxlength="11" value="" autofocus>
+                    <div class="col-10">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="txtRuc">RUC</label>
+                                <input type="text" class="form-control" id="txtRuc" maxlength="11" value="" autofocus>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="txtNroCotizacion">Nro Cotización</label>
+                                <input type="text" class="form-control" id="txtNroCotizacion" value="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="dtpEnd">Estado</label>
+                                <select class="form-control form-white select-Service" data-placeholder="Seleccione un estado..." id="ddlStatus">
+                                    <option value="-1">--Todos--</option>
+                                    <option value="1">Seguimiento</option>
+                                    <option value="2">Aceptada</option>
+                                    <option value="3">Descartada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md">
+                                <label for="dtpStart">Fecha Inicio</label>
+                                <input class="form-control" type="date" id="dtpStart">
+                            </div>
+                            <div class="form-group col-md">
+                                <label for="dtpEnd">Fecha Fin</label>
+                                <input class="form-control" type="date" id="dtpEnd">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="txtNroCotizacion">Nro Cotización</label>
-                        <input type="text" class="form-control" id="txtNroCotizacion" value="">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="dtpEnd">Estado</label>
-                        <select class="form-control form-white select-Service" data-placeholder="Seleccione un estado..." id="ddlStatus">
-                            <option value="-1">--Todos--</option>
-                            <option value="1">Seguimiento</option>
-                            <option value="2">Aceptada</option>
-                            <option value="3">Descartada</option>
-                            <option value="3">En Creación</option>
-                        </select>
+                    <div class="col-2">
+                        <div class="form-group col">
+                            <input type="button" class="btn btn-info btn-filter" value="Filtrar" onclick="Filter()" />
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-md-4">
-                        <label for="dtpStart">Fecha Inicio</label>
-                        <input class="form-control" type="date" id="dtpStart">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="dtpEnd">Fecha Fin</label>
-                        <input class="form-control" type="date" id="dtpEnd">
-                    </div>
+                
 
-                    <div class="form-group col-md-4">
-                        <label for="dtpEnd"></label>
-                        <input type="button" class="btn btn-info btn-filter" value="Filtrar" onclick="Filter()" />
-                    </div>
-                </div>
+
+
+                
             </div>
         </div>
     </div>
@@ -178,7 +192,7 @@
             <input type="hidden" id="txthiddenQuotation" value="0" />
             <input type="hidden" id="txthiddentxtDate" value="0" />
             <input type="hidden" id="txthiddenStatusQuotationId" value="0" />
-            <div class="modal-body" style="padding:0">
+            <div class="modal-body" style="padding: 0">
                 <div class="form-group col-12">
                     <label for="txtComentary">Comentario</label>
                     <textarea type="text" class="form-control" id="txtComentary" autofocus></textarea>

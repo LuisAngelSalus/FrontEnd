@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Utils;
 
 namespace SigesoftWebUI.Controllers
@@ -27,12 +28,13 @@ namespace SigesoftWebUI.Controllers
 
                 var result = _securityBL.ValidateAccess(oLoginDto);
 
-                if (result !=null)
-                {                    
-                   var dataUser = _securityBL.UserAccess(result.SystemUserId);                    
+                if (result != null)
+                {
+                    var dataUser = _securityBL.UserAccess(result.SystemUserId);
+                    FormsAuthentication.SetAuthCookie(dataUser.UserName, false);
                     Session.Add("AutSigesoftWebUI", dataUser);
                     return RedirectToRoute("Sigesoft");
-                }               
+                }
             }
             else
             {
