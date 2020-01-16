@@ -1,10 +1,13 @@
 ﻿using BE;
 using BL;
+using SigesoftWebUI.Models;
+using SigesoftWebUI.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Utils;
 
 namespace SigesoftWebUI.Controllers
@@ -20,6 +23,7 @@ namespace SigesoftWebUI.Controllers
             if (collection.Get("username").Trim() != string.Empty && collection.Get("password").Trim() != string.Empty)
             {
                 TempData["FormCollection"] = null;
+                var sessionModel = new SessionModel();
 
                 var oLoginDto = new LoginDto();
                 oLoginDto.v_UserName = collection.Get("username").Trim();
@@ -27,12 +31,22 @@ namespace SigesoftWebUI.Controllers
 
                 var result = _securityBL.ValidateAccess(oLoginDto);
 
-                if (result !=null)
+                if (result != null)
                 {                    
-                   var dataUser = _securityBL.UserAccess(result.SystemUserId);                    
+                    var dataUser = _securityBL.UserAccess(result.SystemUserId);
+                    
+                    sessionModel.SystemUserId = result.SystemUserId;
+                    sessionModel.FullName = dataUser.FullName;
+                    sessionModel.UserName = dataUser.UserName;
+
                     Session.Add("AutSigesoftWebUI", dataUser);
+
+                    FormsAuthentication.SetAuthCookie(sessionModel.UserName, false);
+
+                    HttpSessionContext.SetAccount(sessionModel);
+
                     return RedirectToRoute("Sigesoft");
-                }               
+                }
             }
             else
             {
