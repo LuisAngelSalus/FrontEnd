@@ -727,8 +727,8 @@ function SearchCompany(ruc) {
 function SaveQuotation(e) {
     if (ValidateQuotation(e)) {
         swal({
-            title: "Registro de Cotización",
-            text: "¿Está seguro de guardar está cotización?",
+            title: "¡Importante!",
+            text: "¿Está seguro de guardar esta cotización?",
             type: "info",
             showCancelButton: true,
             closeOnConfirm: false,
@@ -744,7 +744,7 @@ function APISaveQuotation() {
     var data = {
         "QuotationId": $("#txtQuotationId").val(),
         "Code": $("#spanCode").html(),
-        "Version": $("#spanVersion").html(),
+        "Version": parseInt($("#spanVersion").html()),
         "UserCreatedId": 1,
         "UserName": "",
         "CompanyId": $("#txtCompanyId").val(),
@@ -828,11 +828,38 @@ function APISaveQuotation() {
         });
               
     } else if (data.QuotationId > 0) {
-        APIController.UpdateQuotation(data).then((res) => {
-            swal("Correcto", "Cotización Actualizada", "success", function () {
+        data.QuotationId = 0;
+        data.Version = parseInt($("#spanVersion").html()) + 1;
+        data.Code = $("#spanCode").html();
+        APIController.NewVersionQuotation(data).then((res) => {
+            //console.log("NEW ID", res.Data.QuotationId);
+            //swal("Correcto", "Cotización Actualizada", "success", function () {
+            //    $("#TrackingModalQuotation").modal("show");
+            //});  
 
-            });        
+            swal({
+                title: "¡Importante!",
+                text: "Ingresar comentario para nueva versión",
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                inputPlaceholder: "ingresar comentario"
+            }, function (inputValue) {
+                if (inputValue === false) return false;
+                if (inputValue === "") {
+                    swal.showInputError("¡Es necesario ingresar un comentario!");
+                    return false
+                    }
+                SaveTrackingNewVersion(res.Data.QuotationId, inputValue);
+                swal("¡Correcto!", "Se creó la versión: v." + res.Data.Version, "success");
+            });
+
+
         });
+        //APIController.SaveQuotation(data).then((res) => {
+        //    swal("Correcto", "Nueva versión creada", "success", function () {
+        //    });        
+        //});
     }  
 }
 
@@ -841,6 +868,18 @@ function SaveTracking(quotationId) {
     var params = {
         "QuotationId": quotationId,
         "Commentary": "Cotización Creada",
+        "InsertUserId": 1
+    }
+    APIController.SaveQuoteTracking(params).then((resp) => {
+
+    });
+}
+
+function SaveTrackingNewVersion(quotationId, comentary) {
+
+    var params = {
+        "QuotationId": quotationId,
+        "Commentary": comentary,
         "InsertUserId": 1
     }
     APIController.SaveQuoteTracking(params).then((resp) => {
@@ -973,7 +1012,6 @@ $('.table-main').on('change', '.select-Service', function (event) {
         $(event.target).parent().parent().find(".RecordStatus").text("MODIFICADO");
     }
 })
-
 
 function AddAdditionalExamns() {
     let availableTags = [];

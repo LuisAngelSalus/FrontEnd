@@ -64,6 +64,23 @@
 
     }
 
+    var newVersionQuotation = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Quotation/NewVersion', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
     var profile = function (id) {
         return new Promise((resolve, reject) => {
             let url = '/Quotation/GetProfile?profileId=' + id
@@ -305,7 +322,12 @@
                 saveQuotation(parameters).then(res => resolve(res));
             });
         },
-
+        NewVersionQuotation: function (parameters) {
+            return new Promise((resolve, reject) => {
+                newVersionQuotation(parameters).then(res => resolve(res));
+            });
+        },
+        
         UpdateQuotation: function (parameters) {
             return new Promise((resolve, reject) => {
                 updateQuotation(parameters).then(res => resolve(res));

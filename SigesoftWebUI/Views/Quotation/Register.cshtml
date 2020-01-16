@@ -257,6 +257,7 @@
                                 <td style="display:none" class="RecordType">@examAddi.RecordType</td>
                                 <td style="display:none" class="RecordStatus">@examAddi.RecordStatus</td>
                                 <td style="display:none" class="AddExamID">@examAddi.AdditionalComponentsQuoteId</td>
+                                <td style="display:none" class="AddExamQuotationId"></td>
                                 <td style="display:none" class="AddExamCatId">@examAddi.CategoryId</td>
                                 <td style="display:none" class="AddExamCatName">@examAddi.CategoryName</td>
                                 <td style="display:none" class="AddExamCompId">@examAddi.ComponentId</td>
@@ -387,7 +388,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input class="form-control" type="text"  id="txtNameProfileQuotation" value="" />
+                <input class="form-control" type="text" id="txtNameProfileQuotation" value="" />
             </div>
             <div class="modal-footer">
                 <button onclick="SaveProfile()" type="button" class="btn btn-primary">OK</button>
@@ -397,6 +398,63 @@
     </div>
 </div>
 
+<!-- ============================================================== -->
+<!-- MODAL -->
+<!-- ============================================================== -->
+
+<div id="updateVersion" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">!IMPORTANTE¡</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>La versión actual de esta cotización es : <span id="infoCot"></span></p>
+                <p>Elija una opción</p>
+                <div class="row">
+                    <div class="col-6">
+                        <input type="checkbox" id="chkVersionNew" value="check"><label for="chkProfile">Nueva Sub-Versión</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="checkbox" id="chkVersionNext" value="check"><label for="chkProfile">Versión Siguiente</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button onclick="SaveProfile()" type="button" class="btn btn-primary">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- MODAL -->
+<!-- ============================================================== -->
+<div class="modal fade" id="TrackingModalQuotation" tabindex="-1" role="dialog" aria-labelledby="TrackingModalLabel1">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Registrar Seguimiento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>            
+            <div class="modal-body" style="padding:0">
+                <div class="form-group col-12">
+                    <label for="txtComentaryQuotation">Comentario</label>
+                    <textarea type="text" class="form-control" id="txtComentary" autofocus></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="SaveTracking()" type="button" class="btn btn-warning" data-dismiss="modal">Grabar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- ============================================================== -->
 <!-- All Jquery -->

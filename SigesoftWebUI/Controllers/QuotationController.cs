@@ -58,6 +58,13 @@ namespace SigesoftWebUI.Controllers
 
         }
 
+        public JsonResult NewVersion(QuotationNewVersionDto data)
+        {
+            var response = _quotationBL.NewVersion(data);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+
+        }
+
         public JsonResult Update(QuotationUpdateDto data)
         {
             var response = _quotationBL.Update(data);
