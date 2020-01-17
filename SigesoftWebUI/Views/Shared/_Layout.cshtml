@@ -187,6 +187,10 @@
                         <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
 
                     </ul>
+
+                    <ul class="navbar-nav mr-5">
+                        <strong>@usuarioSession.FullName</strong>
+                    </ul>
                     <!-- ============================================================== -->
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
@@ -323,7 +327,7 @@
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="~/assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
                                 <ul class="dropdown-user">
-                                    <li>
+                                    @*<li>
                                         <div class="dw-user-box">
                                             <div class="u-img"><img src="~/assets/images/users/1.jpg" alt="user"></div>
                                             <div class="u-text">
@@ -333,12 +337,12 @@
                                         </div>
                                     </li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                                    <li><a href="#"><i class="ti-user"></i> Mi Perfil</a></li>
                                     <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
                                     <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
-                                    <li role="separator" class="divider"></li>
+                                    <li role="separator" class="divider"></li>*@
                                     <li><a href="javascript:;" onclick="CerrarSesion();"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
                             </div>
