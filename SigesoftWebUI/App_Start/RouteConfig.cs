@@ -37,7 +37,7 @@ namespace SigesoftWebUI
             routes.MapRoute(
              name: "Default",
              url: "{controller}/{action}/{id}",
-             defaults: new { controller = "Generals", action = "Login", id = UrlParameter.Optional }
+             defaults: new { controller = "Generals", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

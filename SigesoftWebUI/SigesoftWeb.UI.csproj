@@ -266,14 +266,15 @@
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoSunatController.cs" />
+    <Compile Include="Controllers\IngresoSistemaController.cs" />
     <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\QuoteTrackingController.cs" />
     <Compile Include="Controllers\SecuentialController.cs" />
-    <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\ModelCompanyDetail.cs" />
     <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1588,15 +1589,14 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Generals\Login.cshtml" />
     <Content Include="Views\Generals\Index.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\Detail.cshtml" />
     <Content Include="Views\Quotation\Index.cshtml" />
     <Content Include="Views\Quotation\Register.cshtml" />
     <Content Include="Views\View.cshtml" />
-    <Content Include="Views\Generals\SesionExpirada.cshtml" />
-    <Content Include="Views\Generals\UserUnknown.cshtml" />
+    <Content Include="Views\IngresoSistema\Login.cshtml" />
+    <Content Include="Views\IngresoSistema\UserUnknown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1606,7 +1606,6 @@
     <Folder Include="Views\ProtocolProfile\" />
     <Folder Include="Views\QuoteTracking\" />
     <Folder Include="Views\Secuential\" />
-    <Folder Include="Views\Session\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
