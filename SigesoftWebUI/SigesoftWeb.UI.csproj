@@ -253,23 +253,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\Constante.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Constante.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Base\ErrorController.cs" />
+    <Compile Include="Controllers\Base\GenericController.cs" />
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoSunatController.cs" />
+    <Compile Include="Controllers\IngresoSistemaController.cs" />
     <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\QuoteTrackingController.cs" />
     <Compile Include="Controllers\SecuentialController.cs" />
-    <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\ModelCompanyDetail.cs" />
+    <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Seguridad\AuthorizeFilter.cs" />
+    <Compile Include="Seguridad\HttpSessionContext.cs" />
     <Compile Include="Utils\PDF\Generator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +291,7 @@
     <Content Include="assets\css\spinners.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\images\favicon.png" />
+    <Content Include="assets\images\favicon_SALUS.ico" />
     <Content Include="assets\images\Isotipo SalusLaboris.png" />
     <Content Include="assets\images\letras.png" />
     <Content Include="assets\images\logo-icon.png" />
@@ -1577,21 +1589,23 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Generals\Login.cshtml" />
     <Content Include="Views\Generals\Index.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\Detail.cshtml" />
     <Content Include="Views\Quotation\Index.cshtml" />
     <Content Include="Views\Quotation\Register.cshtml" />
     <Content Include="Views\View.cshtml" />
+    <Content Include="Views\IngresoSistema\Login.cshtml" />
+    <Content Include="Views\IngresoSistema\UserUnknown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Error\" />
+    <Folder Include="Views\Generic\" />
     <Folder Include="Views\InfoSunat\" />
     <Folder Include="Views\ProtocolProfile\" />
     <Folder Include="Views\QuoteTracking\" />
     <Folder Include="Views\Secuential\" />
-    <Folder Include="Views\Session\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -1619,6 +1633,12 @@
       <Project>{DE91DF09-3C31-47E4-B0B1-B1BD82ADBC67}</Project>
       <Name>SigesoftWeb.Utils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Constante.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Constante.Designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

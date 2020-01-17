@@ -1,5 +1,6 @@
 ﻿using BE;
 using BL;
+using SigesoftWebUI.Controllers.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace SigesoftWebUI.Views.Organization
 {
-    public class CompanyController : Controller
+    public class CompanyController : GenericController
     {
         CompanyBL _companyBL = new CompanyBL();
 
@@ -21,6 +22,8 @@ namespace SigesoftWebUI.Views.Organization
                 ViewBag.data = response.Data;
                 //return View(response.Data);
             }
+                        
+
             return View();
         }
 

@@ -9,10 +9,11 @@ using System.Web.Mvc;
 using Utils;
 using IronPdf;
 using SigesoftWebUI.Utils.PDF;
+using SigesoftWebUI.Controllers.Base;
 
 namespace SigesoftWebUI.Controllers
 {
-    public class QuotationController : Controller
+    public class QuotationController : GenericController
     {
         QuotationBL _quotationBL = new QuotationBL();
         
