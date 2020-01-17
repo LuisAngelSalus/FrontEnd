@@ -22,6 +22,8 @@ namespace SigesoftWebUI.Views.Organization
                 ViewBag.data = response.Data;
                 //return View(response.Data);
             }
+                        
+
             return View();
         }
 

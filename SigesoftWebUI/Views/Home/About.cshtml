@@ -1,1 +1,69 @@
-﻿
+﻿@*<div class="collapse navbar-collapse navigation-primary contenedorOpcionesNotificaciones">
+    <ul class="nav navbar-nav">
+        @foreach (var item in usuarioSession.MenuPrincipal)
+        {
+            if (item.IsParent == false && item.ParentId == 0)
+            {
+                if (item.IsModal == true)
+                {
+                    <li>
+                        <a role="@item.Role" region="@item.Region" parent="@item.Parent" title="@item.Title" id="@item.LinkId" href="@item.Href" data-toggle="modal" onclick="@item.OnClick">@item.Name</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="hidden-sm">
+                        <a class="_pointer" target="@item.Target" href="@Url.Action(item.Action, item.Controller, new { Area = item.Area })" role="menu" region="Principal" parent="@item.Name" title="@item.Name" id="lnk-prin-@item.NameFormat">@item.Name</a>
+                    </li>
+                }
+
+            }
+            else
+            {
+                if (item.IsParent == true && item.ParentId == 0)
+                {
+                    <li class="dropdown">
+
+                        <a class="dropdown-toggle _pointer" data-toggle="dropdown" role="menu" region="Principal" parent="@item.Name" title="@item.Name" id="lnk-prin-@item.NameFormat">@item.Name <i class="icon-angle-down hidden-xs icono_flechaDesglegarMenu"></i></a>
+
+                        <ul class="dropdown-menu multi-level tnormal">
+                            @foreach (var child in usuarioSession.MenuPrincipal.Where(p => p.ParentId == item.Id))
+                            {
+                                if (child.IsParent == true)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a class="_pointer" tabindex="-1">@child.Name</a>
+                                        <ul class="dropdown-menu multi-level tnormal">
+                                            @foreach (var child2 in usuarioSession.MenuPrincipal.Where(p => p.ParentId == child.Id))
+                                            {
+                                                <li><a class="_pointer" target="@child2.Target" href="@Url.Action(child2.Action, child2.Controller, new { Area = child2.Area })" role="menu" region="Principal" parent="@child.Name" title="@child2.Name" id="lnk-prin-@child2.NameFormat">@child2.Name</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a class="@child.Class _pointer" target="@child.Target" href="@Url.Action(child.Action, child.Controller, new { Area = child.Area })" role="menu" region="Principal" parent="@item.Name" title="@child.Name" id="lnk-prin-@child.NameFormat">@child.Name</a>
+
+                                    </li>
+
+                                }
+                            }
+                        </ul>
+                    </li>
+                }
+            }
+        }
+
+
+        <li class="close-session visible-xs">
+            <a role="menu" region="Principal" parent="Cerrar Sesión" title="Cerrar Sesión" id="lnk-prin-cerrar-sesion" href="javascript:;" onclick="CerrarSesion();">
+                <span class="hidden-md hidden-sm">Cerrar Sesión</span>
+                <i role="menu" region="Principal" parent="Cerrar Sesión" title="Cerrar Sesión" class="icon-logout"></i>
+            </a>
+        </li>
+
+    </ul>
+
+</div>*@

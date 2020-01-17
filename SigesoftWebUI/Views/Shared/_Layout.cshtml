@@ -1,7 +1,5 @@
 ﻿@using SigesoftWebUI.Models
 @{
-    var dataUSer = @ViewBag.DATAUSER; //debería dejar de usarse este tipo de manejo de session
-
     var usuarioSession = (SessionModel)Session[Resources.Constante.SessionUsuario];
 }
 <!DOCTYPE html>
@@ -45,6 +43,9 @@
     <link href="~/Content/common.css" rel="stylesheet" />
     @*@Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")*@
+    <script type="text/javascript">
+        var baseUrl = "@Url.Content("~")";
+    </script>
     <style type="text/css">
 
         .sidebar-nav > ul > li.active > a {
@@ -326,7 +327,7 @@
                                         <div class="dw-user-box">
                                             <div class="u-img"><img src="~/assets/images/users/1.jpg" alt="user"></div>
                                             <div class="u-text">
-                                                <h4>Steave Jobs</h4>
+                                                <h4>@usuarioSession.FullName</h4>
                                                 <p class="text-muted">varun@gmail.com</p><a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
                                             </div>
                                         </div>
@@ -338,7 +339,7 @@
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                                    <li><a href="javascript:;" onclick="CerrarSesion();"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -441,12 +442,15 @@
         var userId = '@usuarioSession.SystemUserId'
     </script>
 
-    <script>
-        
-        var userGlobal = '@dataUSer';
+    <script type="text/javascript">
 
-        
+        function CerrarSesion() {
+            location.href = baseUrl + 'IngresoSistema/LogOff';
+        }
+
     </script>
+
+
 
     @RenderSection("scripts", required: false)
 </body>
