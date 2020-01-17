@@ -14,6 +14,7 @@ $(document).ready(function () {
     }
 
     CalculateTotals();
+
     $('.table-main').on('change paste keyup', '.salePrice', function (e) {
         CalculateTotals();
     });
@@ -43,9 +44,11 @@ $(document).ready(function () {
     $('#txtRuc').change(function () {
         let ruc = $('#txtRuc').val();
         $('#ddlSede').empty();
-        SearchCompany(ruc);
+        if (ruc.length == 11) {
+            SearchCompany(ruc);
+        }
+        
     });
-
 
     $('#tbody-Add-Examns').on('autocompletechange', '.tags', function (event) {
         getDataComponent(this.value, event);
@@ -76,6 +79,7 @@ $(document).ready(function () {
             $("#show-list").append(content);
         });
     });
+
     $("#perfilModal").on("click", ".autocompleteProfile", function () {
         $("#search").val($(this).text());
         $("#show-list").empty();
@@ -829,7 +833,7 @@ function APISaveQuotation() {
               
     } else if (data.QuotationId > 0) {
         data.QuotationId = 0;
-        data.Version = parseInt($("#spanVersion").html()) + 1;
+        //data.Version = parseInt($("#spanVersion").html()) + 1;
         data.Code = $("#spanCode").html();
         APIController.NewVersionQuotation(data).then((res) => {
             //console.log("NEW ID", res.Data.QuotationId);
@@ -959,7 +963,7 @@ function RemoveProfile(event) {
         })
         $(event.target).parent().parent().hide();
     }
-    
+    CalculateTotals();
 }
 
 function RemoveComponent(event) {
@@ -974,7 +978,7 @@ function RemoveComponent(event) {
         $(event.target).parent().parent().find(".RecordStatus").text("ELIMINADOLOGICO");
         $(event.target).parent().parent().hide();
     }    
-    
+    CalculateTotals();
 }
 
 $('.table-main').on('change', '.input-numeric', function (event) {

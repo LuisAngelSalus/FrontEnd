@@ -144,6 +144,12 @@ namespace BE
 
     #endregion
 
+    public class QuotationUpdateProcess
+    {
+        public int QuotationId { get; set; }
+        public string Code { get; set; }
+    }
+
 
 
     #region UPDATE
@@ -242,7 +248,7 @@ namespace BE
     {
         public int QuoteTrackingId { get; set; }
         public int QuotationId { get; set; }
-        public DateTime? Date { get; set; }
+        public string Date { get; set; }
         public string Commentary { get; set; }
     }
     #endregion
@@ -305,4 +311,20 @@ namespace BE
     }
 
     #endregion
+
+    public class QuotationVersionDto
+    {
+        public int QuotationId { get; set; }
+        public string NroQuotation { get; set; }
+        public int Version { get; set; }
+        public YesNo IsProccess { get; set; }
+        public DateTime? ShippingDate { get; set; }
+        public string CompanyName { get; set; }
+        public decimal Total { get; set; }
+        public DateTime? USDate { get; set; }
+        public string TrackingDescription { get; set; }
+        public int StatusQuotationId { get; set; }
+        public string StatusQuotationName { get; set; }
+
+    }
 }

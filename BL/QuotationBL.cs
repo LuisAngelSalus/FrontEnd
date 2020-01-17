@@ -89,6 +89,29 @@ namespace BL
             }
             return obj;
         }
+
+        public Response<List<QuotationVersionDto>> GetVersions(string code)
+        {
+            Response<List<QuotationVersionDto>> obj = null;
+            var hCliente = _global.rspClientGET("Quotation/Versions/" + code);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<QuotationVersionDto>>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
+        public Response<bool> UpdateProccess(QuotationUpdateProcess data)
+        {
+            Response<bool> obj = null;
+            var hCliente = _global.rspClientPUT("Quotation/Process", data);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<bool>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
         
     }
 }

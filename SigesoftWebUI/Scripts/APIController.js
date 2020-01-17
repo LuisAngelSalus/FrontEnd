@@ -264,6 +264,37 @@
         });
     }
 
+    var versions = function (code) {
+        return new Promise((resolve, reject) => {
+            let url = '/Quotation/GetVersions?code=' + code
+            fetch(url, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+    }
+
+    var updateProccessQuotation = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Quotation/UpdateProccess', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+    
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -322,6 +353,7 @@
                 saveQuotation(parameters).then(res => resolve(res));
             });
         },
+
         NewVersionQuotation: function (parameters) {
             return new Promise((resolve, reject) => {
                 newVersionQuotation(parameters).then(res => resolve(res));
@@ -368,7 +400,19 @@
             return new Promise((resolve, reject) => {
                 components().then(res => resolve(res));
             });
-        }
+        },
+
+        GetVersions: function (code) {
+            return new Promise((resolve, reject) => {
+                versions(code).then(res => resolve(res));
+            });
+        },
+
+        UpdateProccessQuotation: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateProccessQuotation(parameters).then(res => resolve(res));
+            });
+        },
     }
 
 })();

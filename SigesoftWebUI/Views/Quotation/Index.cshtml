@@ -2,7 +2,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 @section Styles{
 
     <style type="text/css">
@@ -13,6 +12,20 @@
         #table-tracking {
             width: 90%;
             margin: auto
+        }
+
+        .isProccessTrue{
+            color:blue;
+            font-size:16px;
+            font-weight:500;
+        }
+
+        .isProccessFalse{
+            color:gray;
+        }
+
+        .tdClick{
+            cursor:pointer;
         }
     </style>
 
@@ -27,11 +40,11 @@
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label for="txtRuc">RUC</label>
-                        <input type="text" class="form-control" id="txtRuc" maxlength="11" value="" autofocus>
+                        <input type="text" class="form-control" id="txtRuc" maxlength="11" value="" onkeypress="validateInputNumber(event)" autofocus>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="txtNroCotizacion">Nro Cotización</label>
-                        <input type="text" class="form-control" id="txtNroCotizacion" value="">
+                        <input type="text" class="form-control" id="txtNroCotizacion" maxlength="20" value="">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="dtpEnd">Estado</label>
@@ -114,7 +127,7 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th style="display:none">ID</th>
+                        <th style="display: none ">ID</th>
                         <th>Nro Propuesta</th>
                         <th>F. Envio</th>
                         <th>F. Aceptación</th>
@@ -167,19 +180,21 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body" style="font-size:10px;">
+                <p id="modalCompany"></p>
                 <table class="table color-table success-table ">
                     <thead>
                         <tr>
-                            <th>Version</th>
-                            <th>F. Envio</th>                            
-                            <th>Empresa</th>
+                            <th>Activa</th>      
+                            <th>Nro.Version</th>
+                            <th>F. Envio</th>                                                        
                             <th>Costo</th>
                             <th>Estado</th>
-                            <th>F. US</th>
+                            @*<th>F. US</th>*@
                             <th class="text-nowrap">Editar</th>
                         </tr>
                     </thead>
-                    <tbody id="table-contacts">
+                    <tbody id="table-versions">
+                        
                     </tbody>
                 </table>
             </div>
@@ -198,7 +213,7 @@
     <script type="text/javascript">
 
     $(document).ready(function () {
-
+        
         loadDates();
 
         Filter();
@@ -211,6 +226,27 @@
             AddTracking(quotationId);
         });
 
+        $('#table-versions').click(function (event) {         
+            
+            $('#table-versions > tr').each(function (index, tr) {               
+                
+                    $(tr).find('.tdClick').removeClass('isProccessTrue');
+                    $(tr).find('.tdClick').text("Desactivado"); 
+         
+            });
+
+            if ($(event.target).hasClass('tdClick')) {
+               event.target.innerText = "Activado";
+                $(event.target).removeClass('isProccessFalse');
+                $(event.target).addClass('isProccessTrue');
+                let quoationId = $(event.target).attr("id");
+                let code = $("#nroCot").text();               
+                APIController.UpdateProccessQuotation({"QuotationId": quoationId, "Code": code}).then((res) => {
+                    Filter();
+                });
+            }
+         
+        });
     });
 
     function edit(id) {
@@ -272,8 +308,7 @@
                     content += "<td class='indicator'><i class='fa fa-circle waves-effect waves-light'></i></td>";
                 }
 
-                var a = '\"' + data[i].NroQuotation + '\"';
-                console.log("AAAA", a);
+                var a = '\"' + data[i].NroQuotation + '\"';                
                 content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a><a onclick='AddTracking(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-phone btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "<td><a onclick='viewVersion("+a+")' data-toggle='tooltip' data-original-title='Versiones'> <i class='fa fa-list btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "</tr>";
@@ -297,7 +332,8 @@
 
                     content += "<tr id='tr-"+detail[ii].QuoteTrackingId+"'>";
                     content += "<td  style='display:none'>" + detail[ii].QuoteTrackingId + "</td>";
-                    content += "<td>" + GetDateFormat(detail[ii].Date) + "</td>";
+                    //formatDate(new Date(detail[ii].Date))
+                    content += "<td>" + formatDate(new Date(detail[ii].Date)) + "</td>";
                     content += "<td>" + detail[ii].Commentary + "</td>";
                     content += "<td style='width:80px'><div class='btn-list'><a onclick='EditTracking(" + detail[ii].QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></div></td>";
                     content += "</tr>";
@@ -530,9 +566,38 @@
         return '';
         }
 
-    function viewVersion(code) {            
-        $("#nroCot").html(code.split(' ')[0]);
+    function viewVersion(code) {   
+        $("#table-versions").empty();
+        let codeQuotation = code.split(' ')[0];
+        $("#nroCot").html(codeQuotation);
         $("#ModalVersions").modal("show");
+        let content = "";
+        APIController.GetVersions(codeQuotation).then((resp) => {           
+            
+            let data = resp.Data;
+            $("#modalCompany").html(data[0].CompanyName);
+            
+            for (var i = 0; i < data.length; i++) {
+                content += "<tr>";                
+                content += "<td>";
+                if (data[i].IsProccess == 1) {
+                    content += "<label id='"+ data[i].QuotationId +"' class='tdClick isProccessTrue'>Activado</label>";
+                } else {
+                    content += "<label id='"+ data[i].QuotationId +"' class='tdClick isProccessFalse'>Desactivado</label>";
+                }
+                
+                content += "</td>";
+                content += "<td>" + data[i].Version + "</td>";
+                content += "<td>" + formatDate(new Date(GetDateFormat(data[i].ShippingDate))) + "</td>";
+                content += "<td>" + data[i].Total + "</td>";
+                content += "<td>" + data[i].StatusQuotationName + "</td>";
+                //content += "<td>"+ formatDate(new Date(data[i].USDate))+"</td>";
+                content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "</tr>";
+
+            }
+            $("#table-versions").append(content);
+        });
     }
     </script>
 

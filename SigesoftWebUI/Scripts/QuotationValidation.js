@@ -9,12 +9,13 @@
     var validateRuc = validateInput("txtRuc", "Ruc requerido");
     var validateFullName = validateInput("txtFullName", "Primer Contacto requerido");
     var validateEmail = validateInput("txtEmail", "Email requerido");
-    var validateHeadquarter = validateddlHeadquarter("ddlSede","Sede requerida"); 
-    console.log("validateHeadquarter", validateHeadquarter);
+    var validateHeadquarter = validateddlHeadquarter("ddlSede", "Sede requerida"); 
+    var validateCommercialTerms = validateInput("txtCommercialTerms", "Términos comerciales requerido");
+    console.log("validateCommercialTerms", validateCommercialTerms);
     var validateTableQuotation = ValidateTableQuotation();
     
     //II)Retornar resultado de validación
-    if (validateRuc && validateFullName && validateEmail && validateTableQuotation && validateHeadquarter) {       
+    if (validateRuc && validateFullName && validateEmail && validateTableQuotation && validateHeadquarter && validateCommercialTerms) {       
         return true;
     } else {   
         return false;
