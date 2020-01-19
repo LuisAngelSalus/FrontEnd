@@ -59,6 +59,13 @@ namespace SigesoftWebUI.Controllers
 
         }
 
+        public JsonResult NewVersion(QuotationNewVersionDto data)
+        {
+            var response = _quotationBL.NewVersion(data);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+
+        }
+
         public JsonResult Update(QuotationUpdateDto data)
         {
             var response = _quotationBL.Update(data);
@@ -82,12 +89,21 @@ namespace SigesoftWebUI.Controllers
             return File(PDF.BinaryData, "application/pdf;");
         }
 
+        public JsonResult GetVersions(string code)
+        {
+            var response = _quotationBL.GetVersions(code);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetDocumentPDF(string QuotationProfile, string QuotationAditionalExam)
         {
             var response = "ok";
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
-
+        public JsonResult UpdateProccess(QuotationUpdateProcess data)
+        {
+            var response = _quotationBL.UpdateProccess(data);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -5,6 +5,7 @@ $(document).ready(function () {
 
     if ($("#txtQuotationId").val() != 0) {
         $(".select-StatusQuotation").attr("disabled", false);
+        $("#txtRuc").attr("disabled", true);
     } else {
         $('#ddlStatusQuotation option[value=1]').attr('selected', 'selected');
     }
@@ -14,6 +15,7 @@ $(document).ready(function () {
     }
 
     CalculateTotals();
+
     $('.table-main').on('change paste keyup', '.salePrice', function (e) {
         CalculateTotals();
     });
@@ -43,9 +45,10 @@ $(document).ready(function () {
     $('#txtRuc').change(function () {
         let ruc = $('#txtRuc').val();
         $('#ddlSede').empty();
-        SearchCompany(ruc);
+        if (ruc.length == 11) {
+            SearchCompany(ruc);
+        }        
     });
-
 
     $('#tbody-Add-Examns').on('autocompletechange', '.tags', function (event) {
         getDataComponent(this.value, event);
@@ -76,6 +79,7 @@ $(document).ready(function () {
             $("#show-list").append(content);
         });
     });
+
     $("#perfilModal").on("click", ".autocompleteProfile", function () {
         $("#search").val($(this).text());
         $("#show-list").empty();
@@ -381,17 +385,24 @@ function showComponets(value) {
 }
 
 function CalculateTotals() {
+    
     var sumTotal = 0;
     var compTotal = 0;
-    $(".table-main > tbody > .child").each(function (index, tr) {
+    $(".table-main > tbody > .child").each(function (index, tr) {        
         var sumSubTotal = 0;
+        
         var sales = $(tr).find('.salePrice');
         $(sales).each(function () {
-            var value = $(this).get(0).value;
-            //obtener el SUBTOTAL
-            if (!isNaN(value) && value.length != 0) {
-                sumSubTotal += parseFloat(value);
+        
+            console.log($(this).parent().parent().find(".RecordStatus").text());
+            if ($(this).parent().parent().find(".RecordStatus").text() != "ELIMINADOLOGICO") {
+                var value = $(this).get(0).value;
+                //obtener el SUBTOTAL
+                if (!isNaN(value) && value.length != 0) {
+                    sumSubTotal += parseFloat(value);
+                }
             }
+         
         });
 
         var parent = $(tr).prev().get(0);
@@ -404,7 +415,7 @@ function CalculateTotals() {
         }
 
         compTotal += parseFloat($(sales).length);
-    });
+    });    
     $('.Total').text(sumTotal);
     $('.nroTotalComp').text(compTotal);
 
@@ -655,7 +666,6 @@ function SaveCompany(resp) {
     var data = {
         "Name": resp.RazonSocial,
         "IdentificationNumber": resp.Ruc,
-        //"Address": resp.CodigoZona,
         "Address": resp.TipoVia + ' ' + resp.CodigoZona + ' N°' + resp.Numero + ' ' + resp.NombreVia + ' ' + resp.TipoZona,
         "PhoneNumber": "",
         "ContactName": "",
@@ -670,8 +680,6 @@ function SaveCompany(resp) {
         var headquarter = {
             "RecordType": "Temporal",
             "RecordStatus": "Agregado",
-            //"Name": detail[i].NombreVia,
-            //"Address": detail[i].TipoZona,
             "Name": detail[i].TipoZona,
             "Address": detail[i].TipoVia + ' ' + detail[i].NombreVia + ' N°' + detail[i].Numero,
             "PhoneNumber": "",
@@ -727,8 +735,8 @@ function SearchCompany(ruc) {
 function SaveQuotation(e) {
     if (ValidateQuotation(e)) {
         swal({
-            title: "Registro de Cotización",
-            text: "¿Está seguro de guardar está cotización?",
+            title: "¡Importante!",
+            text: "¿Está seguro de guardar esta cotización?",
             type: "info",
             showCancelButton: true,
             closeOnConfirm: false,
@@ -744,7 +752,7 @@ function APISaveQuotation() {
     var data = {
         "QuotationId": $("#txtQuotationId").val(),
         "Code": $("#spanCode").html(),
-        "Version": $("#spanVersion").html(),
+        "Version": parseInt($("#spanVersion").html()),
         "UserCreatedId": 1,
         "UserName": "",
         "CompanyId": $("#txtCompanyId").val(),
@@ -828,9 +836,44 @@ function APISaveQuotation() {
         });
 
     } else if (data.QuotationId > 0) {
-        APIController.UpdateQuotation(data).then((res) => {
-            swal("Correcto", "Cotización Actualizada", "success", function () {
+        data.QuotationId = 0;
+        data.Code = $("#spanCode").html();
+        APIController.NewVersionQuotation(data).then((res) => {
+            swal({
+                title: "¡Importante!",
+                text: "Ingresar comentario para nueva versión",
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                inputPlaceholder: "ingresar comentario"
+            }, function (inputValue) {
+                if (inputValue === false) return false;
+                if (inputValue === "") {
+                    swal.showInputError("¡Es necesario ingresar un comentario!");
+                    return false
+                    }
+                SaveTrackingNewVersion(res.Data.QuotationId, inputValue);
+                    swal({
+                        title: "Se creó la versión: " + res.Data.Version,
+                        text: "",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Volver a la Matriz",
+                        cancelButtonText: "Permanecer en esta página",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            window.location.href = "/Quotation/Index/";
+                        } else {     
+                            swal.close();
+                        }
+                    });
+            });
 
+            APIController.UpdateProccessQuotation({ "QuotationId": res.Data.QuotationId, "Code": data.Code }).then((res) => {
             });
         });
     }
@@ -945,7 +988,21 @@ function SaveTracking(quotationId) {
 
     var params = {
         "QuotationId": quotationId,
+        "StatusName": "Seguimiento",
         "Commentary": "Cotización Creada",
+        "InsertUserId": 1
+    }
+    APIController.SaveQuoteTracking(params).then((resp) => {
+
+    });
+}
+
+function SaveTrackingNewVersion(quotationId, comentary) {
+
+    var params = {
+        "QuotationId": quotationId,
+        "Commentary": comentary,
+        "StatusName": "Seguimiento",
         "InsertUserId": 1
     }
     APIController.SaveQuoteTracking(params).then((resp) => {
@@ -1001,6 +1058,7 @@ function GetNameCategory(id) {
 }
 
 function RemoveProfile(event) {
+    console.log("???");
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
     var idTr = $(event.target).parent().parent().attr('id');
@@ -1025,10 +1083,13 @@ function RemoveProfile(event) {
         })
         $(event.target).parent().parent().hide();
     }
-
+    CalculateTotals();
 }
 
 function RemoveComponent(event) {
+    
+    let idParent = $(event.target).parent().parent().attr('class').split(' ')[1];
+
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
 
@@ -1040,7 +1101,8 @@ function RemoveComponent(event) {
         $(event.target).parent().parent().find(".RecordStatus").text("ELIMINADOLOGICO");
         $(event.target).parent().parent().hide();
     }
-
+    CheckTrParen(idParent);
+    CalculateTotals();
 }
 
 $('.table-main').on('change', '.input-numeric', function (event) {
@@ -1078,7 +1140,6 @@ $('.table-main').on('change', '.select-Service', function (event) {
         $(event.target).parent().parent().find(".RecordStatus").text("MODIFICADO");
     }
 })
-
 
 function AddAdditionalExamns() {
     let availableTags = [];
@@ -1168,4 +1229,12 @@ function RemoveAddExamn(event) {
     }
 }
 
+function CheckTrParen(idParent) {
+    var rowCounter = $('#tbody-main tr.' + idParent + ':not([style*="display: none"]) ').length;
+    if (rowCounter == 0) {
+        console.log("#", idParent); 
+        $("#" + idParent).css("display","none");
+    }
 
+    CalculateTotals();
+}
