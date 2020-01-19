@@ -388,15 +388,21 @@ function CalculateTotals() {
     
     var sumTotal = 0;
     var compTotal = 0;
-    $(".table-main > tbody > .child").each(function (index, tr) {
+    $(".table-main > tbody > .child").each(function (index, tr) {        
         var sumSubTotal = 0;
+        
         var sales = $(tr).find('.salePrice');
         $(sales).each(function () {
-            var value = $(this).get(0).value;
-            //obtener el SUBTOTAL
-            if (!isNaN(value) && value.length != 0) {
-                sumSubTotal += parseFloat(value);
+        
+            console.log($(this).parent().parent().find(".RecordStatus").text());
+            if ($(this).parent().parent().find(".RecordStatus").text() != "ELIMINADOLOGICO") {
+                var value = $(this).get(0).value;
+                //obtener el SUBTOTAL
+                if (!isNaN(value) && value.length != 0) {
+                    sumSubTotal += parseFloat(value);
+                }
             }
+         
         });
 
         var parent = $(tr).prev().get(0);
@@ -409,8 +415,7 @@ function CalculateTotals() {
         }
 
         compTotal += parseFloat($(sales).length);
-    });
-    console.log("SSSSS", sumTotal, compTotal);
+    });    
     $('.Total').text(sumTotal);
     $('.nroTotalComp').text(compTotal);
 
@@ -661,7 +666,6 @@ function SaveCompany(resp) {
     var data = {
         "Name": resp.RazonSocial,
         "IdentificationNumber": resp.Ruc,
-        //"Address": resp.CodigoZona,
         "Address": resp.TipoVia + ' ' + resp.CodigoZona + ' N°' + resp.Numero + ' ' + resp.NombreVia + ' ' + resp.TipoZona,
         "PhoneNumber": "",
         "ContactName": "",
@@ -676,8 +680,6 @@ function SaveCompany(resp) {
         var headquarter = {
             "RecordType": "Temporal",
             "RecordStatus": "Agregado",
-            //"Name": detail[i].NombreVia,
-            //"Address": detail[i].TipoZona,
             "Name": detail[i].TipoZona,
             "Address": detail[i].TipoVia + ' ' + detail[i].NombreVia + ' N°' + detail[i].Numero,
             "PhoneNumber": "",
@@ -835,14 +837,8 @@ function APISaveQuotation() {
               
     } else if (data.QuotationId > 0) {
         data.QuotationId = 0;
-        //data.Version = parseInt($("#spanVersion").html()) + 1;
         data.Code = $("#spanCode").html();
         APIController.NewVersionQuotation(data).then((res) => {
-            //console.log("NEW ID", res.Data.QuotationId);
-            //swal("Correcto", "Cotización Actualizada", "success", function () {
-            //    $("#TrackingModalQuotation").modal("show");
-            //});  
-
             swal({
                 title: "¡Importante!",
                 text: "Ingresar comentario para nueva versión",
@@ -857,7 +853,6 @@ function APISaveQuotation() {
                     return false
                     }
                 SaveTrackingNewVersion(res.Data.QuotationId, inputValue);
-                    //swal("¡Correcto!", "Se creó la versión: v." + res.Data.Version, "success");
                     swal({
                         title: "Se creó la versión: " + res.Data.Version,
                         text: "",
@@ -869,21 +864,18 @@ function APISaveQuotation() {
                         closeOnConfirm: false,
                         closeOnCancel: false
                     },
-                        function (isConfirm) {
-                            if (isConfirm) {
-                                window.location.href = "/Quotation/Index/";
-                            } else {     
-                                swal.close();
-                            }
-                        });
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            window.location.href = "/Quotation/Index/";
+                        } else {     
+                            swal.close();
+                        }
+                    });
             });
 
-
+            APIController.UpdateProccessQuotation({ "QuotationId": res.Data.QuotationId, "Code": data.Code }).then((res) => {
+            });
         });
-        //APIController.SaveQuotation(data).then((res) => {
-        //    swal("Correcto", "Nueva versión creada", "success", function () {
-        //    });        
-        //});
     }  
 }
 
@@ -891,6 +883,7 @@ function SaveTracking(quotationId) {
     
     var params = {
         "QuotationId": quotationId,
+        "StatusName": "Seguimiento",
         "Commentary": "Cotización Creada",
         "InsertUserId": 1
     }
@@ -904,6 +897,7 @@ function SaveTrackingNewVersion(quotationId, comentary) {
     var params = {
         "QuotationId": quotationId,
         "Commentary": comentary,
+        "StatusName": "Seguimiento",
         "InsertUserId": 1
     }
     APIController.SaveQuoteTracking(params).then((resp) => {
@@ -989,6 +983,8 @@ function RemoveProfile(event) {
 
 function RemoveComponent(event) {
     
+    let idParent = $(event.target).parent().parent().attr('class').split(' ')[1];
+
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
 
@@ -1000,6 +996,7 @@ function RemoveComponent(event) {
         $(event.target).parent().parent().find(".RecordStatus").text("ELIMINADOLOGICO");
         $(event.target).parent().parent().hide();
     }    
+    CheckTrParen(idParent);
     CalculateTotals();
 }
 
@@ -1127,4 +1124,12 @@ function RemoveAddExamn(event) {
     }
 }
 
+function CheckTrParen(idParent) {
+    var rowCounter = $('#tbody-main tr.' + idParent + ':not([style*="display: none"]) ').length;
+    if (rowCounter == 0) {
+        console.log("#", idParent); 
+        $("#" + idParent).css("display","none");
+    }
 
+    CalculateTotals();
+}

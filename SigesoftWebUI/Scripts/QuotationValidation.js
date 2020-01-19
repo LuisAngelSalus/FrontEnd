@@ -43,8 +43,8 @@ function ValidateTableQuotation() {
 }
 
 function ValidateTable(tbodyId) {
-    var rowCounter = $('#' + tbodyId + ' tr').length;
-    
+    var rowCounter = $('#' + tbodyId + '  tr.parent:not([style*="display: none"]) ').length;
+    console.log("rowCounter", rowCounter);
     if (rowCounter == 0) {
         console.log($('#' + tbodyId).parent());
         $('#' + tbodyId).parent().parent().removeClass('card');
