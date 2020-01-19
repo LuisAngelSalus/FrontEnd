@@ -81,6 +81,13 @@ namespace SigesoftWebUI.Controllers
             Response.AppendHeader("Content-Disposition", "inline; filename=Document_" + "demo" + ".pdf");
             return File(PDF.BinaryData, "application/pdf;");
         }
-        
+
+        public JsonResult GetDocumentPDF(string QuotationProfile, string QuotationAditionalExam)
+        {
+            var response = "ok";
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }
