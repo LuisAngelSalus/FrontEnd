@@ -10,10 +10,9 @@
     var validateFullName = validateInput("txtFullName", "Primer Contacto requerido");
     var validateEmail = validateInput("txtEmail", "Email requerido");
     var validateHeadquarter = validateddlHeadquarter("ddlSede", "Sede requerida"); 
-    var validateCommercialTerms = validateInput("txtCommercialTerms", "Términos comerciales requerido");
-    console.log("validateCommercialTerms", validateCommercialTerms);
+    var validateCommercialTerms = validateInput("txtCommercialTerms", "Términos comerciales requerido");    
     var validateTableQuotation = ValidateTableQuotation();
-    
+    console.log("validateTableQuotation", validateTableQuotation);
     //II)Retornar resultado de validación
     if (validateRuc && validateFullName && validateEmail && validateTableQuotation && validateHeadquarter && validateCommercialTerms) {       
         return true;

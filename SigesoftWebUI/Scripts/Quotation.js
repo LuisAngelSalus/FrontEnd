@@ -5,6 +5,7 @@ $(document).ready(function () {
 
     if ($("#txtQuotationId").val() != 0) {
         $(".select-StatusQuotation").attr("disabled", false);
+        $("#txtRuc").attr("disabled", true);
     } else {        
         $('#ddlStatusQuotation option[value=1]').attr('selected', 'selected');
     }
@@ -46,8 +47,7 @@ $(document).ready(function () {
         $('#ddlSede').empty();
         if (ruc.length == 11) {
             SearchCompany(ruc);
-        }
-        
+        }        
     });
 
     $('#tbody-Add-Examns').on('autocompletechange', '.tags', function (event) {
@@ -385,6 +385,7 @@ function showComponets(value) {
 }
 
 function CalculateTotals() {
+    
     var sumTotal = 0;
     var compTotal = 0;
     $(".table-main > tbody > .child").each(function (index, tr) {
@@ -409,6 +410,7 @@ function CalculateTotals() {
 
         compTotal += parseFloat($(sales).length);
     });
+    console.log("SSSSS", sumTotal, compTotal);
     $('.Total').text(sumTotal);
     $('.nroTotalComp').text(compTotal);
 
@@ -855,7 +857,25 @@ function APISaveQuotation() {
                     return false
                     }
                 SaveTrackingNewVersion(res.Data.QuotationId, inputValue);
-                swal("¡Correcto!", "Se creó la versión: v." + res.Data.Version, "success");
+                    //swal("¡Correcto!", "Se creó la versión: v." + res.Data.Version, "success");
+                    swal({
+                        title: "Se creó la versión: " + res.Data.Version,
+                        text: "",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Volver a la Matriz",
+                        cancelButtonText: "Permanecer en esta página",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                window.location.href = "/Quotation/Index/";
+                            } else {     
+                                swal.close();
+                            }
+                        });
             });
 
 
@@ -939,6 +959,7 @@ function GetNameCategory(id) {
 }
 
 function RemoveProfile(event) {
+    console.log("???");
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
     var idTr = $(event.target).parent().parent().attr('id');    
@@ -967,6 +988,7 @@ function RemoveProfile(event) {
 }
 
 function RemoveComponent(event) {
+    
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
 
