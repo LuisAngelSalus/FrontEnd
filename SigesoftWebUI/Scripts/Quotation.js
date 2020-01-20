@@ -414,9 +414,10 @@ function CalculateTotals() {
             sumTotal += parseFloat(sumSubTotal);
         }
 
-    $('.Total').text(sumTotal);
-    $('.nroTotalComp').text(compTotal);
+        $('.Total').text(sumTotal);
+        $('.nroTotalComp').text(compTotal);
 
+    })
 }
 
 function SaveProfile() {
