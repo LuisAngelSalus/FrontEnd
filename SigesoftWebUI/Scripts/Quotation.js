@@ -416,7 +416,6 @@ function CalculateTotals() {
 
         $('.Total').text(sumTotal);
         $('.nroTotalComp').text(compTotal);
-
     })
 }
 
@@ -539,7 +538,6 @@ function SaveProfile() {
         $("#changeNameProfile").modal("hide");
         $("#search").val("");
     });
-
 }
 
 function LoadParametersProtocolProfile(nameProfile) {
@@ -879,7 +877,7 @@ function APISaveQuotation() {
 }
 
 function PreviewQuotation() {
-
+    var content = "";
     var data = {
         "QuotationId": $("#txtQuotationId").val(),
         "Code": $("#spanCode").html(),
@@ -957,7 +955,7 @@ function PreviewQuotation() {
 
 
 
-    var content = "";
+
     content += '<tr><th class="tg-nrix"></th><th class="tg-0lax"></th>';
     for (var i = 0; i < data.QuotationProfiles.length; i++) {
         content += '<td class="tg-nrix">' + data.QuotationProfiles[i].ProfileName + '</td>';
