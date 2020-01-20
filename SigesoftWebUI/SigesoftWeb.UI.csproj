@@ -294,6 +294,7 @@
     <Content Include="assets\images\favicon_SALUS.ico" />
     <Content Include="assets\images\Isotipo SalusLaboris.png" />
     <Content Include="assets\images\letras.png" />
+    <Content Include="assets\images\log-emp-preview.jpeg" />
     <Content Include="assets\images\logo-icon.png" />
     <Content Include="assets\images\logo-light-icon.png" />
     <Content Include="assets\images\logo-light-text.png" />
@@ -1560,6 +1561,13 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\APIController.js" />
+    <Content Include="Scripts\Export\canvg.min.js" />
+    <Content Include="Scripts\Export\FileSaver.js" />
+    <Content Include="Scripts\Export\html2canvas.min.js" />
+    <Content Include="Scripts\Export\html2pdf.bundle.min.js" />
+    <Content Include="Scripts\Export\jspdf.min.js" />
+    <Content Include="Scripts\Export\jspdf.plugin.autotable.js" />
+    <Content Include="Scripts\Export\jspdf.plugin.standard_fonts_metrics.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -1571,6 +1579,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lz-string.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Quotation.js" />
     <Content Include="Scripts\QuotationValidation.js" />

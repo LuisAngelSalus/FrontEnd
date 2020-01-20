@@ -12,6 +12,12 @@
 
 @section Styles{
     <link rel="stylesheet" href="~/assets/plugins/dropify/dist/css/dropify.min.css">
+
+    <style type="text/css">
+        .invalid-feedback .has-error-required{
+            display: none !important;
+        }
+    </style>
 }
 
 
@@ -34,7 +40,12 @@
                         <div class="form-group">
                             <input type="hidden" id="txtCompanyId" value="@companyId" />
                             <label for="txtIdentificationNumber">RUC<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="txtIdentificationNumber" value="@ViewBag.Detail.IdentificationNumber" onkeypress="validateInputNumber(event)" placeholder="Ingresar RUC" min="11" maxlength="11">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txtIdentificationNumber" value="@ViewBag.Detail.IdentificationNumber" onkeypress="validateInputNumber(event)" placeholder="Ingresar RUC" min="11" maxlength="11">
+                                <span class="input-group-btn">
+                                    <a id="btnBuscarRuc" class="btn btn-secondary"><i class="fa fa-search"></i></a>
+                                </span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="txtCompanyName">Empresa<span class="text-danger">*</span></label>
@@ -67,7 +78,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="txtPhoneCompany">Teléfono Empresa<span class="text-danger"></span></label>
-                                    <input type="tel" class="form-control" id="txtPhoneCompany" value="@ViewBag.Detail.PhoneCompany" placeholder="Ingresar Teléfono">
+                                    <input type="tel" class="form-control" id="txtPhoneCompany" value="@ViewBag.Detail.PhoneCompany" onkeypress="validateInputNumber(event)" placeholder="Ingresar Teléfono">
                                 </div>
                             </div>
                         </div>
@@ -97,7 +108,7 @@
                             <div class="col">
                                 <div class="form-group mb-2">
                                     <label for="txtPhoneNumber">Teléfono Contacto<span class="text-danger"></span></label>
-                                    <input type="text" class="form-control" id="txtPhoneNumber" value="@ViewBag.Detail.PhoneNumber" placeholder="Ingresar Teléfono">
+                                    <input type="text" class="form-control" id="txtPhoneNumber" value="@ViewBag.Detail.PhoneNumber" onkeypress="validateInputNumber(event)" placeholder="Ingresar Teléfono">
 
                                 </div>
                             </div>
@@ -140,7 +151,7 @@
                                         <tr>
                                             <td style="display:none" class="RecordType">@item.RecordType</td>
                                             <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
-                                            <td style="display:none">@item.CompanyHeadquarterId</td>
+                                            <td style="display: none ">@item.CompanyHeadquarterId</td>
                                             <td class="disableTd">@item.Name</td>
                                             <td class="disableTd"> @item.Address</td>
                                             <td class="disableTd"> @item.PhoneNumber</td>
@@ -203,16 +214,16 @@
     <script type="text/javascript">
 
         bootstrapValidate('#txtMail', 'email:Ingrese un email correcto');
-        bootstrapValidate('#txtIdentificationNumber', 'required:Campo requerido');
+        bootstrapValidate('#txtIdentificationNumber', 'required:');
         bootstrapValidate('#txtIdentificationNumber', 'max:11:Máximo 11 caracteres');
         bootstrapValidate('#txtIdentificationNumber', 'integer:solo números');
 
 
 
-        bootstrapValidate('#txtPhoneCompany', 'required:Campo requerido');
+        bootstrapValidate('#txtPhoneCompany', 'required:');
         bootstrapValidate('#txtPhoneCompany', 'integer:solo números');
 
-        bootstrapValidate('#txtPhoneNumber', 'required:Campo requerido');
+        bootstrapValidate('#txtPhoneNumber', 'required:');
         bootstrapValidate('#txtPhoneNumber', 'integer:solo números');
 
     </script>
@@ -228,10 +239,13 @@
     });
     $(document).ready(function () {
 
-        $('#txtIdentificationNumber').change(function () {
+        $('#btnBuscarRuc').on("click", function (e) {
             let ruc = $('#txtIdentificationNumber').val();
-            //$('#ddlSede').empty();
-            SearchCompany(ruc);
+            if ($('#txtIdentificationNumber').val().length < 11) {
+                swal("RUC debe tener 11 digitos");
+            } else {
+                SearchCompany(ruc);
+            }
         });
 
         function SearchCompany(ruc) {
@@ -244,7 +258,6 @@
 
                 let content = "";
                 for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
-                    //content += "<option value='" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "'>" + res.Data.companyHeadquarter[i].Address + "</option>";
                     content += "<tr>";
 
                     content += "<td style='display:none' class='RecordType'>" + res.Data.companyHeadquarter[i].RecordType + "</td>";
@@ -258,18 +271,11 @@
                 }
                 $("tbody").append(content);
 
-                //$('#ddlSede').append(content);
-
                 $('#txtCompanyName').attr('readonly', false);
                 $('#txtDistric').attr('readonly', false);
                 $('#txtAddress').attr('readonly', false);
 
                 $("#txtContactName").focus();
-
-                //EN CASO SEA EDICIÓN
-                //if ($('#txtCompanyHeadquarterId').val()!=0) {
-                //    $("#ddlSede").val($('#txtCompanyHeadquarterId').val());
-                //}
 
             }).catch((err) => {
                 swal({
@@ -278,6 +284,9 @@
                     type: "info",
                     showCancelButton: true,
                     closeOnConfirm: false,
+                    confirmButtonText: "Si",
+                    cancelButtonText: "No",
+                    cancelButtonColor: "#DD6B55",
                     showLoaderOnConfirm: true
                 }, function () {
                     InfoSunat(ruc);
@@ -290,7 +299,34 @@
             APIController.GetInfoSunat(ruc).then((res) => {
                 console.log(res.data);
                 swal("Búsqueda correcta");
-                SaveCompany(res.Data);
+                //SaveCompany(res.Data);
+
+                console.log(res.data);
+                $('#txtCompanyId').val(res.Data.CompanyId);
+                $('#txtCompanyName').val(res.Data.Name);
+                $('#txtDistrict').val(res.Data.District);
+                $('#txtAddress').val(res.Data.Address);
+
+                let content = "";
+                for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
+                    content += "<tr>";
+
+                    content += "<td style='display:none' class='RecordType'>" + res.Data.companyHeadquarter[i].RecordType + "</td>";
+                    content += "<td style='display:none' class='RecordStatus'>" + res.Data.companyHeadquarter[i].RecordStatus + "</td>";
+                    content += "<td style='display:none'>" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "</td>";
+                    content += "<td tabindex='1'>" + res.Data.companyHeadquarter[i].Name + "</td>";
+                    content += "<td tabindex='1'>" + res.Data.companyHeadquarter[i].Address + "</td>";
+                    content += "<td tabindex='1'> </td>";
+                    content += "<td class='disableBtn'><i id='"+"edit-"+res.Data.companyHeadquarter[i].CompanyHeadquarterId+"' class='btnEdit fa fa-pencil text-inverse m-r-10'></i><i id='"+"delete-"+res.Data.companyHeadquarter[i].CompanyHeadquarterId+"' class='btnDelete fa fa-close text-danger'></i></td>";
+                    content += " </tr>";
+                }
+                $("tbody").append(content);
+
+                $('#txtCompanyName').attr('readonly', false);
+                $('#txtDistric').attr('readonly', false);
+                $('#txtAddress').attr('readonly', false);
+
+                $("#txtContactName").focus();
 
             }).catch((res) => {
                 swal.close();
@@ -395,16 +431,26 @@
         //console.log("base64ImageContent",base64ImageContent);
 
 
+        if ($("#txtIdentificationNumber").val() == "") {
+            
+            swal({
+                title: "Debe ingresar RUC",
+                icon: "warning",
+            });
+            return;
+        }
 
         if ($("#txtCompanyName").val() == "") {
-            alert("Ingresar Nombre de Empresa");
+            //alert("Ingresar Nombre de Empresa");
+            //swal("Title", "Text", "success")
+            swal({
+                title: "Ingresar Nombre de Empresa",
+                icon: "warning",
+            });
             return;
         }
 
-        if ($("#txtIdentificationNumber").val() == "") {
-            alert("Ingresar Nombre de Empresa");
-            return;
-        }
+        
 
         var data = {
             "CompanyId":@companyId,

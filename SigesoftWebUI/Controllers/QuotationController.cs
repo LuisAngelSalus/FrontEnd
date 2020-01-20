@@ -16,7 +16,7 @@ namespace SigesoftWebUI.Controllers
     public class QuotationController : GenericController
     {
         QuotationBL _quotationBL = new QuotationBL();
-        
+
 
         public ActionResult Index()
         {
@@ -54,7 +54,7 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult Save(QuotationRegisterDto data)
         {
-             var response = _quotationBL.Save(data);
+            var response = _quotationBL.Save(data);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
@@ -92,6 +92,14 @@ namespace SigesoftWebUI.Controllers
         public JsonResult GetVersions(string code)
         {
             var response = _quotationBL.GetVersions(code);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public JsonResult GetDocumentPDF(string QuotationProfile, string QuotationAditionalExam)
+        {
+            var response = "ok";
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
