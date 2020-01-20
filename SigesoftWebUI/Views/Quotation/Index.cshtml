@@ -431,13 +431,13 @@
                 "StatusName": $("#ddlStatusQuotation-" + $("#txthiddenQuotation").val() + " option:selected").text(),
                 "InsertUserId": 1
             }
-            console.log("params ", params);
             APIController.SaveQuoteTracking(params).then((resp) => {
                 var data = resp.Data;
                 let content = "";
                 content += "<tr id='tr-"+data.QuoteTrackingId+"'>";
                 content += "<td  style='display:none'>" + data.QuoteTrackingId + "</td>";
-                content += "<td>" + GetDateFormat(data.Date) + "</td>";
+                //content += "<td>" + formatDate(new Date(GetDateFormat(data[i].ShippingDate))) + "</td>";
+                content += "<td>" + formatDate(new Date(GetDateFormat(data.Date))) + "</td>";
                 content += "<td>" + data.StatusName + "</td>";
                 content += "<td>" + data.Commentary + "</td>";
                 content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
@@ -446,7 +446,7 @@
                 $("#tbody-Tracking-" + data.QuotationId).append(content);
                 let quotationId = $("#txthiddenQuotation").val();
                 let StatusQuotationId = $("#ddlStatusQuotation-" + quotationId + " option:selected").val();                
-                
+                console.log(quotationId, StatusQuotationId);
                 APIController.UpdateQuotation({"QuotationId": quotationId, "StatusQuotationId": StatusQuotationId}).then((res) => {
                     Filter();
                 });

@@ -302,22 +302,22 @@
                 //SaveCompany(res.Data);
 
                 console.log(res.data);
-                $('#txtCompanyId').val(res.Data.CompanyId);
-                $('#txtCompanyName').val(res.Data.Name);
-                $('#txtDistrict').val(res.Data.District);
-                $('#txtAddress').val(res.Data.Address);
+                $('#txtCompanyName').val(res.Data.RazonSocial);
+                $('#txtDistrict').val(res.Data.Distrito);
+                $('#txtAddress').val(res.Data.TipoVia + ' ' + res.Data.CodigoZona + ' N°' + res.Data.Numero + ' ' + res.Data.NombreVia + ' ' + res.Data.TipoZona,);
 
                 let content = "";
-                for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
+                for (var i = 0; i < res.Data.details.length; i++) {
+                    let idTemp = Math.random().toString(36).substring(7);
                     content += "<tr>";
 
-                    content += "<td style='display:none' class='RecordType'>" + res.Data.companyHeadquarter[i].RecordType + "</td>";
-                    content += "<td style='display:none' class='RecordStatus'>" + res.Data.companyHeadquarter[i].RecordStatus + "</td>";
-                    content += "<td style='display:none'>" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "</td>";
-                    content += "<td tabindex='1'>" + res.Data.companyHeadquarter[i].Name + "</td>";
-                    content += "<td tabindex='1'>" + res.Data.companyHeadquarter[i].Address + "</td>";
+                    content += "<td style='display:none' class='RecordType'>TEMPORAL</td>";
+                    content += "<td style='display:none' class='RecordStatus'>AGREGADO</td>";
+                    content += "<td style='display:none'>" + idTemp + "</td>";
+                    content += "<td tabindex='1'>" + res.Data.details[i].TipoZona + "</td>";
+                    content += "<td tabindex='1'>" + res.Data.details[i].TipoVia + ' ' + res.Data.details[i].NombreVia + ' N°' + res.Data.details[i].Numero, + "</td>";
                     content += "<td tabindex='1'> </td>";
-                    content += "<td class='disableBtn'><i id='"+"edit-"+res.Data.companyHeadquarter[i].CompanyHeadquarterId+"' class='btnEdit fa fa-pencil text-inverse m-r-10'></i><i id='"+"delete-"+res.Data.companyHeadquarter[i].CompanyHeadquarterId+"' class='btnDelete fa fa-close text-danger'></i></td>";
+                    content += "<td class='disableBtn'><i id='"+"edit-"+idTemp+"' class='btnEdit fa fa-pencil text-inverse m-r-10'></i><i id='"+"delete-"+idTemp+"' class='btnDelete fa fa-close text-danger'></i></td>";
                     content += " </tr>";
                 }
                 $("tbody").append(content);
@@ -482,7 +482,7 @@
 
         //console.log(data);
         APIController.SaveCompany(data).then((res) => {
-            alert("Empresa creada correctamente");
+            swal("Empresa creada correctamente");
             //window.location.href = "http://beto1826-001-site4.etempurl.com/Company/Index";
             window.location.href = "/Company/Index/";
         });

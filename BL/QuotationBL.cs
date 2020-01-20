@@ -48,7 +48,7 @@ namespace BL
 
         public Response<QuotationUpdateDto> Update(QuotationUpdateDto data)
         {
-            Response<QuotationUpdateDto> obj = null;
+            Response<QuotationUpdateDto> obj = new Response<QuotationUpdateDto>() ;
             var hCliente = _global.rspClientPUT("Quotation/", data);
             if (hCliente.IsSuccessStatusCode)
             {

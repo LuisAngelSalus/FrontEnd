@@ -395,6 +395,7 @@ function CalculateTotals() {
 
             console.log($(this).parent().parent().find(".RecordStatus").text());
             if ($(this).parent().parent().find(".RecordStatus").text() != "ELIMINADOLOGICO") {
+                compTotal++;
                 var value = $(this).get(0).value;
                 //obtener el SUBTOTAL
                 if (!isNaN(value) && value.length != 0) {
@@ -413,11 +414,9 @@ function CalculateTotals() {
             sumTotal += parseFloat(sumSubTotal);
         }
 
-        compTotal += parseFloat($(sales).length);
+        $('.Total').text(sumTotal);
+        $('.nroTotalComp').text(compTotal);
     });
-    $('.Total').text(sumTotal);
-    $('.nroTotalComp').text(compTotal);
-
 }
 
 function SaveProfile() {
@@ -539,7 +538,6 @@ function SaveProfile() {
         $("#changeNameProfile").modal("hide");
         $("#search").val("");
     });
-
 }
 
 function LoadParametersProtocolProfile(nameProfile) {
@@ -879,7 +877,7 @@ function APISaveQuotation() {
 }
 
 function PreviewQuotation() {
-
+    var content = "";
     var data = {
         "QuotationId": $("#txtQuotationId").val(),
         "Code": $("#spanCode").html(),
@@ -957,7 +955,7 @@ function PreviewQuotation() {
 
 
 
-    var content = "";
+
     content += '<tr><th class="tg-nrix"></th><th class="tg-0lax"></th>';
     for (var i = 0; i < data.QuotationProfiles.length; i++) {
         content += '<td class="tg-nrix">' + data.QuotationProfiles[i].ProfileName + '</td>';
