@@ -396,6 +396,7 @@ function CalculateTotals() {
         
             console.log($(this).parent().parent().find(".RecordStatus").text());
             if ($(this).parent().parent().find(".RecordStatus").text() != "ELIMINADOLOGICO") {
+                compTotal++;
                 var value = $(this).get(0).value;
                 //obtener el SUBTOTAL
                 if (!isNaN(value) && value.length != 0) {
@@ -414,7 +415,7 @@ function CalculateTotals() {
             sumTotal += parseFloat(sumSubTotal);
         }
 
-        compTotal += parseFloat($(sales).length);
+        //compTotal += parseFloat($(sales).length);
     });    
     $('.Total').text(sumTotal);
     $('.nroTotalComp').text(compTotal);
