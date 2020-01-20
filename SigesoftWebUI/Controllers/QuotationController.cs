@@ -94,6 +94,11 @@ namespace SigesoftWebUI.Controllers
             var response = _quotationBL.GetVersions(code);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetDocumentPDF(string QuotationProfile, string QuotationAditionalExam)
+        {
+            var response = "ok";
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult UpdateProccess(QuotationUpdateProcess data)
         {

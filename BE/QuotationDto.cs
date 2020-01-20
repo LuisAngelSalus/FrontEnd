@@ -156,7 +156,7 @@ namespace BE
 
     public class QuotationUpdateDto
     {
-        //public int QuotationId { get; set; }
+        public int QuotationId { get; set; }
         public string Code { get; set; }
         public int Version { get; set; }
         public int UserCreatedId { get; set; }
@@ -175,7 +175,7 @@ namespace BE
 
     public class QuotationProfileUpdateDto
     {
-        //public int QuotationId { get; set; }
+        public int QuotationId { get; set; }
         public int? QuotationProfileId { get; set; }
         public string ProfileName { get; set; }
         public int? ServiceTypeId { get; set; }
@@ -250,6 +250,7 @@ namespace BE
         public int QuotationId { get; set; }
         public string Date { get; set; }
         public string Commentary { get; set; }
+        public string StatusName { get; set; }
     }
     #endregion
 

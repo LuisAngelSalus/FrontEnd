@@ -299,7 +299,8 @@
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(77px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-                        <a class="dropdown-item" href="@Url.Action("GetHTMLPageAsPDF","Quotation")" target="_blank">Vista Previa</a>
+                        @*<a class="dropdown-item" href="@Url.Action("GetHTMLPageAsPDF","Quotation")" target="_blank">Vista Previa</a>*@
+                        <a class="dropdown-item" onclick="PreviewQuotation();">Vista Previa</a>
                         <a class="dropdown-item" onclick="">Excel</a>
                         <a class="dropdown-item" onclick="">Separar Propuesta</a>
                         <a class="dropdown-item" onclick="">Mas Opciones</a>

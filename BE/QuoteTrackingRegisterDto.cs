@@ -12,6 +12,7 @@ namespace BE
         public int QuotationId { get; set; }
         public DateTime? Date { get; set; }
         public string Commentary { get; set; }
+        public string StatusName { get; set; }
         public int InsertUserId { get; set; }
     }
 }

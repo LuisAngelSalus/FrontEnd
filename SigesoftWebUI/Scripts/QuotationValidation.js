@@ -10,10 +10,9 @@
     var validateFullName = validateInput("txtFullName", "Primer Contacto requerido");
     var validateEmail = validateInput("txtEmail", "Email requerido");
     var validateHeadquarter = validateddlHeadquarter("ddlSede", "Sede requerida"); 
-    var validateCommercialTerms = validateInput("txtCommercialTerms", "Términos comerciales requerido");
-    console.log("validateCommercialTerms", validateCommercialTerms);
+    var validateCommercialTerms = validateInput("txtCommercialTerms", "Términos comerciales requerido");    
     var validateTableQuotation = ValidateTableQuotation();
-    
+    console.log("validateTableQuotation", validateTableQuotation);
     //II)Retornar resultado de validación
     if (validateRuc && validateFullName && validateEmail && validateTableQuotation && validateHeadquarter && validateCommercialTerms) {       
         return true;
@@ -44,8 +43,8 @@ function ValidateTableQuotation() {
 }
 
 function ValidateTable(tbodyId) {
-    var rowCounter = $('#' + tbodyId + ' tr').length;
-    
+    var rowCounter = $('#' + tbodyId + '  tr.parent:not([style*="display: none"]) ').length;
+    console.log("rowCounter", rowCounter);
     if (rowCounter == 0) {
         console.log($('#' + tbodyId).parent());
         $('#' + tbodyId).parent().parent().removeClass('card');
