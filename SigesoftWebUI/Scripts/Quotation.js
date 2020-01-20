@@ -979,7 +979,12 @@ function PreviewQuotation() {
     var cnt = 0;
     for (var j = 0; j < data.QuotationProfiles.length; j++) {
         for (var k = 0; k < data.QuotationProfiles[j].ProfileComponents.length; k++) {
+            content += '<tr>';
+            content += '<td class="tg-nrix" rowspan="' + getNodeCount(data.QuotationProfiles[j].ProfileComponents[k].CategoryName) + '">' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td>';
+            content += '</tr>';
+
             content += '<tr><td class="tg-nrix">' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td><td class="tg-nrix"></td><td class="tg-nrix"></td><td class="tg-nrix"></td></tr>';
+
             ////CategoryName
             //if (data.QuotationProfiles[j].ProfileComponents[k].CategoryName != current) {
             //    if (cnt > 1) {
@@ -993,6 +998,17 @@ function PreviewQuotation() {
             //    cnt++;
             //}
         }
+    }
+
+    function getNodeCount(obj) {
+        var num = 0
+        if (obj.nodes) {
+            for (var i = 0; i < obj.length; i++) {
+                num += getNodeCount(obj[i])
+            }
+        } else
+            num = 1
+        return num
     }
 
 
