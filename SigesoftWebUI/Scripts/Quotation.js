@@ -1,5 +1,4 @@
-﻿
-var obj = {};
+﻿var obj = {};
 $(document).ready(function () {
 
 
@@ -47,7 +46,7 @@ $(document).ready(function () {
         $('#ddlSede').empty();
         if (ruc.length == 11) {
             SearchCompany(ruc);
-        }        
+        }
     });
 
     $('#tbody-Add-Examns').on('autocompletechange', '.tags', function (event) {
@@ -385,15 +384,15 @@ function showComponets(value) {
 }
 
 function CalculateTotals() {
-    
+
     var sumTotal = 0;
     var compTotal = 0;
-    $(".table-main > tbody > .child").each(function (index, tr) {        
+    $(".table-main > tbody > .child").each(function (index, tr) {
         var sumSubTotal = 0;
-        
+
         var sales = $(tr).find('.salePrice');
         $(sales).each(function () {
-        
+
             console.log($(this).parent().parent().find(".RecordStatus").text());
             if ($(this).parent().parent().find(".RecordStatus").text() != "ELIMINADOLOGICO") {
                 var value = $(this).get(0).value;
@@ -402,7 +401,7 @@ function CalculateTotals() {
                     sumSubTotal += parseFloat(value);
                 }
             }
-         
+
         });
 
         var parent = $(tr).prev().get(0);
@@ -415,7 +414,7 @@ function CalculateTotals() {
         }
 
         compTotal += parseFloat($(sales).length);
-    });    
+    });
     $('.Total').text(sumTotal);
     $('.nroTotalComp').text(compTotal);
 
@@ -851,23 +850,23 @@ function APISaveQuotation() {
                 if (inputValue === "") {
                     swal.showInputError("¡Es necesario ingresar un comentario!");
                     return false
-                    }
+                }
                 SaveTrackingNewVersion(res.Data.QuotationId, inputValue);
-                    swal({
-                        title: "Se creó la versión: " + res.Data.Version,
-                        text: "",
-                        type: "success",
-                        showCancelButton: true,
-                        confirmButtonClass: "btn-info",
-                        confirmButtonText: "Volver a la Matriz",
-                        cancelButtonText: "Permanecer en esta página",
-                        closeOnConfirm: false,
-                        closeOnCancel: false
-                    },
+                swal({
+                    title: "Se creó la versión: " + res.Data.Version,
+                    text: "",
+                    type: "success",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-info",
+                    confirmButtonText: "Volver a la Matriz",
+                    cancelButtonText: "Permanecer en esta página",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
                     function (isConfirm) {
                         if (isConfirm) {
                             window.location.href = "/Quotation/Index/";
-                        } else {     
+                        } else {
                             swal.close();
                         }
                     });
@@ -884,7 +883,7 @@ function PreviewQuotation() {
     var data = {
         "QuotationId": $("#txtQuotationId").val(),
         "Code": $("#spanCode").html(),
-        "Version": $("#spanVersion").html(),
+        "Version": parseInt($("#spanVersion").html()),
         "UserCreatedId": 1,
         "UserName": "",
         "CompanyId": $("#txtCompanyId").val(),
@@ -937,7 +936,6 @@ function PreviewQuotation() {
             });
 
             data.QuotationProfiles.push(oQuotationProfile);
-            
         }
     });
 
@@ -955,34 +953,82 @@ function PreviewQuotation() {
         oAddExam.RecordStatus = $(this).find(".RecordStatus").html();
         oAddExam.InsertUserId = 1;
         data.AdditionalComponentsQuotes.push(oAddExam);
-        
     });
 
-    localStorage.setItem('quotation_profile', JSON.stringify(data.QuotationProfiles));
-    localStorage.setItem('quotation_aditional_exam', JSON.stringify(data.AdditionalComponentsQuotes));
 
-    var info = {
-        QuotationProfile: JSON.stringify(data.QuotationProfiles),
-        QuotationAditionalExam: JSON.stringify(data.AdditionalComponentsQuotes)
+
+    var content = "";
+    content += '<tr><th class="tg-nrix"></th><th class="tg-0lax"></th>';
+    for (var i = 0; i < data.QuotationProfiles.length; i++) {
+        content += '<td class="tg-nrix">' + data.QuotationProfiles[i].ProfileName + '</td>';
+    }
+    content += '</tr>';
+
+    ////content += '<tr><td class="tg-nrix"></td>';
+    //for (var j = 0; j < data.QuotationProfiles.ProfileComponents.length; j++) {
+    //    content += '<tr><td class="tg-nrix"></td><td class="tg-0lax">' + data.QuotationProfiles.ProfileComponents[j].ComponentName + '</td></tr>'
+    //}
+
+    //for (var j = 0; j < data.QuotationProfiles.length; j++) {
+    //    for (var k = 0; k < data.QuotationProfiles[j].ProfileComponents.length; k++) {
+    //        content += '<tr><td class="tg-nrix"></td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td></tr>';
+    //    }
+    //}
+
+    var current = null;
+    var cnt = 0;
+    for (var j = 0; j < data.QuotationProfiles.length; j++) {
+        for (var k = 0; k < data.QuotationProfiles[j].ProfileComponents.length; k++) {
+            content += '<tr><td class="tg-nrix">' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td><td class="tg-nrix"></td><td class="tg-nrix"></td><td class="tg-nrix"></td></tr>';
+            ////CategoryName
+            //if (data.QuotationProfiles[j].ProfileComponents[k].CategoryName != current) {
+            //    if (cnt > 1) {
+            //        //document.write(current + ' comes --> ' + cnt + ' times<br>');
+            //        //console.log(current + ' comes --> ' + cnt + ' times');
+            //        content += '<tr><td class="tg-nrix" rowspan=' + cnt + '>' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td><td class="tg-nrix"></td><td class="tg-nrix"></td><td class="tg-nrix"></td></tr>';
+            //    }
+            //    current = data.QuotationProfiles[j].ProfileComponents[k].CategoryName;
+            //    cnt = 1;
+            //} else {
+            //    cnt++;
+            //}
+        }
     }
 
-    console.log(info);
 
-    $.ajax({
-        url: "/Quotation/GetDocumentPDF",
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: info,
-        success: function (result) {
-            console.log(result);
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr);
-        }
-    })
+
+    $('#preview-detail').append(content);
+
+    console.log(content);
+
+
+    //const element = window.document.getElementById("exportPdf").innerHTML;    
+    //// Choose the element and save the PDF for our user.
+    //html2pdf()        
+    //    .from(element)
+    //    .save();
+
+    console.log(data);
+
+    var content = document.getElementById("exportPdf").innerHTML;
+    var mywindow = window.open('', 'Print', 'height=600,width=800');
+
+    mywindow.document.write('<html><head><title></title>');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write(content);
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close();
+    mywindow.focus()
+    mywindow.print();
+    mywindow.close();
+    return true;
+
+
 
 }
+
+
 
 function SaveTracking(quotationId) {
 
@@ -1087,7 +1133,7 @@ function RemoveProfile(event) {
 }
 
 function RemoveComponent(event) {
-    
+
     let idParent = $(event.target).parent().parent().attr('class').split(' ')[1];
 
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
@@ -1232,8 +1278,8 @@ function RemoveAddExamn(event) {
 function CheckTrParen(idParent) {
     var rowCounter = $('#tbody-main tr.' + idParent + ':not([style*="display: none"]) ').length;
     if (rowCounter == 0) {
-        console.log("#", idParent); 
-        $("#" + idParent).css("display","none");
+        console.log("#", idParent);
+        $("#" + idParent).css("display", "none");
     }
 
     CalculateTotals();

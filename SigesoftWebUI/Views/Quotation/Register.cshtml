@@ -43,6 +43,59 @@
     <link href="~/assets/plugins/html5-editor/wysiwyg-color.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <style type="text/css">
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+            .tg td {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                padding: 10px 5px;
+                border-style: solid;
+                border-width: 1px;
+                overflow: hidden;
+                word-break: normal;
+                border-color: black;
+            }
+
+            .tg th {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                font-weight: normal;
+                padding: 10px 5px;
+                border-style: solid;
+                border-width: 1px;
+                overflow: hidden;
+                word-break: normal;
+                border-color: black;
+            }
+
+            .tg .tg-9wq8 {
+                border-color: inherit;
+                text-align: center;
+                vertical-align: middle
+            }
+
+            .tg .tg-baqh {
+                text-align: center;
+                vertical-align: top
+            }
+
+            .tg .tg-0pky {
+                border-color: inherit;
+                text-align: center;
+                vertical-align: middle
+            }
+
+            .tg .tg-nrix {
+                text-align: center;
+                vertical-align: middle
+            }
+    </style>
+
+
 }
 
 
@@ -300,7 +353,7 @@
                     </button>
                     <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(77px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
                         @*<a class="dropdown-item" href="@Url.Action("GetHTMLPageAsPDF","Quotation")" target="_blank">Vista Previa</a>*@
-                        <a class="dropdown-item" onclick="PreviewQuotation();">Vista Previa</a>
+                        <a id="getPDF" class="dropdown-item" onclick="PreviewQuotation();">Vista Previa</a>
                         <a class="dropdown-item" onclick="">Excel</a>
                         <a class="dropdown-item" onclick="">Separar Propuesta</a>
                         <a class="dropdown-item" onclick="">Mas Opciones</a>
@@ -309,6 +362,109 @@
                 <button onclick="SaveQuotation(event)" class="btn btn-primary waves-effect waves-light m-r-10">Grabar Cotización</button>
             </div>
         </div>
+    </div>
+</div>
+
+
+<div id="exportPdf" style="display: none">
+
+    <div>
+        <table class="tg" style="undefined;table-layout: fixed; width: 678px">
+            <colgroup>
+                <col style="width: 214px">
+                <col style="width: 198px">
+                <col style="width: 113px">
+                <col style="width: 153px">
+            </colgroup>
+            <tr>
+                <th class="tg-0pky" rowspan="3"><img src="~/assets/images/log-emp-preview.jpeg" style="width: 200px;" alt="" /></th>
+                <th class="tg-nrix" rowspan="3"><span style="font-weight:bold">VISTA PREVIA COTIZACIÓN</span></th>
+                <th class="tg-9wq8">PROPUESTA</th>
+                <th class="tg-baqh">360 V1</th>
+            </tr>
+            <tr>
+                <td class="tg-nrix">FECHA</td>
+                <td class="tg-baqh">11 Nov 2019</td>
+            </tr>
+            <tr>
+                <td class="tg-nrix">PÁGINA</td>
+                <td class="tg-baqh">18 - 27</td>
+            </tr>
+        </table>
+    </div>
+    &nbsp;
+    <div>
+        <style type="text/css">
+            .tg {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+
+                .tg td {
+                    font-family: Arial, sans-serif;
+                    font-size: 14px;
+                    padding: 10px 5px;
+                    border-style: solid;
+                    border-width: 1px;
+                    overflow: hidden;
+                    word-break: normal;
+                    border-color: black;
+                }
+
+                .tg th {
+                    font-family: Arial, sans-serif;
+                    font-size: 14px;
+                    font-weight: normal;
+                    padding: 10px 5px;
+                    border-style: solid;
+                    border-width: 1px;
+                    overflow: hidden;
+                    word-break: normal;
+                    border-color: black;
+                }
+
+                .tg .tg-nrix {
+                    text-align: center;
+                    vertical-align: middle
+                }
+
+                .tg .tg-0lax {
+                    text-align: left;
+                    vertical-align: top
+                }
+        </style>
+        <table id="preview-detail" class="tg" style="undefined;table-layout: fixed; width: 678px">
+            <colgroup>
+                <col style="width: 146px">
+                <col style="width: 213px">
+                <col style="width: 106px">
+                <col style="width: 106px">
+                <col style="width: 106px">
+            </colgroup>
+            @*  <tr>
+                  <th class="tg-nrix"></th>
+                  <th class="tg-0lax"></th>
+                  <th class="tg-nrix">Perfil 1</th>
+                </tr>
+                <tr>
+                  <td class="tg-nrix" rowspan="3">Triaje</td>
+                  <td class="tg-0lax">Examen 1</td>
+                  <td class="tg-nrix"></td>
+                </tr>
+                <tr>
+                  <td class="tg-0lax">Examen 2</td>
+                  <td class="tg-nrix"></td>
+                </tr>
+                <tr>
+                  <td class="tg-0lax">Examen 3</td>
+                  <td class="tg-nrix"></td>
+                </tr>
+                <tr>
+                  <td class="tg-baqh">ABC</td>
+                  <td class="tg-0lax">Examen</td>
+                  <td class="tg-0lax"></td>
+                </tr>*@
+        </table>
     </div>
 </div>
 
@@ -399,6 +555,7 @@
     </div>
 </div>
 
+
 <!-- ============================================================== -->
 <!-- MODAL -->
 <!-- ============================================================== -->
@@ -443,7 +600,7 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLabel1">Registrar Seguimiento</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>            
+            </div>
             <div class="modal-body" style="padding:0">
                 <div class="form-group col-12">
                     <label for="txtComentaryQuotation">Comentario</label>
@@ -457,15 +614,15 @@
     </div>
 </div>
 
-<!-- ============================================================== -->
-<!-- All Jquery -->
-<!-- ============================================================== -->
-<script src="~/assets/plugins/jquery/jquery.min.js"></script>
+@section scripts{
+    <!-- wysuhtml5 Plugin JavaScript -->
+    <script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
+    <script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
+    <script src="~/Scripts/APIController.js"></script>
+    <script src="~/Scripts/Quotation.js"></script>
+    <script src="~/Scripts/QuotationValidation.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-<!-- wysuhtml5 Plugin JavaScript -->
-<script src="~/assets/plugins/html5-editor/wysihtml5-0.3.0.js"></script>
-<script src="~/assets/plugins/html5-editor/bootstrap-wysihtml5.js"></script>
-<script src="~/Scripts/APIController.js"></script>
-<script src="~/Scripts/Quotation.js"></script>
-<script src="~/Scripts/QuotationValidation.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"</script>
+}
+
+
