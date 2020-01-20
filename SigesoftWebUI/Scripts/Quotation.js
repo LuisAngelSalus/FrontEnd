@@ -421,7 +421,7 @@ function CalculateTotals() {
 
         $('.Total').text(sumTotal);
         $('.nroTotalComp').text(compTotal);
-    });
+    })
 }
 
 function SaveProfile() {
