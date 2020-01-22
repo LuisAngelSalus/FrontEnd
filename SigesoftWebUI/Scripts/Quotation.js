@@ -89,7 +89,11 @@ $(document).ready(function () {
         if (idProfile != undefined) {
             APIController.GetProfile(idProfile).then((res) => {
                 LoadObj(res);
+
+                
                 var data = res.Data.categories;
+                console.log("Examenes");
+                console.log(data)
                 var unselectedData = res.Data.UnselectedCategories;
 
                 //---------------Table-Profile---------------------------
@@ -126,7 +130,8 @@ $(document).ready(function () {
                         content += '</td>';
                         content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
                         content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';
-                        content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + data[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
+                        content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + (data[i].Detail[ii].SalePrice == 0 ? "" : data[i].Detail[ii].SalePrice) + '" style="width:80px"> </td>';
+                        
                         content += '</tr>';
                     }
                     content += '</tboby>';
@@ -172,7 +177,7 @@ $(document).ready(function () {
                         contentUn += '</td>';
                         contentUn += '<td class="minprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
                         contentUn += '<td class="listprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].ListPrice + '</label></td>';
-                        contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + unselectedData[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
+                        contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="" style="width:80px"> </td>';
                         contentUn += '</tr>';
                     }
 
@@ -416,7 +421,7 @@ function CalculateTotals() {
 
         $('.Total').text(sumTotal);
         $('.nroTotalComp').text(compTotal);
-    });
+    })
 }
 
 function SaveProfile() {
