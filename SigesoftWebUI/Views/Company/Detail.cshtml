@@ -178,7 +178,7 @@
             <div class="card-body">
                 <div class="col-lg p-0">
                     <div class="col-lg-2 offset-6 card mb-1 text-center">
-                        <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">Grabar Empresa</button>
+                        <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">@(companyId == 0 ? "Crear Empresa" : "Modificar Empresa")</button>
                     </div>
                 </div>
             </div>
@@ -420,69 +420,104 @@
 
     });
 
-    function Save() {
-
-        //var imageLogo = $(".dropify-render img").attr("src");
-
-        //var base64ImageContent = imageLogo.replace(
-        //    /^data:image\/(png|jpg);base64,/,
-        //    "");
-
-        //console.log("base64ImageContent",base64ImageContent);
-
-
-        if ($("#txtIdentificationNumber").val() == "") {
-            
-            swal({
-                title: "Debe ingresar RUC",
-                icon: "warning",
-            });
-            return;
-        }
-
-        if ($("#txtCompanyName").val() == "") {
-            //alert("Ingresar Nombre de Empresa");
-            //swal("Title", "Text", "success")
-            swal({
-                title: "Ingresar Nombre de Empresa",
-                icon: "warning",
-            });
-            return;
-        }
-
-        
-
-        var data = {
-            "CompanyId":@companyId,
-            "Name": $("#txtCompanyName").val(),
-            "IdentificationNumber": $("#txtIdentificationNumber").val(),
-            "Address": $("#txtAddress").val(),
-            "PhoneNumber": $("#txtPhoneNumber").val(),
-            "ContactName": $("#txtContactName").val(),
-            "Mail": $("#txtMail").val(),
-            "District": $("#txtDistrict").val(),
-            "PhoneCompany": $("#txtPhoneCompany ").val(),
-            "companyHeadquarter": new Array()
-        }
-
-        var rowCounter = $('#mainTable > tbody tr').length; //AMC-HELP contador de filas
-
-        $('#mainTable > tbody tr').each(function() {
-            var headquarter = {
-                "RecordType" : $(this).find("td").eq(0).html(),
-                "RecordStatus": $(this).find("td").eq(1).html(),
-                "CompanyHeadquarterId":$(this).find("td").eq(2).html(),
-                "Name" :$(this).find("td").eq(3).html(),
-                "Address" :$(this).find("td").eq(4).html(),
-                "PhoneNumber" :$(this).find("td").eq(5).html(),
-                "CompanyId":$(this).find("td").eq(7).html(),
+        function Save() {
+            if ($("#txtIdentificationNumber").val() == "") {
+                swal({
+                    title: "Debe ingresar RUC",
+                    icon: "warning",
+                });
+                return;
             }
-            data.companyHeadquarter.push(headquarter);
-        });
+
+            if ($("#txtCompanyName").val() == "") {
+                swal({
+                    title: "Ingresar Nombre de Empresa",
+                    icon: "warning",
+                });
+                return;
+            }
+
+            if ($("#txtAddress").val() == "") {
+                swal({
+                    title: "Debe ingresar Dirección",
+                    icon: "warning",
+                });
+                return;
+            }
+
+            if ($("#txtDistrict").val() == "") {
+                swal({
+                    title: "Debe ingresar Distrito",
+                    icon: "warning",
+                });
+                return;
+            }
+
+            if ($("#txtContactName").val() == "") {
+                swal({
+                    title: "Debe ingresar Nombre de Contacto",
+                    icon: "warning",
+                });
+                return;
+            }
+
+            if ($("#txtPhoneNumber").val() == "") {
+                swal({
+                    title: "Debe ingresar Telefono de Contacto",
+                    icon: "warning",
+                });
+                return;
+            }
+
+            if ($("#txtMail").val() == "") {
+                swal({
+                    title: "Debe ingresar Mail de Contacto",
+                    icon: "warning",
+                });
+                return;
+            }
+
+            var data = {
+                "CompanyId":@companyId,
+                "Name": $("#txtCompanyName").val(),
+                "IdentificationNumber": $("#txtIdentificationNumber").val(),
+                "Address": $("#txtAddress").val(),
+                "PhoneNumber": $("#txtPhoneNumber").val(),
+                "ContactName": $("#txtContactName").val(),
+                "Mail": $("#txtMail").val(),
+                "District": $("#txtDistrict").val(),
+                "PhoneCompany": $("#txtPhoneCompany ").val() == null ? '-' : $("#txtPhoneCompany ").val(),
+                "companyHeadquarter": new Array()
+            }
+
+            var rowCounter = $('#mainTable > tbody tr').length; //AMC-HELP contador de filas
+
+            $('#mainTable > tbody tr').each(function () {
+                var headquarter = {
+                    "RecordType": $(this).find("td").eq(0).html(),
+                    "RecordStatus": $(this).find("td").eq(1).html(),
+                    "CompanyHeadquarterId": $(this).find("td").eq(2).html(),
+                    "Name": $(this).find("td").eq(3).html(),
+                    "Address": $(this).find("td").eq(4).html(),
+                    "PhoneNumber": $(this).find("td").eq(5).html(),
+                    "CompanyId": $(this).find("td").eq(7).html(),
+                }
+                data.companyHeadquarter.push(headquarter);
+            });
+
+            if (data.CompanyId === 0) {
+                title = "Empresa creada correctamente";
+            } else {
+                title = "Empresa modificada correctamente";
+            }
 
         //console.log(data);
         APIController.SaveCompany(data).then((res) => {
-            swal("Empresa creada correctamente");
+            swal({  
+                title: title,
+                icon: "success",
+            });
+            //swal("Empresa creada correctamente");
             //window.location.href = "http://beto1826-001-site4.etempurl.com/Company/Index";
             window.location.href = "/Company/Index/";
         });
