@@ -27,11 +27,15 @@
         .tdClick{
             cursor:pointer;
         }
-        .label-seguimiento{
+        .label-potencial{
+            background-color: #B9B6B5;
+        }
+
+        .label-seguimiento {
             background-color: #ffc107;
         }
 
-        .label-aceptada{
+        .label-aceptada {
             background-color: #09a009;
         }
 
@@ -99,6 +103,7 @@
                                 <label for="dtpEnd">Estado</label>
                                 <select class="form-control form-white select-Service" data-placeholder="Seleccione un estado..." id="ddlStatus">
                                     <option value="-1">--Todos--</option>
+                                    <option value="4">Potencial</option>
                                     <option value="1">Seguimiento</option>
                                     <option value="2">Aceptada</option>
                                     <option value="3">Descartada</option>
@@ -135,12 +140,17 @@
                     <div class="col-md-6 col-12">
                         <div class="table-responsive">
                             <table class="table ">
-                                <thead>
+                                @*<thead>
                                     <tr>
                                         <th colspan="2">Gráfico Cotización</th>
                                     </tr>
-                                </thead>
+                                </thead>*@
                                 <tbody>
+                                    <tr>
+                                        <td><span class="label label-potencial">Potencial</span></td>
+                                        <td id="statusPotential">0</td>
+
+                                    </tr>
                                     <tr>
                                         <td><span class="label label-seguimiento">Seguimiento</span></td>
                                         <td id="statusTracking">0</td>
@@ -148,7 +158,7 @@
                                     </tr>
                                     <tr>
                                         <td><span class="label label-aceptada">Aceptada</span></td>
-                                        <td id="statusAccepted">0</td> 
+                                        <td id="statusAccepted">0</td>
 
                                     </tr>
                                     <tr>
@@ -334,7 +344,8 @@
                 content += "<td>";
 
 
-                content += "<select class='form-control form-white select-StatusQuotation' data-placeholder='Seleccione un estado...' id='ddlStatusQuotation-"+quotationId+"'>";                
+                content += "<select class='form-control form-white select-StatusQuotation' data-placeholder='Seleccione un estado...' id='ddlStatusQuotation-" + quotationId + "'>";                
+                content += "<option value='4' "+selected(4,data[i].StatusQuotationId)+">Potencial</option>";
                 content += "<option value='1' "+selected(1,data[i].StatusQuotationId)+">Seguimiento</option>";
                 content += "<option value='2' "+selected(2,data[i].StatusQuotationId)+">Aceptada</option>";
                 content += "<option value='3' "+selected(3,data[i].StatusQuotationId)+">Descartada</option>";
@@ -542,6 +553,7 @@
     function StatisticalGraph(data) {
 
         var ctx3 = document.getElementById("chart3").getContext("2d");
+        var statusPotential = 0;
         var statusTracking = 0;
         var statusAccepted = 0;
         var statusdiscarded = 0;
@@ -553,12 +565,15 @@
                 statusAccepted++;
             }else if (data[i].StatusQuotationId == 3) {
                 statusdiscarded++;
+            }else if (data[i].StatusQuotationId == 4) {
+                statusPotential++;
             }
         }
 
         $("#statusTracking").html(statusTracking);
         $("#statusAccepted").html(statusAccepted);
         $("#statusdiscarded").html(statusdiscarded);
+        $("#statusPotential").html(statusPotential);
 
         console.log(statusTracking);
         var data3 = [
@@ -582,6 +597,13 @@
                 color: "#fb3a3a",
                 highlight: "#f19b9b",
                 label: "Descartada"
+            },
+            {
+                value: statusPotential,
+                //color: "#2f3d4a",
+                color: "#B9B6B5",
+                highlight: "#EEECEB",
+                label: "Potencial"
             }
         ];
 

@@ -6,7 +6,8 @@ $(document).ready(function () {
         $(".select-StatusQuotation").attr("disabled", false);
         $("#txtRuc").attr("disabled", true);
     } else {
-        $('#ddlStatusQuotation option[value=1]').attr('selected', 'selected');
+        console.log("INI"); 
+        $('#ddlStatusQuotation option[value=4]').attr('selected', 'selected');
     }
 
     if ($("#txtCompanyId").val() != 0) {

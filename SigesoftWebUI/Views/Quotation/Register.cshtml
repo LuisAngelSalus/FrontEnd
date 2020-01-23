@@ -152,6 +152,7 @@
                             <label for="ddlStatusQuotation">Estado Cotización</label>
                             <select class="form-control form-white select-StatusQuotation" data-placeholder="Seleccione un estado..." id="ddlStatusQuotation" disabled>
                                 <option value="-1" @(@StatusQuotationId == -1 ? "selected" : "")></option>
+                                <option value="4" @(@StatusQuotationId == 4 ? "selected" : "")>Potencial</option>
                                 <option value="1" @(@StatusQuotationId == 1 ? "selected" : "")>Seguimiento</option>
                                 <option value="2" @(@StatusQuotationId == 2 ? "selected" : "")>Aceptada</option>
                                 <option value="3" @(@StatusQuotationId == 3 ? "selected" : "")>Descartada</option>
