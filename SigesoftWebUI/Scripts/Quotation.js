@@ -672,7 +672,7 @@ function SaveProfile() {
                 content += "<option value='2'> Menores de</option >";
                 content += "</select>";
                 content += "</td>";
-                content += "<td><input class='form-control input-numeric' type='number'/></td>";
+                content += "<td><input class='form-control input-numeric' type='text' maxlength='2' min='0' max='90' onkeypress='validateInputNumber(event)'/></td>";
                 content += "<td>";
                 content += "<select class='form-control form-white select-ConditionalGender' id='ddlConditionalGender'>";
                 content += "<option value='-1'></option>";
@@ -729,8 +729,7 @@ function LoadParametersProtocolProfile(nameProfile) {
     return objPro;
 }
 
-function AddProfile() {   
-
+function AddProfile() {       
     $("#changeNameProfile").modal("show");
     $("#txtNameProfileQuotation").val($("#search").val());
 }

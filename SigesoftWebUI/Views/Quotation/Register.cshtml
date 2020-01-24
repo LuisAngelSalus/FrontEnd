@@ -148,7 +148,7 @@
                             <label for="txtEmail">Correo</label>
                             <input type="email" class="form-control" id="txtEmail" maxlength="150" value="@Email" required>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-4" style="display:none">
                             <label for="ddlStatusQuotation">Estado Cotización</label>
                             <select class="form-control form-white select-StatusQuotation" data-placeholder="Seleccione un estado..." id="ddlStatusQuotation" disabled>
                                 <option value="-1" @(@StatusQuotationId == -1 ? "selected" : "")></option>
@@ -274,7 +274,7 @@
                                             <option value="2" @(@profile.ProfileComponents[i].AgeConditionalId == 2 ? "selected" : "")>Menores de</option>                                            
                                         </select>
                                     </td>
-                                    <td><input class="form-control input-numeric" type="number"  value="@profile.ProfileComponents[i].Age" /></td>
+                                    <td><input class="form-control input-numeric" type="text" maxlength="2" min="0" max="90" onkeypress="validateInputNumber(event)" value="@profile.ProfileComponents[i].Age" /></td>
                                     <td>
                                         <select class="form-control form-white select-ConditionalGender" id="ddlConditionalGender">
                                             <option value="-1" @(@profile.ProfileComponents[i].GenderConditionalId == null ? "selected" : "")></option>
@@ -506,20 +506,11 @@
 <!-- ============================================================== -->
 <div class="modal fade" id="perfilModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            @*<div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel1">Perfil: </h4>
-                    <div class="col-md-6">
-                        <select class="form-control form-white" data-placeholder="Seleccione un perfil..." id="profile">
-                        </select>
-                    </div>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>*@
+        <div class="modal-content">            
             <div>
-                <form class="form-inline p-3">
-                    <input type="text" name="search" id="search" class="form-control form-control-lg rounded-0 border-info" placeholder="Buscar..." style="width:100%" />
-                    @*<input type="submit" name="submit" value="Search" class="btn btn-info btn-lg rounded-0" style="width:20%" />*@
-                </form>
+                <div class="form-inline p-3">
+                    <input type="text" name="search" id="search" class="form-control form-control-lg rounded-0 border-info" placeholder="Buscar..." style="width:100%" />                    
+                </div>
             </div>
             <div class="col-9" style="position:absolute; margin-top:60px; z-index:2000;">
                 <div class="list-group" id="show-list">
@@ -529,7 +520,7 @@
 
                 <table class="table color-table success-table ">
                     <thead>
-                        <tr>
+                        <tr style="background-color:lightgreen">
                             <th style="width:20px;"></th>
                             <th>PERFIL: </th>
                         </tr>
@@ -540,7 +531,7 @@
 
                 <table class="table color-table muted-table ">
                     <thead>
-                        <tr>
+                        <tr style="background-color:lightgray">
                             <th style="width:20px;"></th>
                             <th>SELECCIONE MÁS EXÁMENES OCUPACIONALES</th>
                         </tr>
