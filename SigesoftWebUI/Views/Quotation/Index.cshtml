@@ -14,24 +14,25 @@
             margin: auto
         }
 
-        .isProccessTrue{
-            color:blue;
-            font-size:16px;
-            font-weight:500;
+        .isProccessTrue {
+            color: blue;
+            font-size: 16px;
+            font-weight: 500;
         }
 
-        .isProccessFalse{
-            color:gray;
+        .isProccessFalse {
+            color: gray;
         }
 
-        .tdClick{
-            cursor:pointer;
+        .tdClick {
+            cursor: pointer;
         }
-        .label-seguimiento{
+
+        .label-seguimiento {
             background-color: #ffc107;
         }
 
-        .label-aceptada{
+        .label-aceptada {
             background-color: #09a009;
         }
 
@@ -39,33 +40,32 @@
             background-color: #fb3a3a;
         }
 
-        .label{
+        .label {
             width: 76%;
             text-align: center;
             padding: 7px 5px;
         }
 
-        .table{
+        .table {
             color: #000000 !important;
         }
+
         #table {
             font-size: 12px;
             vertical-align: middle;
         }
 
-        #table thead th {
-            background-color: #2e548f;
-            color: white;
-            vertical-align: middle;
-            padding: 10px 1px 10px 1px;
-        }
+            #table thead th {
+                background-color: #2e548f;
+                color: white;
+                vertical-align: middle;
+                padding: 10px 1px 10px 1px;
+            }
 
             #table tbody td {
                 vertical-align: middle;
                 padding: 0px 5px 0px 5px;
             }
-
-
     </style>
 
 
@@ -116,11 +116,11 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label>&ensp;</label>
-                                <input type="button" class="form-control btn btn-info text-white" value="Filtrar" onclick="Filter()"/>
+                                <input type="button" class="form-control btn btn-info text-white" value="Filtrar" onclick="Filter()" />
                             </div>
                         </div>
                     </div>
-                </div>               
+                </div>
             </div>
         </div>
     </div>
@@ -148,7 +148,7 @@
                                     </tr>
                                     <tr>
                                         <td><span class="label label-aceptada">Aceptada</span></td>
-                                        <td id="statusAccepted">0</td> 
+                                        <td id="statusAccepted">0</td>
 
                                     </tr>
                                     <tr>
@@ -188,6 +188,7 @@
                         <th class="text-nowrap">INDICADOR</th>
                         <th class="text-nowrap">ACCIONES</th>
                         <th class="text-nowrap">VERSIONES</th>
+                        <th class="text-nowrap">PROPUESTA</th>
                     </tr>
                 </thead>
                 <tbody id="tbody-filter-quotation">
@@ -233,9 +234,9 @@
                 <table class="table color-table success-table ">
                     <thead>
                         <tr>
-                            <th>Activa</th>      
+                            <th>Activa</th>
                             <th>Nro.Version</th>
-                            <th>F. Envio</th>                                                        
+                            <th>F. Envio</th>
                             <th>Costo</th>
                             <th>Estado</th>
                             @*<th>F. US</th>*@
@@ -243,7 +244,6 @@
                         </tr>
                     </thead>
                     <tbody id="table-versions">
-                        
                     </tbody>
                 </table>
             </div>
@@ -262,7 +262,7 @@
     <script type="text/javascript">
 
     $(document).ready(function () {
-        
+
         loadDates();
 
         Filter();
@@ -275,13 +275,13 @@
             AddTracking(quotationId);
         });
 
-        $('#table-versions').click(function (event) {         
-            
-            $('#table-versions > tr').each(function (index, tr) {               
-                
+        $('#table-versions').click(function (event) {
+
+            $('#table-versions > tr').each(function (index, tr) {
+
                     $(tr).find('.tdClick').removeClass('isProccessTrue');
-                    $(tr).find('.tdClick').text("Desactivado"); 
-         
+                    $(tr).find('.tdClick').text("Desactivado");
+
             });
 
             if ($(event.target).hasClass('tdClick')) {
@@ -289,12 +289,12 @@
                 $(event.target).removeClass('isProccessFalse');
                 $(event.target).addClass('isProccessTrue');
                 let quoationId = $(event.target).attr("id");
-                let code = $("#nroCot").text();               
+                let code = $("#nroCot").text();
                 APIController.UpdateProccessQuotation({"QuotationId": quoationId, "Code": code}).then((res) => {
                     Filter();
                 });
             }
-         
+
         });
     });
 
@@ -334,7 +334,7 @@
                 content += "<td>";
 
 
-                content += "<select class='form-control form-white select-StatusQuotation' data-placeholder='Seleccione un estado...' id='ddlStatusQuotation-"+quotationId+"'>";                
+                content += "<select class='form-control form-white select-StatusQuotation' data-placeholder='Seleccione un estado...' id='ddlStatusQuotation-"+quotationId+"'>";
                 content += "<option value='1' "+selected(1,data[i].StatusQuotationId)+">Seguimiento</option>";
                 content += "<option value='2' "+selected(2,data[i].StatusQuotationId)+">Aceptada</option>";
                 content += "<option value='3' "+selected(3,data[i].StatusQuotationId)+">Descartada</option>";
@@ -355,9 +355,10 @@
                     content += "<td class='indicator'><i class='fa fa-circle waves-effect waves-light'></i></td>";
                 }
 
-                var a = '\"' + data[i].NroQuotation + '\"';                
+                var a = '\"' + data[i].NroQuotation + '\"';
                 content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a><a onclick='AddTracking(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-phone btn waves-effect waves-light btn-secondary'></i></a></td>";
-                content += "<td><a onclick='viewVersion("+a+")' data-toggle='tooltip' data-original-title='Versiones'> <i class='fa fa-list btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "<td><a onclick='viewVersion(" + a + ")' data-toggle='tooltip' data-original-title='Versiones'> <i class='fa fa-list btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "<td><a onclick='viewPropuesta("+data[i].QuotationId+")' data-toggle='tooltip' data-original-title='Propuesta'> <i class='fa fa-list btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "</tr>";
 
                 content += "<tr style='display:none' class='track-"+quotationId+"'>";
@@ -453,7 +454,7 @@
 
                 $("#tbody-Tracking-" + data.QuotationId).append(content);
                 let quotationId = $("#txthiddenQuotation").val();
-                let StatusQuotationId = $("#ddlStatusQuotation-" + quotationId + " option:selected").val();                
+                let StatusQuotationId = $("#ddlStatusQuotation-" + quotationId + " option:selected").val();
                 console.log(quotationId, StatusQuotationId);
                 APIController.UpdateQuotation({"QuotationId": quotationId, "StatusQuotationId": StatusQuotationId}).then((res) => {
                     Filter();
@@ -623,26 +624,26 @@
         return '';
         }
 
-    function viewVersion(code) {   
+    function viewVersion(code) {
         $("#table-versions").empty();
         let codeQuotation = code.split(' ')[0];
         $("#nroCot").html(codeQuotation);
         $("#ModalVersions").modal("show");
         let content = "";
-        APIController.GetVersions(codeQuotation).then((resp) => {           
-            
+        APIController.GetVersions(codeQuotation).then((resp) => {
+
             let data = resp.Data;
             $("#modalCompany").html(data[0].CompanyName);
-            
+
             for (var i = 0; i < data.length; i++) {
-                content += "<tr>";                
+                content += "<tr>";
                 content += "<td>";
                 if (data[i].IsProccess == 1) {
                     content += "<label id='"+ data[i].QuotationId +"' class='tdClick isProccessTrue'>Activado</label>";
                 } else {
                     content += "<label id='"+ data[i].QuotationId +"' class='tdClick isProccessFalse'>Desactivado</label>";
                 }
-                
+
                 content += "</td>";
                 content += "<td>" + data[i].Version + "</td>";
                 content += "<td>" + formatDate(new Date(GetDateFormat(data[i].ShippingDate))) + "</td>";
@@ -654,6 +655,10 @@
             }
             $("#table-versions").append(content);
         });
+        }
+
+        function viewPropuesta(code) {
+            window.location.href = '/Quotation/ExportPlantilla?code=' + code;
         }
 
     </script>

@@ -90,7 +90,7 @@ $(document).ready(function () {
             APIController.GetProfile(idProfile).then((res) => {
                 LoadObj(res);
 
-                
+
                 var data = res.Data.categories;
                 console.log("Examenes");
                 console.log(data)
@@ -131,7 +131,7 @@ $(document).ready(function () {
                         content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
                         content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';
                         content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + (data[i].Detail[ii].SalePrice == 0 ? "" : data[i].Detail[ii].SalePrice) + '" style="width:80px"> </td>';
-                        
+
                         content += '</tr>';
                     }
                     content += '</tboby>';
@@ -194,6 +194,129 @@ $(document).ready(function () {
 
             });
         }
+    });
+
+    $("#dialog_pdf").dialog({
+        autoOpen: false,
+        modal: true,
+        title: "View Details"
+    });
+
+    $(".preview_quotation").click(function () {
+
+        var content = "";
+        var data = {
+            "QuotationId": $("#txtQuotationId").val(),
+            "Code": $("#spanCode").html(),
+            "Version": parseInt($("#spanVersion").html()),
+            "UserCreatedId": 1,
+            "UserName": "",
+            "CompanyId": $("#txtCompanyId").val(),
+            "CompanyHeadquarterId": $("#ddlSede option:selected").val(),
+            "FullName": $("#txtFullName").val(),
+            "Email": $("#txtEmail").val(),
+            "CommercialTerms": $("#txtCommercialTerms").val(),
+            "UserCreatedId": 4,
+            "InsertUserId": 4,
+            "TotalQuotation": $(".Total").html(),
+            "StatusQuotationId": $(".select-StatusQuotation option:selected").val(),
+            "QuotationProfiles": [],
+            "AdditionalComponentsQuotes": []
+        }
+
+        $("#tbody-main tr").each(function (index, tr) {
+
+            if ($(tr).hasClass('parent')) {
+                var idParent = $(tr).attr('id');
+                var oQuotationProfile = {};
+                oQuotationProfile.QuotationProfileId = $(this).find("td").eq(8).html();
+                oQuotationProfile.ProfileName = $(this).find("input").val();
+                var serviceType = $(this).find("td").eq(5);
+                oQuotationProfile.ServiceTypeId = $(serviceType.get(0)).find("#ddlService").val(),
+                    oQuotationProfile.ProfileComponents = [];
+                oQuotationProfile.RecordType = $(this).find(".RecordType").html();
+                oQuotationProfile.RecordStatus = $(this).find(".RecordStatus").html();
+                $("#tbody-main tr").each(function (index, tr) {
+
+                    if ($(tr).hasClass(idParent)) {
+                        $(tr).find("tbody > tr").each(function () {
+                            if (GetNameCategory($(this).find("td").eq(1).html()) != "----") {
+
+                                var oProfileComponent = {};
+                                oProfileComponent.ProfileComponentId = $(this).find("td").eq(0).html();
+                                oProfileComponent.CategoryName = GetNameCategory($(this).find("td").eq(1).html());
+                                oProfileComponent.CategoryId = $(this).find("td").eq(1).html();
+                                oProfileComponent.ComponentId = $(this).find("td").eq(2).html();
+                                oProfileComponent.ComponentName = $(this).find("td").eq(5).html();
+                                oProfileComponent.MinPrice = $(this).find("td").eq(6).html();
+                                oProfileComponent.PriceList = $(this).find("td").eq(7).html();
+                                oProfileComponent.SalePrice = $(this).find("input").val();
+                                oProfileComponent.RecordType = $(this).find(".RecordType").html();
+                                oProfileComponent.RecordStatus = $(this).find(".RecordStatus").html();
+                                //oProfileComponent.InsertUserId
+                                oQuotationProfile.ProfileComponents.push(oProfileComponent);
+                            }
+                        });
+                    }
+                });
+
+                data.QuotationProfiles.push(oQuotationProfile);
+            }
+        });
+
+        $("#tbody-Add-Examns tr").each(function (index, tr) {
+            var oAddExam = {};
+            oAddExam.quotationId = $("#txtQuotationId").val();
+            oAddExam.CategoryId = $(this).find("td").eq(4).html();
+            oAddExam.CategoryName = $(this).find("td").eq(5).html();
+            oAddExam.ComponentId = $(this).find("td").eq(6).html();
+            oAddExam.ComponentName = $(this).find("td").eq(7).html();
+            oAddExam.MinPrice = $(this).find("td").eq(9).html();
+            oAddExam.PriceList = $(this).find("td").eq(10).html();
+            oAddExam.SalePrice = $(this).parent().parent().find(".AddExamPreVen").val()
+            oAddExam.RecordType = $(this).find(".RecordType").html();
+            oAddExam.RecordStatus = $(this).find(".RecordStatus").html();
+            oAddExam.InsertUserId = 1;
+            data.AdditionalComponentsQuotes.push(oAddExam);
+        });
+
+        var info = {
+            data: JSON.stringify(data)
+        }
+
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Quotation/ExportToPDF",
+        //    data: info,
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (response) {
+        //        $('#dialog_pdf').html(response.PartialView);
+        //        $('#dialog_pdf').dialog('open');
+        //    },
+        //    failure: function (response) {
+        //        alert(response.responseText);
+        //    },
+        //    error: function (response) {
+        //        alert(response.responseText);
+        //    }
+        //});
+
+
+        //$.ajax({
+        //    url: "/Quotation/ExportToPDF",
+        //    type: "GET",
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    data: info,
+        //    success: function (result) {
+        //        window.location.href = '/Quotation/ExportToPDF';
+        //    },
+        //    error: function (xhr, status, error) {
+        //        console.log(xhr);
+        //    }
+        //})
+
     });
 
 });
@@ -959,89 +1082,109 @@ function PreviewQuotation() {
     });
 
 
+    console.log(data);
 
-
-    content += '<tr><th class="tg-nrix"></th><th class="tg-0lax"></th>';
-    for (var i = 0; i < data.QuotationProfiles.length; i++) {
-        content += '<td class="tg-nrix">' + data.QuotationProfiles[i].ProfileName + '</td>';
+    var info = {
+        data: JSON.stringify(data),
+        //QuotationAditionalExam: JSON.stringify(data.AdditionalComponentsQuotes)
     }
-    content += '</tr>';
 
-    ////content += '<tr><td class="tg-nrix"></td>';
-    //for (var j = 0; j < data.QuotationProfiles.ProfileComponents.length; j++) {
-    //    content += '<tr><td class="tg-nrix"></td><td class="tg-0lax">' + data.QuotationProfiles.ProfileComponents[j].ComponentName + '</td></tr>'
+    //$.ajax({
+    //    url: "/Quotation/ExportToPDF",
+    //    type: "GET",
+    //    contentType: "application/json; charset=utf-8",
+    //    dataType: "json",
+    //    data: info,
+    //    success: function (result) {
+    //        window.location.href = '/Quotation/ExportToPDF';
+    //    },
+    //    error: function (xhr, status, error) {
+    //        console.log(xhr);
+    //    }
+    //})
+
+
+    //content += '<tr><th class="tg-nrix"></th><th class="tg-0lax"></th>';
+    //for (var i = 0; i < data.QuotationProfiles.length; i++) {
+    //    content += '<td class="tg-nrix">' + data.QuotationProfiles[i].ProfileName + '</td>';
     //}
+    //content += '</tr>';
 
+    //////content += '<tr><td class="tg-nrix"></td>';
+    ////for (var j = 0; j < data.QuotationProfiles.ProfileComponents.length; j++) {
+    ////    content += '<tr><td class="tg-nrix"></td><td class="tg-0lax">' + data.QuotationProfiles.ProfileComponents[j].ComponentName + '</td></tr>'
+    ////}
+
+    ////for (var j = 0; j < data.QuotationProfiles.length; j++) {
+    ////    for (var k = 0; k < data.QuotationProfiles[j].ProfileComponents.length; k++) {
+    ////        content += '<tr><td class="tg-nrix"></td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td></tr>';
+    ////    }
+    ////}
+
+    //var current = null;
+    //var cnt = 0;
     //for (var j = 0; j < data.QuotationProfiles.length; j++) {
     //    for (var k = 0; k < data.QuotationProfiles[j].ProfileComponents.length; k++) {
-    //        content += '<tr><td class="tg-nrix"></td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td></tr>';
+    //        content += '<tr>';
+    //        content += '<td class="tg-nrix" rowspan="' + getNodeCount(data.QuotationProfiles[j].ProfileComponents[k].CategoryName) + '">' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td>';
+    //        content += '</tr>';
+
+    //        content += '<tr><td class="tg-nrix">' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td><td class="tg-nrix"></td><td class="tg-nrix"></td><td class="tg-nrix"></td></tr>';
+
+    //        ////CategoryName
+    //        //if (data.QuotationProfiles[j].ProfileComponents[k].CategoryName != current) {
+    //        //    if (cnt > 1) {
+    //        //        //document.write(current + ' comes --> ' + cnt + ' times<br>');
+    //        //        //console.log(current + ' comes --> ' + cnt + ' times');
+    //        //        content += '<tr><td class="tg-nrix" rowspan=' + cnt + '>' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td><td class="tg-nrix"></td><td class="tg-nrix"></td><td class="tg-nrix"></td></tr>';
+    //        //    }
+    //        //    current = data.QuotationProfiles[j].ProfileComponents[k].CategoryName;
+    //        //    cnt = 1;
+    //        //} else {
+    //        //    cnt++;
+    //        //}
     //    }
     //}
 
-    var current = null;
-    var cnt = 0;
-    for (var j = 0; j < data.QuotationProfiles.length; j++) {
-        for (var k = 0; k < data.QuotationProfiles[j].ProfileComponents.length; k++) {
-            content += '<tr>';
-            content += '<td class="tg-nrix" rowspan="' + getNodeCount(data.QuotationProfiles[j].ProfileComponents[k].CategoryName) + '">' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td>';
-            content += '</tr>';
-
-            content += '<tr><td class="tg-nrix">' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td><td class="tg-nrix"></td><td class="tg-nrix"></td><td class="tg-nrix"></td></tr>';
-
-            ////CategoryName
-            //if (data.QuotationProfiles[j].ProfileComponents[k].CategoryName != current) {
-            //    if (cnt > 1) {
-            //        //document.write(current + ' comes --> ' + cnt + ' times<br>');
-            //        //console.log(current + ' comes --> ' + cnt + ' times');
-            //        content += '<tr><td class="tg-nrix" rowspan=' + cnt + '>' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td><td class="tg-nrix"></td><td class="tg-nrix"></td><td class="tg-nrix"></td></tr>';
-            //    }
-            //    current = data.QuotationProfiles[j].ProfileComponents[k].CategoryName;
-            //    cnt = 1;
-            //} else {
-            //    cnt++;
-            //}
-        }
-    }
-
-    function getNodeCount(obj) {
-        var num = 0
-        if (obj.nodes) {
-            for (var i = 0; i < obj.length; i++) {
-                num += getNodeCount(obj[i])
-            }
-        } else
-            num = 1
-        return num
-    }
+    //function getNodeCount(obj) {
+    //    var num = 0
+    //    if (obj.nodes) {
+    //        for (var i = 0; i < obj.length; i++) {
+    //            num += getNodeCount(obj[i])
+    //        }
+    //    } else
+    //        num = 1
+    //    return num
+    //}
 
 
 
-    $('#preview-detail').append(content);
+    //$('#preview-detail').append(content);
 
-    console.log(content);
+    //console.log(content);
 
 
-    //const element = window.document.getElementById("exportPdf").innerHTML;    
-    //// Choose the element and save the PDF for our user.
-    //html2pdf()        
-    //    .from(element)
-    //    .save();
+    ////const element = window.document.getElementById("exportPdf").innerHTML;    
+    ////// Choose the element and save the PDF for our user.
+    ////html2pdf()        
+    ////    .from(element)
+    ////    .save();
 
-    console.log(data);
+    //console.log(data);
 
-    var content = document.getElementById("exportPdf").innerHTML;
-    var mywindow = window.open('', 'Print', 'height=600,width=800');
+    //var content = document.getElementById("exportPdf").innerHTML;
+    //var mywindow = window.open('', 'Print', 'height=600,width=800');
 
-    mywindow.document.write('<html><head><title></title>');
-    mywindow.document.write('</head><body >');
-    mywindow.document.write(content);
-    mywindow.document.write('</body></html>');
+    //mywindow.document.write('<html><head><title></title>');
+    //mywindow.document.write('</head><body >');
+    //mywindow.document.write(content);
+    //mywindow.document.write('</body></html>');
 
-    mywindow.document.close();
-    mywindow.focus()
-    mywindow.print();
-    mywindow.close();
-    return true;
+    //mywindow.document.close();
+    //mywindow.focus()
+    //mywindow.print();
+    //mywindow.close();
+    //return true;
 
 
 

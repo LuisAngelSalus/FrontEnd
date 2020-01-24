@@ -353,7 +353,8 @@
                     </button>
                     <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(77px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
                         @*<a class="dropdown-item" href="@Url.Action("GetHTMLPageAsPDF","Quotation")" target="_blank">Vista Previa</a>*@
-                        <a id="getPDF" class="dropdown-item" onclick="PreviewQuotation();">Vista Previa</a>
+                        @*<a id="getPDF" href="#" class="dropdown-item" onclick="PreviewQuotation();">Vista Previa</a>*@
+                        <a class="dropdown-item preview_quotation" href="javascript:;">Vista Previa</a>
                         <a class="dropdown-item" onclick="">Excel</a>
                         <a class="dropdown-item" onclick="">Separar Propuesta</a>
                         <a class="dropdown-item" onclick="">Mas Opciones</a>
@@ -365,6 +366,8 @@
     </div>
 </div>
 
+<div id="dialog_pdf" style="display: none">
+</div>
 
 <div id="exportPdf" style="display: none">
 

@@ -10,6 +10,15 @@ using Utils;
 using IronPdf;
 using SigesoftWebUI.Utils.PDF;
 using SigesoftWebUI.Controllers.Base;
+using Newtonsoft.Json;
+using SigesoftWebUI.Models;
+using System.Data;
+using Newtonsoft.Json.Linq;
+
+using System.IO;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
+using Spire.Doc;
 
 namespace SigesoftWebUI.Controllers
 {
@@ -95,18 +104,67 @@ namespace SigesoftWebUI.Controllers
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
+        //public FileResult GetDocumentPDF(string data)
+        //{
+
+        //    byte[] byteArray;
+        //    RootObject deserializeQuotation = JsonConvert.DeserializeObject<RootObject>(data);
+        //    using (MemoryStream stream = new System.IO.MemoryStream())
+        //    {
+        //        StringReader sr = new StringReader(data);
+        //        Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 100f, 0f);
+        //        PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+        //        pdfDoc.Open();
+        //        XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+        //        pdfDoc.Close();
+        //        return File(stream.ToArray(), "application/pdf", "Grid.pdf");
+        //    }
+        //}
+
         [HttpPost]
-        [ValidateInput(false)]
-        public JsonResult GetDocumentPDF(string QuotationProfile, string QuotationAditionalExam)
+        public JsonResult ExportToPDF(string data)
         {
-            var response = "ok";
-            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            //RootObject deserializeQuotation = JsonConvert.DeserializeObject<RootObject>(data);
+            //return View(deserializeQuotation);
+            //RootObject deserializeQuotation = JsonConvert.DeserializeObject<RootObject>(data);
+            //string viewContent = ConvertViewToString("ExportToPDF", deserializeQuotation);
+            //return Json(new { PartialView = viewContent });
+            return Json(data, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult UpdateProccess(QuotationUpdateProcess data)
         {
             var response = _quotationBL.UpdateProccess(data);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
+        private string ConvertViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (StringWriter writer = new StringWriter())
+            {
+                ViewEngineResult vResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                ViewContext vContext = new ViewContext(this.ControllerContext, vResult.View, ViewData, new TempDataDictionary(), writer);
+                vResult.View.Render(vContext, writer);
+                return writer.ToString();
+            }
+        }
+
+        public ActionResult ExportPlantilla(string code)
+        {
+            string path = Path.Combine(HttpRuntime.AppDomainAppPath, "Template");
+               
+            using (MemoryStream memoryStreamRead = new MemoryStream())
+            {
+                Document document = new Document();
+                document.LoadFromFile(path + "/PLANTILLA_PROPUESTA_COMERCIAL.docx");
+                document.Replace("@NUMERO_PROPUESTA", "PRUEBA 450000", false, true);
+                document.SaveToStream(memoryStreamRead, FileFormat.PDF);
+                MemoryStream workbook = memoryStreamRead;
+                string saveAsFileName = "PLANTILLA_PROPUESTA_COMERCIAL" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".pdf";
+                //return File(workbook.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", string.Format("{0}", saveAsFileName));
+                return File(workbook.ToArray(), "application/pdf", string.Format("{0}", saveAsFileName));
+            }
         }
     }
 }
