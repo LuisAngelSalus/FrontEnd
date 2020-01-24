@@ -12,7 +12,6 @@
     var validateHeadquarter = validateddlHeadquarter("ddlSede", "Sede requerida"); 
     var validateCommercialTerms = validateInput("txtCommercialTerms", "Términos comerciales requerido");    
     var validateTableQuotation = ValidateTableQuotation();
-    console.log("validateTableQuotation", validateTableQuotation);
     //II)Retornar resultado de validación
     if (validateRuc && validateFullName && validateEmail && validateTableQuotation && validateHeadquarter && validateCommercialTerms) {       
         return true;
@@ -60,6 +59,16 @@ function ValidateTable(tbodyId) {
                 breakOut = true;
                 return false;
             } 
+
+        });
+
+        $('#' + tbodyId + ' tr').each(function (index, tr) {
+            var trr = $(tr).find('#ddlTypeFormat');
+            if ($(trr).val() === "-1") {
+                InputError($(trr));
+                breakOut = true;
+                return false;
+            }
 
         });
 

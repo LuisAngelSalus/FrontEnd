@@ -6,7 +6,8 @@ $(document).ready(function () {
         $(".select-StatusQuotation").attr("disabled", false);
         $("#txtRuc").attr("disabled", true);
     } else {
-        $('#ddlStatusQuotation option[value=1]').attr('selected', 'selected');
+        console.log("INI"); 
+        $('#ddlStatusQuotation option[value=4]').attr('selected', 'selected');
     }
 
     if ($("#txtCompanyId").val() != 0) {
@@ -583,7 +584,6 @@ function SaveProfile() {
         content += "<select class='form-control form-white select-Service' data-placeholder='Seleccione un servicio...' id='ddlService' disabled>";
 
 
-        //content += "<option value='-1'>--Seleccionar--</option>";
         if (tipoEMO === "EMPO") {
             content += "<option value='1'>Preocupacional</option>";
         } else if (tipoEMO === "EMOP") {
@@ -597,6 +597,19 @@ function SaveProfile() {
         content += "</select>";
 
         content += "</td>";
+
+        content += "<td>";
+        content += "<select class='form-control form-white select-TypeFormat' id='ddlTypeFormat'>";
+        content += "<option value='-1'>--Seleccionar--</option>";
+        content += "<option value='1'>RM 312</option>";
+        content += "<option value='2'> Anexo 16</option >";
+        content += "<option value='3'> Anexo 16.A</option >";
+        content += "<option value='4'> Ambos</option >";
+        content += "</select>";
+        content += "</td>";
+
+
+
         content += "<td class='counterComp col-center'>0</td>";
         content += "<td class='subTotal col-center'>0</td>";
         content += "<td class='col-center'>0</td>";
@@ -615,6 +628,9 @@ function SaveProfile() {
         content += "<th style='display:none'>RecordType</th>";
         content += "<th style='display:none'>RecordStatus</th>";
         content += "<th>EXAMENES - PERFIL</th>";
+        content += "<th>CONDICIONAL EDAD</th>";
+        content += "<th>EDAD</th> ";
+        content += "<th>CONDICIONAL GÉNERO</th> ";
         content += "<th class='col-center'>PRECIO MÍNIMO</th>";
         content += "<th class='col-center'>PRECIO LISTA</th>";
         content += "<th class='col-center'>PRECIO VENTA</th>  ";
@@ -634,7 +650,7 @@ function SaveProfile() {
                 valor = valorAntiguo;
                 content += "<tr id='" + quotationProfileId + "-" + cateName + "'>";
                 content += "<td><i class='fa fa-minus text-inverse m-r-10' onclick=show('" + quotationProfileId + "-" + cateName + "')></i></td>";
-                content += "<td colspan='6'>" + cateName + "</td>";
+                content += "<td colspan='9'>" + cateName + "</td>";
                 content += "</tr>";
                 i--;
             } else {
@@ -646,6 +662,29 @@ function SaveProfile() {
                 content += "<td style='display:none'class='RecordType'>TEMPORAL</td>";
                 content += "<td style='display:none'class='RecordStatus'>AGREGADO</td>";
                 content += "<td>" + components[i].componentName + "</td>";
+
+
+
+                content += "<td>";
+                content += "<select class='form-control form-white select-ConditionalAge' id='ddlConditionalAge'>";
+                content += "<option value='-1'></option>";
+                content += "<option value='1'>Mayores de</option>";
+                content += "<option value='2'> Menores de</option >";
+                content += "</select>";
+                content += "</td>";
+                content += "<td><input class='form-control input-numeric' type='number'/></td>";
+                content += "<td>";
+                content += "<select class='form-control form-white select-ConditionalGender' id='ddlConditionalGender'>";
+                content += "<option value='-1'></option>";
+                content += "<option value='1'>Masculino</option>";
+                content += "<option value='2'> Femenino</option >";
+                content += "<option value='2'> Ambos</option >";
+                content += "</select >";
+                content += "</td >";
+
+
+
+                
                 content += "<td class='col-center'>" + components[i].minPrice + "</td>";
                 content += "<td class='col-center'>" + components[i].listPrice + "</td>";
                 content += "<td class='col-center'><input type='text' class='form-control salePrice input-numeric' value=" + components[i].salePrice + "> </td>";
@@ -690,33 +729,7 @@ function LoadParametersProtocolProfile(nameProfile) {
     return objPro;
 }
 
-function AddProfile() {
-    //let inputValue = "AAAAAAA";
-    //swal({
-    //    title: "Crear nuevo perfil",
-    //    text: "Escriba el nombre del perfil",
-    //    type: "input",
-    //    showCancelButton: true,
-    //    closeOnConfirm: false,
-    //    inputPlaceholder: "nonbre de perfil",
-    //    html: '<input id="input-field" value="ssss">'
-    //}, function (inputValue) {
-    //    if (inputValue === false) return false;
-    //        if (inputValue === "") {
-    //            swal.showInputError("El nombre de perfil es obligatorio!");
-    //            return false
-    //        } else {
-    //            SaveProfile(inputValue);
-    //            //var parameters = LoadParametersProtocolProfile(inputValue);
-
-
-    //            //APIController.SaveProtocolProfile(parameters).then((res) => {
-    //            //swal("Bien", "El perfil creado es: " + inputValue, "success");
-    //            //});
-
-
-    //        }
-    //});
+function AddProfile() {   
 
     $("#changeNameProfile").modal("show");
     $("#txtNameProfileQuotation").val($("#search").val());
@@ -901,8 +914,10 @@ function APISaveQuotation() {
             oQuotationProfile.QuotationProfileId = $(this).find("td").eq(8).html();
             oQuotationProfile.ProfileName = $(this).find("input").val();
             var serviceType = $(this).find("td").eq(5);
-            oQuotationProfile.ServiceTypeId = $(serviceType.get(0)).find("#ddlService").val(),
-                oQuotationProfile.ProfileComponents = [];
+            oQuotationProfile.ServiceTypeId = $(serviceType.get(0)).find("#ddlService").val();
+            let typeFormat = $(this).find("td").eq(6);
+            oQuotationProfile.TypeFormatId = $(typeFormat.get(0)).find("#ddlTypeFormat").val();
+            oQuotationProfile.ProfileComponents = [];
             oQuotationProfile.RecordType = $(this).find(".RecordType").html();
             oQuotationProfile.RecordStatus = $(this).find(".RecordStatus").html();
             $("#tbody-main tr").each(function (index, tr) {
@@ -917,9 +932,17 @@ function APISaveQuotation() {
                             oProfileComponent.CategoryId = $(this).find("td").eq(1).html();
                             oProfileComponent.ComponentId = $(this).find("td").eq(2).html();
                             oProfileComponent.ComponentName = $(this).find("td").eq(5).html();
-                            oProfileComponent.MinPrice = $(this).find("td").eq(6).html();
-                            oProfileComponent.PriceList = $(this).find("td").eq(7).html();
-                            oProfileComponent.SalePrice = $(this).find("input").val();
+                            let ageConditional = $(this).find("td").eq(6);
+                            oProfileComponent.AgeConditionalId = $(ageConditional.get(0)).find("#ddlConditionalAge").val();
+                            let ageValue = $(this).find("td").eq(7);
+                            oProfileComponent.Age = $(ageValue).find("input").val();
+                            let genderConditional = $(this).find("td").eq(8);
+                            oProfileComponent.GenderConditionalId = $(genderConditional.get(0)).find("#ddlConditionalGender").val();
+
+                            oProfileComponent.MinPrice = $(this).find("td").eq(9).html();
+                            oProfileComponent.PriceList = $(this).find("td").eq(10).html();
+                            let saleValue = $(this).find("td").eq(11);
+                            oProfileComponent.SalePrice = $(saleValue).find("input").val();
                             oProfileComponent.RecordType = $(this).find(".RecordType").html();
                             oProfileComponent.RecordStatus = $(this).find(".RecordStatus").html();
                             //oProfileComponent.InsertUserId
@@ -951,6 +974,7 @@ function APISaveQuotation() {
 
 
     if (data.QuotationId == 0) {
+        //console.log("DATA", data);
         APIController.SaveQuotation(data).then((res) => {
             swal({ title: "Correcto", text: "El nro de cotizacion es :" + res.Data.Code, type: "success" },
                 function () {
@@ -963,6 +987,7 @@ function APISaveQuotation() {
     } else if (data.QuotationId > 0) {
         data.QuotationId = 0;
         data.Code = $("#spanCode").html();
+        console.log("DATA VERSION", data);
         APIController.NewVersionQuotation(data).then((res) => {
             swal({
                 title: "¡Importante!",
@@ -1189,8 +1214,6 @@ function PreviewQuotation() {
 
 
 }
-
-
 
 function SaveTracking(quotationId) {
 

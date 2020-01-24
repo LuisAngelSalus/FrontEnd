@@ -44,7 +44,7 @@ namespace BE
         public string ComponentName { get; set; }
         public decimal? MinPrice { get; set; }
         public decimal? PriceList { get; set; }
-        public decimal? SalePrice { get; set; }
+        public decimal? SalePrice { get; set; }        
         public int? InsertUserId { get; set; }
         public RecordStatus RecordStatus { get; set; }
         public RecordType RecordType { get; set; }
@@ -61,6 +61,7 @@ namespace BE
         public int? ProfileId { get; set; }
         public string ProfileName { get; set; }
         public int? ServiceTypeId { get; set; }
+        public int? TypeFormatId { get; set; }
         public string ServiceTypeName { get; set; }
         public int? InsertUserId { get; set; }
         public RecordStatus RecordStatus { get; set; }
@@ -79,6 +80,9 @@ namespace BE
         public decimal? MinPrice { get; set; }
         public decimal? PriceList { get; set; }
         public decimal? SalePrice { get; set; }
+        public int? AgeConditionalId { get; set; }
+        public int? Age { get; set; }
+        public int? GenderConditionalId { get; set; }
         public int? InsertUserId { get; set; }
         public RecordStatus RecordStatus { get; set; }
         public RecordType RecordType { get; set; }
@@ -111,6 +115,7 @@ namespace BE
         //public int? ProfileId { get; set; }
         public string ProfileName { get; set; }
         public int? ServiceTypeId { get; set; }
+        public int? TypeFormatId { get; set; }
         public int? InsertUserId { get; set; }
         public List<ProfileComponentRegisterDto> ProfileComponents { get; set; }
         
@@ -126,6 +131,9 @@ namespace BE
         public decimal? MinPrice { get; set; }
         public decimal? PriceList { get; set; }
         public decimal? SalePrice { get; set; }
+        public int? AgeConditionalId { get; set; }
+        public int? Age { get; set; }
+        public int? GenderConditionalId { get; set; }
         public int? InsertUserId { get; set; }
     }
 
@@ -283,6 +291,7 @@ namespace BE
         public string ProfileName { get; set; }
         public int? ServiceTypeId { get; set; }
         public string ServiceTypeName { get; set; }
+        public int TypeFormatId { get; set; }
         public int? InsertUserId { get; set; }
         public List<ProfileComponentNewVersionDto> ProfileComponents { get; set; }
     }
@@ -296,6 +305,10 @@ namespace BE
         public decimal? MinPrice { get; set; }
         public decimal? PriceList { get; set; }
         public decimal? SalePrice { get; set; }
+        public int? AgeConditionalId { get; set; }
+        public int? Age { get; set; }
+        public int? GenderConditionalId { get; set; }
+        public RecordStatus RecordStatus { get; set; }
         public int? InsertUserId { get; set; }
     }
 
