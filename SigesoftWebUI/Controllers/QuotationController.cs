@@ -16,8 +16,8 @@ using System.Data;
 using Newtonsoft.Json.Linq;
 
 using System.IO;
-using iTextSharp.text.pdf;
-using iTextSharp.tool.xml;
+//using iTextSharp.text;
+//using iTextSharp.text.pdf;
 using Spire.Doc;
 
 namespace SigesoftWebUI.Controllers
@@ -37,6 +37,12 @@ namespace SigesoftWebUI.Controllers
             var response = _quotationBL.Filter(parameters);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public JsonResult GetQuotation(int id)
+        {
+            var response = _quotationBL.GetQuotation(id);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Register(int id)
@@ -150,21 +156,45 @@ namespace SigesoftWebUI.Controllers
             }
         }
 
-        public ActionResult ExportPlantilla(string code)
+        public ActionResult ExportPlantilla(int code)
         {
+            var response = _quotationBL.GetQuotation(code);
+
+
             string path = Path.Combine(HttpRuntime.AppDomainAppPath, "Template");
-               
+
+
             using (MemoryStream memoryStreamRead = new MemoryStream())
             {
                 Document document = new Document();
                 document.LoadFromFile(path + "/PLANTILLA_PROPUESTA_COMERCIAL.docx");
-                document.Replace("@NUMERO_PROPUESTA", "PRUEBA 450000", false, true);
+                document.Replace("@COTI", response.Data.QuotationId.ToString(), false, true);
+                document.Replace("@VER", response.Data.Version.ToString(), false, true);
+                document.Replace("@FECHA", DateTime.Now.ToString("dd/MM/yyyy"), false, true);
+                document.Replace("@EMPRESA", response.Data.CompanyName.ToString(), false, true);
+
                 document.SaveToStream(memoryStreamRead, FileFormat.PDF);
+
                 MemoryStream workbook = memoryStreamRead;
                 string saveAsFileName = "PLANTILLA_PROPUESTA_COMERCIAL" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".pdf";
                 //return File(workbook.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", string.Format("{0}", saveAsFileName));
                 return File(workbook.ToArray(), "application/pdf", string.Format("{0}", saveAsFileName));
             }
+
+            //Document doc = new Document(PageSize.Letter);
+            //FileStream file = new FileStream("Propuesta comercial.pdf", FileMode.Create);
+            //PdfWriter writer = PdfWriter.GetInstance(doc, file);
+
+            //doc.AddAuthor("SalusLaboris");
+            //doc.AddTitle("Propuesta Comercial");
+            //doc.Open();
+
+            //doc.Add(new Phrase("Por medio de la presente, reciban un cordial saludo a nombre de SALUS LABORIS\n S.A.C. Somos una empresa que brinda servicios integrales de Salud Ocupacional y \nRespuesta a Emergencias con más de 12 años de experiencia en el mercado."));
+            //writer.Close();
+            //doc.Close();
+
+            //var pdf = new FileStream("Propuesta comercial.pdf", FileMode.Open, FileAccess.Read);
+            //return File(pdf, "aplication/pdf");
         }
     }
 }

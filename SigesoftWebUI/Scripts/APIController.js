@@ -203,6 +203,20 @@
         });
     }
 
+    var getQuotation = function (id) {
+        return new Promise((resolve, reject) => {
+            let url = '/Quotation/GetQuotation?id=' + id;
+            fetch(url, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+    }
+
     var saveQuoteTracking = function (parameters) {
         return new Promise((resolve, reject) => {
 
@@ -375,6 +389,12 @@
         FilterQuotation: function (parameters) {
             return new Promise((resolve, reject) => {
                 filterQuotation(parameters).then(res => resolve(res));
+            });
+        },
+
+        GetQuotation: function (id) {
+            return new Promise((resolve, reject) => {
+                getQuotation(id).then(res => resolve(res));
             });
         },
 

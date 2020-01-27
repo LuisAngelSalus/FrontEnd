@@ -339,37 +339,6 @@
             });
         }
 
-        function SaveCompany(resp) {
-
-            var data = {
-                "Name": resp.RazonSocial,
-                "IdentificationNumber": resp.Ruc,
-                "Address": resp.TipoVia + ' ' + resp.CodigoZona + ' N°' + resp.Numero + ' ' + resp.NombreVia + ' ' + resp.TipoZona,
-                "PhoneNumber": "",
-                "ContactName": "",
-                "Mail": "",
-                "District": resp.Distrito,
-                "PhoneCompany": "",
-                "companyHeadquarter": new Array()
-            }
-
-            var detail = resp.details;
-            for (var i = 0; i < detail.length; i++) {
-                var headquarter = {
-                    "RecordType": "Temporal",
-                    "RecordStatus": "Agregado",
-                    "Name": detail[i].TipoZona,
-                    "Address": detail[i].TipoVia + ' ' + detail[i].NombreVia + ' N°' + detail[i].Numero,
-                    "PhoneNumber": "",
-                }
-                data.companyHeadquarter.push(headquarter);
-            }
-
-            APIController.SaveCompany(data).then((res) => {
-                SearchCompany(res.Data.IdentificationNumber);
-            });
-        }
-
 
         $(".disableBtn").removeAttr("tabindex");
         $(".disableTd").removeAttr("tabindex");
@@ -420,107 +389,157 @@
 
     });
 
-        function Save() {
-            if ($("#txtIdentificationNumber").val() == "") {
-                swal({
-                    title: "Debe ingresar RUC",
-                    icon: "warning",
-                });
-                return;
-            }
-
-            if ($("#txtCompanyName").val() == "") {
-                swal({
-                    title: "Ingresar Nombre de Empresa",
-                    icon: "warning",
-                });
-                return;
-            }
-
-            if ($("#txtAddress").val() == "") {
-                swal({
-                    title: "Debe ingresar Dirección",
-                    icon: "warning",
-                });
-                return;
-            }
-
-            if ($("#txtDistrict").val() == "") {
-                swal({
-                    title: "Debe ingresar Distrito",
-                    icon: "warning",
-                });
-                return;
-            }
-
-            if ($("#txtContactName").val() == "") {
-                swal({
-                    title: "Debe ingresar Nombre de Contacto",
-                    icon: "warning",
-                });
-                return;
-            }
-
-            if ($("#txtPhoneNumber").val() == "") {
-                swal({
-                    title: "Debe ingresar Telefono de Contacto",
-                    icon: "warning",
-                });
-                return;
-            }
-
-            if ($("#txtMail").val() == "") {
-                swal({
-                    title: "Debe ingresar Mail de Contacto",
-                    icon: "warning",
-                });
-                return;
-            }
-
-            var data = {
-                "CompanyId":@companyId,
-                "Name": $("#txtCompanyName").val(),
-                "IdentificationNumber": $("#txtIdentificationNumber").val(),
-                "Address": $("#txtAddress").val(),
-                "PhoneNumber": $("#txtPhoneNumber").val(),
-                "ContactName": $("#txtContactName").val(),
-                "Mail": $("#txtMail").val(),
-                "District": $("#txtDistrict").val(),
-                "PhoneCompany": $("#txtPhoneCompany ").val() == null ? '-' : $("#txtPhoneCompany ").val(),
-                "companyHeadquarter": new Array()
-            }
-
-            var rowCounter = $('#mainTable > tbody tr').length; //AMC-HELP contador de filas
-
-            $('#mainTable > tbody tr').each(function () {
-                var headquarter = {
-                    "RecordType": $(this).find("td").eq(0).html(),
-                    "RecordStatus": $(this).find("td").eq(1).html(),
-                    "CompanyHeadquarterId": $(this).find("td").eq(2).html(),
-                    "Name": $(this).find("td").eq(3).html(),
-                    "Address": $(this).find("td").eq(4).html(),
-                    "PhoneNumber": $(this).find("td").eq(5).html(),
-                    "CompanyId": $(this).find("td").eq(7).html(),
-                }
-                data.companyHeadquarter.push(headquarter);
+    function Save() {
+        if ($("#txtIdentificationNumber").val() == "") {
+            swal({
+                title: "Debe ingresar RUC",
+                icon: "warning",
             });
+            return;
+        }
 
-            if (data.CompanyId === 0) {
-                title = "Empresa creada correctamente";
-            } else {
-                title = "Empresa modificada correctamente";
-            }
-
-        //console.log(data);
-        APIController.SaveCompany(data).then((res) => {
-            swal({  
-                title: title,
-                icon: "success",
+        if ($("#txtCompanyName").val() == "") {
+            swal({
+                title: "Ingresar Nombre de Empresa",
+                icon: "warning",
             });
-            //swal("Empresa creada correctamente");
-            //window.location.href = "http://beto1826-001-site4.etempurl.com/Company/Index";
-            window.location.href = "/Company/Index/";
+            return;
+        }
+
+        if ($("#txtAddress").val() == "") {
+            swal({
+                title: "Debe ingresar Dirección",
+                icon: "warning",
+            });
+            return;
+        }
+
+        if ($("#txtDistrict").val() == "") {
+            swal({
+                title: "Debe ingresar Distrito",
+                icon: "warning",
+            });
+            return;
+        }
+
+        if ($("#txtContactName").val() == "") {
+            swal({
+                title: "Debe ingresar Nombre de Contacto",
+                icon: "warning",
+            });
+            return;
+        }
+
+        if ($("#txtPhoneNumber").val() == "") {
+            swal({
+                title: "Debe ingresar Telefono de Contacto",
+                icon: "warning",
+            });
+            return;
+        }
+
+        if ($("#txtMail").val() == "") {
+            swal({
+                title: "Debe ingresar Mail de Contacto",
+                icon: "warning",
+            });
+            return;
+        }
+
+        if ($("#txtMail").hasClass("is-invalid")) {
+            swal({
+                title: "Debe ingresar Mail Correcto",
+                icon: "warning",
+            });
+            return;
+        }
+
+        if ($("#txtPhoneNumber").hasClass("is-invalid")) {
+            swal({
+                title: "Debe ingresar telefono de contacto correcto",
+                icon: "warning",
+            });
+            return;
+        }
+
+        var data = {
+            "CompanyId":@companyId,
+            "Name": $("#txtCompanyName").val(),
+            "IdentificationNumber": $("#txtIdentificationNumber").val(),
+            "Address": $("#txtAddress").val(),
+            "PhoneNumber": $("#txtPhoneNumber").val(),
+            "ContactName": $("#txtContactName").val(),
+            "Mail": $("#txtMail").val(),
+            "District": $("#txtDistrict").val(),
+            "PhoneCompany": $("#txtPhoneCompany ").val() == null ? '-' : $("#txtPhoneCompany ").val(),
+            "companyHeadquarter": new Array()
+        }
+
+        var rowCounter = $('#mainTable > tbody tr').length; //AMC-HELP contador de filas
+
+        $('#mainTable > tbody tr').each(function () {
+            var headquarter = {
+                "RecordType": $(this).find("td").eq(0).html(),
+                "RecordStatus": $(this).find("td").eq(1).html(),
+                "CompanyHeadquarterId": $(this).find("td").eq(2).html(),
+                "Name": $(this).find("td").eq(3).html(),
+                "Address": $(this).find("td").eq(4).html(),
+                "PhoneNumber": $(this).find("td").eq(5).html(),
+                "CompanyId": $(this).find("td").eq(7).html(),
+            }
+            data.companyHeadquarter.push(headquarter);
         });
+
+        if (data.CompanyId === 0) {
+            title = "Empresa creada correctamente";
+        } else {
+            title = "Empresa modificada correctamente";
+        }
+
+    //console.log(data);
+        if (data.CompanyId == 0) {
+            APIController.GetCompanyByRuc(data.IdentificationNumber).then((resp) => {
+                data.CompanyId = resp.Data.CompanyId;
+                swal({
+                    title: "Empresa Existe",
+                    text: "¿Desea Actualizar los datos?",
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    confirmButtonText: "Si",
+                    cancelButtonText: "No",
+                    showLoaderOnConfirm: true
+                }, function () {
+                    APIController.SaveCompany(data).then((res) => {
+                        swal({
+                            title: "Empresa modificada correctamente",
+                            icon: "success",
+                        });
+                        window.location.href = "/Company/Index/";
+                    });
+                });
+            }).catch((err) => {
+                APIController.SaveCompany(data).then((res) => {
+                    swal({
+                        title: title,
+                        icon: "success",
+                    });
+                    window.location.href = "/Company/Index/";
+                });
+            });
+        } else {
+            APIController.SaveCompany(data).then((res) => {
+                swal({  
+                    title: title,
+                    icon: "success",
+                });
+                window.location.href = "/Company/Index/";
+            });
+        }
+        
+
+
+
 
     }
 
