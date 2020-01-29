@@ -1,5 +1,6 @@
 ﻿using BE;
 using SigesoftWebUI.Controllers.Base;
+using System.Text;
 using System.Web.Mvc;
 
 namespace SigesoftWebUI.Controllers
@@ -9,7 +10,6 @@ namespace SigesoftWebUI.Controllers
         // GET: Generals
         public ActionResult Index()
         {
-            @ViewBag.DATAUSER = ((ClientSession)Session["AutSigesoftWebUI"]);
             return View();
         }
 
@@ -18,6 +18,13 @@ namespace SigesoftWebUI.Controllers
             return View();
         }
 
-      
+
+        public JsonResult GetAccess()
+        {
+            var response = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

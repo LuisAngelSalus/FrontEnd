@@ -1,4 +1,5 @@
-﻿using SigesoftWebUI.Models;
+﻿using BE;
+using SigesoftWebUI.Models;
 using SigesoftWebUI.Seguridad;
 using System;
 using System.Collections.Generic;
