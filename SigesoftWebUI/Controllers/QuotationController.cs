@@ -25,7 +25,7 @@ namespace SigesoftWebUI.Controllers
     public class QuotationController : GenericController
     {
         QuotationBL _quotationBL = new QuotationBL();
-
+        SecurityBL _securityBL = new SecurityBL();
 
         public ActionResult Index()
         {
@@ -34,20 +34,47 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult Filter(ParamsQuotationFilterDto parameters)
         {
-            var response = _quotationBL.Filter(parameters);
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if(validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.Filter(parameters, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult GetQuotation(int id)
         {
-            var response = _quotationBL.GetQuotation(id);
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.GetQuotation(id,validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Register(int id)
         {
-            var response = _quotationBL.GetQuotation(id);
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.GetQuotation(id,validated.Token);
             if (response != null)
             {
                 ViewBag.DataQuotation = response.Data;
@@ -62,35 +89,80 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult GetProfile(int profileId)
         {
-            var response = _quotationBL.GetProfile(profileId);
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.GetProfile(profileId,validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult Save(QuotationRegisterDto data)
         {
-            var response = _quotationBL.Save(data);
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.Save(data,validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult NewVersion(QuotationNewVersionDto data)
         {
-            var response = _quotationBL.NewVersion(data);
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.NewVersion(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult Update(QuotationUpdateDto data)
         {
-            var response = _quotationBL.Update(data);
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.Update(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult GetComponents()
         {
-            var response = _quotationBL.GetComponents();
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.GetComponents(validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
@@ -106,7 +178,16 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult GetVersions(string code)
         {
-            var response = _quotationBL.GetVersions(code);
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.GetVersions(code, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
@@ -140,7 +221,16 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult UpdateProccess(QuotationUpdateProcess data)
         {
-            var response = _quotationBL.UpdateProccess(data);
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+            
+            var response = _quotationBL.UpdateProccess(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
@@ -158,7 +248,16 @@ namespace SigesoftWebUI.Controllers
 
         public ActionResult ExportPlantilla(int code)
         {
-            var response = _quotationBL.GetQuotation(code);
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.GetQuotation(code, validated.Token);
 
 
             string path = Path.Combine(HttpRuntime.AppDomainAppPath, "Template");

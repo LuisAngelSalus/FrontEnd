@@ -8,11 +8,11 @@ namespace BL
     {
         Global _global = new Global();
 
-        public string GetSecuential(SecuentialDto data)
+        public string GetSecuential(SecuentialDto data, string token)
         {
             Response<int> obj = null;
 
-            var hCliente = _global.rspClient("Secuential/", data);
+            var hCliente = _global.rspClient("Secuential/", data, token);
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<int>>(hCliente.Content.ReadAsStringAsync().Result);

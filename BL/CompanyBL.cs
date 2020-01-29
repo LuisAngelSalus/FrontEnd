@@ -13,10 +13,10 @@ namespace BL
     {
         Global _global = new Global();
 
-        public Response<List<ListCompanyDto>> Companies()
+        public Response<List<ListCompanyDto>> Companies(string token)
         {
             Response<List<ListCompanyDto>> obj = null;
-            var hCliente = _global.rspClientGET("Company");
+            var hCliente = _global.rspClientGET("Company", token);
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<List<ListCompanyDto>>>(hCliente.Content.ReadAsStringAsync().Result);
@@ -24,10 +24,10 @@ namespace BL
             return obj;
         }
 
-        public Response<CompanyDetailDto> CompanyDetail(int companyId)
+        public Response<CompanyDetailDto> CompanyDetail(int companyId, string token)
         {
             Response<CompanyDetailDto> obj = null;
-            var hCliente = _global.rspClientGET("Company/"+ companyId + "/sedes");
+            var hCliente = _global.rspClientGET("Company/"+ companyId + "/sedes", token);
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
@@ -35,12 +35,12 @@ namespace BL
             return obj;
         }
 
-        public Response<CompanyDetailDto> Save(CompanyDetailDto data)
+        public Response<CompanyDetailDto> Save(CompanyDetailDto data, string token)
         {
             Response<CompanyDetailDto> obj = null;
             if (data.CompanyId != 0)
             {
-                var hCliente = _global.rspClientPUT("Company/"+ data.CompanyId, data);
+                var hCliente = _global.rspClientPUT("Company/"+ data.CompanyId, data, token);
                 if (hCliente.IsSuccessStatusCode)
                 {
                     obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
@@ -49,7 +49,7 @@ namespace BL
             }
             else
             {
-                var hCliente = _global.rspClient("Company/", data);
+                var hCliente = _global.rspClient("Company/", data, token);
                 if (hCliente.IsSuccessStatusCode)
                 {
                     obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
@@ -58,10 +58,10 @@ namespace BL
             }                     
         }
 
-        public Response<List<ListCompanyContactDto>> Contacts(int companyId)
+        public Response<List<ListCompanyContactDto>> Contacts(int companyId,string token)
         {
             Response<List<ListCompanyContactDto>> obj = null;
-            var hCliente = _global.rspClientGET("CompanyContact/" + companyId + "/contactos");
+            var hCliente = _global.rspClientGET("CompanyContact/" + companyId + "/contactos", token);
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<List<ListCompanyContactDto>>>(hCliente.Content.ReadAsStringAsync().Result);
@@ -69,10 +69,10 @@ namespace BL
             return obj;
         }
 
-        public Response<CompanyDetailDto> CompanyByRuc(string ruc)
+        public Response<CompanyDetailDto> CompanyByRuc(string ruc, string token)
         {
             Response<CompanyDetailDto> obj = null;
-            var hCliente = _global.rspClientGET("Company/" + ruc);
+            var hCliente = _global.rspClientGET("Company/" + ruc, token);
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
