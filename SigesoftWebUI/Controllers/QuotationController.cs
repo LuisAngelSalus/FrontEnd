@@ -168,10 +168,11 @@ namespace SigesoftWebUI.Controllers
             {
                 Document document = new Document();
                 document.LoadFromFile(path + "/PLANTILLA_PROPUESTA_COMERCIAL.docx");
-                document.Replace("@COTI", response.Data.QuotationId.ToString(), false, true);
+                document.Replace("@COTI", response.Data.Code.ToString(), false, true);
                 document.Replace("@VER", response.Data.Version.ToString(), false, true);
                 document.Replace("@FECHA", DateTime.Now.ToString("dd/MM/yyyy"), false, true);
                 document.Replace("@EMPRESA", response.Data.CompanyName.ToString(), false, true);
+                document.Replace("@PROPUESTA", response.Data.CommercialTerms.ToString(), false, true);
 
                 document.SaveToStream(memoryStreamRead, FileFormat.PDF);
 
