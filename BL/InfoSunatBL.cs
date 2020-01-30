@@ -12,10 +12,10 @@ namespace BL
    public class InfoSunatBL
     {
         Global _global = new Global();
-        public Response<InfoDto> info(string ruc)
+        public Response<InfoDto> info(string ruc, string token)
         {
             Response<InfoDto> obj = null;
-            var hCliente = _global.rspClientGET("Info/" + ruc);
+            var hCliente = _global.rspClientGET("Info/" + ruc, token);
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<InfoDto>>(hCliente.Content.ReadAsStringAsync().Result);

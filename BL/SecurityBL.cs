@@ -23,10 +23,10 @@ namespace BL
             return obj;
         }
 
-        public ClientSession UserAccess(int id)
+        public ClientSession UserAccess(int id, string token)
         {
             ClientSession obj = null;
-            var hCliente = _global.rspClientGET("SystemUser/"+id + "/accesousuario");
+            var hCliente = _global.rspClientGET("SystemUser/"+id + "/accesousuario",token);
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<ClientSession>(hCliente.Content.ReadAsStringAsync().Result);
