@@ -1,0 +1,203 @@
+﻿@{ 
+    var s = 1;
+}
+<style>
+    a {
+        color: #99abb4;
+        text-decoration: none;
+    }
+
+        a:hover {
+            color: #99abb4;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
+<!-- Vector CSS -->
+<link href="~/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+<!-- chartist CSS -->
+<link href="~/assets/plugins/chartist-js/dist/chartist.min.css" rel="stylesheet">
+<link href="~/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+
+<!-- Dashboard 1 Page CSS -->
+<link href="~/assets/css/pages/dashboard4.css" rel="stylesheet">
+
+<div class="container-fluid">
+
+    <!-- ============================================================== -->
+    <!-- Stats box -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="m-r-20 align-self-center"><img src="~/assets/images/Tracking.png" alt="Income" /></div>
+                        <div class="align-self-center">
+                            <h6 class="text-muted m-t-10 m-b-0">Cotizaciones en Seguimiento</h6>
+                            <h2 class="m-t-0">953,000</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="m-r-20 align-self-center"><img src="~/assets/images/Money.png" alt="Income" /></div>
+                        <div class="align-self-center">
+                            <h6 class="text-muted m-t-10 m-b-0">Total Comisión por año</h6>
+                            <h2 class="m-t-0">236,000</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="m-r-20 align-self-center"><img src="~/assets/images/approved.png" alt="Income" /></div>
+                        <div class="align-self-center">
+                            <h6 class="text-muted m-t-10 m-b-0">Cotizaciones Aprobadas</h6>
+                            <h2 class="m-t-0">987,563</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="m-r-20 align-self-center"><img src="~/assets/images/Star.png" alt="Income" /></div>
+                        <div class="align-self-center">
+                            <h6 class="text-muted m-t-10 m-b-0">Cotizaciones Potenciales</h6>
+                            <h2 class="m-t-0">987,563</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Sales overview chart -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><span class="lstick"></span> Accesos Directos</h4>
+                    <ul class="feeds" style="color:black">
+
+                        <a href="@Url.Action("Detail", "Company", new { id = 0 })">
+                            <li>
+                                <div class="bg-light-info"><i class="fa fa-link"></i></div> Crear Empresa<span class="text-muted">Acceso Directo</span>
+                            </li>
+                        </a>
+                        <a href="@Url.Action("Register", "Quotation", new { id = 0 })">
+                            <li>
+                                <div class="bg-light-success"><i class="fa fa-link"></i></div> Crear Cotización<span class="text-muted">Acceso Directo</span>
+                            </li>
+                        </a>
+                        <a href="@Url.Action("Index", "Quotation", new { id = 0 })">
+                            <li>
+                                <div class="bg-light-warning"><i class="fa fa-link"></i></div> Matriz<span class="text-muted">Acceso Directo</span>
+                            </li>
+                        </a>
+
+                        <a href="@Url.Action("Index", "Quotation", new { id = 0 })">
+                            <li>
+                                <div class="bg-light-danger"><i class="ti-email"></i></div> Enviar Correo<span class="text-muted">Enviar Correo</span>
+                            </li>
+                        </a>
+                        <a href="@Url.Action("Index", "Quotation", new { id = 0 })">
+                            <li>
+                                <div class="bg-light-inverse"><i class="fa fa-bell-o"></i></div> Enviar Notificación <span class="text-muted">Notificar</span>
+                            </li>
+                        </a>
+                        <a href="@Url.Action("Index", "Quotation", new { id = 0 })">
+                            <li>
+                                <div class="bg-light-danger"><i class="ti-user"></i></div> Registrar Contacto<span class="text-muted">Registrar</span>
+                            </li>
+                        </a>
+                        <a href="@Url.Action("Index", "Quotation", new { id = 0 })">
+                            <li>
+                                <div class="bg-light-inverse"><i class="ti-settings"></i></div> Cambiar de Empresa-Rol<span class="text-muted">Configurar</span>
+                            </li>
+
+                        </a>
+
+
+
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div>
+                            <h3 class="card-title m-b-5"><span class="lstick"></span>Sales Overview </h3>
+                        </div>
+                        <div class="ml-auto">
+                            <select class="custom-select b-0">
+                                <option selected="">January 2017</option>
+                                <option value="1">February 2017</option>
+                                <option value="2">March 2017</option>
+                                <option value="3">April 2017</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="sales-overview2" class="p-relative" style="height:360px;"></div>
+                    <div class="stats-bar">
+                        <div class="row text-center">
+                            <div class="col-lg-4 col-md-4">
+                                <div class="p-20">
+                                    <h6 class="m-b-0">Total Sales</h6>
+                                    <h3 class="m-b-0">$10,345</h3>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="p-20">
+                                    <h6 class="m-b-0">This Month</h6>
+                                    <h3 class="m-b-0">$7,589</h3>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="p-20">
+                                    <h6 class="m-b-0">This Week</h6>
+                                    <h3 class="m-b-0">$1,476</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+    <!-- ============================================================== -->
+    <!-- End Page Content -->
+    <!-- ============================================================== -->
+
+</div>
+<script src="~/assets/plugins/jquery/jquery.min.js"></script>
+    
+
+    <script src="~/assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="~/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="~/assets/plugins/chartist-js/dist/chartist.min.js"></script>
+    <script src="~/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="~/assets/js/dashboard4.js"></script>
+

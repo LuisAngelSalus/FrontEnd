@@ -301,10 +301,12 @@
   <ItemGroup>
     <Content Include="assets\css\animate.css" />
     <Content Include="assets\css\colors\default-dark.css" />
+    <Content Include="assets\css\pages\dashboard4.css" />
     <Content Include="assets\css\pages\floating-label.css" />
     <Content Include="assets\css\pages\login-register-lock.css" />
     <Content Include="assets\css\spinners.css" />
     <Content Include="assets\css\style.css" />
+    <Content Include="assets\images\approved.png" />
     <Content Include="assets\images\favicon.png" />
     <Content Include="assets\images\favicon_SALUS.ico" />
     <Content Include="assets\images\Isotipo SalusLaboris.png" />
@@ -314,9 +316,12 @@
     <Content Include="assets\images\logo-light-icon.png" />
     <Content Include="assets\images\logo-light-text.png" />
     <Content Include="assets\images\logo-text.png" />
+    <Content Include="assets\images\Money.png" />
     <Content Include="assets\images\SIGESOft.png" />
     <Content Include="assets\images\SLEmpresarial.png" />
     <Content Include="assets\images\SLSigesoft.png" />
+    <Content Include="assets\images\Star.png" />
+    <Content Include="assets\images\Tracking.png" />
     <Content Include="assets\images\users\1.jpg" />
     <Content Include="assets\images\users\2.jpg" />
     <Content Include="assets\images\users\3.jpg" />
@@ -325,6 +330,8 @@
     <Content Include="assets\images\users\profile.png" />
     <Content Include="assets\js\custom.min.js" />
     <Content Include="assets\js\dashboard1.js" />
+    <Content Include="assets\js\dashboard2.js" />
+    <Content Include="assets\js\dashboard4.js" />
     <Content Include="assets\js\jqBootstrapValidation.js" />
     <Content Include="assets\js\perfect-scrollbar.jquery.min.js" />
     <Content Include="assets\js\sidebarmenu.js" />
@@ -855,6 +862,20 @@
     <Content Include="assets\plugins\tiny-editable\numeric-input-example.js" />
     <Content Include="assets\plugins\toast-master\css\jquery.toast.css" />
     <Content Include="assets\plugins\toast-master\js\jquery.toast.js" />
+    <Content Include="assets\plugins\vectormap\gdp-data.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-2.0.2.css" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-2.0.2.min.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-asia-mill.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-au-mill.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-ca-lcc.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-de-mill.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-europe-mill-en.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-in-mill.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-uk-mill-en.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-us-aea-en.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-us-il-chicago-mill-en.js" />
+    <Content Include="assets\plugins\vectormap\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="assets\plugins\vectormap\jvectormap.custom.js" />
     <Content Include="assets\scss\icons\flag-icon-css\flag-icon.min.css" />
     <Content Include="assets\scss\icons\flag-icon-css\flags\ad.svg" />
     <Content Include="assets\scss\icons\flag-icon-css\flags\ae.svg" />
@@ -1623,6 +1644,9 @@
     <Content Include="Views\IngresoSistema\UserUnknown.cshtml" />
     <Content Include="Views\Quotation\ExportToPDF.cshtml" />
     <Content Include="Template\PLANTILLA_PROPUESTA_COMERCIAL.docx" />
+    <Content Include="Views\Shared\_DashboardCommercialPartial.cshtml" />
+    <Content Include="Views\Shared\_DashboardEmptyPartial.cshtml" />
+    <Content Include="Views\Shared\_DashboardSistemasPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

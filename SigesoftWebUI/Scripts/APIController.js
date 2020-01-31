@@ -319,7 +319,18 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
+        });
+    }
 
+    var Dashboard = function (roleId) {
+        return new Promise((resolve, reject) => {            
+            fetch('/Generals/Index?RoleId=' + roleId, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res)
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
         });
     }
 
@@ -451,6 +462,12 @@
         GetAccessUser: function () {
             return new Promise((resolve, reject) => {
                 AccessUser().then(res => resolve(res));
+            });
+        },
+
+        GetDashboard: function (roleId) {
+            return new Promise((resolve, reject) => {
+                Dashboard(roleId).then(res => resolve(res));
             });
         }
     }

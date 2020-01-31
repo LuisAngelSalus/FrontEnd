@@ -38,7 +38,6 @@ function InputError(elem) {
     $(elem).addClass('error');
 }
 
-
 function isNumberKey(evt) {    
     var charCode = (evt.which) ? evt.which : evt.keyCode;    
     if (charCode != 46 && charCode > 31
@@ -46,6 +45,11 @@ function isNumberKey(evt) {
         return false;
 
     return true;
+}
+
+function baseUrl() {
+    var href = window.location.href.split('/');
+    return href[0] + '//' + href[2] + '/';
 }
 
 

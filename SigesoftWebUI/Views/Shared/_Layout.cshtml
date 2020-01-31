@@ -54,6 +54,7 @@
 
         .sidebar-nav ul li a {
             color: #ffffff;
+            text-align:left;
         }
 
             .sidebar-nav ul li a.active {
@@ -206,7 +207,7 @@
                                         <div class="dw-user-box">
                                             <div class="u-img"><img src="~/assets/images/users/1.jpg" alt="user"></div>
                                             <div class="u-text">
-                                                <h5>@usuarioSession.UserName</h5>
+                                                <h5 id="username">@usuarioSession.UserName</h5>
                                             </div>
                                         </div>
                                     </li>
@@ -238,20 +239,20 @@
                 <nav class="sidebar-nav pt-1">
                     <ul id="sidebarnav">
                         @*<li class="nav-small-cap">PERSONAL</li>*@
-                        <li class="active">
-                            <a class="has-arrow waves-effect waves-dark borderli" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Comercial</span></a>
-                            <ul aria-expanded="true" class="collapse">
-                                <li>
-                                    <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Company/Index")">Empresas</a>
-                                </li>
-                                <li>
-                                    <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Quotation/Register/0")">Nueva Cotización</a>
-                                </li>
-                                <li>
-                                    <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Quotation/Index")">Matriz de Seguimiento</a>
-                                </li>
-                            </ul>
-                        </li>
+                        @*<li class="active">
+                                <a class="has-arrow waves-effect waves-dark borderli" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Comercial</span></a>
+                                <ul aria-expanded="true" class="collapse">
+                                    <li>
+                                        <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Company/Index")">Empresas</a>
+                                    </li>
+                                    <li>
+                                        <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Quotation/Register/0")">Nueva Cotización</a>
+                                    </li>
+                                    <li>
+                                        <a class="btn waves-effect waves-light btn-sm btn-outline-secondary" style="width:90%;" href="@Url.Content("~/Quotation/Index")">Matriz de Seguimiento</a>
+                                    </li>
+                                </ul>
+                            </li>*@
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -292,58 +293,6 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="~/assets/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap popper Core JavaScript -->
-    <script src="~/assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="~/assets/js/perfect-scrollbar.jquery.min.js"></script>
-    <!--Wave Effects -->
-    <script src="~/assets/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="~/assets/js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="~/assets/js/custom.min.js"></script>
-    <!-- This is data table -->
-    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
-
-
-
-
-    <script src="~/assets/plugins/sweetalert/sweetalert.min.js"></script>
-    <script src="~/assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
-    <script src="~/Scripts/utils.js"></script>
-
-    <script type="text/javascript">
-        var timer = '@FormsAuthentication.Timeout.TotalSeconds';
-        var SessionTimeout = '@ViewBag.SessionTimeout';
-        var userId = '@usuarioSession.SystemUserId'
-    </script>
-
-    @*<script type="text/javascript" src="~/Scripts/Export/jspdf.min.js"></script>
-        <script type="text/javascript" src="~/Scripts/Export/FileSaver.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.2/jspdf.plugin.autotable.js"></script>
-        <script type="text/javascript" src="~/Scripts/Export/jspdf.plugin.standard_fonts_metrics.js"></script>
-        <script type="text/javascript" src="~/Scripts/Export/canvg.min.js"></script>
-        <script type="text/javascript" src="~/Scripts/Export/html2canvas.min.js"></script>*@
-
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.4/jspdf.plugin.autotable.min.js"></script>*@
-    <script type="text/javascript" src="~/Scripts/Export/html2pdf.bundle.min.js"></script>
-
-    <script type="text/javascript">
-
-        function CerrarSesion() {
-            location.href = baseUrl + 'IngresoSistema/LogOff';
-        }
-
-    </script>
-
-
-
-    @RenderSection("scripts", required: false)
-
 
     <div class="modal fade" id="AccountSettingModal" tabindex="-1" role="dialog" aria-labelledby="AccountSettingModalLabel1">
         <div class="modal-dialog modal-lg" role="document">
@@ -376,7 +325,10 @@
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <input type="checkbox" id="chksaveConfCompany" value="check"><label for="chkProfile">Establecer como predeterminado</label>
+                                        <div>
+                                            <input type="checkbox" id="chkConfig" name="chkConfig">
+                                            <label for="chkConfig">Usar como predeterminado</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -388,7 +340,8 @@
                                 <div class="col-12">
                                     <h3 class="box-title m-b-0">Notificaciones</h3> <small></small>
                                     <div class="col">
-                                        <input type="checkbox" id="chkNotification" value="check"><label for="chkProfile">Recibir Notificaciones</label>
+                                        <input type="checkbox" id="chkNotification" name="chkNotification">
+                                        <label for="chkNotification">Recibir Notificaciones</label>
                                     </div>
                                 </div>
                             </div>
@@ -396,43 +349,144 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Guardar Configuración</button>
+                    <button onclick="SaveConfig()" type="button" class="btn btn-info" data-dismiss="modal">Guardar Configuración</button>
                 </div>
             </div>
         </div>
     </div>
 
-</body>
-</html>
+    <script src="~/assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap popper Core JavaScript -->
+    <script src="~/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="~/assets/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="~/assets/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="~/assets/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="~/assets/js/custom.min.js"></script>
+    <!-- This is data table -->
+    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="~/assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
+    <script src="~/Scripts/utils.js"></script>
 
-    <script src="~/Scripts/APIController.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#ddlConfCompany').change(function (event) {
-                var id = $("#ddlConfCompany option:selected").val();
-                APIController.GetAccessUser().then((res) => {
-                    let content = "";
-                    let company = res.Companies.filter((rep) => {
-                        return rep.CompanyId == id;
-                    });
-                    
-                    for (const index in company[0].Roles) {
-                        console.log("XXX", company[0].Roles[index].RolName);
-                        content += "<option value=''>"+company[0].Roles[index].RolName+"</option>";
-                    }
-                    $("#ddlConfRole").empty();
-                    $("#ddlConfRole").append(content);
+        var timer = '@FormsAuthentication.Timeout.TotalSeconds';
+        var SessionTimeout = '@ViewBag.SessionTimeout';
+        var userId = '@usuarioSession.SystemUserId'
+    </script>
 
-                })
+    <script type="text/javascript" src="~/Scripts/Export/html2pdf.bundle.min.js"></script>
+
+    <script type="text/javascript">
+
+        function CerrarSesion() {
+            location.href = baseUrl() + 'IngresoSistema/LogOff';
+        }
+
+    </script>
+    <script src="~/Scripts/APIController.js"></script>
+    <script>
+        var objData = {};
+        $(document).ready(function () {
+
+            APIController.GetAccessUser().then((res) => {                
+                objData = res;
+                ddlConfCompanyChange();
+                VerifyDefaultCompany();
             });
 
-
         });
+
+        function ddlConfCompanyChange() {
+            $('#ddlConfCompany').change(function () {
+                var id = $("#ddlConfCompany option:selected").val();
+                let content = "";
+                let company = objData.Companies.filter((rep) => {
+                    return rep.CompanyId == id;
+                });
+                let roles = company[0].Roles;
+                for (const index in roles) {
+                    content += "<option value='" + roles[index].RolId + "'>" + roles[index].RolName + "</option>";
+                }
+                $("#ddlConfRole").empty();
+                $("#ddlConfRole").append(content);
+            });
+        }
 
         function openModal() {
             $("#AccountSettingModal").modal("show");
         }
+
+        function VerifyDefaultCompany() {
+            let username = $("#username").html();
+            let obj = {};
+            if (localStorage.getItem('configdefault' + username) == null) {
+                $("#AccountSettingModal").modal("show");
+            } else {
+                obj = JSON.parse(localStorage.getItem('configdefault' + username));
+                $('#ddlConfCompany').val(obj.companyId);
+                $('#ddlConfCompany').val(obj.companyId).trigger('change');
+                $("#ddlConfRole").val(obj.roleId);
+
+                buildSideBar(obj);
+            }
+        }
+
+        function SaveConfig() {
+            let username = $("#username").html();
+            obj = {
+                "companyId": $("#ddlConfCompany option:selected").val(),
+                "roleId": $("#ddlConfRole option:selected").val(),
+            }
+
+            localStorage.setItem('configdefault' + username, JSON.stringify(obj));
+            buildSideBar(obj);
+        }
+
+        function buildSideBar(obj) {
+            let company = objData.Companies.filter((res) => {
+                return res.CompanyId == obj.companyId;
+            });
+
+            let roles = company[0].Roles.filter((res) => {
+                return res.RolId == obj.roleId
+            });
+
+            let modules = roles[0].Modules;
+
+            let content = "";
+            for (var i = 0; i < modules.length; i++) {
+                content += "<li>";
+                content += "<a class='has-arrow waves-effect waves-dark borderli' href='#' aria-expanded='false'><i class='mdi mdi-gauge'></i><span class='hide-menu'>" + modules[i].ModuleName + "</span></a>";
+                content += "<ul aria-expanded='true' >";
+                for (var ii = 0; ii < modules[i].Options.length; ii++) {
+                    content += "<li>";
+                    console.log(baseUrl(),modules[i].Options[ii].Path);
+                    content += "<a class='btn waves-effect waves-light btn-sm btn-outline-secondary' style='width:90%; text-aling:left' href='"+baseUrl()+modules[i].Options[ii].Path+"'>" + modules[i].Options[ii].OptionName + "</a>";
+                    content += "</li>";
+                }
+
+                content += "</ul>";
+                content += "</li>";
+
+            }
+
+            $("#sidebarnav").empty();
+            $("#sidebarnav").append(content);
+                        
+        }
+
     </script>
 
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+
+  
 
 
