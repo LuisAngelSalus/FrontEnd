@@ -42,11 +42,11 @@ namespace SigesoftWebUI.Controllers
                     var sessionModel = new SessionModel();
                     var token = result.Token;
 
-                    var dataUser = _securityBL.UserAccess(result.SystemUserId, token);
+                    sessionModel = _securityBL.UserAccess(result.SystemUserId, token);
 
-                    sessionModel.SystemUserId = dataUser.SystemUserId;
-                    sessionModel.FullName = dataUser.FullName;
-                    sessionModel.UserName = dataUser.UserName;
+                    //sessionModel.SystemUserId = dataUser.SystemUserId;
+                    //sessionModel.FullName = dataUser.FullName;
+                    //sessionModel.UserName = dataUser.UserName;
                     sessionModel.Pass = oLoginDto.v_Password;
 
                     FormsAuthentication.SetAuthCookie(sessionModel.UserName, false);
