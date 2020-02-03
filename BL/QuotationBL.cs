@@ -112,6 +112,27 @@ namespace BL
             return obj;
         }
 
-        
+        public Response<List<PriceListDto>> GetListPrice(int companyId, string token)
+        {
+            Response<List<PriceListDto>> obj = null;
+            var hCliente = _global.rspClientGET("PriceList/" + companyId+ "/ListaPrecio", token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<PriceListDto>>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
+        public Response<bool> UpdatePriceList(PriceListDto data, string token)
+        {
+            Response<bool> obj = null;
+            var hCliente = _global.rspClientPUT("PriceList/" + data.CompanyId, data, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<bool>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
     }
 }

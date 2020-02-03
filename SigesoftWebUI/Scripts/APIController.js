@@ -334,6 +334,35 @@
         });
     }
 
+    var PriceList = function (companyId) {
+        return new Promise((resolve, reject) => {
+            fetch('/Quotation/ListPrice?CompanyId=' + companyId, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var setPrice = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Quotation/SetPrice', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -469,7 +498,19 @@
             return new Promise((resolve, reject) => {
                 Dashboard(roleId).then(res => resolve(res));
             });
-        }
+        },
+
+        GetPriceList: function (companyId) {
+            return new Promise((resolve, reject) => {
+                PriceList(companyId).then(res => resolve(res));
+            });
+        },
+
+        SetPrice: function (parameters) {
+            return new Promise((resolve, reject) => {
+                setPrice(parameters).then(res => resolve(res));
+            });
+        },
     }
 
 })();

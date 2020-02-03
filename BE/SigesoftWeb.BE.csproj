@@ -52,6 +52,7 @@
     <Compile Include="ListQuoteTrackingDto.cs" />
     <Compile Include="ListSystemUserDto.cs" />
     <Compile Include="LoginDto.cs" />
+    <Compile Include="PriceListDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolProfileDto.cs" />
     <Compile Include="ProtocolProfileRegisterDto.cs" />

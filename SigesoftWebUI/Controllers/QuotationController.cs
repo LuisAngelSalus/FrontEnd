@@ -296,5 +296,37 @@ namespace SigesoftWebUI.Controllers
             //var pdf = new FileStream("Propuesta comercial.pdf", FileMode.Open, FileAccess.Read);
             //return File(pdf, "aplication/pdf");
         }
+
+        public JsonResult ListPrice(int CompanyId)
+        {
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.GetListPrice(CompanyId, validated.Token);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SetPrice(PriceListDto data)
+        {
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+            data.InsertUserId = sessione.SystemUserId;
+            data.UpdateUserId = sessione.SystemUserId;
+            var response = _quotationBL.UpdatePriceList(data, validated.Token);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

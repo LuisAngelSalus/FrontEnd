@@ -1,4 +1,6 @@
 ﻿var obj = {};
+var objPriceList = {}
+
 $(document).ready(function () {
 
 
@@ -6,7 +8,7 @@ $(document).ready(function () {
         $(".select-StatusQuotation").attr("disabled", false);
         $("#txtRuc").attr("disabled", true);
     } else {
-        console.log("INI"); 
+        //console.log("INI"); 
         $('#ddlStatusQuotation option[value=4]').attr('selected', 'selected');
     }
 
@@ -17,9 +19,18 @@ $(document).ready(function () {
     CalculateTotals();
 
     $('.table-main').on('change paste keyup', '.salePrice', function (e) {
+        let componentId = e.target.id;
+        RefreshSalePrice(componentId, e.currentTarget.value);
         CalculateTotals();
     });
 
+    $('.tables-profile').on('change paste', '.salepriceValue', function (e) {        
+        let componentId = $(this).parent().next().html();
+        let componentName = $(this).parent().parent().find('.compname').html();
+        let params = { "CompanyId": $("#txtCompanyId").val(), "ComponentId": componentId, "Price": e.currentTarget.value}        
+        UpdatePrice(params, componentName);
+    });
+    
     $(document).on('change paste keypress', '.onlyDecimal', function (e) {
         return isNumberKey(e);
     });
@@ -91,10 +102,9 @@ $(document).ready(function () {
             APIController.GetProfile(idProfile).then((res) => {
                 LoadObj(res);
 
-
                 var data = res.Data.categories;
-                console.log("Examenes");
-                console.log(data)
+                //console.log("Examenes");
+                //console.log(data)
                 var unselectedData = res.Data.UnselectedCategories;
 
                 //---------------Table-Profile---------------------------
@@ -131,8 +141,9 @@ $(document).ready(function () {
                         content += '</td>';
                         content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
                         content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';
-                        content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + (data[i].Detail[ii].SalePrice == 0 ? "" : data[i].Detail[ii].SalePrice) + '" style="width:80px"> </td>';
-
+                        //content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + (data[i].Detail[ii].SalePrice == 0 ? "" : data[i].Detail[ii].SalePrice) + '" style="width:80px"> </td>';
+                        content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(data[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
+                        content += '<td style="display:none">' + data[i].Detail[ii].ComponentId+'</td>';
                         content += '</tr>';
                     }
                     content += '</tboby>';
@@ -178,7 +189,9 @@ $(document).ready(function () {
                         contentUn += '</td>';
                         contentUn += '<td class="minprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
                         contentUn += '<td class="listprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].ListPrice + '</label></td>';
-                        contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="" style="width:80px"> </td>';
+                        //contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="" style="width:80px"> </td>';
+                        contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(unselectedData[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
+                        contentUn += '<td style="display:none">' + unselectedData[i].Detail[ii].ComponentId + '</td>';
                         contentUn += '</tr>';
                     }
 
@@ -367,7 +380,8 @@ $('#profile').change(function () {
                     content += '</td>';
                     content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
                     content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';
-                    content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + data[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
+                    //content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + data[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
+                    content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(data[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
                     content += '</tr>';
                 }
                 content += '</tboby>';
@@ -413,7 +427,9 @@ $('#profile').change(function () {
                     contentUn += '</td>';
                     contentUn += '<td class="minprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
                     contentUn += '<td class="listprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].ListPrice + '</label></td>';
-                    contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + unselectedData[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
+                    //contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + unselectedData[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
+                    contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(unselectedData[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
+                    
                     contentUn += '</tr>';
                 }
 
@@ -475,20 +491,28 @@ function openModal() {
         swal("Validación", "¡Seleccione una empresa!", "error");
         return;
     }
-    $('#chkProfile').prop('checked', false);
-    $('#profile').empty();
-
-    APIController.GetddlProtocolProfile().then((resp) => {
-        let content = "";
-        content += "<option value='-1'>--Seleccionar--</option>";
-        for (var i = 0; i < resp.Data.length; i++) {
-            content += "<option value='" + resp.Data[i].Id + "'>" + resp.Data[i].Value + "</option>";
-        }
-
-        $('#profile').append(content);
+    
+    APIController.GetPriceList(603).then((res) => {
+        console.log("OBJ", res.Data);
+        objPriceList = res.Data;        
     });
 
-    $('#profile').val(-1).trigger('change');
+
+
+    //$('#chkProfile').prop('checked', false);
+    $('#profile').empty();
+
+        //APIController.GetddlProtocolProfile().then((resp) => {
+        //    let content = "";
+        //    content += "<option value='-1'>--Seleccionar--</option>";
+        //    for (var i = 0; i < resp.Data.length; i++) {
+        //        content += "<option value='" + resp.Data[i].Id + "'>" + resp.Data[i].Value + "</option>";
+        //    }
+
+        //    $('#profile').append(content);
+        //});
+
+    //$('#profile').val(-1).trigger('change');
     $('#tbody-profile').empty();
     $('#tbody-profile-unselectd').empty();
     $("#perfilModal").modal("show");
@@ -522,7 +546,7 @@ function CalculateTotals() {
         var sales = $(tr).find('.salePrice');
         $(sales).each(function () {
 
-            console.log($(this).parent().parent().find(".RecordStatus").text());
+            //console.log($(this).parent().parent().find(".RecordStatus").text());
             if ($(this).parent().parent().find(".RecordStatus").text() != "ELIMINADOLOGICO") {
                 compTotal++;
                 var value = $(this).get(0).value;
@@ -687,7 +711,7 @@ function SaveProfile() {
                 
                 content += "<td class='col-center'>" + components[i].minPrice + "</td>";
                 content += "<td class='col-center'>" + components[i].listPrice + "</td>";
-                content += "<td class='col-center'><input type='text' class='form-control salePrice input-numeric' value=" + components[i].salePrice + "> </td>";
+                content += "<td class='col-center'><input type='text' id='" + components[i].componentId+"' class='form-control salePrice input-numeric' value=" + components[i].salePrice + "> </td>";
                 content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveComponent(event)'></i></td>";
                 content += "</tr>";
             }
@@ -739,7 +763,7 @@ function GenerateNameProfile() {
 }
 
 function LoadObj(res) {
-    //console.log("RESP", res);
+    
     obj = {};
     var data = res.Data;
     obj.profileId = data.ProtocolProfileId;
@@ -759,12 +783,26 @@ function LoadObj(res) {
 
             profileComponent.minPrice = detail[ii].MinPrice;
             profileComponent.listPrice = detail[ii].ListPrice;
-            profileComponent.salePrice = detail[ii].SalePrice;
+            //profileComponent.salePrice = detail[ii].SalePrice;
+            //var componentDB = objPriceList.filter((component) => {                
+            //    return component.ComponentId == profileComponent.componentId;
+            //});
+            //console.log("???", componentDB);
+            profileComponent.salePrice = SetPriceDB(profileComponent.componentId);
 
             profileComponents.push(profileComponent);
         }
     }
     obj.profileComponents = profileComponents;
+
+    console.log(obj);
+}
+
+function SetPriceDB(componentId) {
+    var componentDB = objPriceList.filter((component) => {
+        return component.ComponentId == componentId;
+    });
+    return componentDB.length == 0 ? 0 : componentDB[0].Price;
 }
 
 function ProcessObj(componentId, event, val) {
@@ -986,7 +1024,7 @@ function APISaveQuotation() {
     } else if (data.QuotationId > 0) {
         data.QuotationId = 0;
         data.Code = $("#spanCode").html();
-        console.log("DATA VERSION", data);
+        //console.log("DATA VERSION", data);
         APIController.NewVersionQuotation(data).then((res) => {
             swal({
                 title: "¡Importante!",
@@ -1106,7 +1144,7 @@ function PreviewQuotation() {
     });
 
 
-    console.log(data);
+    //console.log(data);
 
     var info = {
         data: JSON.stringify(data),
@@ -1288,7 +1326,7 @@ function GetNameCategory(id) {
 }
 
 function RemoveProfile(event) {
-    console.log("???");
+    //console.log("???");
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
     var idTr = $(event.target).parent().parent().attr('id');
@@ -1462,9 +1500,26 @@ function RemoveAddExamn(event) {
 function CheckTrParen(idParent) {
     var rowCounter = $('#tbody-main tr.' + idParent + ':not([style*="display: none"]) ').length;
     if (rowCounter == 0) {
-        console.log("#", idParent);
+        //console.log("#", idParent);
         $("#" + idParent).css("display", "none");
     }
 
     CalculateTotals();
+}
+
+function UpdatePrice(params,componentName) {    
+    APIController.SetPrice(params).then((res) => {
+        newAlertCustom(res.ComponentId, componentName, " precio modificado");
+    });
+}
+
+function RefreshSalePrice(componentId, currentValue) {
+
+    $("#tbody-main #" + componentId).each(function () {
+        //console.log("SSSS", $(this));
+        console.log("currentValue", currentValue);
+        $(this).val(currentValue);
+
+    });
+    
 }
