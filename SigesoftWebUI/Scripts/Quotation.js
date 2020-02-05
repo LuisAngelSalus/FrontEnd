@@ -492,8 +492,8 @@ function openModal() {
         return;
     }
     
-    APIController.GetPriceList(603).then((res) => {
-        console.log("OBJ", res.Data);
+    APIController.GetPriceList($("#txtCompanyId").val()).then((res) => {
+        //console.log("OBJ", res.Data);
         objPriceList = res.Data;        
     });
 
@@ -559,6 +559,7 @@ function CalculateTotals() {
         });
 
         var parent = $(tr).prev().get(0);
+        sumSubTotal = Number(sumSubTotal.toFixed(2));
         $(parent).find('.subTotal').text(sumSubTotal);
         $(parent).find('.counterComp').text(sales.length);
 
@@ -566,6 +567,9 @@ function CalculateTotals() {
         if (!isNaN(sumSubTotal)) {
             sumTotal += parseFloat(sumSubTotal);
         }
+
+        //var numero = 1.77777777;
+        sumTotal = Number(sumTotal.toFixed(2));
 
         $('.Total').text(sumTotal);
         $('.nroTotalComp').text(compTotal);
@@ -629,6 +633,7 @@ function SaveProfile() {
         content += "<option value='2'> Anexo 16</option >";
         content += "<option value='3'> Anexo 16.A</option >";
         content += "<option value='4'> Ambos</option >";
+        content += "<option value='5'>Componente</option >";
         content += "</select>";
         content += "</td>";
 
@@ -724,6 +729,9 @@ function SaveProfile() {
         content += "</tr>";
         $('#tbody-main').append(content);
 
+
+
+
         CalculateTotals();
 
         $("#changeNameProfile").modal("hide");
@@ -795,10 +803,17 @@ function LoadObj(res) {
     }
     obj.profileComponents = profileComponents;
 
-    console.log(obj);
+    //console.log(obj);
 }
 
 function SetPriceDB(componentId) {
+    //console.log("componentId", componentId);
+    if (componentId == "N103-ME000000447") {
+        var xxx = objPriceList.filter((component) => {
+            return component.ComponentId == componentId;
+        });
+        console.log("XXX", xxx);
+    }
     var componentDB = objPriceList.filter((component) => {
         return component.ComponentId == componentId;
     });
@@ -1015,7 +1030,7 @@ function APISaveQuotation() {
         APIController.SaveQuotation(data).then((res) => {
             swal({ title: "Correcto", text: "El nro de cotizacion es :" + res.Data.Code, type: "success" },
                 function () {
-                    SaveTracking(res.Data.QuotationId);
+                    SaveTrackingInsideRegister(res.Data.QuotationId);
                     $("#spanCode").html(res.Data.Code);
                     window.location.href = "/Quotation/Index/";
                 });
@@ -1252,14 +1267,15 @@ function PreviewQuotation() {
 
 }
 
-function SaveTracking(quotationId) {
+function SaveTrackingInsideRegister(quotationId) {
 
     var params = {
         "QuotationId": quotationId,
-        "StatusName": "Seguimiento",
+        "StatusName": "Potencial",
         "Commentary": "Cotización Creada",
         "InsertUserId": 1
     }
+    //console.log("params", params);
     APIController.SaveQuoteTracking(params).then((resp) => {
 
     });
@@ -1267,12 +1283,27 @@ function SaveTracking(quotationId) {
 
 function SaveTrackingNewVersion(quotationId, comentary) {
 
-    var params = {
-        "QuotationId": quotationId,
-        "Commentary": comentary,
-        "StatusName": "Seguimiento",
-        "InsertUserId": 1
+    //console.log("XXXx", $(".select-StatusQuotation option:selected").val());
+    let StatusQuotation = $(".select-StatusQuotation option:selected").val();
+    var params = {}
+
+    //Estado Potencial
+    if (StatusQuotation == 4) {
+        params = {
+            "QuotationId": quotationId,
+            "Commentary": comentary,
+            "StatusName": "Potencial",
+            //"InsertUserId": 1
+        }
+    } else {
+        params = {
+            "QuotationId": quotationId,
+            "Commentary": comentary,
+            "StatusName": "Seguimiento",
+            //"InsertUserId": 1
+        }
     }
+
     APIController.SaveQuoteTracking(params).then((resp) => {
 
     });
@@ -1510,6 +1541,8 @@ function CheckTrParen(idParent) {
 function UpdatePrice(params,componentName) {    
     APIController.SetPrice(params).then((res) => {
         newAlertCustom(res.ComponentId, componentName, " precio modificado");
+        //let params = { "CompanyId": $("#txtCompanyId").val(), "ComponentId": componentId, "Price": e.currentTarget.value }        
+        RefreshSalePrice(params.ComponentId, params.Price);
     });
 }
 
@@ -1517,7 +1550,7 @@ function RefreshSalePrice(componentId, currentValue) {
 
     $("#tbody-main #" + componentId).each(function () {
         //console.log("SSSS", $(this));
-        console.log("currentValue", currentValue);
+        //console.log("currentValue", currentValue);
         $(this).val(currentValue);
 
     });

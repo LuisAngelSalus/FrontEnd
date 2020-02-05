@@ -209,12 +209,13 @@
                         </select>
                     </td>
                     <td>
-                        <select class="form-control form-white select-TypeFormat"  id="ddlTypeFormat" >
+                        <select class="form-control form-white select-TypeFormat" id="ddlTypeFormat">
                             <option value="-1" @(@profile.TypeFormatId == -1 ? "selected" : "")>--Seleccionar--</option>
                             <option value="1" @(@profile.TypeFormatId == 1 ? "selected" : "")>RM 312</option>
                             <option value="2" @(@profile.TypeFormatId == 2 ? "selected" : "")>Anexo 16</option>
                             <option value="3" @(@profile.TypeFormatId == 3 ? "selected" : "")>Anexo 16.A</option>
                             <option value="4" @(@profile.TypeFormatId == 4 ? "selected" : "")>Ambos</option>
+                            <option value="5" @(@profile.TypeFormatId == 5 ? "selected" : "")>Componente</option>
                         </select>
                     </td>
                     <td class="counterComp col-center">0</td>

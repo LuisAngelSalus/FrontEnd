@@ -2,6 +2,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @section Styles{
 
     <style type="text/css">
@@ -27,7 +28,8 @@
         .tdClick {
             cursor: pointer;
         }
-        .label-potencial{
+
+        .label-potencial {
             background-color: #B9B6B5;
         }
 
@@ -90,24 +92,31 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="txtRuc">RUC</label>
                                 <input type="text" class="form-control" id="txtRuc" maxlength="11" value="" onkeypress="validateInputNumber(event)" autofocus>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="txtNroCotizacion">Nro Cotización</label>
                                 <input type="text" class="form-control" id="txtNroCotizacion" maxlength="20" value="">
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="dtpEnd">Estado</label>
-                                <select class="form-control form-white select-Service" data-placeholder="Seleccione un estado..." id="ddlStatus">
-                                    <option value="-1">--Todos--</option>
+                            <div class="form-group col-md-6">
+                                <label for="ddlStatus">Estado</label>
+                                <select class="selectpicker" multiple data-live-search="true" id="ddlStatus">
                                     <option value="4">Potencial</option>
                                     <option value="1">Seguimiento</option>
                                     <option value="2">Aceptada</option>
                                     <option value="3">Descartada</option>
                                 </select>
+                                @*<select class="form-control form-white select-Service" data-placeholder="Seleccione un estado..." id="ddlStatus">
+                                    <option value="-1">--Todos--</option>
+                                    <option value="4">Potencial</option>
+                                    <option value="1">Seguimiento</option>
+                                    <option value="2">Aceptada</option>
+                                    <option value="3">Descartada</option>
+                                </select>*@
                             </div>
+
                         </div>
                         <div class="row">
                             <div class="form-group col-md-4">
@@ -140,10 +149,10 @@
                         <div class="table-responsive">
                             <table class="table ">
                                 @*<thead>
-                                    <tr>
-                                        <th colspan="2">Gráfico Cotización</th>
-                                    </tr>
-                                </thead>*@
+                                        <tr>
+                                            <th colspan="2">Gráfico Cotización</th>
+                                        </tr>
+                                    </thead>*@
                                 <tbody>
                                     <tr>
                                         <td><span class="label label-potencial">Potencial</span></td>
@@ -271,7 +280,8 @@
     <script type="text/javascript">
 
     $(document).ready(function () {
-
+        $('#ddlStatus').selectpicker();
+        $('.selectpicker').selectpicker('val', [1 , 4]);
         loadDates();
 
         Filter();
@@ -285,24 +295,28 @@
         });
 
         $('#table-versions').click(function (event) {
-
-            $('#table-versions > tr').each(function (index, tr) {
+            //console.log("event.target", $(event.target).html());   
+            let result = $(event.target).html();
+            if (result== 'Desactivado') {
+                $('#table-versions > tr').each(function (index, tr) {
 
                     $(tr).find('.tdClick').removeClass('isProccessTrue');
                     $(tr).find('.tdClick').text("Desactivado");
 
-            });
-
-            if ($(event.target).hasClass('tdClick')) {
-               event.target.innerText = "Activado";
-                $(event.target).removeClass('isProccessFalse');
-                $(event.target).addClass('isProccessTrue');
-                let quoationId = $(event.target).attr("id");
-                let code = $("#nroCot").text();
-                APIController.UpdateProccessQuotation({"QuotationId": quoationId, "Code": code}).then((res) => {
-                    Filter();
                 });
+
+               if ($(event.target).hasClass('tdClick')) {
+                   event.target.innerText = "Activado";
+                    $(event.target).removeClass('isProccessFalse');
+                    $(event.target).addClass('isProccessTrue');
+                    let quoationId = $(event.target).attr("id");
+                    let code = $("#nroCot").text();
+                    APIController.UpdateProccessQuotation({"QuotationId": quoationId, "Code": code}).then((res) => {
+                        Filter();
+                    });
+                }
             }
+             
 
         });
     });
@@ -321,14 +335,14 @@
             "StartDate": $("#dtpStart").val(),
             "EndDate": $("#dtpEnd").val(),
             "CompanyName": $("#txtRuc").val(),
-            "StatusQuotationId": $("#ddlStatus option:selected").val()
+            "StatusQuotationId": $("#ddlStatus").val()
         }
+        //console.log("params", params);
 
         APIController.FilterQuotation(params).then((resp) => {
             $(".odd").remove();
             var content = "";
             var data = resp.Data;
-            console.log("DATA", data);
             for (let i = 0; i < data.length; i++) {
                 var quotationId = data[i].QuotationId;
                 content += "<tr id='track-"+quotationId+"'>";
@@ -343,7 +357,7 @@
                 content += "<td>";
 
 
-                content += "<select class='form-control form-white select-StatusQuotation' data-placeholder='Seleccione un estado...' id='ddlStatusQuotation-" + quotationId + "'>";                
+                content += "<select class='form-control form-white select-StatusQuotation' data-placeholder='Seleccione un estado...' id='ddlStatusQuotation-" + quotationId + "'>";
                 content += "<option value='4' "+selected(4,data[i].StatusQuotationId)+">Potencial</option>";
                 content += "<option value='1' "+selected(1,data[i].StatusQuotationId)+">Seguimiento</option>";
                 content += "<option value='2' "+selected(2,data[i].StatusQuotationId)+">Aceptada</option>";
@@ -380,9 +394,10 @@
                 content += "<tr>";
                 content += "<th style='display:none'>ID</th>";
                 content += "<th>Fecha</th>";
+                content += "<th>Versión</th>";
                 content += "<th>Estado</th>";
                 content += "<th>Comentario</th>";
-                content += "<th class='text-nowrap'></th>";
+                //content += "<th class='text-nowrap'></th>";
                 content += "</tr>";
                 content += "</thead>";
                 content += "<tbody id='tbody-Tracking-"+quotationId+"'>";
@@ -392,9 +407,10 @@
                     content += "<tr id='tr-"+detail[ii].QuoteTrackingId+"'>";
                     content += "<td  style='display:none'>" + detail[ii].QuoteTrackingId + "</td>";
                     content += "<td>" + formatDate(new Date(detail[ii].Date)) + "</td>";
+                    content += "<td>" + detail[ii].Version + "</td>";
                     content += "<td>" + detail[ii].StatusName + "</td>";
                     content += "<td>" + detail[ii].Commentary + "</td>";
-                    content += "<td style='width:80px'><div class='btn-list'><a onclick='EditTracking(" + detail[ii].QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></div></td>";
+                    //content += "<td style='width:80px'><div class='btn-list'><a onclick='EditTracking(" + detail[ii].QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></div></td>";
                     content += "</tr>";
                 }
                 content += "</tbody>";
@@ -427,8 +443,8 @@
 
         today = yyyy + '-' + mm + '-' + dd;
         var mmLast = lastDay.getMonth() + 2; //January is 0!
-        today = yyyy + '-01-01';
-        lastDay = yyyy + '-01-31';
+        today = yyyy + '-02-01';
+        lastDay = yyyy + '-02-29';
 
         document.getElementById("dtpStart").defaultValue = today + "";
         document.getElementById("dtpEnd").defaultValue =lastDay+"";
@@ -440,8 +456,7 @@
         $("#txthiddenQuotation").val(id);
     }
 
-    function SaveTracking() {
-
+    function SaveTracking(id) {
         let quotationTrackingId = $("#txthiddenQuotationTracking").val();
         if (quotationTrackingId == 0) {
             var params = {
@@ -457,15 +472,16 @@
                 content += "<td  style='display:none'>" + data.QuoteTrackingId + "</td>";
                 //content += "<td>" + formatDate(new Date(GetDateFormat(data[i].ShippingDate))) + "</td>";
                 content += "<td>" + formatDate(new Date(GetDateFormat(data.Date))) + "</td>";
+                content += "<td>" + data.Version+ "</td>";
                 content += "<td>" + data.StatusName + "</td>";
                 content += "<td>" + data.Commentary + "</td>";
-                content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
+                //content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "</tr>";
 
                 $("#tbody-Tracking-" + data.QuotationId).append(content);
                 let quotationId = $("#txthiddenQuotation").val();
                 let StatusQuotationId = $("#ddlStatusQuotation-" + quotationId + " option:selected").val();
-                console.log(quotationId, StatusQuotationId);
+                //console.log(quotationId, StatusQuotationId);
                 APIController.UpdateQuotation({"QuotationId": quotationId, "StatusQuotationId": StatusQuotationId}).then((res) => {
                     Filter();
                 });
@@ -488,9 +504,10 @@
                 let content = "";
                 content += "<td style='display:none'>" + data.QuoteTrackingId + "</td>";
                 content += "<td>" + $("#txthiddentxtDate").val() + "</td>";
+                content += "<td>" + data.Version + "</td>";
                 content += "<td>" + data.StatusName + "</td>";
                 content += "<td>" + data.Commentary + "</td>";
-                content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
+                //content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
 
                 $("#tr-" + data.QuoteTrackingId).append(content);
 
@@ -527,20 +544,23 @@
 
     function EditTracking(id) {
         ClearPoupTracking();
+           
 
-        APIController.GetQuotationtracking(id).then((resp) => {
+             APIController.GetQuotationtracking(id).then((resp) => {
             let data = resp.Data;
 
-            $("#txtComentary" ).focus();
             $("#TrackingModal").modal("show");
+             $("#txtComentary").focus();
+            
             $("#txthiddenQuotation").val(data.QuotationId);
             $("#txtComentary").val(data.Commentary);
             $("#txthiddenQuotationTracking").val(data.QuoteTrackingId);
             $("#txthiddentxtDate").val(GetDateFormat(data.Date));
 
-            Filter();
+            //Filter();
 
         });
+      
     }
 
     function ClearPoupTracking() {
@@ -575,7 +595,7 @@
         $("#statusdiscarded").html(statusdiscarded);
         $("#statusPotential").html(statusPotential);
 
-        console.log(statusTracking);
+        //console.log(statusTracking);
         var data3 = [
             {
                 value: statusTracking,
@@ -654,6 +674,7 @@
         APIController.GetVersions(codeQuotation).then((resp) => {
 
             let data = resp.Data;
+            console.log("data", data);
             $("#modalCompany").html(data[0].CompanyName);
 
             for (var i = 0; i < data.length; i++) {
@@ -667,7 +688,12 @@
 
                 content += "</td>";
                 content += "<td>" + data[i].Version + "</td>";
-                content += "<td>" + formatDate(new Date(GetDateFormat(data[i].ShippingDate))) + "</td>";
+                if (data[i].ShippingDate == null) {
+                    content += "<td>----</td>";
+                } else {
+                    content += "<td>" + formatDate(new Date(GetDateFormat(data[i].ShippingDate))) + "</td>";
+                }
+                
                 content += "<td>" + data[i].Total + "</td>";
                 content += "<td>" + data[i].StatusQuotationName + "</td>";
                 content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
@@ -679,7 +705,7 @@
         }
 
         function viewPropuesta(code) {
-            console.log(code);
+            //console.log(code);
             window.location.href = '/Quotation/ExportPlantilla?code=' + code;
         }
 

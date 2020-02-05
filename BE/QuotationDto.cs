@@ -234,7 +234,7 @@ namespace BE
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string CompanyName { get; set; }
-        public int StatusQuotationId { get; set; }
+        public int[] StatusQuotationId { get; set; }
     }
     public class QuotationFilterDto
     {
@@ -256,6 +256,7 @@ namespace BE
     {
         public int QuoteTrackingId { get; set; }
         public int QuotationId { get; set; }
+        public int Version { get; set; }
         public string Date { get; set; }
         public string Commentary { get; set; }
         public string StatusName { get; set; }

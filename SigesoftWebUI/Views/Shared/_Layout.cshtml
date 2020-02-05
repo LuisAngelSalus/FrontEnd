@@ -18,6 +18,7 @@
     <title>Sigesoft2020</title>
     <!-- Bootstrap Core CSS -->
     <link href="~/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
     <link href="~/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
     <!--c3 CSS -->
     <link href="~/assets/plugins/c3-master/c3.min.css" rel="stylesheet">
@@ -54,7 +55,7 @@
 
         .sidebar-nav ul li a {
             color: #ffffff;
-            text-align:left;
+            text-align: left;
         }
 
             .sidebar-nav ul li a.active {
@@ -359,6 +360,7 @@
     <!-- Bootstrap popper Core JavaScript -->
     <script src="~/assets/plugins/bootstrap/js/popper.min.js"></script>
     <script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="~/assets/js/perfect-scrollbar.jquery.min.js"></script>
     <!--Wave Effects -->
@@ -393,7 +395,7 @@
         var objData = {};
         $(document).ready(function () {
 
-            APIController.GetAccessUser().then((res) => {                
+            APIController.GetAccessUser().then((res) => {
                 objData = res;
                 ddlConfCompanyChange();
                 VerifyDefaultCompany();
@@ -465,8 +467,8 @@
                 content += "<ul aria-expanded='true' >";
                 for (var ii = 0; ii < modules[i].Options.length; ii++) {
                     content += "<li>";
-                    console.log(baseUrl(),modules[i].Options[ii].Path);
-                    content += "<a class='btn waves-effect waves-light btn-sm btn-outline-secondary' style='width:90%; text-aling:left' href='"+baseUrl()+modules[i].Options[ii].Path+"'>" + modules[i].Options[ii].OptionName + "</a>";
+                    console.log(baseUrl(), modules[i].Options[ii].Path);
+                    content += "<a class='btn waves-effect waves-light btn-sm btn-outline-secondary' style='width:90%; text-aling:left' href='" + baseUrl() + modules[i].Options[ii].Path + "'>" + modules[i].Options[ii].OptionName + "</a>";
                     content += "</li>";
                 }
 
@@ -477,7 +479,7 @@
 
             $("#sidebarnav").empty();
             $("#sidebarnav").append(content);
-                        
+
         }
 
     </script>
