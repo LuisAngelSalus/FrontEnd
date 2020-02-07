@@ -55,5 +55,39 @@ namespace BL
             }
             return obj;
         }
+
+        public Response<SystemUserRegisterDto> Save(SystemUserRegisterDto data, string token)
+        {
+            Response<SystemUserRegisterDto> obj = null;
+            var hCliente = _global.rspClient("SystemUser/", data, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<SystemUserRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
+        public Response<SystemUserUpdateDataDto> Update(SystemUserUpdateDataDto data, string token)
+        {
+            Response<SystemUserUpdateDataDto> obj = new Response<SystemUserUpdateDataDto>();
+            var hCliente = _global.rspClientPUT("SystemUser/"+ data.SystemUserId, data, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<SystemUserUpdateDataDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
+        public Response<bool> SaveAccess(List<RegisterAccessDto> data, string token)
+        {
+            Response<bool> obj = null;
+            var hCliente = _global.rspClient("SystemUser/actualizarAccesos/", data, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<bool>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            
+            return obj;
+        }
     }
 }

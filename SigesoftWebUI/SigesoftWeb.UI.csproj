@@ -328,6 +328,7 @@
     <Content Include="assets\images\Star.png" />
     <Content Include="assets\images\Tracking.png" />
     <Content Include="assets\images\users\1.jpg" />
+    <Content Include="assets\images\users\1_.jpg" />
     <Content Include="assets\images\users\2.jpg" />
     <Content Include="assets\images\users\3.jpg" />
     <Content Include="assets\images\users\4.jpg" />

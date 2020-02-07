@@ -7,6 +7,10 @@ namespace BE
 {
     public class SessionModel
     {
+        public SessionModel()
+        {
+            Companies = new List<Companies>();
+        }
         public int SystemUserId { get; set; }
         public string FullName { get; set; }
         public string UserName { get; set; }
@@ -17,6 +21,11 @@ namespace BE
     }
     public class Companies
     {
+        public Companies()
+        {
+            Roles = new List<Roles>();
+        }
+
         public int CompanyId { get; set; }
         public string CompanyName { get; set; }
         public List<Roles> Roles { get; set; }
@@ -24,6 +33,11 @@ namespace BE
 
     public class Roles
     {
+        public Roles()
+        {
+            Modules = new List<Module>();
+        }
+
         public int RolId { get; set; }
         public string RolName { get; set; }
         public string PathDashboard { get; set; }
@@ -32,6 +46,10 @@ namespace BE
 
     public class Module
     {
+        public Module()
+        {
+            Options = new List<Option>();
+        }
         public int ModuleId { get; set; }
         public string ModuleName { get; set; }
         public List<Option> Options { get; set; }

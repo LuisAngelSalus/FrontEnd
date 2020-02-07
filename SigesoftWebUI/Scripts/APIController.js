@@ -426,6 +426,84 @@
         });
     }
 
+    var savePerson = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Person/Save', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
+    var updatePerson = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Person/Update', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
+    var saveUSer = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/SystemUser/Save', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var updateUser = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/SystemUser/Update', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var saveAccess = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/SystemUser/SaveAccess', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -604,6 +682,35 @@
                 person(personId).then(res => resolve(res));
             });
         },
+
+        SavePerson: function (parameters) {
+            return new Promise((resolve, reject) => {
+                savePerson(parameters).then(res => resolve(res));
+            });
+        },
+
+        UpdatePerson: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updatePerson(parameters).then(res => resolve(res));
+            });
+        },
+
+        SaveUser: function (parameters) {
+            return new Promise((resolve, reject) => {
+                saveUSer(parameters).then(res => resolve(res));
+            });
+        },
+
+        UpdateUser: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateUser(parameters).then(res => resolve(res));
+            });
+        },
+        SaveAccess: function (parameters) {
+            return new Promise((resolve, reject) => {
+                saveAccess(parameters).then(res => resolve(res));
+            });
+        }        
     }
 
 })();

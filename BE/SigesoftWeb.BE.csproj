@@ -62,6 +62,7 @@
     <Compile Include="QuotationDto.cs" />
     <Compile Include="QuoteTrackingRegisterDto.cs" />
     <Compile Include="QuoteTrackingUpdateDto.cs" />
+    <Compile Include="RegisterAccessDto.cs" />
     <Compile Include="SecuentialDto.cs" />
     <Compile Include="SessionModel.cs" />
     <Compile Include="UserAccessDto.cs" />

@@ -8,6 +8,22 @@
         th.dt-center, td.dt-center {
             text-align: center;
         }
+
+        #meter
+        {
+            border:1px solid maroon;
+            width:300px;
+            height:15px;
+            margin:5px auto;
+            border-radius: 5px;
+        }
+        #result
+        {
+            font-size: larger;
+            font-weight: bold;
+            margin-left:120px;
+            
+        }
     </style>
 }
 <div class="card mb-2">
@@ -27,6 +43,7 @@
                         <th>Usuario</th>
                         <th class="text-nowrap">Editar</th>
                         <th class="text-nowrap">Accesos</th>
+                        <th class="text-nowrap">Email</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,23 +55,28 @@
 
 <div class="modal fade" id="ModalUser" tabindex="-1" role="dialog" aria-labelledby="TrackingModalLabel1">
     <div class="modal-dialog " role="document">
+        <div class="content-alert">
+        </div>
+        <input type="hidden" id="hiddenSystemUserId" name="hiddenSystemUserId" value="" />
+        <input type="hidden" id="hiddenPersonId" name="hiddenPersonId" value="" />
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="labelModalUser">Nuevo Usuario</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>            
+            </div>
             <div class="modal-body" style="padding: 0">
+
                 <div class="form-group col-12">
                     <label for="txtComentary">Primer Nombre</label>
-                    <input type="text" id="inputFirstName" name="inputFirstName" class="form-control" value="" />
+                    <input type="text" id="inputFirstName" name="inputFirstName" class="form-control" value="" required />
                 </div>
                 <div class="form-group col-12">
                     <label for="txtComentary">Apellido Paterno</label>
-                    <input type="text" id="inputFirstLastName" name="inputFirstLastName" class="form-control" value="" />
+                    <input type="text" id="inputFirstLastName" name="inputFirstLastName" class="form-control" value="" required />
                 </div>
                 <div class="form-group col-12">
                     <label for="txtComentary">Apellido Materno</label>
-                    <input type="text" id="inputSecondtLastName" name="inputSecondtLastName" class="form-control" value="" />
+                    <input type="text" id="inputSecondtLastName" name="inputSecondtLastName" class="form-control" value="" required />
                 </div>
                 <div class="form-group col-12">
                     <label for="txtComentary">Email</label>
@@ -62,21 +84,25 @@
                 </div>
                 <div class="form-group col-12">
                     <label for="txtComentary">Usuario</label>
-                    <input type="text" id="inputUserName" name="inputUserName" class="form-control" value="" />
+                    <input type="text" id="inputUserName" name="inputUserName" class="form-control" value="" required />
                 </div>
-                <div class="form-group col-12">
+                <div class="form-group col-12 m-b-0">
                     <label for="txtComentary">Contraseña</label>
-                    <input type="password" id="inputPassword1" name="inputPassword1" class="form-control" value="" />
+                    <input type="password" id="inputPassword1" name="inputPassword1" class="form-control" value="" required />
+                    <div id="meter"></div>
+                    <span id="result"></span>
                 </div>
                 <div class="form-group col-12">
                     <label for="txtComentary">Repita Contraseña</label>
-                    <input type="password" id="inputPassword2" name="inputPassword2" class="form-control" value="" />
+                    <input type="password" id="inputPassword2" name="inputPassword2" class="form-control" value="" required />
                 </div>
+
             </div>
             <div class="modal-footer">
-                <button onclick="SaveUser()" type="button" class="btn btn-warning" data-dismiss="modal">Grabar</button>
+                <button onsubmit="" onclick="SaveUser(event)" type="button" class="btn btn-warning">Grabar</button>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -86,11 +112,16 @@
     <script>
 
         $(document).ready(function () {
-
-            APIController.GetAllSystemUser().then((res) => {
+            $("#meter").progressbar();
+            
+            $("#inputPassword1").keyup(function(){
+                checkPassword($("#inputPassword1").val());
+		    });
+           APIController.GetAllSystemUser().then((res) => {
                 renderTable(res.Data);
+                initDataTable();
             });
-        });
+        });       
 
         function renderTable(data) {
             let content = "";
@@ -98,15 +129,18 @@
 
                 content += "<tr>";
                 content += "<td>" + data[i].UserName + "</td>";
-                content += "<td><a onclick='openModalUser("+data[i].SystemUserId+")' data-toggle='tooltip'  data-original-title='Usuario'><i class='fa fa-user btn waves-effect waves-light btn-secondary'></i></a></td>";
-                content += "<td><a onclick='registerAccess("+data[i].SystemUserId+")' data-toggle='tooltip'  data-original-title='Registrar Accesos'><i class='fa fa-lock btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "<td><a onclick='openModalUser("+data[i].SystemUserId+"," + data[i].PersonId + ")' data-toggle='tooltip'  data-original-title='Usuario'><i class='fa fa-user btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "<td><a onclick='registerAccess(" + data[i].SystemUserId + ")' data-toggle='tooltip'  data-original-title='Registrar Accesos'><i class='fa fa-lock btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "<td><a onclick='enviarCorreo("+data[i].SystemUserId+")' data-toggle='tooltip'  data-original-title='Enviar Correo'><i class='fa fa-send btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "</tr>";
             }
 
-            $('#table-systemusers tbody').append(content);
+            $('#table-systemusers tbody').append(content);            
+        }
 
-            $('#table-systemusers').dataTable({
-                "columns": [{'width':'90%'},{'width':'5%',"className":"dt-center"},{'width':'5%',"className":"dt-center"}],
+        function initDataTable() {
+            $('#table-systemusers').dataTable({                
+                "columns": [{'width':'85%'},{'width':'5%',"className":"dt-center"},{'width':'5%',"className":"dt-center"},{'width':'5%',"className":"dt-center"}],
                 dom: 'lfrtip',
                 "language": {
                     "sProcessing": "Procesando...",
@@ -135,18 +169,41 @@
             });
         }
 
+        function Filter() {
+            $('#table-systemusers tbody').empty();
+            APIController.GetAllSystemUser().then((res) => {                 
+                 let content = "";
+                let data = res.Data;
+                
+                for (var i = 0; i < data.length; i++) {
+
+                    content += "<tr>";
+                    content += "<td>" + data[i].UserName + "</td>";
+                    content += "<td><a onclick='openModalUser("+data[i].SystemUserId+"," + data[i].PersonId + ")' data-toggle='tooltip'  data-original-title='Usuario'><i class='fa fa-user btn waves-effect waves-light btn-secondary'></i></a></td>";
+                    content += "<td><a onclick='registerAccess("+data[i].SystemUserId+")' data-toggle='tooltip'  data-original-title='Registrar Accesos'><i class='fa fa-lock btn waves-effect waves-light btn-secondary'></i></a></td>";
+                    content += "</tr>";
+                }
+
+                $('#table-systemusers tbody').append(content);
+            });
+        }
+
         function registerAccess(id) {
             var url = @SigesoftWebUI.Models.Script.Action("Register", "SystemUser", new { id="js:id"});
             location.href = url;
         }
 
-        function openModalUser(id) {    
+        function openModalUser(idUser, idPerson) {    
             clearModal();
-            if (id != 0) {
+            if (idUser != 0) {
+                $("#hiddenSystemUserId").val(idUser);
+                $("#hiddenPersonId").val(idPerson);
+
                 $("#labelModalUser").html("Editar Usuario");
-                APIController.GetUser(id).then((res) => {
+                APIController.GetUser(idUser).then((res) => {
                     let dataUser = res.Data;
                     APIController.GetPerson(res.Data.PersonId).then((res) => {
+                        
                         let dataPerson = res.Data;                            
                         $("#inputFirstName").val(dataPerson.FirstName);
                         $("#inputFirstLastName").val(dataPerson.FirstLastName);
@@ -157,6 +214,7 @@
                     });
                 });
             } else {
+                $("#hiddenSystemUserId").val(0);
                 $("#labelModalUser").html("Nuevo Usuario");
             }
 
@@ -164,11 +222,129 @@
         }
 
         function clearModal() {
+            $("#hiddenSystemUserId").val(0);
             $("#inputFirstName").val("");
             $("#inputFirstLastName").val("");
             $("#inputSecondtLastName").val("");
             $("#inputEmail").val("");
             $("#inputUserName").val("");
+            $("#inputPassword1").val("");
+            $("#inputPassword2").val("");
+        }
+
+        function ValidateEqualPasswords() {
+             
+            let p1 = $("#inputPassword1").val();
+            let p2 = $("#inputPassword2").val();
+            if (p1 !== p2) {
+                console.log("???");
+                newAlert("#inputPassword1", "VALIDACIÓN", "Las contraseñas no son iguales");
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+
+        function SaveUser(event) {
+
+            if (!ValidateEqualPasswords()) return false;
+
+            if (ValidateModalUSer(event)) {
+                let idUser = $("#hiddenSystemUserId").val();
+                let idPerson = $("#hiddenPersonId").val();
+
+                if (idUser == 0) {
+                    let params = {
+                        "FirstName": $("#inputFirstName").val(),
+                        "FirstLastName": $("#inputFirstLastName").val(),
+                        "SecondLastName": $("#inputSecondtLastName").val(),
+                    }
+                    APIController.SavePerson(params).then((res) => {
+                       
+                        let datauser = res.Data;
+                        let params = {
+                            "PersonId": datauser.PersonId,
+                            "UserName": $("#inputUserName").val(),
+                            "Password": $("#inputPassword1").val(),
+                            "Email": $("#inputEmail").val()                            
+                        }
+                        APIController.SaveUser(params).then((res) => {
+                            $("#ModalUser").modal("hide");
+                            Filter();
+                        });
+                    });
+
+                } else if (idUser > 0) {
+                        
+                    let params = {
+                        "PersonId": idPerson,
+                        "FirstName": $("#inputFirstName").val(),
+                        "FirstLastName": $("#inputFirstLastName").val(),
+                        "SecondLastName": $("#inputSecondtLastName").val(),
+                    }
+
+                    APIController.UpdatePerson(params).then((res) => {
+                        
+                        let params = {
+                            "SystemUserId": idUser,
+                            "UserName": $("#inputUserName").val(),
+                            "Password": $("#inputPassword1").val(),
+                            "Email": $("#inputEmail").val()                            
+                        }
+                        APIController.UpdateUser(params).then((res) => {                            
+                            $("#ModalUser").modal("hide");
+                            Filter();
+                        });
+                    });
+                }                
+            }
+        }
+
+        function ValidateModalUSer(event) {           
+
+            //I)eliminar la clase error
+            clearErrors();
+            //II)Valida inputs
+            var validateFirstName = validateInputUser("inputFirstName", "Primer Nombre requerido");
+            var validateFirtsLastName = validateInputUser("inputFirstLastName", "Apellido Parteno requerido");
+            var validateSecondLastName = validateInputUser("inputSecondtLastName", "Apellido Materno requerido");
+            //var validateEmail = validateInput("inputEmail", "Email requerido");
+            var validateUsernName = validateInputUser("inputUserName", "Usuario requerido");
+
+            var validatePassword1 = validateInputUser("inputPassword1", "Password requerido");
+            var validatePassword2 = validateInputUser("inputPassword2", "Confirmación de password requerido");
+            
+            //II)Retornar resultado de validación
+            if (validateFirstName && validateFirtsLastName && validateSecondLastName && validateUsernName && validatePassword1 && validatePassword2) {       
+                return true;
+            } else {   
+                return false;
+            }    
+        }
+
+        function clearErrors() {
+            $("#inputFirstName").removeClass('error');
+            $("#inputFirstLastName").removeClass('error');
+            $("#inputSecondtLastName").removeClass('error');
+            $("#inputEmail").removeClass('error');
+            $("#inputUserName").removeClass('error');   
+            $("#inputPassword1").removeClass('error');   
+            $("#inputPassword2").removeClass('error');   
+        }
+
+        function validateInputUser(id, message) {
+            let element = document.getElementById(id);    
+            if (!element.checkValidity()) {                         
+                newAlert(element, "VALIDACIÓN", message);
+                InputError(element);
+            return false;
+            }
+            return true;     
+        }
+
+        function enviarCorreo() {
+        
         }
     </script>
 

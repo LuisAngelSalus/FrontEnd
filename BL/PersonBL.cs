@@ -23,5 +23,27 @@ namespace BL
             }
             return obj;
         }
+
+        public Response<PersonDto> Save(PersonRegistertDto data, string token)
+        {
+            Response<PersonDto> obj = null;
+            var hCliente = _global.rspClient("People/", data, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<PersonDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
+        public Response<PersonUpdateDto> Update(PersonUpdateDto data, string token)
+        {
+            Response<PersonUpdateDto> obj = new Response<PersonUpdateDto>();
+            var hCliente = _global.rspClientPUT("People/"+data.PersonId, data, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<PersonUpdateDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
     }
 }
