@@ -85,27 +85,24 @@
                         <h4><span class="lstick"></span>Permisos</h4>                        
                     </div>
                     <div class="area">
-
-
                         @foreach (var company in companies)
                         {
-                        <div class="div-Owner">
+                        <div class="div-Owner ui-draggable ui-draggable-handle ui-draggable-disabled" style="position: relative; z-index: 100; left: 0px; top: 0px;">
                             <span class="close-owner" style="display: inline;">x</span>
                             <span id="btnOwner-@company.CompanyId" class="label label-info label-rounded">@company.CompanyName</span>
-                            @foreach (var role in company.Roles)
-                            {
-                                <div class="div-Owner-Role">
-                                    <div class="col-12 col-md-6 div-Role">
+                            <div class="div-Owner-Role ui-droppable">
+                                @foreach (var role in company.Roles)
+                                {
+
+                                    <div class="col-12 col-md-6 div-Role ui-draggable ui-draggable-handle ui-draggable-disabled" style="z-index: 200; left: 0px; top: 0px; position: relative;">
                                         <span class="close-owner" style="display: inline;">x</span>
                                         <span id="btnRole-@role.RolId" class="label label-warning label-rounded">@role.RolName</span>
                                     </div>
-                                </div>
-                            }
-                        </div>
+
+                                }
+                            </div>
+                            </div>
                         }
-
-
-
                     </div>
                 </div>
             </div>
@@ -126,8 +123,33 @@
 
             var htmlRoles = {};
             var htmlCompanies = {};
+            var optionDroppableRole = {    
+                        accept: function (event) {
+                            let draggableElement = $(event).children().eq(1).attr('id');                            
+                            let count = $(this).find("#"+draggableElement).length;
+                            if (count == 0) return true;
+                            return false;
+                        },
+                        hoverClass: "ui-state-highlight",
+                        scope: "role",
+                        drop: function (event, ui) {
+                            let draggableElement = ui.draggable;
+                            let droppedOn = $(this);
+                            $(draggableElement)
+                                .css({
+                                    top: 0,
+                                    left: 0,
+                                    position: "relative"
+                                }).appendTo(droppedOn);
+
+                            $(draggableElement).children().show();
+                            $(draggableElement).draggable("disable");
+                            renderRoles(htmlRoles);
+                        }
+                    };
 
             $(document).ready(function () {
+                $(".div-Owner-Role").droppable(optionDroppableRole);
 
                 $('.area').on('click', '.close-owner', function (event) {
                     let isOwner = $(this).parent().hasClass("div-Owner");
@@ -146,10 +168,17 @@
                 });
 
                 $(".area").droppable({
+                    accept: function (event) {
+                            let draggableElement = $(event).children().eq(1).attr('id');
+                            
+                            let count = $(this).find("#"+draggableElement).length;
+                        if (count == 0) return true;
+
+                            return false;
+                        },
                     hoverClass: "ui-state-highlight",
                     scope: "area-owner",
                     drop: function (event, ui) {
-
                         //Add element OWNER
                         let draggableElement = ui.draggable;
                         let droppedOn = $(this);
@@ -163,24 +192,7 @@
                         $(draggableElement).children().show();
                         $(draggableElement).draggable("disable");
                         //Add element ROLE
-                        $("<div class='div-Owner-Role'></div>").appendTo(draggableElement).droppable({
-                            hoverClass: "ui-state-highlight",
-                            scope: "role",
-                            drop: function (event, ui) {
-                                let draggableElement = ui.draggable;
-                                let droppedOn = $(this);
-                                $(draggableElement)
-                                    .css({
-                                        top: 0,
-                                        left: 0,
-                                        position: "relative"
-                                    }).appendTo(droppedOn);
-
-                                $(draggableElement).children().show();
-                                $(draggableElement).draggable("disable");
-                                renderRoles(htmlRoles);
-                            }
-                        });
+                        $("<div class='div-Owner-Role'></div>").appendTo(draggableElement).droppable(optionDroppableRole);
                     }
                 });
 
@@ -200,8 +212,10 @@
                     htmlRoles = res[1];
                 });
                                
-                function renderOwnerCompanies(data) {
-                    //$(".owner-group").empty();
+               
+            });
+
+             function renderOwnerCompanies(data) {                    
                     for (var i = 0; i < data.length; i++) {
                         let exists = $(".owner-group #btnOwner-"+ data[i].OwnerCompanyId).length;
                         if (exists == 0) {
@@ -228,7 +242,5 @@
                             .draggable({ revert: "invalid", scope: "role", start: function (event, ui) { $(this).css("z-index", 200); } })
                     }
                 }
-            });
-
         </script>
     }
