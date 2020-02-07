@@ -283,6 +283,7 @@
     <Compile Include="Controllers\InfoSunatController.cs" />
     <Compile Include="Controllers\IngresoSistemaController.cs" />
     <Compile Include="Controllers\OwnerCompanyController.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\QuoteTrackingController.cs" />
@@ -1661,6 +1662,7 @@
     <Folder Include="Views\Generic\" />
     <Folder Include="Views\InfoSunat\" />
     <Folder Include="Views\OwnerCompany\" />
+    <Folder Include="Views\Person\" />
     <Folder Include="Views\ProtocolProfile\" />
     <Folder Include="Views\QuoteTracking\" />
     <Folder Include="Views\Role\" />

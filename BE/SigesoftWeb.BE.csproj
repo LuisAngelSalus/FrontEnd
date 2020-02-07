@@ -54,6 +54,7 @@
     <Compile Include="ListRoleDto.cs" />
     <Compile Include="ListSystemUserDto.cs" />
     <Compile Include="LoginDto.cs" />
+    <Compile Include="PersonDto.cs" />
     <Compile Include="PriceListDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtocolProfileDto.cs" />

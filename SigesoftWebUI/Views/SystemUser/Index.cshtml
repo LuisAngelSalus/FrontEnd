@@ -19,12 +19,14 @@
 
 <div class="card">
     <div class="card-body">
+        <button onclick="openModalUser(0)" class="btn btn-success waves-effect waves-light m-b-10">Nuevo Usuario</button>
         <div class="table-responsive m-t-20">
             <table id="table-systemusers" class="table table-bordered table-hover">
                 <thead class="table-info">
                     <tr>
                         <th>Usuario</th>
-                        <th class="text-nowrap">Acciones</th>
+                        <th class="text-nowrap">Editar</th>
+                        <th class="text-nowrap">Accesos</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +35,52 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ModalUser" tabindex="-1" role="dialog" aria-labelledby="TrackingModalLabel1">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="labelModalUser">Nuevo Usuario</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>            
+            <div class="modal-body" style="padding: 0">
+                <div class="form-group col-12">
+                    <label for="txtComentary">Primer Nombre</label>
+                    <input type="text" id="inputFirstName" name="inputFirstName" class="form-control" value="" />
+                </div>
+                <div class="form-group col-12">
+                    <label for="txtComentary">Apellido Paterno</label>
+                    <input type="text" id="inputFirstLastName" name="inputFirstLastName" class="form-control" value="" />
+                </div>
+                <div class="form-group col-12">
+                    <label for="txtComentary">Apellido Materno</label>
+                    <input type="text" id="inputSecondtLastName" name="inputSecondtLastName" class="form-control" value="" />
+                </div>
+                <div class="form-group col-12">
+                    <label for="txtComentary">Email</label>
+                    <input type="text" id="inputEmail" name="inputEmail" class="form-control" value="" />
+                </div>
+                <div class="form-group col-12">
+                    <label for="txtComentary">Usuario</label>
+                    <input type="text" id="inputUserName" name="inputUserName" class="form-control" value="" />
+                </div>
+                <div class="form-group col-12">
+                    <label for="txtComentary">Contraseña</label>
+                    <input type="password" id="inputPassword1" name="inputPassword1" class="form-control" value="" />
+                </div>
+                <div class="form-group col-12">
+                    <label for="txtComentary">Repita Contraseña</label>
+                    <input type="password" id="inputPassword2" name="inputPassword2" class="form-control" value="" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="SaveUser()" type="button" class="btn btn-warning" data-dismiss="modal">Grabar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section scripts{
     <script src="~/Scripts/APIController.js"></script>
     <script>
@@ -49,17 +97,16 @@
             for (var i = 0; i < data.length; i++) {
 
                 content += "<tr>";
-                content += "<td>"+data[i].UserName+"</td>";
-                content += "<td>";                
-                content += "<a onclick='updateResult("+data[i].SystemUserId+")' data-toggle='tooltip'  data-original-title='Edit'><i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a>";
-                content += "</td>";
+                content += "<td>" + data[i].UserName + "</td>";
+                content += "<td><a onclick='openModalUser("+data[i].SystemUserId+")' data-toggle='tooltip'  data-original-title='Usuario'><i class='fa fa-user btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "<td><a onclick='registerAccess("+data[i].SystemUserId+")' data-toggle='tooltip'  data-original-title='Registrar Accesos'><i class='fa fa-lock btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "</tr>";
             }
 
             $('#table-systemusers tbody').append(content);
 
             $('#table-systemusers').dataTable({
-                "columns": [{'width':'95%'},{'width':'5%',"className":"dt-center"}],
+                "columns": [{'width':'90%'},{'width':'5%',"className":"dt-center"},{'width':'5%',"className":"dt-center"}],
                 dom: 'lfrtip',
                 "language": {
                     "sProcessing": "Procesando...",
@@ -88,11 +135,41 @@
             });
         }
 
-        function updateResult(id) {
+        function registerAccess(id) {
             var url = @SigesoftWebUI.Models.Script.Action("Register", "SystemUser", new { id="js:id"});
-
             location.href = url;
-    }
+        }
+
+        function openModalUser(id) {    
+            clearModal();
+            if (id != 0) {
+                $("#labelModalUser").html("Editar Usuario");
+                APIController.GetUser(id).then((res) => {
+                    let dataUser = res.Data;
+                    APIController.GetPerson(res.Data.PersonId).then((res) => {
+                        let dataPerson = res.Data;                            
+                        $("#inputFirstName").val(dataPerson.FirstName);
+                        $("#inputFirstLastName").val(dataPerson.FirstLastName);
+                        $("#inputSecondtLastName").val(dataPerson.SecondLastName);
+                        $("#inputEmail").val(dataUser.Email);
+                        $("#inputUserName").val(dataUser.UserName);
+
+                    });
+                });
+            } else {
+                $("#labelModalUser").html("Nuevo Usuario");
+            }
+
+            $("#ModalUser").modal("show");
+        }
+
+        function clearModal() {
+            $("#inputFirstName").val("");
+            $("#inputFirstLastName").val("");
+            $("#inputSecondtLastName").val("");
+            $("#inputEmail").val("");
+            $("#inputUserName").val("");
+        }
     </script>
 
 }

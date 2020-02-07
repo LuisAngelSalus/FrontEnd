@@ -402,6 +402,29 @@
         });
     }
 
+    var user = function (userId) {
+        return new Promise((resolve, reject) => {
+            fetch('/SystemUser/GetUser?userId=' + userId, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var person = function (personId) {
+        return new Promise((resolve, reject) => {
+            fetch('/Person/GetPerson?personId=' + personId, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
 
     return {
         SaveCompany: function (parameters) {
@@ -557,17 +580,30 @@
                 systemUsers().then(res => resolve(res));
             });
         },
+
         GetRoles: function () {
             return new Promise((resolve, reject) => {
                 roles().then(res => resolve(res));
             });
         },
+
         GetOwnerCompanies: function () {
             return new Promise((resolve, reject) => {
                 ownerCompanies().then(res => resolve(res));
             });
         },
 
+        GetUser: function (userId) {
+            return new Promise((resolve, reject) => {
+                user(userId).then(res => resolve(res));
+            });
+        },
+
+        GetPerson: function (personId) {
+            return new Promise((resolve, reject) => {
+                person(personId).then(res => resolve(res));
+            });
+        },
     }
 
 })();
