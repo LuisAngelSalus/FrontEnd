@@ -282,14 +282,18 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoSunatController.cs" />
     <Compile Include="Controllers\IngresoSistemaController.cs" />
+    <Compile Include="Controllers\OwnerCompanyController.cs" />
     <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\QuoteTrackingController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SecuentialController.cs" />
+    <Compile Include="Controllers\SystemUserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
+    <Compile Include="Models\helper.cs" />
     <Compile Include="Models\ModelCompanyDetail.cs" />
     <Compile Include="Models\QuotationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1648,14 +1652,18 @@
     <Content Include="Views\Shared\_DashboardCommercialPartial.cshtml" />
     <Content Include="Views\Shared\_DashboardEmptyPartial.cshtml" />
     <Content Include="Views\Shared\_DashboardSistemasPartial.cshtml" />
+    <Content Include="Views\SystemUser\Index.cshtml" />
+    <Content Include="Views\SystemUser\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Generic\" />
     <Folder Include="Views\InfoSunat\" />
+    <Folder Include="Views\OwnerCompany\" />
     <Folder Include="Views\ProtocolProfile\" />
     <Folder Include="Views\QuoteTracking\" />
+    <Folder Include="Views\Role\" />
     <Folder Include="Views\Secuential\" />
   </ItemGroup>
   <ItemGroup>

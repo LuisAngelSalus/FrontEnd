@@ -49,7 +49,9 @@
     <Compile Include="ListCompanyContactDto.cs" />
     <Compile Include="ListCompanyDto.cs" />
     <Compile Include="ListComponentDto.cs" />
+    <Compile Include="ListOwnerCompanyDto.cs" />
     <Compile Include="ListQuoteTrackingDto.cs" />
+    <Compile Include="ListRoleDto.cs" />
     <Compile Include="ListSystemUserDto.cs" />
     <Compile Include="LoginDto.cs" />
     <Compile Include="PriceListDto.cs" />
@@ -61,6 +63,8 @@
     <Compile Include="QuoteTrackingUpdateDto.cs" />
     <Compile Include="SecuentialDto.cs" />
     <Compile Include="SessionModel.cs" />
+    <Compile Include="UserAccessDto.cs" />
+    <Compile Include="SystemUserDto.cs" />
     <Compile Include="ValidatedAccessDto.cs" />
   </ItemGroup>
   <ItemGroup>

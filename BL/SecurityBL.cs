@@ -33,5 +33,16 @@ namespace BL
             }
             return obj;
         }
+
+        public Response<List<SystemUserDto>> GetAllSystemUser(string token)
+        {
+            Response<List<SystemUserDto>> obj = null;
+            var hCliente = _global.rspClientGET("SystemUser/", token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<SystemUserDto>>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
     }
 }

@@ -363,6 +363,46 @@
 
     }
 
+    var systemUsers = function () {
+        return new Promise((resolve, reject) => {
+            fetch('/SystemUser/GetAllSystemUser', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var roles = function () {
+        return new Promise((resolve, reject) => {
+            fetch('/Role/Roles', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var ownerCompanies = function () {
+        return new Promise((resolve, reject) => {
+            fetch('/OwnerCompany/GetAll', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -511,6 +551,23 @@
                 setPrice(parameters).then(res => resolve(res));
             });
         },
+
+        GetAllSystemUser: function () {
+            return new Promise((resolve, reject) => {
+                systemUsers().then(res => resolve(res));
+            });
+        },
+        GetRoles: function () {
+            return new Promise((resolve, reject) => {
+                roles().then(res => resolve(res));
+            });
+        },
+        GetOwnerCompanies: function () {
+            return new Promise((resolve, reject) => {
+                ownerCompanies().then(res => resolve(res));
+            });
+        },
+
     }
 
 })();

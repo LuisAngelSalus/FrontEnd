@@ -1,0 +1,234 @@
+﻿@{ 
+    var companies = ViewBag.UserAccess.Companies;
+
+}
+<style>
+    .div-Owner span {
+        padding: 15px;
+        margin: 10px;
+        font-size: large;
+        display: block;
+        cursor: pointer;
+    }
+
+    .div-Role span {
+        padding: 10px;
+        margin: 10px;
+        font-size: medium;
+        display: block;
+        cursor: pointer;
+        text-align:center;
+    }
+
+    .area {
+        min-height: 50px;
+        height: auto;
+    }
+
+    .div-Owner-Role {
+        min-height: 20px;
+        height: auto;
+    }
+
+    .div-Owner .close-owner,
+    .div-Role .close-owner {
+        float: right;
+        display: inline-block;
+        padding: 2px 5px;
+        margin: 0;
+        left: -20px;
+        position: relative;
+        color: gray;
+        font-weight: 600;
+        display: none;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <h4>Luis de la Cruz Medina <strong>(Luis.Sistemas)</strong></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <h4><span class="lstick"></span>Empresas</h4>
+                    </div>
+                    <div class="owner-group">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <h4><span class="lstick"></span>Roles</h4>
+                    </div>
+                    <div class="row button-group roles-group">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-body ">
+                    <div class="d-flex">
+                        <h4><span class="lstick"></span>Permisos</h4>                        
+                    </div>
+                    <div class="area">
+
+
+                        @foreach (var company in companies)
+                        {
+                        <div class="div-Owner">
+                            <span class="close-owner" style="display: inline;">x</span>
+                            <span id="btnOwner-@company.CompanyId" class="label label-info label-rounded">@company.CompanyName</span>
+                            @foreach (var role in company.Roles)
+                            {
+                                <div class="div-Owner-Role">
+                                    <div class="col-12 col-md-6 div-Role">
+                                        <span class="close-owner" style="display: inline;">x</span>
+                                        <span id="btnRole-@role.RolId" class="label label-warning label-rounded">@role.RolName</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <h4><span class="lstick"></span>Detalle</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+        <script src="~/Scripts/APIController.js"></script>
+        <script type="text/javascript">
+
+            var htmlRoles = {};
+            var htmlCompanies = {};
+
+            $(document).ready(function () {
+
+                $('.area').on('click', '.close-owner', function (event) {
+                    let isOwner = $(this).parent().hasClass("div-Owner");
+                    if (!isOwner) {
+                        $(this).parent().remove();
+                    } else {                        
+                        let roles = $(".div-Owner .div-Role").length;
+                        
+                        if (roles > 0)
+                            return false;
+                        else {
+                            $(this).parent().remove();
+                            renderOwnerCompanies(htmlCompanies);
+                        }
+                    }                   
+                });
+
+                $(".area").droppable({
+                    hoverClass: "ui-state-highlight",
+                    scope: "area-owner",
+                    drop: function (event, ui) {
+
+                        //Add element OWNER
+                        let draggableElement = ui.draggable;
+                        let droppedOn = $(this);
+                        $(draggableElement)
+                            .css({
+                                top: 0,
+                                left: 0,
+                                position: "relative"
+                            }).appendTo(droppedOn);
+
+                        $(draggableElement).children().show();
+                        $(draggableElement).draggable("disable");
+                        //Add element ROLE
+                        $("<div class='div-Owner-Role'></div>").appendTo(draggableElement).droppable({
+                            hoverClass: "ui-state-highlight",
+                            scope: "role",
+                            drop: function (event, ui) {
+                                let draggableElement = ui.draggable;
+                                let droppedOn = $(this);
+                                $(draggableElement)
+                                    .css({
+                                        top: 0,
+                                        left: 0,
+                                        position: "relative"
+                                    }).appendTo(droppedOn);
+
+                                $(draggableElement).children().show();
+                                $(draggableElement).draggable("disable");
+                                renderRoles(htmlRoles);
+                            }
+                        });
+                    }
+                });
+
+                let roles = APIController.GetRoles().then((res) => {
+                    return res.Data;
+                });
+
+                let companiesOwner = APIController.GetOwnerCompanies().then((res) => {
+                    return res.Data;
+                });
+
+                Promise.all([companiesOwner, roles]).then((res) => {
+                    renderOwnerCompanies(res[0]);
+                    renderRoles(res[1]);
+
+                    htmlCompanies = res[0];
+                    htmlRoles = res[1];
+                });
+                               
+                function renderOwnerCompanies(data) {
+                    //$(".owner-group").empty();
+                    for (var i = 0; i < data.length; i++) {
+                        let exists = $(".owner-group #btnOwner-"+ data[i].OwnerCompanyId).length;
+                        if (exists == 0) {
+                            let = content = "";
+                        content += "<div class='div-Owner'>";
+                        content += "<span class='close-owner'>x</span>";
+                        content += "<span id='btnOwner-" + data[i].OwnerCompanyId + "' class='label label-info label-rounded'>" + data[i].OwnerCompanyName + "</span>";
+                        content += "</div>";
+                        $(content).appendTo(".owner-group")
+                            .draggable({ revert: "invalid", scope: "area-owner", start: function (event, ui) { $(this).css("z-index", 100); } })
+                        }                        
+                    }
+                }
+
+                function renderRoles(data) {
+                    $(".roles-group").empty();
+                    for (var i = 0; i < data.length; i++) {
+                        let content = "";
+                        content += "<div class='col-12 col-md-6 div-Role'>";
+                        content += "<span class='close-owner'>x</span>";
+                        content += "<span id='btnRole-" + data[i].RoleId + "' class='label label-warning label-rounded'>" + data[i].RoleName + "</span>";
+                        content += "</div>";
+                        $(content).appendTo(".roles-group")
+                            .draggable({ revert: "invalid", scope: "role", start: function (event, ui) { $(this).css("z-index", 200); } })
+                    }
+                }
+            });
+
+        </script>
+    }
