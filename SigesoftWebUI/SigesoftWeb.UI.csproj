@@ -1611,6 +1611,8 @@
     <Content Include="Scripts\Export\jspdf.min.js" />
     <Content Include="Scripts\Export\jspdf.plugin.autotable.js" />
     <Content Include="Scripts\Export\jspdf.plugin.standard_fonts_metrics.js" />
+    <Content Include="Scripts\jquery.ui.touch-punch.js" />
+    <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />

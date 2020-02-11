@@ -125,6 +125,8 @@
 @section scripts{
     <script src="~/Scripts/APIController.js"></script>
     <div>
+        <script src="~/Scripts/jquery.ui.touch-punch.js"></script>
+        <script>$('#widget').draggable();</script>
         <script type="text/javascript">
 
             var htmlRoles = {};
@@ -155,6 +157,7 @@
             };
 
             $(document).ready(function () {
+                //init();
                 $(".div-Owner-Role").droppable(optionDroppableRole);
 
                 $('.area').on('click', '.close-owner', function (event) {
@@ -250,39 +253,63 @@
             }
 
             function SaveAccess() {
+
                 let objData = [];
-                        $(".area .div-Owner").each(function (key, value) {
-                            let access = {}
-                            access.UserId = $("#hiddenUserId").val();
-                            access.OwnerCompanyId = $(value).children().eq(1).attr('id').split("-")[1];
-                            access.roles = [];
-                            let roles = $(value).find('.div-Role');
-                            roles.each(function (key, value) {
-                                let roleId = $(value).children().eq(1).attr('id').split("-")[1];
-                                access.roles.push(roleId);
-                            });
-                            objData.push(access);
-                        });
+                $(".area .div-Owner").each(function (key, value) {
+                    let access = {}
+                    access.UserId = $("#hiddenUserId").val();
+                    access.OwnerCompanyId = $(value).children().eq(1).attr('id').split("-")[1];
+                    access.roles = [];
+                    let roles = $(value).find('.div-Role');
+                    roles.each(function (key, value) {
+                        let roleId = $(value).children().eq(1).attr('id').split("-")[1];
+                        access.roles.push(roleId);
+                    });
+                    objData.push(access);
+                });
 
                 ConfirmUpdateAccess(objData);
-                
+
             }
 
             function ConfirmUpdateAccess(objData) {
                 swal({
-                title: "Actualizar Accesos",
-                text: "¿Seguro de actualizar Accesos?",
-                type: "info",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true
-                }, function () {                                      
+                    title: "Actualizar Accesos",
+                    text: "¿Seguro de actualizar Accesos?",
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                }, function () {
                     APIController.SaveAccess(objData).then((res) => {
                         swal.close();
                     });
                 });
             }
 
+            //function touchHandler(event) {
+            //    var touch = event.changedTouches[0];
+
+            //    var simulatedEvent = document.createEvent("MouseEvent");
+            //    simulatedEvent.initMouseEvent({
+            //        touchstart: "mousedown",
+            //        touchmove: "mousemove",
+            //        touchend: "mouseup"
+            //    }[event.type], true, true, window, 1,
+            //        touch.screenX, touch.screenY,
+            //        touch.clientX, touch.clientY, false,
+            //        false, false, false, 0, null);
+
+            //    touch.target.dispatchEvent(simulatedEvent);
+            //    event.preventDefault();
+            //}
+
+            //function init() {
+            //    document.addEventListener("touchstart", touchHandler, true);
+            //    document.addEventListener("touchmove", touchHandler, true);
+            //    document.addEventListener("touchend", touchHandler, true);
+            //    document.addEventListener("touchcancel", touchHandler, true);
+            //}
         </script>
     </div>
 }
