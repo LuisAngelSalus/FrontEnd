@@ -45,7 +45,7 @@ $(document).ready(function () {
 
     });
 
-    $('.modal-content').on('change', '.checkbox', function (event) {
+    $('.modal-content-profile').on('change', '.checkbox', function (event) {
         if (event.target.checked) {
             ProcessObj(event.target.id, $(this).parent().parent().get(0), true);
         } else {
@@ -791,11 +791,7 @@ function LoadObj(res) {
 
             profileComponent.minPrice = detail[ii].MinPrice;
             profileComponent.listPrice = detail[ii].ListPrice;
-            //profileComponent.salePrice = detail[ii].SalePrice;
-            //var componentDB = objPriceList.filter((component) => {                
-            //    return component.ComponentId == profileComponent.componentId;
-            //});
-            //console.log("???", componentDB);
+            
             profileComponent.salePrice = SetPriceDB(profileComponent.componentId);
 
             profileComponents.push(profileComponent);
@@ -803,7 +799,7 @@ function LoadObj(res) {
     }
     obj.profileComponents = profileComponents;
 
-    //console.log(obj);
+    console.log("LOAD",obj);
 }
 
 function SetPriceDB(componentId) {
@@ -821,8 +817,6 @@ function SetPriceDB(componentId) {
 }
 
 function ProcessObj(componentId, event, val) {
-    //console.log(componentId, event, val, obj.profileComponents);
-    //console.log($(event).find('.catId').get(0).innerText);
     //ADD
     if (val) {
         AddItemObj(componentId, event);

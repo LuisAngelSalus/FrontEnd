@@ -1,0 +1,70 @@
+﻿<div class="row">
+    <div class="col-12 col-md-6">
+        <div class="card card-body">
+            <div class="form-group col-12">
+                <label for="txtCompany">Empresa</label>
+                <input type="text" class="form-control" id="txtCompany" value="">
+            </div>
+            <div class="col-12">
+                <div class="card">                                      
+                    <div class="table-responsive">
+                        <table id="table-protocols" class="table color-table primary-table">
+                            <thead>
+                                <tr>
+                                    <th>Selc</th>
+                                    <th>N.Prot.</th>
+                                    <th>T.EMO</th>
+                                    <th>Nombre</th>
+                                    <th>T.Ficha</th>
+                                    <th>Fecha</th>
+                                    <th>Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    
+                            </tbody>
+                        </table>
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="card card-body">
+            <div class="form-group col-12">                
+                <button onclick="AddExamenMigration()" class="btn btn-success waves-effect waves-light m-r-10">Añadir Examen</button>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="table-responsive">
+                        <table id="table-Protocol-Detail" class="table color-table primary-table">
+                            <thead>
+                                <tr>
+                                    <th>Categoría</th>
+                                    <th>Examen</th>
+                                    <th>P.Min</th>
+                                    <th>P.Lista</th>
+                                    <th>P.Venta</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    <script src="~/Scripts/APIController.js"></script>
+    <script src="~/Scripts/MigrateProtocol.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+}
+
+

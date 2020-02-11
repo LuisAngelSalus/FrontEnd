@@ -24,16 +24,7 @@ namespace BL
                 }
                
             }
-            return obj;
-            //else
-            //{
-            //    var hCliente = _global.rspClient("Company/", data);
-            //    if (hCliente.IsSuccessStatusCode)
-            //    {
-            //        obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
-            //    }
-            //    return obj;
-            //}
+            return obj;            
         }
 
         public Response<List<DropdownListDto>> DropdownList(string token)

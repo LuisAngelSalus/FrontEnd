@@ -504,6 +504,42 @@
         });
     }
 
+    var CompanyByName = function (value) {
+        return new Promise((resolve, reject) => {
+            fetch('/Company/AutocompleteByName?value=' + value, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var ProtocolsByCompany = function (companyId) {
+        return new Promise((resolve, reject) => {
+            fetch('/Protocol/GetProtocolsByCompany?id=' + companyId, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }   
+
+    var ProtocolDetailByProtocolId = function (protocolId) {
+        return new Promise((resolve, reject) => {
+            fetch('/ProtocolDetail/GetProtocolDetailByProtocol?id=' + protocolId, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }   
+    
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -706,11 +742,30 @@
                 updateUser(parameters).then(res => resolve(res));
             });
         },
+
         SaveAccess: function (parameters) {
             return new Promise((resolve, reject) => {
                 saveAccess(parameters).then(res => resolve(res));
             });
-        }        
+        },
+
+        AutocompleteCompanyByName: function (value) {
+            return new Promise((resolve, reject) => {
+                CompanyByName(value).then(res => resolve(res));
+            });
+        },
+
+        GetAllProtocolsByCompany: function (id) {
+            return new Promise((resolve, reject) => {
+                ProtocolsByCompany(id).then(res => resolve(res));
+            });
+        },
+
+        GetProtocolDetailByProtocolId: function (id) {
+            return new Promise((resolve, reject) => {
+                ProtocolDetailByProtocolId(id).then(res => resolve(res));
+            });
+        }
     }
 
 })();

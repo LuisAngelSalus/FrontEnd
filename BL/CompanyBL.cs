@@ -84,5 +84,18 @@ namespace BL
             return obj;
         }
 
+        public Response<List<ListCompanyDto>> AutocompleteByName(string value,string token)
+        {
+            Response<List<ListCompanyDto>> obj = null;
+            var hCliente = _global.rspClientGET("Company/"+ value + "/AutocompleteByName", token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<ListCompanyDto>>>(hCliente.Content.ReadAsStringAsync().Result);        
+
+            }
+            return obj;
+        }
+
+        
     }
 }

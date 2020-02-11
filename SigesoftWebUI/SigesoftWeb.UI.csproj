@@ -284,6 +284,8 @@
     <Compile Include="Controllers\IngresoSistemaController.cs" />
     <Compile Include="Controllers\OwnerCompanyController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\ProtocolController.cs" />
+    <Compile Include="Controllers\ProtocolDetailController.cs" />
     <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\QuoteTrackingController.cs" />
@@ -1625,6 +1627,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\lz-string.js" />
+    <Content Include="Scripts\MigrateProtocol.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Quotation.js" />
     <Content Include="Scripts\QuotationValidation.js" />
@@ -1658,6 +1661,7 @@
     <Content Include="Views\Shared\_DashboardSistemasPartial.cshtml" />
     <Content Include="Views\SystemUser\Index.cshtml" />
     <Content Include="Views\SystemUser\Register.cshtml" />
+    <Content Include="Views\Quotation\_MigrateProtocolPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1666,7 +1670,9 @@
     <Folder Include="Views\InfoSunat\" />
     <Folder Include="Views\OwnerCompany\" />
     <Folder Include="Views\Person\" />
+    <Folder Include="Views\ProtocolDetail\" />
     <Folder Include="Views\ProtocolProfile\" />
+    <Folder Include="Views\Protocol\" />
     <Folder Include="Views\QuoteTracking\" />
     <Folder Include="Views\Role\" />
     <Folder Include="Views\Secuential\" />

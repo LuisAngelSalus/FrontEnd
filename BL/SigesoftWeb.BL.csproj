@@ -46,6 +46,8 @@
     <Compile Include="InfoSunatBL.cs" />
     <Compile Include="OwnerCompanyBL.cs" />
     <Compile Include="PersonBL.cs" />
+    <Compile Include="ProtocolBL.cs" />
+    <Compile Include="ProtocolDetailBL.cs" />
     <Compile Include="ProtocolProfileBL.cs" />
     <Compile Include="QuotationBL.cs" />
     <Compile Include="QuoteTrackingBL.cs" />
