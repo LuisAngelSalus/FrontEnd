@@ -62,7 +62,9 @@
     <Compile Include="ProtocolListDto.cs" />
     <Compile Include="ProtocolProfileDto.cs" />
     <Compile Include="ProtocolProfileRegisterDto.cs" />
+    <Compile Include="ProtocolRegisterDto.cs" />
     <Compile Include="QuotationDto.cs" />
+    <Compile Include="QuotationMigrateDto.cs" />
     <Compile Include="QuoteTrackingRegisterDto.cs" />
     <Compile Include="QuoteTrackingUpdateDto.cs" />
     <Compile Include="RegisterAccessDto.cs" />

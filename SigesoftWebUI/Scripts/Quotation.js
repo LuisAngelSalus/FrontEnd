@@ -2,8 +2,8 @@
 var objPriceList = {}
 
 $(document).ready(function () {
-
-
+    addLocalStoragComponents();
+    
     if ($("#txtQuotationId").val() != 0) {
         $(".select-StatusQuotation").attr("disabled", false);
         $("#txtRuc").attr("disabled", true);
@@ -335,6 +335,15 @@ $(document).ready(function () {
 
 });
 
+function addLocalStoragComponents() {
+    if (localStorage.getItem('components') == null) {
+        APIController.GetComponents().then((res) => {
+            //ADD LOCALSTORAGE
+            localStorage.setItem('components', JSON.stringify(res.Data));
+        });
+    }    
+}
+
 $('#profile').change(function () {
     $("#tbody-profile").text("obteniendo información");
     $("#tbody-profile-unselectd").text("obteniendo información");
@@ -544,9 +553,9 @@ function CalculateTotals() {
         var sumSubTotal = 0;
 
         var sales = $(tr).find('.salePrice');
+      
         $(sales).each(function () {
-
-            //console.log($(this).parent().parent().find(".RecordStatus").text());
+                        
             if ($(this).parent().parent().find(".RecordStatus").text() != "ELIMINADOLOGICO") {
                 compTotal++;
                 var value = $(this).get(0).value;
@@ -567,13 +576,17 @@ function CalculateTotals() {
         if (!isNaN(sumSubTotal)) {
             sumTotal += parseFloat(sumSubTotal);
         }
-
-        //var numero = 1.77777777;
+    
         sumTotal = Number(sumTotal.toFixed(2));
-
-        $('.Total').text(sumTotal);
-        $('.nroTotalComp').text(compTotal);
+        
+        
+        
+        
     })
+        $('.nroTotalComp').text(compTotal);
+        let tramite = parseFloat($(".Tramite").text());        
+        sumTotal = sumTotal + tramite;
+        $('.Total').text(sumTotal);
 }
 
 function SaveProfile() {
@@ -803,13 +816,7 @@ function LoadObj(res) {
 }
 
 function SetPriceDB(componentId) {
-    //console.log("componentId", componentId);
-    if (componentId == "N103-ME000000447") {
-        var xxx = objPriceList.filter((component) => {
-            return component.ComponentId == componentId;
-        });
-        console.log("XXX", xxx);
-    }
+
     var componentDB = objPriceList.filter((component) => {
         return component.ComponentId == componentId;
     });
@@ -1351,7 +1358,6 @@ function GetNameCategory(id) {
 }
 
 function RemoveProfile(event) {
-    //console.log("???");
     var recordType = $(event.target).parent().parent().find(".RecordType").html();
     var recordStatus = $(event.target).parent().parent().find(".RecordStatus").html();
     var idTr = $(event.target).parent().parent().attr('id');
@@ -1363,6 +1369,7 @@ function RemoveProfile(event) {
                 $(tr).remove();
             }
         })
+        console.log("XXXX", $(event.target).parent().parent());
         $(event.target).parent().parent().remove();
     } else {
         $(event.target).parent().parent().find(".RecordType").text("NOTEMPORAL");

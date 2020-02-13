@@ -22,5 +22,18 @@ namespace BL
             }
             return obj;
         }
+
+        public Response<ProtocolListDto> Save(ProtocolRegisterDto data, string token)
+        {
+            Response<ProtocolListDto> obj = null;
+            
+            var hCliente = _global.rspClient("Protocol/", data, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<ProtocolListDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+            
+        }
     }
 }

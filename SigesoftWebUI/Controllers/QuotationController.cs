@@ -328,5 +328,20 @@ namespace SigesoftWebUI.Controllers
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult MigrateQuotationToProtocols(QuotationMigrateDto data)
+        {
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+            
+            var response = _quotationBL.MigrateQuotationToProtocols(data, validated.Token);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

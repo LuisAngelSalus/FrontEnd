@@ -458,64 +458,77 @@
 
     function SaveTracking(id) {
         let quotationTrackingId = $("#txthiddenQuotationTracking").val();
-        if (quotationTrackingId == 0) {
-            var params = {
+        let quotationId = $("#txthiddenQuotation").val();
+        let StatusQuotationId = $("#ddlStatusQuotation-" + quotationId + " option:selected").val();
+
+        //Si es aceptada entonces esta cotización convertirá en protocolo
+        if (StatusQuotationId == 2) {
+            swal({
+                title: "IMPORTANTE",
+                text: "Al ACEPTAR UNA COTIZACIÓN ESTA SE CONVERTIRÁ EN PROTOCOLO(S)",
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function (isConfirm) {
+                    if (isConfirm) {
+                        APISaveQuoteTrackingAndUpdateStatusQuotationId();
+                        MigrateQuotationToProtocol();
+                    }
+                    else {
+                        console.log("Canceló grabado");
+                    }
+            });                
+
+        } else {
+            //Nuevo Seguimiento
+            if (quotationTrackingId == 0) {
+                APISaveQuoteTrackingAndUpdateStatusQuotationId();
+            }            
+        }
+    }
+
+    function MigrateQuotationToProtocol() {
+        APIController
+            .MigrateQuotationToProtocols({ "QuotationId": $("#txthiddenQuotation").val() })
+            .then((res) => {
+                swal("Bien", "La cotización se migró correctamente", "success");
+            })
+    }
+
+    function APISaveQuoteTrackingAndUpdateStatusQuotationId() {
+         var params = {
                 "QuotationId": $("#txthiddenQuotation").val(),
                 "Commentary": $("#txtComentary").val(),
-                "StatusName": $("#ddlStatusQuotation-" + $("#txthiddenQuotation").val() + " option:selected").text(),
-                "InsertUserId": 1
-            }
-            APIController.SaveQuoteTracking(params).then((resp) => {
+                "StatusName": $("#ddlStatusQuotation-" + $("#txthiddenQuotation").val() + " option:selected").text(),                
+        }
+
+         APIController.SaveQuoteTracking(params).then((resp) => {
                 var data = resp.Data;
                 let content = "";
                 content += "<tr id='tr-"+data.QuoteTrackingId+"'>";
-                content += "<td  style='display:none'>" + data.QuoteTrackingId + "</td>";
-                //content += "<td>" + formatDate(new Date(GetDateFormat(data[i].ShippingDate))) + "</td>";
+                content += "<td  style='display:none'>" + data.QuoteTrackingId + "</td>";                
                 content += "<td>" + formatDate(new Date(GetDateFormat(data.Date))) + "</td>";
                 content += "<td>" + data.Version+ "</td>";
                 content += "<td>" + data.StatusName + "</td>";
-                content += "<td>" + data.Commentary + "</td>";
-                //content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "<td>" + data.Commentary + "</td>";                
                 content += "</tr>";
 
                 $("#tbody-Tracking-" + data.QuotationId).append(content);
                 let quotationId = $("#txthiddenQuotation").val();
                 let StatusQuotationId = $("#ddlStatusQuotation-" + quotationId + " option:selected").val();
-                //console.log(quotationId, StatusQuotationId);
-                APIController.UpdateQuotation({"QuotationId": quotationId, "StatusQuotationId": StatusQuotationId}).then((res) => {
+                
+                APIController.UpdateQuotation({ "QuotationId": quotationId, "StatusQuotationId": StatusQuotationId }).then((res) => {
+
                     Filter();
+
                 });
 
                 ClearPoupTracking();
             });
-        } else if (quotationTrackingId > 0) {
-
-            var params = {
-                "QuoteTrackingId": $("#txthiddenQuotationTracking").val(),
-                "QuotationId": $("#txthiddenQuotation").val(),
-                "Commentary": $("#txtComentary").val(),
-                "Date": $("#txtDate").val(),
-                "UpdateUserId": 1
-            }
-
-            APIController.UpdateQuoteTracking(params).then((resp) => {
-                var data = resp.Data;
-                $("#tr-" + data.QuoteTrackingId).empty();
-                let content = "";
-                content += "<td style='display:none'>" + data.QuoteTrackingId + "</td>";
-                content += "<td>" + $("#txthiddentxtDate").val() + "</td>";
-                content += "<td>" + data.Version + "</td>";
-                content += "<td>" + data.StatusName + "</td>";
-                content += "<td>" + data.Commentary + "</td>";
-                //content += "<td><a onclick='EditTracking(" + data.QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
-
-                $("#tr-" + data.QuoteTrackingId).append(content);
-
-                ClearPoupTracking();
-            });
-        }
 
     }
+
 
     function GetDateFormat(str) {
         var value = new Date(parseInt(str.replace(/(^.*\()|([+-].*$)/g, '')));
@@ -704,7 +717,7 @@
         });
         }
 
-        function viewPropuesta(code) {
+    function viewPropuesta(code) {
             //console.log(code);
             window.location.href = '/Quotation/ExportPlantilla?code=' + code;
         }

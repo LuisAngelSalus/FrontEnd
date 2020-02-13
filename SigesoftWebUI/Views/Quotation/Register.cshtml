@@ -93,6 +93,7 @@
                 text-align: center;
                 vertical-align: middle
             }
+            
     </style>
 
 
@@ -170,8 +171,8 @@
 <div class="card">
     <div class="card-body" style="text-align:right">
         <button onclick="openModal()" class="btn btn-success waves-effect waves-light m-r-10">Agregar Perfil</button>
-        <button onclick="openMigrateProtocol()" class="btn btn-success waves-effect waves-light m-r-10">Migrar Protocolo</button>
-        <button onclick="openCloneProtocol()" class="btn btn-success waves-effect waves-light m-r-10">Clonar Protocolo</button>
+        <button onclick="openMigrateProtocol('Migrar Protocolo')" class="btn btn-outline-warning waves-effect waves-light m-r-10">Migrar Protocolo</button>
+        <button onclick="openMigrateProtocol('Clonar Protocolo')" class="btn btn-outline-danger waves-effect waves-light m-r-10">Clonar Protocolo</button>
     </div>
 
     <div class="card card-body table-responsive">
@@ -302,10 +303,18 @@
                 }
             </tbody>
         </table>
-    </div>
+    </div>    
     <div class="card card-body table-total">
         <table class="table color-bordered-table muted-bordered-table">
             <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th style="text-align:right">Costo Trámite</th>
+                    <th ></th>
+                    <th class="Tramite col-center">0</th>
+                    <th></th>
+                </tr>
                 <tr>
                     <th></th>
                     <th></th>
@@ -649,14 +658,14 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel1">Migrar Protocolo</h4>
+                <h4 class="modal-title" id="exampleModalTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body" style="padding:0">
                 @Html.Partial("_MigrateProtocolPartial")
             </div>
             <div class="modal-footer">
-                <button onclick="SaveMigrateProtocol()" type="button" class="btn btn-warning" data-dismiss="modal">Guardar</button>
+                <button onclick="SaveMigrateProtocol()" type="button" class="btn btn-warning" data-dismiss="modal">Migrar</button>
             </div>
         </div>
     </div>

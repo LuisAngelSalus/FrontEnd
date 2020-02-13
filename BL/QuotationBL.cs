@@ -134,5 +134,16 @@ namespace BL
             return obj;
         }
 
+        public Response<bool> MigrateQuotationToProtocols(QuotationMigrateDto data, string token)
+        {
+            Response<bool> obj = null;
+            var hCliente = _global.rspClient("Quotation/MigrateToProtocols", data, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<bool>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
     }
 }
