@@ -17,7 +17,7 @@
     string Email = "";
     string CommercialTerms = "";
     int StatusQuotationId = -1;
-    if (ViewBag.DataQuotation != null)
+    if (ViewBag.DataQuotation.QuotationId != 0)
     {
         QuotationId = ViewBag.DataQuotation.QuotationId;
         Code = ViewBag.DataQuotation.Code == null ? "sin generar" : ViewBag.DataQuotation.Code;
@@ -194,7 +194,7 @@
             </thead>
             <tbody id="tbody-main">
 
-                @foreach (var profile in ViewBag.DataQuotation.QuotationProfiles)
+                @foreach (var profile in ViewBag.DataQuotation.QuotationProfile)
                 {
                     <tr id="perfil-@profile.QuotationProfileId" class="parent">
                         <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
@@ -248,48 +248,48 @@
                                 <tbody>
                                     @{
                                         var valor = "";
-                                        for (int i = 0; i < profile.ProfileComponents.Count; i++)
+                                        for (int i = 0; i < profile.ProfileComponent.Count; i++)
                                         {
-                                            var valorAntiguo = profile.ProfileComponents[i].CategoryName;
+                                            var valorAntiguo = profile.ProfileComponent[i].CategoryName;
                                             if (valor != valorAntiguo)
                                             {
                                                 valor = valorAntiguo;
-                                                <tr id="perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
-                                                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName')"></i></td>
+                                                <tr id="perfil-@profile.QuotationProfileId-@profile.ProfileComponent[i].CategoryName">
+                                                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponent[i].CategoryName')"></i></td>
 
-                                                    <td colspan="9">@profile.ProfileComponents[i].CategoryName</td>
+                                                    <td colspan="9">@profile.ProfileComponent[i].CategoryName</td>
                                                     <td style="display:none" class="col-center"></td>
                                                 </tr>
                                                 i--;
                                             }
                                             else
                                             {
-                                                <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponents[i].CategoryName">
-                                                    <td style="color:white">@profile.ProfileComponents[i].ProfileComponentId</td>
-                                                    <td style="display:none">@profile.ProfileComponents[i].CategoryId</td>
-                                                    <td style="display:none">@profile.ProfileComponents[i].ComponentId</td>
-                                                    <td style="display:none" class="RecordType">@profile.ProfileComponents[i].RecordType</td>
-                                                    <td style="display:none" class="RecordStatus">@profile.ProfileComponents[i].RecordStatus</td>
-                                                    <td>@profile.ProfileComponents[i].ComponentName</td>
+                                                <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponent[i].CategoryName">
+                                                    <td style="color:white">@profile.ProfileComponent[i].ProfileComponentId</td>
+                                                    <td style="display:none">@profile.ProfileComponent[i].CategoryId</td>
+                                                    <td style="display:none">@profile.ProfileComponent[i].ComponentId</td>
+                                                    <td style="display:none" class="RecordType">@profile.ProfileComponent[i].RecordType</td>
+                                                    <td style="display:none" class="RecordStatus">@profile.ProfileComponent[i].RecordStatus</td>
+                                                    <td>@profile.ProfileComponent[i].ComponentName</td>
                                                     <td>
                                                         <select class="form-control form-white select-ConditionalAge" id="ddlConditionalAge">
-                                                            <option value="-1" @(@profile.ProfileComponents[i].AgeConditionalId == null ? "selected" : "")></option>
-                                                            <option value="1" @(@profile.ProfileComponents[i].AgeConditionalId == 1 ? "selected" : "")>Mayores de</option>
-                                                            <option value="2" @(@profile.ProfileComponents[i].AgeConditionalId == 2 ? "selected" : "")>Menores de</option>
+                                                            <option value="-1" @(@profile.ProfileComponent[i].AgeConditionalId == null ? "selected" : "")></option>
+                                                            <option value="1" @(@profile.ProfileComponent[i].AgeConditionalId == 1 ? "selected" : "")>Mayores de</option>
+                                                            <option value="2" @(@profile.ProfileComponent[i].AgeConditionalId == 2 ? "selected" : "")>Menores de</option>
                                                         </select>
                                                     </td>
-                                                    <td><input class="form-control input-numeric" type="text" maxlength="2" min="0" max="90" onkeypress="validateInputNumber(event)" value="@profile.ProfileComponents[i].Age" /></td>
+                                                    <td><input class="form-control input-numeric" type="text" maxlength="2" min="0" max="90" onkeypress="validateInputNumber(event)" value="@profile.ProfileComponent[i].Age" /></td>
                                                     <td>
                                                         <select class="form-control form-white select-ConditionalGender" id="ddlConditionalGender">
-                                                            <option value="-1" @(@profile.ProfileComponents[i].GenderConditionalId == null ? "selected" : "")></option>
-                                                            <option value="1" @(@profile.ProfileComponents[i].GenderConditionalId == 1 ? "selected" : "")>Masculino</option>
-                                                            <option value="2" @(@profile.ProfileComponents[i].GenderConditionalId == 2 ? "selected" : "")>Femenino</option>
-                                                            <option value="2" @(@profile.ProfileComponents[i].GenderConditionalId == 3 ? "selected" : "")>Ambos</option>
+                                                            <option value="-1" @(@profile.ProfileComponent[i].GenderConditionalId == null ? "selected" : "")></option>
+                                                            <option value="1" @(@profile.ProfileComponent[i].GenderConditionalId == 1 ? "selected" : "")>Masculino</option>
+                                                            <option value="2" @(@profile.ProfileComponent[i].GenderConditionalId == 2 ? "selected" : "")>Femenino</option>
+                                                            <option value="2" @(@profile.ProfileComponent[i].GenderConditionalId == 3 ? "selected" : "")>Ambos</option>
                                                         </select>
                                                     </td>
-                                                    <td class="col-center">@profile.ProfileComponents[i].MinPrice</td>
-                                                    <td class="col-center">@profile.ProfileComponents[i].PriceList</td>
-                                                    <td class="col-center"><input type="text" id="@profile.ProfileComponents[i].ComponentId" class="salePrice input-numeric form-control" value="@profile.ProfileComponents[i].SalePrice" /> </td>
+                                                    <td class="col-center">@profile.ProfileComponent[i].MinPrice</td>
+                                                    <td class="col-center">@profile.ProfileComponent[i].PriceList</td>
+                                                    <td class="col-center"><input type="text" id="@profile.ProfileComponent[i].ComponentId" class="salePrice input-numeric form-control" value="@profile.ProfileComponent[i].SalePrice" /> </td>
                                                     <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveComponent(event)"></i></td>
                                                 </tr>
                                             }
@@ -345,7 +345,7 @@
                         </tr>
                     </thead>
                     <tbody id="tbody-Add-Examns">
-                        @foreach (var examAddi in ViewBag.DataQuotation.AdditionalComponentsQuotes)
+                        @foreach (var examAddi in ViewBag.DataQuotation.AdditionalComponentsQuote)
                         {
                             <tr id="@examAddi.AdditionalComponentsQuoteId">
 
@@ -522,7 +522,7 @@
             <div class="alert-popup-profile"></div>
             <div>
                 <div class="form-inline p-3">
-                    <input type="text" name="search" id="search" class="form-control form-control-lg rounded-0 border-info" placeholder="Buscar..." style="width:100%" />
+                    <input type="text" name="search" id="search" class="form-control form-control-lg rounded-0 border-info" placeholder="Buscar..." style="width:100%" autocomplete="off" />
                 </div>
             </div>
             <div class="col-9" style="position:absolute; margin-top:60px; z-index:2000;">

@@ -64,27 +64,27 @@ $(document).ready(function () {
     $('#tbody-Add-Examns').on('autocompletechange', '.tags', function (event) {
         getDataComponent(this.value, event);
     });
-
+      
     $("#search").keyup(function () {
         var searchText = $(this).val();
+        if (searchText.length < 4) { $("#show-list").empty(); return; }        
         var content = "";
         APIController.AutocompleteProtocolProfile(searchText).then((res) => {
             $("#show-list").empty();
             var data = res.Data;
+            console.log("RES", res);
             for (var i = 0; i < data.length; i++) {
 
                 let name = data[i].Value.toString().split('-')[0];
 
-                if (name === "EMPO") {
+                if (name === "EMPO") 
                     content += "<a href='#' id='" + data[i].Id + "' class='list-group-item list-group-item-action border-1 EMPO autocompleteProfile'>" + data[i].Value + "</a>";
-                } else if (name === "EMOP") {
+                 else if (name === "EMOP") 
                     content += "<a href='#' id='" + data[i].Id + "' class='list-group-item list-group-item-action border-1 EMOP autocompleteProfile'>" + data[i].Value + "</a>";
-                } else if (name === "EMOR") {
+                 else if (name === "EMOR") 
                     content += "<a href='#' id='" + data[i].Id + "' class='list-group-item list-group-item-action border-1 EMOR autocompleteProfile'>" + data[i].Value + "</a>";
-                } else {
+                else 
                     content += "<a href='#' id='" + data[i].Id + "' class='list-group-item list-group-item-action border-1  autocompleteProfile'>" + data[i].Value + "</a>";
-                }
-
 
             }
             $("#show-list").append(content);
@@ -118,7 +118,7 @@ $(document).ready(function () {
                     content += '<tr class="cat-' + data[i].CategoryId + '" style="display:none">';
                     content += '<td colspan="2">';
                     content += '<table class="table-examenes-profile">';
-                    content += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>';
+                    content += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>P.Min</th><th>P.Lista</th> <th>P.Venta</th></thead>';
                     content += '<tboby>';
                     for (var ii = 0; ii < data[i].Detail.length; ii++) {
                         content += '<tr>';
@@ -140,9 +140,8 @@ $(document).ready(function () {
                         content += data[i].Detail[ii].ComponentName;
                         content += '</td>';
                         content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
-                        content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';
-                        //content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + (data[i].Detail[ii].SalePrice == 0 ? "" : data[i].Detail[ii].SalePrice) + '" style="width:80px"> </td>';
-                        content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(data[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
+                        content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';                        
+                        content += '<td class="saleprice" style="text-align: center;"><input class="form-control salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(data[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
                         content += '<td style="display:none">' + data[i].Detail[ii].ComponentId+'</td>';
                         content += '</tr>';
                     }
@@ -167,7 +166,7 @@ $(document).ready(function () {
                     contentUn += '<tr class="uncat-' + unselectedData[i].CategoryId + '" style="display:none">';
                     contentUn += '<td colspan="2">';
                     contentUn += '<table class="table-examenes-profile-UnSelected">';
-                    contentUn += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>';
+                    contentUn += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>P.Min</th><th>P.Lista</th> <th>P.Venta</th></thead>';
                     contentUn += '<tboby>';
                     for (var ii = 0; ii < unselectedData[i].Detail.length; ii++) {
                         contentUn += '<tr>';
@@ -188,9 +187,8 @@ $(document).ready(function () {
                         contentUn += unselectedData[i].Detail[ii].ComponentName;
                         contentUn += '</td>';
                         contentUn += '<td class="minprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
-                        contentUn += '<td class="listprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].ListPrice + '</label></td>';
-                        //contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="" style="width:80px"> </td>';
-                        contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(unselectedData[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
+                        contentUn += '<td class="listprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].ListPrice + '</label></td>';                        
+                        contentUn += '<td class="saleprice" style="text-align: center;"><input class="form-control salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(unselectedData[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
                         contentUn += '<td style="display:none">' + unselectedData[i].Detail[ii].ComponentId + '</td>';
                         contentUn += '</tr>';
                     }
@@ -234,8 +232,8 @@ $(document).ready(function () {
             "InsertUserId": 4,
             "TotalQuotation": $(".Total").html(),
             "StatusQuotationId": $(".select-StatusQuotation option:selected").val(),
-            "QuotationProfiles": [],
-            "AdditionalComponentsQuotes": []
+            "QuotationProfile": [],
+            "AdditionalComponentsQuote": []
         }
 
         $("#tbody-main tr").each(function (index, tr) {
@@ -247,7 +245,7 @@ $(document).ready(function () {
                 oQuotationProfile.ProfileName = $(this).find("input").val();
                 var serviceType = $(this).find("td").eq(5);
                 oQuotationProfile.ServiceTypeId = $(serviceType.get(0)).find("#ddlService").val(),
-                    oQuotationProfile.ProfileComponents = [];
+                    oQuotationProfile.ProfileComponent = [];
                 oQuotationProfile.RecordType = $(this).find(".RecordType").html();
                 oQuotationProfile.RecordStatus = $(this).find(".RecordStatus").html();
                 $("#tbody-main tr").each(function (index, tr) {
@@ -268,13 +266,13 @@ $(document).ready(function () {
                                 oProfileComponent.RecordType = $(this).find(".RecordType").html();
                                 oProfileComponent.RecordStatus = $(this).find(".RecordStatus").html();
                                 //oProfileComponent.InsertUserId
-                                oQuotationProfile.ProfileComponents.push(oProfileComponent);
+                                oQuotationProfile.ProfileComponent.push(oProfileComponent);
                             }
                         });
                     }
                 });
 
-                data.QuotationProfiles.push(oQuotationProfile);
+                data.QuotationProfile.push(oQuotationProfile);
             }
         });
 
@@ -366,7 +364,7 @@ $('#profile').change(function () {
                 content += '<tr class="cat-' + data[i].CategoryId + '" style="display:none">';
                 content += '<td colspan="2">';
                 content += '<table class="table-examenes-profile">';
-                content += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>';
+                content += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>P.Min</th><th>P.Lista</th> <th>P.Venta</th></thead>';
                 content += '<tboby>';
                 for (var ii = 0; ii < data[i].Detail.length; ii++) {
                     content += '<tr>';
@@ -388,9 +386,8 @@ $('#profile').change(function () {
                     content += data[i].Detail[ii].ComponentName;
                     content += '</td>';
                     content += '<td class="minprice" style="text-align: center;"><label>' + data[i].Detail[ii].MinPrice + '</label></td>';
-                    content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';
-                    //content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + data[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
-                    content += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(data[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
+                    content += '<td class="listprice" style="text-align: center;"><label>' + data[i].Detail[ii].ListPrice + '</label></td>';                    
+                    content += '<td class="saleprice" style="text-align: center;"><input class="form-control salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(data[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
                     content += '</tr>';
                 }
                 content += '</tboby>';
@@ -414,7 +411,7 @@ $('#profile').change(function () {
                 contentUn += '<tr class="uncat-' + unselectedData[i].CategoryId + '" style="display:none">';
                 contentUn += '<td colspan="2">';
                 contentUn += '<table class="table-examenes-profile-UnSelected">';
-                contentUn += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>Precio Min</th><th>Precio Lista</th> <th>Precio Venta</th></thead>';
+                contentUn += '<thead><th></th><th style="display:none"></th><th style="display:none"></th><th>Examen</th><th>P.Min</th><th>P.Lista</th> <th>P.Venta</th></thead>';
                 contentUn += '<tboby>';
                 for (var ii = 0; ii < unselectedData[i].Detail.length; ii++) {
                     contentUn += '<tr>';
@@ -435,9 +432,8 @@ $('#profile').change(function () {
                     contentUn += unselectedData[i].Detail[ii].ComponentName;
                     contentUn += '</td>';
                     contentUn += '<td class="minprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].MinPrice + '</label></td>';
-                    contentUn += '<td class="listprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].ListPrice + '</label></td>';
-                    //contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + unselectedData[i].Detail[ii].SalePrice + '" style="width:80px"> </td>';
-                    contentUn += '<td class="saleprice" style="text-align: center;"><input class="salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(unselectedData[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
+                    contentUn += '<td class="listprice" style="text-align: center;"><label>' + unselectedData[i].Detail[ii].ListPrice + '</label></td>';                    
+                    contentUn += '<td class="saleprice" style="text-align: center;"><input class="form-control salepriceValue onlyDecimal" type="text" value="' + SetPriceDB(unselectedData[i].Detail[ii].ComponentId) + '" style="width:80px"> </td>';
                     
                     contentUn += '</tr>';
                 }
@@ -812,7 +808,6 @@ function LoadObj(res) {
     }
     obj.profileComponents = profileComponents;
 
-    console.log("LOAD",obj);
 }
 
 function SetPriceDB(componentId) {
@@ -955,8 +950,8 @@ function APISaveQuotation() {
         "InsertUserId": 4,
         "TotalQuotation": $(".Total").html(),
         "StatusQuotationId": $(".select-StatusQuotation option:selected").val(),
-        "QuotationProfiles": [],
-        "AdditionalComponentsQuotes": []
+        "QuotationProfile": [],
+        "AdditionalComponentsQuote": []
     }
 
     $("#tbody-main tr").each(function (index, tr) {
@@ -970,7 +965,7 @@ function APISaveQuotation() {
             oQuotationProfile.ServiceTypeId = $(serviceType.get(0)).find("#ddlService").val();
             let typeFormat = $(this).find("td").eq(6);
             oQuotationProfile.TypeFormatId = $(typeFormat.get(0)).find("#ddlTypeFormat").val();
-            oQuotationProfile.ProfileComponents = [];
+            oQuotationProfile.ProfileComponent = [];
             oQuotationProfile.RecordType = $(this).find(".RecordType").html();
             oQuotationProfile.RecordStatus = $(this).find(".RecordStatus").html();
             $("#tbody-main tr").each(function (index, tr) {
@@ -999,13 +994,13 @@ function APISaveQuotation() {
                             oProfileComponent.RecordType = $(this).find(".RecordType").html();
                             oProfileComponent.RecordStatus = $(this).find(".RecordStatus").html();
                             //oProfileComponent.InsertUserId
-                            oQuotationProfile.ProfileComponents.push(oProfileComponent);
+                            oQuotationProfile.ProfileComponent.push(oProfileComponent);
                         }
                     });
                 }
             });
 
-            data.QuotationProfiles.push(oQuotationProfile);
+            data.QuotationProfile.push(oQuotationProfile);
         }
     });
 
@@ -1022,7 +1017,7 @@ function APISaveQuotation() {
         oAddExam.RecordType = $(this).find(".RecordType").html();
         oAddExam.RecordStatus = $(this).find(".RecordStatus").html();
         oAddExam.InsertUserId = 1;
-        data.AdditionalComponentsQuotes.push(oAddExam);
+        data.AdditionalComponentsQuote.push(oAddExam);
     });
 
 
@@ -1099,8 +1094,8 @@ function PreviewQuotation() {
         "InsertUserId": 4,
         "TotalQuotation": $(".Total").html(),
         "StatusQuotationId": $(".select-StatusQuotation option:selected").val(),
-        "QuotationProfiles": [],
-        "AdditionalComponentsQuotes": []
+        "QuotationProfile": [],
+        "AdditionalComponentsQuote": []
     }
 
     $("#tbody-main tr").each(function (index, tr) {
@@ -1112,7 +1107,7 @@ function PreviewQuotation() {
             oQuotationProfile.ProfileName = $(this).find("input").val();
             var serviceType = $(this).find("td").eq(5);
             oQuotationProfile.ServiceTypeId = $(serviceType.get(0)).find("#ddlService").val(),
-                oQuotationProfile.ProfileComponents = [];
+                oQuotationProfile.ProfileComponent = [];
             oQuotationProfile.RecordType = $(this).find(".RecordType").html();
             oQuotationProfile.RecordStatus = $(this).find(".RecordStatus").html();
             $("#tbody-main tr").each(function (index, tr) {
@@ -1133,13 +1128,13 @@ function PreviewQuotation() {
                             oProfileComponent.RecordType = $(this).find(".RecordType").html();
                             oProfileComponent.RecordStatus = $(this).find(".RecordStatus").html();
                             //oProfileComponent.InsertUserId
-                            oQuotationProfile.ProfileComponents.push(oProfileComponent);
+                            oQuotationProfile.ProfileComponent.push(oProfileComponent);
                         }
                     });
                 }
             });
 
-            data.QuotationProfiles.push(oQuotationProfile);
+            data.QuotationProfile.push(oQuotationProfile);
         }
     });
 
@@ -1158,113 +1153,6 @@ function PreviewQuotation() {
         oAddExam.InsertUserId = 1;
         data.AdditionalComponentsQuotes.push(oAddExam);
     });
-
-
-    //console.log(data);
-
-    var info = {
-        data: JSON.stringify(data),
-        //QuotationAditionalExam: JSON.stringify(data.AdditionalComponentsQuotes)
-    }
-
-    //$.ajax({
-    //    url: "/Quotation/ExportToPDF",
-    //    type: "GET",
-    //    contentType: "application/json; charset=utf-8",
-    //    dataType: "json",
-    //    data: info,
-    //    success: function (result) {
-    //        window.location.href = '/Quotation/ExportToPDF';
-    //    },
-    //    error: function (xhr, status, error) {
-    //        console.log(xhr);
-    //    }
-    //})
-
-
-    //content += '<tr><th class="tg-nrix"></th><th class="tg-0lax"></th>';
-    //for (var i = 0; i < data.QuotationProfiles.length; i++) {
-    //    content += '<td class="tg-nrix">' + data.QuotationProfiles[i].ProfileName + '</td>';
-    //}
-    //content += '</tr>';
-
-    //////content += '<tr><td class="tg-nrix"></td>';
-    ////for (var j = 0; j < data.QuotationProfiles.ProfileComponents.length; j++) {
-    ////    content += '<tr><td class="tg-nrix"></td><td class="tg-0lax">' + data.QuotationProfiles.ProfileComponents[j].ComponentName + '</td></tr>'
-    ////}
-
-    ////for (var j = 0; j < data.QuotationProfiles.length; j++) {
-    ////    for (var k = 0; k < data.QuotationProfiles[j].ProfileComponents.length; k++) {
-    ////        content += '<tr><td class="tg-nrix"></td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td></tr>';
-    ////    }
-    ////}
-
-    //var current = null;
-    //var cnt = 0;
-    //for (var j = 0; j < data.QuotationProfiles.length; j++) {
-    //    for (var k = 0; k < data.QuotationProfiles[j].ProfileComponents.length; k++) {
-    //        content += '<tr>';
-    //        content += '<td class="tg-nrix" rowspan="' + getNodeCount(data.QuotationProfiles[j].ProfileComponents[k].CategoryName) + '">' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td>';
-    //        content += '</tr>';
-
-    //        content += '<tr><td class="tg-nrix">' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td><td class="tg-nrix"></td><td class="tg-nrix"></td><td class="tg-nrix"></td></tr>';
-
-    //        ////CategoryName
-    //        //if (data.QuotationProfiles[j].ProfileComponents[k].CategoryName != current) {
-    //        //    if (cnt > 1) {
-    //        //        //document.write(current + ' comes --> ' + cnt + ' times<br>');
-    //        //        //console.log(current + ' comes --> ' + cnt + ' times');
-    //        //        content += '<tr><td class="tg-nrix" rowspan=' + cnt + '>' + data.QuotationProfiles[j].ProfileComponents[k].CategoryName + '</td><td class="tg-0lax">' + data.QuotationProfiles[j].ProfileComponents[k].ComponentName + '</td><td class="tg-nrix"></td><td class="tg-nrix"></td><td class="tg-nrix"></td></tr>';
-    //        //    }
-    //        //    current = data.QuotationProfiles[j].ProfileComponents[k].CategoryName;
-    //        //    cnt = 1;
-    //        //} else {
-    //        //    cnt++;
-    //        //}
-    //    }
-    //}
-
-    //function getNodeCount(obj) {
-    //    var num = 0
-    //    if (obj.nodes) {
-    //        for (var i = 0; i < obj.length; i++) {
-    //            num += getNodeCount(obj[i])
-    //        }
-    //    } else
-    //        num = 1
-    //    return num
-    //}
-
-
-
-    //$('#preview-detail').append(content);
-
-    //console.log(content);
-
-
-    ////const element = window.document.getElementById("exportPdf").innerHTML;    
-    ////// Choose the element and save the PDF for our user.
-    ////html2pdf()        
-    ////    .from(element)
-    ////    .save();
-
-    //console.log(data);
-
-    //var content = document.getElementById("exportPdf").innerHTML;
-    //var mywindow = window.open('', 'Print', 'height=600,width=800');
-
-    //mywindow.document.write('<html><head><title></title>');
-    //mywindow.document.write('</head><body >');
-    //mywindow.document.write(content);
-    //mywindow.document.write('</body></html>');
-
-    //mywindow.document.close();
-    //mywindow.focus()
-    //mywindow.print();
-    //mywindow.close();
-    //return true;
-
-
 
 }
 

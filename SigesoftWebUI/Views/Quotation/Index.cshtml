@@ -107,25 +107,18 @@
                                     <option value="1">Seguimiento</option>
                                     <option value="2">Aceptada</option>
                                     <option value="3">Descartada</option>
-                                </select>
-                                @*<select class="form-control form-white select-Service" data-placeholder="Seleccione un estado..." id="ddlStatus">
-                                    <option value="-1">--Todos--</option>
-                                    <option value="4">Potencial</option>
-                                    <option value="1">Seguimiento</option>
-                                    <option value="2">Aceptada</option>
-                                    <option value="3">Descartada</option>
-                                </select>*@
+                                </select>                                
                             </div>
 
                         </div>
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label for="dtpStart">Fecha Inicio</label>
-                                <input class="form-control text-center" type="date" id="dtpStart">
+                                <input class="form-control text-center" id="dtpStart">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="dtpEnd">Fecha Fin</label>
-                                <input class="form-control text-center" type="date" id="dtpEnd">
+                                <input class="form-control text-center" id="dtpEnd">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>&ensp;</label>
@@ -280,8 +273,12 @@
     <script type="text/javascript">
 
     $(document).ready(function () {
+        
         $('#ddlStatus').selectpicker();
-        $('.selectpicker').selectpicker('val', [1 , 4]);
+        $('.selectpicker').selectpicker('val', [1, 4]);
+
+        $("#dtpStart").datepicker();
+        $("#dtpEnd").datepicker();
         loadDates();
 
         Filter();
@@ -294,8 +291,7 @@
             AddTracking(quotationId);
         });
 
-        $('#table-versions').click(function (event) {
-            //console.log("event.target", $(event.target).html());   
+        $('#table-versions').click(function (event) {            
             let result = $(event.target).html();
             if (result== 'Desactivado') {
                 $('#table-versions > tr').each(function (index, tr) {
@@ -336,11 +332,16 @@
             "EndDate": $("#dtpEnd").val(),
             "CompanyName": $("#txtRuc").val(),
             "StatusQuotationId": $("#ddlStatus").val()
-        }
-        //console.log("params", params);
+        }        
 
-        APIController.FilterQuotation(params).then((resp) => {
-            $(".odd").remove();
+        APIController.FilterQuotation(params).then((resp) => {            
+            if (resp.Data.length == 0) {
+                let msg = MessageTable(resp,13,'messageTableEmpty');
+                $("#tbody-filter-quotation").append(msg);
+                return;
+            }
+
+            //$(".odd").remove();
             var content = "";
             var data = resp.Data;
             for (let i = 0; i < data.length; i++) {
@@ -349,8 +350,8 @@
                 content += "<td><i class='fa fa-plus text-inverse' onclick=show('track-" + quotationId + "')></i></td>";
                 content += "<td style='display:none'>" + quotationId + "</td>";
                 content += "<td>" + data[i].NroQuotation + "</td>";
-                content += "<td>" + formatDate(new Date(data[i].ShippingDate)) + "</td>";
-                content += "<td>" + formatDate(new Date(data[i].AcceptanceDate)) + "</td>";
+                content += "<td>" + formatDate(data[i].ShippingDate) + "</td>";
+                content += "<td>" + formatDate(data[i].AcceptanceDate) + "</td>";
                 content += "<td>" + data[i].CompanyName + "</td>";
                 content += "<td>" + data[i].Total + "</td>";
 
@@ -366,7 +367,7 @@
 
 
                 content += "</td>";
-                content += "<td>" + formatDate(new Date(data[i].USDate)) + "</td>";
+                content += "<td>" + formatDate(data[i].USDate) + "</td>";
                 content += "<td>" + data[i].TrackingDescription + "</td>";
 
                 if (data[i].Indicator === "GREEN") {
@@ -397,20 +398,18 @@
                 content += "<th>Versión</th>";
                 content += "<th>Estado</th>";
                 content += "<th>Comentario</th>";
-                //content += "<th class='text-nowrap'></th>";
                 content += "</tr>";
                 content += "</thead>";
                 content += "<tbody id='tbody-Tracking-"+quotationId+"'>";
-                var detail = data[i].QuoteTrackings;
+                var detail = data[i].QuoteTracking;
+                
                 for (var ii = 0; ii < detail.length; ii++) {
-
                     content += "<tr id='tr-"+detail[ii].QuoteTrackingId+"'>";
                     content += "<td  style='display:none'>" + detail[ii].QuoteTrackingId + "</td>";
-                    content += "<td>" + formatDate(new Date(detail[ii].Date)) + "</td>";
+                    content += "<td>" + formatDate(detail[ii].Date)+ "</td>";
                     content += "<td>" + detail[ii].Version + "</td>";
                     content += "<td>" + detail[ii].StatusName + "</td>";
-                    content += "<td>" + detail[ii].Commentary + "</td>";
-                    //content += "<td style='width:80px'><div class='btn-list'><a onclick='EditTracking(" + detail[ii].QuoteTrackingId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></div></td>";
+                    content += "<td>" + detail[ii].Commentary + "</td>";                    
                     content += "</tr>";
                 }
                 content += "</tbody>";
@@ -426,28 +425,10 @@
         });
     }
 
-    function loadDates() {
-        // body...
-        var today = new Date();
-        var lastDay = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-
-        if(dd<10){
-            dd='0'+dd;
-        }
-        if(mm<10){
-            mm='0'+mm;
-        }
-
-        today = yyyy + '-' + mm + '-' + dd;
-        var mmLast = lastDay.getMonth() + 2; //January is 0!
-        today = yyyy + '-02-01';
-        lastDay = yyyy + '-02-29';
-
-        document.getElementById("dtpStart").defaultValue = today + "";
-        document.getElementById("dtpEnd").defaultValue =lastDay+"";
+    function loadDates() {      
+        let days = getFirstAndLastDayOfMonth();
+        $("#dtpStart").val(days.FirstDate);
+        $("#dtpEnd").val(days.EndDate);
     }
 
     function AddTracking(id) {
@@ -465,7 +446,7 @@
         if (StatusQuotationId == 2) {
             swal({
                 title: "IMPORTANTE",
-                text: "Al ACEPTAR UNA COTIZACIÓN ESTA SE CONVERTIRÁ EN PROTOCOLO(S)",
+                text: "Al aceptar está cotización se generará protocol(os)",
                 type: "info",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -508,7 +489,7 @@
                 let content = "";
                 content += "<tr id='tr-"+data.QuoteTrackingId+"'>";
                 content += "<td  style='display:none'>" + data.QuoteTrackingId + "</td>";                
-                content += "<td>" + formatDate(new Date(GetDateFormat(data.Date))) + "</td>";
+                content += "<td>" + formatDate(data.Date) + "</td>";
                 content += "<td>" + data.Version+ "</td>";
                 content += "<td>" + data.StatusName + "</td>";
                 content += "<td>" + data.Commentary + "</td>";                
@@ -529,31 +510,30 @@
 
     }
 
-
     function GetDateFormat(str) {
         var value = new Date(parseInt(str.replace(/(^.*\()|([+-].*$)/g, '')));
         var dat = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
         return dat;
     }
 
-    function formatDate(date) {
+    //function formatDate(date) {
 
 
-      var monthNames = [
-        "Enero", "Febrero", "Marzo",
-        "Abril", "Mayo", "Junio", "Julio",
-        "Agosto", "Setiembre", "Octubre",
-        "Noviembre", "Diciembre"
-      ];
+    //  var monthNames = [
+    //    "Enero", "Febrero", "Marzo",
+    //    "Abril", "Mayo", "Junio", "Julio",
+    //    "Agosto", "Setiembre", "Octubre",
+    //    "Noviembre", "Diciembre"
+    //  ];
 
-      var day = date.getDate();
-      var monthIndex = date.getMonth();
-        var year = date.getFullYear();
-        if (year == 1969) {
-            return "";
-        }
-      return day + ' ' + monthNames[monthIndex] + ' ' + year;
-    }
+    //  var day = date.getDate();
+    //  var monthIndex = date.getMonth();
+    //    var year = date.getFullYear();
+    //    if (year == 1969) {
+    //        return "";
+    //    }
+    //  return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    //}
 
     function EditTracking(id) {
         ClearPoupTracking();
@@ -607,8 +587,7 @@
         $("#statusAccepted").html(statusAccepted);
         $("#statusdiscarded").html(statusdiscarded);
         $("#statusPotential").html(statusPotential);
-
-        //console.log(statusTracking);
+                
         var data3 = [
             {
                 value: statusTracking,
@@ -687,7 +666,6 @@
         APIController.GetVersions(codeQuotation).then((resp) => {
 
             let data = resp.Data;
-            console.log("data", data);
             $("#modalCompany").html(data[0].CompanyName);
 
             for (var i = 0; i < data.length; i++) {
@@ -704,7 +682,7 @@
                 if (data[i].ShippingDate == null) {
                     content += "<td>----</td>";
                 } else {
-                    content += "<td>" + formatDate(new Date(GetDateFormat(data[i].ShippingDate))) + "</td>";
+                    content += "<td>" + formatDate(data[i].ShippingDate) + "</td>";
                 }
                 
                 content += "<td>" + data[i].Total + "</td>";
@@ -717,8 +695,7 @@
         });
         }
 
-    function viewPropuesta(code) {
-            //console.log(code);
+    function viewPropuesta(code) {            
             window.location.href = '/Quotation/ExportPlantilla?code=' + code;
         }
 

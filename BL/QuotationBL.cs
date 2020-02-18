@@ -15,7 +15,7 @@ namespace BL
 
         public Response<QuotationDto> GetQuotation(int quotationId, string token)
         {
-            Response<QuotationDto> obj = null;
+            Response<QuotationDto> obj = null;            
             var hCliente = _global.rspClientGET("Quotation/" + quotationId, token);
             if (hCliente.IsSuccessStatusCode)
             {
@@ -72,6 +72,10 @@ namespace BL
         {
             Response<List<QuotationFilterDto>> obj = null;
             var hCliente = _global.rspClient("Quotation/Filter/", parameters, token);
+
+            if (hCliente.StatusCode == System.Net.HttpStatusCode.NotFound)
+                return new JavaScriptSerializer().Deserialize<Response<List<QuotationFilterDto>>>(hCliente.Content.ReadAsStringAsync().Result); 
+
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<List<QuotationFilterDto>>>(hCliente.Content.ReadAsStringAsync().Result);

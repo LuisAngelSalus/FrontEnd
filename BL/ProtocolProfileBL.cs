@@ -42,6 +42,10 @@ namespace BL
         {
             Response<List<DropdownListDto>> obj = null;
             var hCliente = _global.rspClientGET("ProtocolProfile/"+value+"/AutocompleteByName", token);
+            
+            if (hCliente.StatusCode == System.Net.HttpStatusCode.NotFound)
+                return new JavaScriptSerializer().Deserialize<Response<List<DropdownListDto>>>(hCliente.Content.ReadAsStringAsync().Result);
+
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<List<DropdownListDto>>>(hCliente.Content.ReadAsStringAsync().Result);

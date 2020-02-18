@@ -65,25 +65,34 @@ namespace SigesoftWebUI.Controllers
 
         public ActionResult Register(int id)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-
-            var response = _quotationBL.GetQuotation(id,validated.Token);
-            if (response != null)
+            if (id == 0)
             {
-                ViewBag.DataQuotation = response.Data;
+                ViewBag.DataQuotation = new QuotationDto();
+
             }
             else
             {
-                var oQuotationDto = new QuotationDto();
-                ViewBag.DataQuotation = oQuotationDto;
+                #region TOKEN
+                var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+                LoginDto oLoginDto = new LoginDto();
+                oLoginDto.v_UserName = sessione.UserName;
+                oLoginDto.v_Password = sessione.Pass;
+                var validated = _securityBL.ValidateAccess(oLoginDto);
+                if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+                #endregion
+
+                var response = _quotationBL.GetQuotation(id, validated.Token);
+                if (response != null)
+                {
+                    ViewBag.DataQuotation = response.Data;
+                }
+                else
+                {
+                    var oQuotationDto = new QuotationDto();
+                    ViewBag.DataQuotation = oQuotationDto;
+                }
             }
+           
             return View();
         }
 

@@ -7,16 +7,20 @@ using Utils;
 
 namespace BE
 {
+
+    #region Select
+
     public class QuotationDto
     {
         public QuotationDto()
         {
-            QuotationProfiles = new List<QuotationProfileDto>();
-            AdditionalComponentsQuotes = new List<AdditionalComponentsQuoteDto>();
+            QuotationProfile = new List<QuotationProfileDto>();
+            AdditionalComponentsQuote = new List<AdditionalComponentsQuoteDto>();
         }
+
         public int QuotationId { get; set; }
         public string Code { get; set; }
-        public int Version { get; set; }
+        public string Version { get; set; }
         public int UserCreatedId { get; set; }
         public string UserName { get; set; }
         public int CompanyId { get; set; }
@@ -28,45 +32,30 @@ namespace BE
         public string FullName { get; set; }
         public string Email { get; set; }
         public string CommercialTerms { get; set; }
-        public int? StatusQuotationId { get; set; }
+        public int StatusQuotationId { get; set; }
+        public decimal? TotalQuotation { get; set; }
         public int? InsertUserId { get; set; }
-        public List<QuotationProfileDto> QuotationProfiles { get; set; }
-        public List<AdditionalComponentsQuoteDto> AdditionalComponentsQuotes { get; set; }
-    }
-
-    public class AdditionalComponentsQuoteDto
-    {
-
-        public int AdditionalComponentsQuoteId { get; set; }
-        public int? CategoryId { get; set; }
-        public string CategoryName { get; set; }
-        public string ComponentId { get; set; }
-        public string ComponentName { get; set; }
-        public decimal? MinPrice { get; set; }
-        public decimal? PriceList { get; set; }
-        public decimal? SalePrice { get; set; }        
-        public int? InsertUserId { get; set; }
-        public RecordStatus RecordStatus { get; set; }
-        public RecordType RecordType { get; set; }
+        public List<QuotationProfileDto> QuotationProfile { get; set; }
+        public List<AdditionalComponentsQuoteDto> AdditionalComponentsQuote { get; set; }
     }
 
     public class QuotationProfileDto
     {
         public QuotationProfileDto()
         {
-            ProfileComponents = new List<ProfileComponentDto>();
+            ProfileComponent = new List<ProfileComponentDto>();
         }
+
         public int QuotationProfileId { get; set; }
         public int QuotationId { get; set; }
-        public int? ProfileId { get; set; }
         public string ProfileName { get; set; }
         public int? ServiceTypeId { get; set; }
-        public int? TypeFormatId { get; set; }
+        public int TypeFormatId { get; set; }
         public string ServiceTypeName { get; set; }
         public int? InsertUserId { get; set; }
         public RecordStatus RecordStatus { get; set; }
         public RecordType RecordType { get; set; }
-        public List<ProfileComponentDto> ProfileComponents { get; set; }
+        public List<ProfileComponentDto> ProfileComponent { get; set; }
     }
 
     public class ProfileComponentDto
@@ -88,16 +77,40 @@ namespace BE
         public RecordType RecordType { get; set; }
     }
 
+    public class AdditionalComponentsQuoteDto
+    {
+        public int AdditionalComponentsQuoteId { get; set; }
+        public int? CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public string ComponentId { get; set; }
+        public string ComponentName { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? PriceList { get; set; }
+        public decimal? SalePrice { get; set; }
+        public int? InsertUserId { get; set; }
+        public RecordStatus RecordStatus { get; set; }
+        public RecordType RecordType { get; set; }
+    }
+    #endregion
 
     #region Register
 
     public class QuotationRegisterDto
     {
-        public string QuotationId { get; set; }
+        public QuotationRegisterDto()
+        {
+            QuotationProfile = new List<QuotationProfileRegisterDto>();
+            AdditionalComponentsQuote = new List<AdditionalComponentsQuoteRegisterDto>();
+        }
+        public int QuotationId { get; set; }
         public string Code { get; set; }
         public int Version { get; set; }
-        public int UserCreatedId { get; set; }        
-        public int CompanyId { get; set; }        
+        public int UserCreatedId { get; set; }
+        public string UserName { get; set; }
+        public int CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        public string CompanyDistrictName { get; set; }
+        public string CompanyAddress { get; set; }
         public int CompanyHeadquarterId { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
@@ -105,27 +118,31 @@ namespace BE
         public int StatusQuotationId { get; set; }
         public decimal? TotalQuotation { get; set; }
         public int? InsertUserId { get; set; }
-        public List<QuotationProfileRegisterDto> QuotationProfiles { get; set; }
-        public List<AdditionalComponentsQuoteRegisterDto> AdditionalComponentsQuotes { get; set; }
+        public List<QuotationProfileRegisterDto> QuotationProfile { get; set; }
+        public List<AdditionalComponentsQuoteRegisterDto> AdditionalComponentsQuote { get; set; }
     }
 
     public class QuotationProfileRegisterDto
     {
+        public QuotationProfileRegisterDto()
+        {
+            ProfileComponent = new List<ProfileComponentRegisterDto>();
+        }
+
         public int QuotationId { get; set; }
-        //public int? ProfileId { get; set; }
         public string ProfileName { get; set; }
         public int? ServiceTypeId { get; set; }
-        public int? TypeFormatId { get; set; }
+        public int TypeFormatId { get; set; }
+        public string ServiceTypeName { get; set; }
         public int? InsertUserId { get; set; }
-        public List<ProfileComponentRegisterDto> ProfileComponents { get; set; }
-        
+        public List<ProfileComponentRegisterDto> ProfileComponent { get; set; }
     }
 
     public class ProfileComponentRegisterDto
     {
         public int QuotationProfileId { get; set; }
-        public string CategoryName { get; set; }
         public int? CategoryId { get; set; }
+        public string CategoryName { get; set; }
         public string ComponentId { get; set; }
         public string ComponentName { get; set; }
         public decimal? MinPrice { get; set; }
@@ -134,6 +151,7 @@ namespace BE
         public int? AgeConditionalId { get; set; }
         public int? Age { get; set; }
         public int? GenderConditionalId { get; set; }
+        public RecordStatus RecordStatus { get; set; }
         public int? InsertUserId { get; set; }
     }
 
@@ -150,24 +168,20 @@ namespace BE
         public int? InsertUserId { get; set; }
     }
 
-    #endregion
+    #endregion  
 
-    public class QuotationUpdateProcess
-    {
-        public int QuotationId { get; set; }
-        public string Code { get; set; }
-    }
-
-
-
-    #region UPDATE
-
+    #region Update
     public class QuotationUpdateDto
     {
+        public QuotationUpdateDto()
+        {
+            QuotationProfile = new List<QuotationProfileUpdateDto>();
+            AdditionalComponentsQuote = new List<AdditionalComponentsQuoteUpdateDto>();
+        }
+
         public int QuotationId { get; set; }
         public string Code { get; set; }
         public int Version { get; set; }
-        public int UserCreatedId { get; set; }
         public int CompanyId { get; set; }
         public int CompanyHeadquarterId { get; set; }
         public string FullName { get; set; }
@@ -175,40 +189,10 @@ namespace BE
         public string CommercialTerms { get; set; }
         public int StatusQuotationId { get; set; }
         public decimal? TotalQuotation { get; set; }
-        public int? InsertUserId { get; set; }
-
-        public List<QuotationProfileUpdateDto> QuotationProfiles { get; set; }
-        public List<AdditionalComponentsQuoteUpdateDto> AdditionalComponentsQuotes { get; set; }
-    }
-
-    public class QuotationProfileUpdateDto
-    {
-        public int QuotationId { get; set; }
-        public int? QuotationProfileId { get; set; }
-        public string ProfileName { get; set; }
-        public int? ServiceTypeId { get; set; }
         public int? UpdateUserId { get; set; }
-        public RecordStatus RecordStatus { get; set; }
-        public RecordType RecordType { get; set; }
-        public List<ProfileComponentUpdateDto> ProfileComponents { get; set; }
+        public List<QuotationProfileUpdateDto> QuotationProfile { get; set; }
+        public List<AdditionalComponentsQuoteUpdateDto> AdditionalComponentsQuote { get; set; }
     }
-
-    public class ProfileComponentUpdateDto
-    {
-        public int QuotationProfileId { get; set; }
-        public int ProfileComponentId { get; set; }
-        public string CategoryName { get; set; }
-        public int? CategoryId { get; set; }
-        public string ComponentId { get; set; }
-        public string ComponentName { get; set; }
-        public decimal? MinPrice { get; set; }
-        public decimal? PriceList { get; set; }
-        public decimal? SalePrice { get; set; }
-        public int? UpdateUserId { get; set; }
-        public RecordStatus RecordStatus { get; set; }
-        public RecordType RecordType { get; set; }
-    }
-
     public class AdditionalComponentsQuoteUpdateDto
     {
         public int QuotationId { get; set; }
@@ -219,12 +203,47 @@ namespace BE
         public decimal? MinPrice { get; set; }
         public decimal? PriceList { get; set; }
         public decimal? SalePrice { get; set; }
+        public int? AgeConditionalId { get; set; }
+        public int? Age { get; set; }
+        public int? GenderConditionalId { get; set; }
         public int? InsertUserId { get; set; }
         public RecordStatus RecordStatus { get; set; }
         public RecordType RecordType { get; set; }
     }
-    #endregion
+    public class QuotationProfileUpdateDto
+    {
+        public QuotationProfileUpdateDto()
+        {
+            ProfileComponent = new List<ProfileComponentUpdateDto>();
+        }
 
+        public int QuotationProfileId { get; set; }
+        public int QuotationId { get; set; }
+        public int? ServiceTypeId { get; set; }
+        public int TypeFormatId { get; set; }
+        public string ProfileName { get; set; }
+        public int? UpdateUserId { get; set; }
+        public RecordStatus RecordStatus { get; set; }
+        public RecordType RecordType { get; set; }
+        public List<ProfileComponentUpdateDto> ProfileComponent { get; set; }
+    }
+    public class ProfileComponentUpdateDto
+    {
+        public int ProfileComponentId { get; set; }
+        public int QuotationProfileId { get; set; }
+        public int? CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public string ComponentId { get; set; }
+        public string ComponentName { get; set; }
+        public decimal? SalePrice { get; set; }
+        public int? UpdateUserId { get; set; }
+        public int? AgeConditionalId { get; set; }
+        public int? Age { get; set; }
+        public int? GenderConditionalId { get; set; }
+        public RecordStatus RecordStatus { get; set; }
+        public RecordType RecordType { get; set; }
+    }
+    #endregion
 
     #region Filter
 
@@ -236,28 +255,33 @@ namespace BE
         public string CompanyName { get; set; }
         public int[] StatusQuotationId { get; set; }
     }
+
     public class QuotationFilterDto
     {
+        public QuotationFilterDto()
+        {
+            QuoteTracking = new List<QuoteTrackingFilterDto>();
+        }
+
         public int QuotationId { get; set; }
         public string NroQuotation { get; set; }
-        public string ShippingDate { get; set; }
-        public string AcceptanceDate { get; set; }
+        public DateTime? ShippingDate { get; set; }
+        public DateTime? AcceptanceDate { get; set; }
         public string CompanyName { get; set; }
         public decimal Total { get; set; }
-        public int StatusQuotationId { get; set; }        
-        public string StatusQuotationName { get; set; }
-        public string USDate { get; set; }
+        public DateTime? USDate { get; set; }
         public string TrackingDescription { get; set; }
+        public int StatusQuotationId { get; set; }
+        public string StatusQuotationName { get; set; }
         public string Indicator { get; set; }
-        public List<QuoteTrackingFilterDto> QuoteTrackings { get; set; }
+        public List<QuoteTrackingFilterDto> QuoteTracking { get; set; }
     }
-
     public class QuoteTrackingFilterDto
     {
         public int QuoteTrackingId { get; set; }
         public int QuotationId { get; set; }
         public int Version { get; set; }
-        public string Date { get; set; }
+        public DateTime? Date { get; set; }
         public string Commentary { get; set; }
         public string StatusName { get; set; }
     }
@@ -267,6 +291,11 @@ namespace BE
 
     public class QuotationNewVersionDto
     {
+        public QuotationNewVersionDto()
+        {
+            QuotationProfile = new List<QuotationProfileNewVersionDto>();
+            AdditionalComponentsQuote = new List<AdditionalComponentsQuoteNewVersionDto>();
+        }
 
         public string Code { get; set; }
         public int Version { get; set; }
@@ -283,18 +312,23 @@ namespace BE
         public int StatusQuotationId { get; set; }
         public decimal? TotalQuotation { get; set; }
         public int? InsertUserId { get; set; }
-        public List<QuotationProfileNewVersionDto> QuotationProfiles { get; set; }
-        public List<AdditionalComponentsQuoteNewVersionDto> AdditionalComponentsQuotes { get; set; }
+        public List<QuotationProfileNewVersionDto> QuotationProfile { get; set; }
+        public List<AdditionalComponentsQuoteNewVersionDto> AdditionalComponentsQuote { get; set; }
     }
 
     public class QuotationProfileNewVersionDto
     {
+        public QuotationProfileNewVersionDto()
+        {
+            ProfileComponent = new List<ProfileComponentNewVersionDto>();
+        }
+
         public string ProfileName { get; set; }
         public int? ServiceTypeId { get; set; }
-        public string ServiceTypeName { get; set; }
         public int TypeFormatId { get; set; }
+        public string ServiceTypeName { get; set; }
         public int? InsertUserId { get; set; }
-        public List<ProfileComponentNewVersionDto> ProfileComponents { get; set; }
+        public List<ProfileComponentNewVersionDto> ProfileComponent { get; set; }
     }
 
     public class ProfileComponentNewVersionDto
@@ -325,6 +359,7 @@ namespace BE
         public int? InsertUserId { get; set; }
     }
 
+
     #endregion
 
     public class QuotationVersionDto
@@ -341,5 +376,16 @@ namespace BE
         public int StatusQuotationId { get; set; }
         public string StatusQuotationName { get; set; }
 
+    }
+
+    public class QuotationUpdateProcess
+    {
+        public int QuotationId { get; set; }
+        public string Code { get; set; }
+    }
+
+    public class QuotationMigrateDto
+    {
+        public int QuotationId { get; set; }
     }
 }

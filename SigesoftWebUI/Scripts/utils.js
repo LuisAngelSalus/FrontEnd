@@ -1,4 +1,5 @@
-﻿function validateInputNumber(evt) {
+﻿
+function validateInputNumber(evt) {
     var theEvent = evt || window.event;
 
     // Handle paste
@@ -115,4 +116,28 @@ function checkPassword(password) {
 		$(".ui-progressbar-value").css("background", "white");
 		$("#result").html("");
 	}
+}
+
+function getFirstAndLastDayOfMonth() {
+    var date = new Date();
+    var primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
+    var ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    primerDia = moment(primerDia).format("DD/MM/YYYY");
+    ultimoDia = moment(ultimoDia).format("DD/MM/YYYY");
+    return {
+        "FirstDate": primerDia,
+        "EndDate": ultimoDia
+    }
+}
+
+function MessageTable(response,nroColumns,className) {
+
+    //return "<tr colspan='14'><td><p>" + resp.Message + "</p></td></tr>";
+    return `<tr class='${className}'><td colspan='${nroColumns}'><p> ${response.Message} </p></td></tr>`
+
+}
+
+function formatDate(dateString) {
+    moment.locale('es');
+    return moment(dateString).format("dddd, MMMM YYYY");
 }
