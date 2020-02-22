@@ -128,12 +128,6 @@
                             </li>
 
                         </a>
-
-
-
-
-
-
                     </ul>
                 </div>
             </div>
@@ -181,23 +175,54 @@
             </div>
         </div>
 
-
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><span class="lstick"></span> Notificaciones</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" id="titleNotification" class="form-control" name="name" value="" placeholder="Ingrese título" autocomplete="off" />
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" id="mesageNotification" class="form-control" name="name" value="" placeholder="Ingrese Mensaje" autocomplete="off"  />
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" id="sendNotification" class="btn btn-block btn-outline-info">Notificar</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
     </div>
 
 
 
 
-    <!-- ============================================================== -->
-    <!-- End Page Content -->
-    <!-- ============================================================== -->
 
-</div>
-<script src="~/assets/plugins/jquery/jquery.min.js"></script>
-    
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
 
+    </div>
+    <script src="~/assets/plugins/jquery/jquery.min.js"></script>
     <script src="~/assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="~/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
     <script src="~/assets/plugins/chartist-js/dist/chartist.min.js"></script>
     <script src="~/assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="~/assets/js/dashboard4.js"></script>
 
+    <script>
+
+        $("#sendNotification").click(function () {
+
+            APIController.PushNotification({ "title": $("#titleNotification").val(), "message": $("#mesageNotification").val() }).then((res) => {
+                console.log("envio correcto");
+            });
+
+        });
+    </script>

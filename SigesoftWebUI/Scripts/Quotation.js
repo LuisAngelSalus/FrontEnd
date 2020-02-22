@@ -1,15 +1,21 @@
 ﻿var obj = {};
 var objPriceList = {}
+//constantes
+const PROFILE_POTENCIAL = 96;
+const STATUS_QUOTATION_POTENCIAL = 4;
+const STATUS_QUOTATION_SEGUIMIENTO = 1;
+const STATUS_QUOTATION_ACEPTADA = 2;
+const STATUS_QUOTATION_DESCARTADA = 3;
 
-$(document).ready(function () {
+$(document).ready(function () {   
+
     addLocalStoragComponents();
     
     if ($("#txtQuotationId").val() != 0) {
         $(".select-StatusQuotation").attr("disabled", false);
         $("#txtRuc").attr("disabled", true);
     } else {
-        //console.log("INI"); 
-        $('#ddlStatusQuotation option[value=4]').attr('selected', 'selected');
+        $('#ddlStatusQuotation option[value=1]').attr('selected', 'selected');
     }
 
     if ($("#txtCompanyId").val() != 0) {
@@ -91,6 +97,13 @@ $(document).ready(function () {
         });
     });
 
+    function updateControlStatusQuotation() {
+        $('#ddlStatusQuotation option[value=1]').removeAttr("selected");
+        $('#ddlStatusQuotation option[value=-1]').removeAttr("selected");        
+        $('#ddlStatusQuotation option[value=4]').attr('selected', 'selected');
+        
+    }
+
     $("#perfilModal").on("click", ".autocompleteProfile", function () {
         $("#search").val($(this).text());
         $("#show-list").empty();
@@ -98,13 +111,15 @@ $(document).ready(function () {
         $("#tbody-profile-unselectd").text("obteniendo información");
         var idProfile = $(this).attr('id');
 
+        if (idProfile == PROFILE_POTENCIAL) {
+            updateControlStatusQuotation();
+        }
+
         if (idProfile != undefined) {
             APIController.GetProfile(idProfile).then((res) => {
                 LoadObj(res);
 
-                var data = res.Data.categories;
-                //console.log("Examenes");
-                //console.log(data)
+                var data = res.Data.categories;                
                 var unselectedData = res.Data.UnselectedCategories;
 
                 //---------------Table-Profile---------------------------
@@ -938,8 +953,7 @@ function APISaveQuotation() {
     var data = {
         "QuotationId": $("#txtQuotationId").val(),
         "Code": $("#spanCode").html(),
-        "Version": parseInt($("#spanVersion").html()),
-        "UserCreatedId": 1,
+        "Version": parseInt($("#spanVersion").html()),        
         "UserName": "",
         "CompanyId": $("#txtCompanyId").val(),
         "CompanyHeadquarterId": $("#ddlSede option:selected").val(),
@@ -1022,7 +1036,6 @@ function APISaveQuotation() {
 
 
     if (data.QuotationId == 0) {
-        //console.log("DATA", data);
         APIController.SaveQuotation(data).then((res) => {
             swal({ title: "Correcto", text: "El nro de cotizacion es :" + res.Data.Code, type: "success" },
                 function () {
@@ -1035,7 +1048,6 @@ function APISaveQuotation() {
     } else if (data.QuotationId > 0) {
         data.QuotationId = 0;
         data.Code = $("#spanCode").html();
-        //console.log("DATA VERSION", data);
         APIController.NewVersionQuotation(data).then((res) => {
             swal({
                 title: "¡Importante!",
@@ -1157,14 +1169,22 @@ function PreviewQuotation() {
 }
 
 function SaveTrackingInsideRegister(quotationId) {
-
-    var params = {
-        "QuotationId": quotationId,
-        "StatusName": "Potencial",
-        "Commentary": "Cotización Creada",
-        "InsertUserId": 1
-    }
-    //console.log("params", params);
+    let statusQuotation = $(".select-StatusQuotation option:selected").val();
+    let params = {};
+    if (statusQuotation == STATUS_QUOTATION_POTENCIAL) {
+        params = {
+            "QuotationId": quotationId,
+            "StatusName": "Potencial",
+            "Commentary": "Cotización Creada"        
+        }
+    } else if (statusQuotation == STATUS_QUOTATION_SEGUIMIENTO) {
+        params = {
+            "QuotationId": quotationId,
+            "StatusName": "Seguimiento",
+            "Commentary": "Seguimiento Creado"            
+        }
+    }       
+    
     APIController.SaveQuoteTracking(params).then((resp) => {
 
     });

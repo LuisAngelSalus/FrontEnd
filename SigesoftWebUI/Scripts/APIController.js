@@ -582,6 +582,47 @@
         });
     }
 
+    var getKeyPublic = function () {
+        return new Promise((resolve, reject) => {
+            fetch('/Suscription/GetKeyPublic', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var saveSuscription = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/Suscription/Save', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var pushNotification = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/Suscription/Push', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -827,6 +868,23 @@
             });
         },
 
+        GetKeyPublic: function () {
+            return new Promise((resolve, reject) => {
+                getKeyPublic().then(res => resolve(res));
+            });
+        },
+
+        SaveSuscription: function (parameters) {
+            return new Promise((resolve, reject) => {
+                saveSuscription(parameters).then(res => resolve(res));
+            });
+        },
+
+        PushNotification: function (parameters) {
+            return new Promise((resolve, reject) => {
+                pushNotification(parameters).then(res => resolve(res));
+            });
+        },
     }
 
 })();

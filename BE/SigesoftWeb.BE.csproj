@@ -69,6 +69,7 @@
     <Compile Include="RegisterAccessDto.cs" />
     <Compile Include="SecuentialDto.cs" />
     <Compile Include="SessionModel.cs" />
+    <Compile Include="SuscriptionRegisterDto.cs" />
     <Compile Include="UserAccessDto.cs" />
     <Compile Include="SystemUserDto.cs" />
     <Compile Include="ValidatedAccessDto.cs" />

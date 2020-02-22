@@ -20,7 +20,7 @@ namespace BE
 
         public int QuotationId { get; set; }
         public string Code { get; set; }
-        public string Version { get; set; }
+        public int Version { get; set; }
         public int UserCreatedId { get; set; }
         public string UserName { get; set; }
         public int CompanyId { get; set; }

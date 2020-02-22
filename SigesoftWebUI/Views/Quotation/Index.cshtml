@@ -510,34 +510,15 @@
 
     }
 
-    function GetDateFormat(str) {
-        var value = new Date(parseInt(str.replace(/(^.*\()|([+-].*$)/g, '')));
-        var dat = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
-        return dat;
-    }
-
-    //function formatDate(date) {
-
-
-    //  var monthNames = [
-    //    "Enero", "Febrero", "Marzo",
-    //    "Abril", "Mayo", "Junio", "Julio",
-    //    "Agosto", "Setiembre", "Octubre",
-    //    "Noviembre", "Diciembre"
-    //  ];
-
-    //  var day = date.getDate();
-    //  var monthIndex = date.getMonth();
-    //    var year = date.getFullYear();
-    //    if (year == 1969) {
-    //        return "";
-    //    }
-    //  return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    //function GetDateFormat(str) {
+    //    var value = new Date(parseInt(str.replace(/(^.*\()|([+-].*$)/g, '')));
+    //    var dat = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+    //    return dat;
     //}
 
+
     function EditTracking(id) {
-        ClearPoupTracking();
-           
+        ClearPoupTracking();           
 
              APIController.GetQuotationtracking(id).then((resp) => {
             let data = resp.Data;
@@ -548,9 +529,8 @@
             $("#txthiddenQuotation").val(data.QuotationId);
             $("#txtComentary").val(data.Commentary);
             $("#txthiddenQuotationTracking").val(data.QuoteTrackingId);
-            $("#txthiddentxtDate").val(GetDateFormat(data.Date));
-
-            //Filter();
+            //$("#txthiddentxtDate").val(GetDateFormat(data.Date));
+            $("#txthiddentxtDate").val(formatDate(data.Date));            
 
         });
       

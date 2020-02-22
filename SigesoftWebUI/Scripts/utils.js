@@ -131,13 +131,60 @@ function getFirstAndLastDayOfMonth() {
 }
 
 function MessageTable(response,nroColumns,className) {
-
-    //return "<tr colspan='14'><td><p>" + resp.Message + "</p></td></tr>";
-    return `<tr class='${className}'><td colspan='${nroColumns}'><p> ${response.Message} </p></td></tr>`
-
+    return `<tr class='${className}'><td colspan='${nroColumns}'><p> ${response.Message} </p></td></tr>`;
 }
 
 function formatDate(dateString) {
+    if (dateString == null) return "";
+
     moment.locale('es');
     return moment(dateString).format("dddd, MMMM YYYY");
+}
+
+function browserSupportsNotifications(){
+    if (!window.Notification) {
+        return false;
+        alert("No soporta notificaciones");
+    } else {        
+        return true;   
+    }
+}
+
+function requestPermission() {
+    if (window.Notification.permission === "granted") {        
+        new Notification("Hola Mundo -granted");
+    } else if (
+        Notification.permission !== "denied" ||
+        Notification.permission !== "default"
+    ) {
+        Notification.requestPermission(function (permission) {
+            if (permission === "granted") {
+                new Notification("Hola mundo - pregunta");
+            }
+        });
+    }
+
+    if (window.Notification && Notification.permission == 'granted') {
+        // We would only have prompted the user for permission if new
+        // Notification was supported (see below), so assume it is supported.
+        //doStuffThatUsesNewNotification();
+        new Notification("Hola Mundo -granted");
+    } else if (isNewNotificationSupported()) {
+        // new Notification is supported, so prompt the user for permission.
+        showOptInUIForNotifications();
+    }
+}
+
+function urlBase64ToUint8Array(base64String) {
+    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+
+    return outputArray;
 }
