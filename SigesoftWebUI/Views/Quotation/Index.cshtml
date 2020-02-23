@@ -209,12 +209,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="TrackingModal" tabindex="-1" role="dialog" aria-labelledby="TrackingModalLabel1">
+<div class="modal fade" id="TrackingModal" tabindex="-1" role="dialog" aria-labelledby="TrackingModalLabel1" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLabel1">Registrar Seguimiento</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" id="btn-close-TrackingModal" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <input type="hidden" id="txthiddenQuotationTracking" value="0" />
             <input type="hidden" id="txthiddenQuotation" value="0" />
@@ -223,11 +223,11 @@
             <div class="modal-body" style="padding: 0">
                 <div class="form-group col-12">
                     <label for="txtComentary">Comentario</label>
-                    <textarea type="text" class="form-control" id="txtComentary" autofocus></textarea>
+                    <textarea type="text" class="form-control" id="txtComentary" autocomplete="off"></textarea>                                        
                 </div>
             </div>
             <div class="modal-footer">
-                <button onclick="SaveTracking()" type="button" class="btn btn-warning" data-dismiss="modal">Grabar</button>
+                <button id="btn-save-TrackingModel" onclick="SaveTracking()" type="button" class="btn btn-warning" data-dismiss="modal" disabled>Grabar</button>
             </div>
         </div>
     </div>
@@ -282,14 +282,14 @@
 
         Filter();
 
-        $('#tbody-filter-quotation').on('change', '.select-StatusQuotation', function (event) {
+        $('#tbody-filter-quotation').on('change', '.select-StatusQuotation', function (event) {            
             let quotationId = event.target.id.split('-')[1];
             let id = event.target.id;
-            let StatusQuotationId = $("#" + id + " option:selected").val();
-            $("#txthiddenStatusQuotationId").val(StatusQuotationId);
+            let StatusQuotationId = $("#" + id + " option:selected").val();        
+            $("#txthiddenStatusQuotationId").val(StatusQuotationId);        
             AddTracking(quotationId);
         });
-
+        
         $('#table-versions').click(function (event) {            
             let result = $(event.target).html();
             if (result== 'Desactivado') {
@@ -310,9 +310,26 @@
                         Filter();
                     });
                 }
-            }
-             
+            }             
 
+        });
+
+        $("#btn-close-TrackingModal").click(function () {            
+            $("#txthiddenQuotationTracking").val(0);
+            $("#txthiddenQuotation").val(0);
+            $("#txthiddentxtDate").val(0);  
+            $("#txthiddenStatusQuotationId").val(0);
+
+             Filter();
+        });
+
+        $("#txtComentary").on('change paste keyup', function (e) {
+            let length = e.currentTarget.value.length;
+            if (length > 0) {
+                $("#btn-save-TrackingModel").prop('disabled', false);
+            } else {
+                $("#btn-save-TrackingModel").prop('disabled', true);
+            }
         });
     });
 
@@ -435,13 +452,13 @@
         $("#txthiddenQuotation").val(id);
     }
 
-    function SaveTracking(id) {
+    function SaveTracking() {
+        
         let quotationTrackingId = $("#txthiddenQuotationTracking").val();
         let quotationId = $("#txthiddenQuotation").val();
         let StatusQuotationId = $("#ddlStatusQuotation-" + quotationId + " option:selected").val();
-
-        //Si es aceptada entonces esta cotización convertirá en protocolo
-        if (StatusQuotationId == 2) {
+                
+        if (StatusQuotationId == STATUS_QUOTATION_ACEPTADA) {
             swal({
                 title: "IMPORTANTE",
                 text: "Al aceptar está cotización se generará protocol(os)",
@@ -620,7 +637,7 @@
         }
     }
 
-    function selected(value, id, quotationId) {        
+    function selected(value, id) {        
         
         if (value == id) {            
             return 'selected';
