@@ -137,8 +137,6 @@
                             <table id="mainTable" class="table editable-table table-bordered table-striped m-b-0">
                                 <thead>
                                     <tr>
-                                        @*<th>RecordType</th>
-                                            <th>RecordStatus</th>*@
                                         <th>Sede</th>
                                         <th>Dirección</th>
                                         <th>Teléfono</th>
@@ -176,25 +174,25 @@
     <div class="col">
         <div class="card">
             <div class="card-body">
-                <div class="col-lg p-0">
-                    <div class="col-lg-2 offset-6 card mb-1 text-center">
+
+                <div class="row">
+                    <div class="col-md-6 col-12 mb-1">
                         <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">@(companyId == 0 ? "Crear Empresa" : "Modificar Empresa")</button>
                     </div>
+                    <div class="col-md-6 col-12 mb-1">
+                        @if (@ViewBag.Detail.IdentificationNumber != null)
+                        {
+                            <button onclick="location.href='@Url.Action("Register","Quotation", new { id = 0, ruc = ViewBag.Detail.IdentificationNumber})'" class="btn btn-primary waves-effect waves-light m-b-10">Crear  Cotización</button>
+                        }
+
+                    </div>
                 </div>
+
+                
             </div>
         </div>
     </div>
 </div>
-
-@*<div>
-    <ul>
-        @foreach (var item in usuarioSession)
-        {
-            <li>@item.NombreModel</li>
-        }
-    </ul>
- 
-</div>*@
 
 @section scripts{
 

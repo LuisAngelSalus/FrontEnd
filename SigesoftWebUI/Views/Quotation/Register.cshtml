@@ -17,7 +17,7 @@
     string Email = "";
     string CommercialTerms = "";
     int StatusQuotationId = -1;
-    if (ViewBag.DataQuotation.QuotationId != 0)
+    if (ViewBag.DataQuotation.CompanyRuc != null)
     {
         QuotationId = ViewBag.DataQuotation.QuotationId;
         Code = ViewBag.DataQuotation.Code == null ? "sin generar" : ViewBag.DataQuotation.Code;
@@ -117,7 +117,7 @@
                         <input type="hidden" id="txtCompanyHeadquarterId" value="@CompanyHeadquarterId" />
                         <div class="form-group col-md-4">
                             <label for="txtRuc">RUC</label>
-                            <input type="text" class="form-control" id="txtRuc" maxlength="11" value="@CompanyRuc" onkeypress="validateInputNumber(event)" autofocus required>
+                            <input type="text" class="form-control" id="txtRuc" maxlength="11" value="@CompanyRuc" onkeypress="validateInputNumber(event)" autofocus required readonly>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="txtCompanyName">Empresa</label>
@@ -136,7 +136,12 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="ddlSede">Sede</label>
-                            <select class="form-control form-white" data-placeholder="Seleccione una sede..." id="ddlSede">
+                            <select class="form-control form-white" id="ddlSede">
+                                @*<option value=" -1">--Seleccionar--</option>*@
+                                @foreach (var item in ViewBag.Headquarters)
+                                {
+                                    <option value="@item.CompanyHeadquarterId">@item.Name</option>
+                                }
                             </select>
                         </div>
                         <div class="form-group col-md-4">

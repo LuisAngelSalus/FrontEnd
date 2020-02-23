@@ -57,11 +57,11 @@ $(document).ready(function () {
     });
 
     $('#txtRuc').change(function () {
-        let ruc = $('#txtRuc').val();
-        $('#ddlSede').empty();
-        if (ruc.length == 11) {
-            SearchCompany(ruc);
-        }
+        //let ruc = $('#txtRuc').val();
+        //$('#ddlSede').empty();
+        //if (ruc.length == 11) {
+        //    SearchCompany(ruc);
+        //}
     });
 
     $('#tbody-Add-Examns').on('autocompletechange', '.tags', function (event) {
@@ -239,9 +239,7 @@ $(document).ready(function () {
             "CompanyHeadquarterId": $("#ddlSede option:selected").val(),
             "FullName": $("#txtFullName").val(),
             "Email": $("#txtEmail").val(),
-            "CommercialTerms": $("#txtCommercialTerms").val(),
-            "UserCreatedId": 4,
-            "InsertUserId": 4,
+            "CommercialTerms": $("#txtCommercialTerms").val(),            
             "TotalQuotation": $(".Total").html(),
             "StatusQuotationId": $(".select-StatusQuotation option:selected").val(),
             "QuotationProfile": [],
@@ -900,43 +898,43 @@ function SaveCompany(resp) {
 }
 
 function SearchCompany(ruc) {
-    APIController.GetCompanyByRuc(ruc).then((res) => {
-        $('#txtCompanyId').val(res.Data.CompanyId);
-        $('#txtCompanyName').val(res.Data.Name);
-        $('#txtDistric').val(res.Data.District);
-        $('#txtAddress').val(res.Data.Address);
+    //APIController.GetCompanyByRuc(ruc).then((res) => {
+    //    $('#txtCompanyId').val(res.Data.CompanyId);
+    //    $('#txtCompanyName').val(res.Data.Name);
+    //    $('#txtDistric').val(res.Data.District);
+    //    $('#txtAddress').val(res.Data.Address);
 
-        let content = "";
-        for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
-            content += "<option value='" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "'>" + res.Data.companyHeadquarter[i].Address + "</option>";
-        }
+    //    let content = "";
+    //    for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
+    //        content += "<option value='" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "'>" + res.Data.companyHeadquarter[i].Address + "</option>";
+    //    }
 
-        $('#ddlSede').append(content);
+    //    $('#ddlSede').append(content);
 
-        $('#txtCompanyName').attr('readonly', true);
-        $('#txtDistric').attr('readonly', true);
-        $('#txtAddress').attr('readonly', true);
+    //    $('#txtCompanyName').attr('readonly', true);
+    //    $('#txtDistric').attr('readonly', true);
+    //    $('#txtAddress').attr('readonly', true);
 
-        $("#txtFullName").focus();
+    //    $("#txtFullName").focus();
 
-        //EN CASO SEA EDICIÓN
-        if ($('#txtCompanyHeadquarterId').val() != 0) {
-            $("#ddlSede").val($('#txtCompanyHeadquarterId').val());
-        }
+    //    //EN CASO SEA EDICIÓN
+    //    if ($('#txtCompanyHeadquarterId').val() != 0) {
+    //        $("#ddlSede").val($('#txtCompanyHeadquarterId').val());
+    //    }
 
-    }).catch((err) => {
-        swal({
-            title: "Empresa no registrada",
-            text: "¿Desea buscar en Sunat?",
-            type: "info",
-            showCancelButton: true,
-            closeOnConfirm: false,
-            showLoaderOnConfirm: true
-        }, function () {
-            InfoSunat(ruc);
-        });
+    //}).catch((err) => {
+    //    swal({
+    //        title: "Empresa no registrada",
+    //        text: "¿Desea buscar en Sunat?",
+    //        type: "info",
+    //        showCancelButton: true,
+    //        closeOnConfirm: false,
+    //        showLoaderOnConfirm: true
+    //    }, function () {
+    //        InfoSunat(ruc);
+    //    });
 
-    });
+    //});
 }
 
 function SaveQuotation(e) {

@@ -25,6 +25,7 @@ namespace SigesoftWebUI.Controllers
     public class QuotationController : GenericController
     {
         QuotationBL _quotationBL = new QuotationBL();
+        CompanyBL _companyBL = new CompanyBL();
         SecurityBL _securityBL = new SecurityBL();
 
         public ActionResult Index()
@@ -63,28 +64,36 @@ namespace SigesoftWebUI.Controllers
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Register(int id)
+        public ActionResult Register(int id, string ruc)
         {
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
             if (id == 0)
             {
-                ViewBag.DataQuotation = new QuotationDto();
-
+                var data = new QuotationDto();
+                var company = _companyBL.CompanyByRuc(ruc, validated.Token).Data;
+                data.CompanyId = company.CompanyId;
+                data.CompanyRuc = company.IdentificationNumber;
+                data.CompanyName = company.Name;
+                data.CompanyDistrictName = company.District;
+                data.CompanyAddress = company.Address;
+                ViewBag.Headquarters = company.companyHeadquarter;
+                ViewBag.DataQuotation = data;
             }
             else
             {
-                #region TOKEN
-                var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-                LoginDto oLoginDto = new LoginDto();
-                oLoginDto.v_UserName = sessione.UserName;
-                oLoginDto.v_Password = sessione.Pass;
-                var validated = _securityBL.ValidateAccess(oLoginDto);
-                if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-                #endregion
-
                 var response = _quotationBL.GetQuotation(id, validated.Token);
                 if (response != null)
                 {
                     ViewBag.DataQuotation = response.Data;
+                    ViewBag.Headquarters = _companyBL.CompanyDetail(response.Data.CompanyId, validated.Token).Data.companyHeadquarter;
                 }
                 else
                 {
