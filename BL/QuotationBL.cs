@@ -38,7 +38,10 @@ namespace BL
         public Response<QuotationRegisterDto> Save(QuotationRegisterDto data, string token)
         {
             Response<QuotationRegisterDto> obj = null;
-                var hCliente = _global.rspClient("Quotation/", data, token);
+
+            if(data.StatusQuotationId == StateQuotation.Potencial) data.CommercialTerms = "Cotización Potencial (GA)";
+
+            var hCliente = _global.rspClient("Quotation/", data, token);
                 if (hCliente.IsSuccessStatusCode)
                 {
                     obj = new JavaScriptSerializer().Deserialize<Response<QuotationRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);

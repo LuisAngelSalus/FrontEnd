@@ -24,4 +24,12 @@ namespace Utils
         Agregado = 2,
         EliminadoLogico = 3
     }
+
+    public enum StateQuotation
+    {
+        Seguimiento = 1,
+        Aceptada = 2,
+        Descartada = 3,
+        Potencial = 4
+    }
 }

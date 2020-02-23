@@ -104,6 +104,24 @@ $(document).ready(function () {
         
     }
 
+    //function createProfilePotencial() {
+    //    swal({
+    //        title: "Perfil Potencial",
+    //        text: "¿Está seguro de crear un perfil comercial?",
+    //        type: "input",
+    //        showCancelButton: true,
+    //        closeOnConfirm: false,
+    //        inputPlaceholder: "Ingrese un comentario"
+    //    }, function (inputValue) {
+    //        if (inputValue === false) return false;
+    //        if (inputValue === "") {
+    //            swal.showInputError("Necesita ingresar un comentario");
+    //            return false
+    //        }
+    //        swal("Nice!", "You wrote: " + inputValue, "success");                  
+    //    });
+    //}
+
     $("#perfilModal").on("click", ".autocompleteProfile", function () {
         $("#search").val($(this).text());
         $("#show-list").empty();
@@ -111,8 +129,8 @@ $(document).ready(function () {
         $("#tbody-profile-unselectd").text("obteniendo información");
         var idProfile = $(this).attr('id');
 
-        if (idProfile == PROFILE_POTENCIAL) {
-            updateControlStatusQuotation();
+        if (idProfile == PROFILE_POTENCIAL) { 
+            updateControlStatusQuotation();  
         }
 
         if (idProfile != undefined) {
@@ -753,9 +771,6 @@ function SaveProfile() {
         content += "</tr>";
         $('#tbody-main').append(content);
 
-
-
-
         CalculateTotals();
 
         $("#changeNameProfile").modal("hide");
@@ -787,7 +802,7 @@ function LoadParametersProtocolProfile(nameProfile) {
 
 function AddProfile() {       
     $("#changeNameProfile").modal("show");
-    $("#txtNameProfileQuotation").val($("#search").val());
+    $("#txtNameProfileQuotation").val($("#search").val());    
 }
 
 function GenerateNameProfile() {
@@ -934,7 +949,8 @@ function SearchCompany(ruc) {
 }
 
 function SaveQuotation(e) {
-    if (ValidateQuotation(e)) {
+    let idProfile = $("#ddlStatusQuotation option:selected").val();
+    if (ValidateQuotation(e, idProfile)) {
         swal({
             title: "¡Importante!",
             text: "¿Está seguro de guardar esta cotización?",

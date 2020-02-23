@@ -1,23 +1,30 @@
-﻿function ValidateQuotation(e) {
-
+﻿function ValidateQuotation(e, profileId) {
+    console.log("profileId", profileId);
     e.preventDefault();
 
     //I)eliminar la clase error
     clearErrors();
 
-    //II)Valida inputs
+    //II)Valida
     var validateRuc = validateInput("txtRuc", "Ruc requerido");
     var validateFullName = validateInput("txtFullName", "Primer Contacto requerido");
     var validateEmail = validateInput("txtEmail", "Email requerido");
     var validateHeadquarter = validateddlHeadquarter("ddlSede", "Sede requerida"); 
-    var validateCommercialTerms = validateInput("txtCommercialTerms", "Términos comerciales requerido");    
-    var validateTableQuotation = ValidateTableQuotation();
+    
     //II)Retornar resultado de validación
-    if (validateRuc && validateFullName && validateEmail && validateTableQuotation && validateHeadquarter && validateCommercialTerms) {       
-        return true;
-    } else {   
+    if (profileId == 4) {
+        if (validateRuc && validateFullName && validateEmail && validateHeadquarter) 
+            return true;         
         return false;
-    }    
+        
+    } else {
+        var validateCommercialTerms = validateInput("txtCommercialTerms", "Términos comerciales requerido");
+        var validateTableQuotation = ValidateTableQuotation();
+        if (validateRuc && validateFullName && validateEmail && validateTableQuotation && validateHeadquarter && validateCommercialTerms) 
+            return true;        
+        return false;            
+    }
+    
 }
 
 function validateInput(id, message) {
