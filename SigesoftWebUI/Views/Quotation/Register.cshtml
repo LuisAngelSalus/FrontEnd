@@ -106,7 +106,8 @@
 <div class="row">
     <div class="card card-body">
         <h3 class="box-title m-b-0">Cotización: <span id="spanCode">@Code</span></h3>
-        <p class="text-muted m-b-30 font-13"> Versión <span id="spanVersion">@Version</span></p>
+        <p class="text-muted m-b-0 font-13"> Versión <span id="spanVersion">@Version</span></p>
+        <p class="text-muted font-13" id="msgStateQuotation"></p>
         <div class="row">
             <div class="col-sm-12 col-xs-12">
                 <form>
@@ -393,16 +394,14 @@
                     <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
-                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(77px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-                        @*<a class="dropdown-item" href="@Url.Action("GetHTMLPageAsPDF","Quotation")" target="_blank">Vista Previa</a>*@
-                        @*<a id="getPDF" href="#" class="dropdown-item" onclick="PreviewQuotation();">Vista Previa</a>*@
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(77px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">                        
                         <a class="dropdown-item preview_quotation" href="javascript:;">Vista Previa</a>
                         <a class="dropdown-item" onclick="">Excel</a>
                         <a class="dropdown-item" onclick="">Separar Propuesta</a>
                         <a class="dropdown-item" onclick="">Mas Opciones</a>
                     </div>
                 </div>
-                <button onclick="SaveQuotation(event)" class="btn btn-primary waves-effect waves-light m-r-10">Grabar Cotización</button>
+                <button id="btnSaveQuotation" onclick="SaveQuotation(event)" class="btn btn-primary waves-effect waves-light m-r-10">Grabar Cotización</button>
             </div>
         </div>
     </div>
@@ -486,29 +485,7 @@
                 <col style="width: 106px">
                 <col style="width: 106px">
             </colgroup>
-            @*  <tr>
-                  <th class="tg-nrix"></th>
-                  <th class="tg-0lax"></th>
-                  <th class="tg-nrix">Perfil 1</th>
-                </tr>
-                <tr>
-                  <td class="tg-nrix" rowspan="3">Triaje</td>
-                  <td class="tg-0lax">Examen 1</td>
-                  <td class="tg-nrix"></td>
-                </tr>
-                <tr>
-                  <td class="tg-0lax">Examen 2</td>
-                  <td class="tg-nrix"></td>
-                </tr>
-                <tr>
-                  <td class="tg-0lax">Examen 3</td>
-                  <td class="tg-nrix"></td>
-                </tr>
-                <tr>
-                  <td class="tg-baqh">ABC</td>
-                  <td class="tg-0lax">Examen</td>
-                  <td class="tg-0lax"></td>
-                </tr>*@
+         
         </table>
     </div>
 </div>
@@ -555,10 +532,7 @@
 
             </div>
 
-            <div class="modal-footer">
-                @*<div class="col-10">
-                        <input type="checkbox" id="chkProfile" value="check"><label for="chkProfile">Guardar Perfil</label>
-                    </div>*@
+            <div class="modal-footer">                
                 <div class="col-12 col-md-4">
                     <button type="button" class="btn btn-info" data-dismiss="modal" onclick="AddProfile()">Seleccionar</button>
                 </div>

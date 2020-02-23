@@ -250,7 +250,6 @@
                             <th>F. Envio</th>
                             <th>Costo</th>
                             <th>Estado</th>
-                            @*<th>F. US</th>*@
                             <th class="text-nowrap">Editar</th>
                         </tr>
                     </thead>
@@ -341,7 +340,6 @@
                 return;
             }
 
-            //$(".odd").remove();
             var content = "";
             var data = resp.Data;
             for (let i = 0; i < data.length; i++) {
@@ -358,7 +356,7 @@
                 content += "<td>";
 
 
-                content += "<select class='form-control form-white select-StatusQuotation' data-placeholder='Seleccione un estado...' id='ddlStatusQuotation-" + quotationId + "'>";
+                content += "<select class='form-control form-white select-StatusQuotation'  id='ddlStatusQuotation-" + quotationId + "' "+ Isdisabled(data[i].StatusQuotationId) +">";
                 content += "<option value='4' "+selected(4,data[i].StatusQuotationId)+">Potencial</option>";
                 content += "<option value='1' "+selected(1,data[i].StatusQuotationId)+">Seguimiento</option>";
                 content += "<option value='2' "+selected(2,data[i].StatusQuotationId)+">Aceptada</option>";
@@ -383,7 +381,7 @@
                 var a = '\"' + data[i].NroQuotation + '\"';
                 content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a><a onclick='AddTracking(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-phone btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "<td><a onclick='viewVersion(" + a + ")' data-toggle='tooltip' data-original-title='Versiones'> <i class='fa fa-list btn waves-effect waves-light btn-secondary'></i></a></td>";
-                content += "<td><a onclick='viewPropuesta("+data[i].QuotationId+")' data-toggle='tooltip' data-original-title='Propuesta'> <i class='fa fa-list btn waves-effect waves-light btn-secondary'></i></a></td>";
+                content += "<td><a onclick='viewPropuesta("+data[i].QuotationId+")' data-toggle='tooltip' data-original-title='Propuesta'> <i class='fa fa-file-pdf-o btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "</tr>";
 
                 content += "<tr style='display:none' class='track-"+quotationId+"'>";
@@ -509,14 +507,7 @@
             });
 
     }
-
-    //function GetDateFormat(str) {
-    //    var value = new Date(parseInt(str.replace(/(^.*\()|([+-].*$)/g, '')));
-    //    var dat = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
-    //    return dat;
-    //}
-
-
+        
     function EditTracking(id) {
         ClearPoupTracking();           
 
@@ -529,7 +520,6 @@
             $("#txthiddenQuotation").val(data.QuotationId);
             $("#txtComentary").val(data.Commentary);
             $("#txthiddenQuotationTracking").val(data.QuoteTrackingId);
-            //$("#txthiddentxtDate").val(GetDateFormat(data.Date));
             $("#txthiddentxtDate").val(formatDate(data.Date));            
 
         });
@@ -630,12 +620,17 @@
         }
     }
 
-    function selected(value, id) {
-        if (value == id) {
+    function selected(value, id, quotationId) {        
+        
+        if (value == id) {            
             return 'selected';
         }
         return '';
         }
+
+    function Isdisabled(stateQuotation) {
+        if (stateQuotation == STATUS_QUOTATION_ACEPTADA) return "disabled";
+    }
 
     function viewVersion(code) {
         $("#table-versions").empty();

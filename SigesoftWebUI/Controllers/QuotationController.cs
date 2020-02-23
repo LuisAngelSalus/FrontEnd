@@ -123,6 +123,11 @@ namespace SigesoftWebUI.Controllers
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
 
+            #region AUDIT
+            data.InsertUserId = sessione.SystemUserId;
+            data.UserCreatedId = sessione.SystemUserId;
+            #endregion
+
             var response = _quotationBL.Save(data,validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
@@ -137,6 +142,11 @@ namespace SigesoftWebUI.Controllers
             oLoginDto.v_Password = sessione.Pass;
             var validated = _securityBL.ValidateAccess(oLoginDto);
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            #region AUDIT
+            data.InsertUserId = sessione.SystemUserId;
+            data.UserCreatedId = sessione.SystemUserId;
             #endregion
 
             var response = _quotationBL.NewVersion(data, validated.Token);

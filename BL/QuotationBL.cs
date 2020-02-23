@@ -36,17 +36,22 @@ namespace BL
         }
         
         public Response<QuotationRegisterDto> Save(QuotationRegisterDto data, string token)
-        {
+        {//REFACTOR
             Response<QuotationRegisterDto> obj = null;
 
-            if(data.StatusQuotationId == StateQuotation.Potencial) data.CommercialTerms = "Cotización Potencial (GA)";
+            if(data.StatusQuotationId == StateQuotation.Potencial) data.CommercialTerms = "Cotización Potencial";
 
             var hCliente = _global.rspClient("Quotation/", data, token);
-                if (hCliente.IsSuccessStatusCode)
-                {
-                    obj = new JavaScriptSerializer().Deserialize<Response<QuotationRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);
-                }
-                return obj;         
+            if (hCliente.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<QuotationRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);                
+            }                                
+
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<QuotationRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);                
+            }
+            return obj;
         }
 
         public Response<QuotationUpdateDto> Update(QuotationUpdateDto data, string token)
@@ -61,9 +66,15 @@ namespace BL
         }
 
         public Response<QuotationRegisterDto> NewVersion(QuotationNewVersionDto data, string token)
-        {
+        {//REFACTOR
             Response<QuotationRegisterDto> obj = null;
+            
             var hCliente = _global.rspClient("Quotation/NewVersion/", data, token);
+            if (hCliente.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<QuotationRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<QuotationRegisterDto>>(hCliente.Content.ReadAsStringAsync().Result);

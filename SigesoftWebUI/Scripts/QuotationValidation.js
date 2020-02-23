@@ -1,5 +1,5 @@
-﻿function ValidateQuotation(e, profileId) {
-    console.log("profileId", profileId);
+﻿function ValidateQuotation(e, quotationState) {
+    console.log("profileId", quotationState);
     e.preventDefault();
 
     //I)eliminar la clase error
@@ -12,7 +12,7 @@
     var validateHeadquarter = validateddlHeadquarter("ddlSede", "Sede requerida"); 
     
     //II)Retornar resultado de validación
-    if (profileId == 4) {
+    if (quotationState == 4) {
         if (validateRuc && validateFullName && validateEmail && validateHeadquarter) 
             return true;         
         return false;

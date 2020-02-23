@@ -1,13 +1,10 @@
-﻿var obj = {};
+﻿
+var obj = {};
 var objPriceList = {}
-//constantes
-const PROFILE_POTENCIAL = 96;
-const STATUS_QUOTATION_POTENCIAL = 4;
-const STATUS_QUOTATION_SEGUIMIENTO = 1;
-const STATUS_QUOTATION_ACEPTADA = 2;
-const STATUS_QUOTATION_DESCARTADA = 3;
 
 $(document).ready(function () {   
+
+    checkQuoteState();
 
     addLocalStoragComponents();
     
@@ -103,25 +100,7 @@ $(document).ready(function () {
         $('#ddlStatusQuotation option[value=4]').attr('selected', 'selected');
         
     }
-
-    //function createProfilePotencial() {
-    //    swal({
-    //        title: "Perfil Potencial",
-    //        text: "¿Está seguro de crear un perfil comercial?",
-    //        type: "input",
-    //        showCancelButton: true,
-    //        closeOnConfirm: false,
-    //        inputPlaceholder: "Ingrese un comentario"
-    //    }, function (inputValue) {
-    //        if (inputValue === false) return false;
-    //        if (inputValue === "") {
-    //            swal.showInputError("Necesita ingresar un comentario");
-    //            return false
-    //        }
-    //        swal("Nice!", "You wrote: " + inputValue, "success");                  
-    //    });
-    //}
-
+    
     $("#perfilModal").on("click", ".autocompleteProfile", function () {
         $("#search").val($(this).text());
         $("#show-list").empty();
@@ -365,6 +344,18 @@ $(document).ready(function () {
     });
 
 });
+
+function checkQuoteState() {
+    let quotationState = $("#ddlStatusQuotation option:selected").val();    
+    if (quotationState == STATUS_QUOTATION_ACEPTADA) {
+        $("#msgStateQuotation").html("<span class='label label-primary label-rounded'>Cotización Aceptado. No se puede modificar</span>");
+        $("#btnSaveQuotation").prop('disabled', true);
+    } else if (quotationState == STATUS_QUOTATION_POTENCIAL) {
+        $("#msgStateQuotation").html("<span class='label label-info label-rounded'>Cotización Potencial. Solo se permite versionamiento en estado seguimiento</span>");
+        $("#btnSaveQuotation").prop('disabled', true);
+    }
+
+}
 
 function addLocalStoragComponents() {
     if (localStorage.getItem('components') == null) {
@@ -949,8 +940,8 @@ function SearchCompany(ruc) {
 }
 
 function SaveQuotation(e) {
-    let idProfile = $("#ddlStatusQuotation option:selected").val();
-    if (ValidateQuotation(e, idProfile)) {
+    let quotationState = $("#ddlStatusQuotation option:selected").val();
+    if (ValidateQuotation(e, quotationState)) {
         swal({
             title: "¡Importante!",
             text: "¿Está seguro de guardar esta cotización?",
@@ -969,15 +960,13 @@ function APISaveQuotation() {
     var data = {
         "QuotationId": $("#txtQuotationId").val(),
         "Code": $("#spanCode").html(),
-        "Version": parseInt($("#spanVersion").html()),        
+        "Version": parseInt($("#spanVersion").html()),
         "UserName": "",
         "CompanyId": $("#txtCompanyId").val(),
         "CompanyHeadquarterId": $("#ddlSede option:selected").val(),
         "FullName": $("#txtFullName").val(),
         "Email": $("#txtEmail").val(),
         "CommercialTerms": $("#txtCommercialTerms").val(),
-        "UserCreatedId": 4,
-        "InsertUserId": 4,
         "TotalQuotation": $(".Total").html(),
         "StatusQuotationId": $(".select-StatusQuotation option:selected").val(),
         "QuotationProfile": [],
@@ -1046,63 +1035,81 @@ function APISaveQuotation() {
         oAddExam.SalePrice = $(this).parent().parent().find(".AddExamPreVen").val()
         oAddExam.RecordType = $(this).find(".RecordType").html();
         oAddExam.RecordStatus = $(this).find(".RecordStatus").html();
-        oAddExam.InsertUserId = 1;
         data.AdditionalComponentsQuote.push(oAddExam);
     });
 
 
     if (data.QuotationId == 0) {
         APIController.SaveQuotation(data).then((res) => {
-            swal({ title: "Correcto", text: "El nro de cotizacion es :" + res.Data.Code, type: "success" },
-                function () {
-                    SaveTrackingInsideRegister(res.Data.QuotationId);
-                    $("#spanCode").html(res.Data.Code);
-                    window.location.href = "/Quotation/Index/";
+            if (res.IsSuccess === false) {
+                swal({
+                    title: "¡ERROR!",
+                    text: "Ocurrió un error en la operación",
+                    type: "error"
                 });
+            } else {
+                swal({ title: "Correcto", text: "El nro de cotizacion es :" + res.Data.Code, type: "success" },
+                    function () {
+                        SaveTrackingInsideRegister(res.Data.QuotationId);
+                        $("#spanCode").html(res.Data.Code);
+                        window.location.href = "/Quotation/Index/";
+                    });
+            }
         });
 
     } else if (data.QuotationId > 0) {
         data.QuotationId = 0;
         data.Code = $("#spanCode").html();
         APIController.NewVersionQuotation(data).then((res) => {
-            swal({
-                title: "¡Importante!",
-                text: "Ingresar comentario para nueva versión",
-                type: "input",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                inputPlaceholder: "ingresar comentario"
-            }, function (inputValue) {
-                if (inputValue === false) return false;
-                if (inputValue === "") {
-                    swal.showInputError("¡Es necesario ingresar un comentario!");
-                    return false
-                }
-                SaveTrackingNewVersion(res.Data.QuotationId, inputValue);
-                swal({
-                    title: "Se creó la versión: " + res.Data.Version,
-                    text: "",
-                    type: "success",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-info",
-                    confirmButtonText: "Volver a la Matriz",
-                    cancelButtonText: "Permanecer en esta página",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                    function (isConfirm) {
-                        if (isConfirm) {
-                            window.location.href = "/Quotation/Index/";
-                        } else {
-                            swal.close();
-                        }
-                    });
-            });
 
-            APIController.UpdateProccessQuotation({ "QuotationId": res.Data.QuotationId, "Code": data.Code }).then((res) => {
-            });
+            if (res.IsSuccess === false) {
+                swal({
+                    title: "¡ERROR!",
+                    text: "Ocurrió un error en la operación",
+                    type: "error"
+                });
+            } else {
+                swal({
+                    title: "¡Importante!",
+                    text: "Ingresar comentario para nueva versión",
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    inputPlaceholder: "ingresar comentario"
+                }, function (inputValue) {
+                    if (inputValue === false) return false;
+                    if (inputValue === "") {
+                        swal.showInputError("¡Es necesario ingresar un comentario!");
+                        return false
+                    }
+                        SaveTrackingNewVersion(res.Data.QuotationId, inputValue);
+                        swal({
+                            title: "Se creó la versión: " + res.Data.Version,
+                            text: "",
+                            type: "success",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-info",
+                            confirmButtonText: "Volver a la Matriz",
+                            cancelButtonText: "Permanecer en esta página",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    window.location.href = "/Quotation/Index/";
+                                } else {
+                                    swal.close();
+                                }
+                            });
+
+                });
+
+                APIController.UpdateProccessQuotation({ "QuotationId": res.Data.QuotationId, "Code": data.Code });
+            }
+
         });
     }
+
 }
 
 function PreviewQuotation() {
@@ -1208,30 +1215,24 @@ function SaveTrackingInsideRegister(quotationId) {
 
 function SaveTrackingNewVersion(quotationId, comentary) {
 
-    //console.log("XXXx", $(".select-StatusQuotation option:selected").val());
     let StatusQuotation = $(".select-StatusQuotation option:selected").val();
     var params = {}
 
-    //Estado Potencial
-    if (StatusQuotation == 4) {
+    if (StatusQuotation == STATUS_QUOTATION_POTENCIAL) {
         params = {
             "QuotationId": quotationId,
             "Commentary": comentary,
-            "StatusName": "Potencial",
-            //"InsertUserId": 1
+            "StatusName": "Potencial"
         }
     } else {
         params = {
             "QuotationId": quotationId,
             "Commentary": comentary,
-            "StatusName": "Seguimiento",
-            //"InsertUserId": 1
+            "StatusName": "Seguimiento"            
         }
     }
 
-    APIController.SaveQuoteTracking(params).then((resp) => {
-
-    });
+    APIController.SaveQuoteTracking(params);
 }
 
 function GetNameCategory(id) {

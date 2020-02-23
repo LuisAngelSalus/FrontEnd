@@ -1,4 +1,9 @@
-﻿
+﻿//constantes
+const PROFILE_POTENCIAL = 96;
+const STATUS_QUOTATION_POTENCIAL = 4;
+const STATUS_QUOTATION_SEGUIMIENTO = 1;
+const STATUS_QUOTATION_ACEPTADA = 2;
+const STATUS_QUOTATION_DESCARTADA = 3;
 function validateInputNumber(evt) {
     var theEvent = evt || window.event;
 
