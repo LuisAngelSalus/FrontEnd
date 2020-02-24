@@ -276,6 +276,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountSettingController.cs" />
     <Compile Include="Controllers\Base\ErrorController.cs" />
     <Compile Include="Controllers\Base\GenericController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -1728,6 +1729,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AccountSetting\" />
     <Folder Include="Views\Customer\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Generic\" />

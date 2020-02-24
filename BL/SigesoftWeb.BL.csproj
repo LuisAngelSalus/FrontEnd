@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountSettingBL.cs" />
     <Compile Include="CompanyBL.cs" />
     <Compile Include="InfoSunatBL.cs" />
     <Compile Include="OwnerCompanyBL.cs" />

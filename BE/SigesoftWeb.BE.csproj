@@ -41,12 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountSettingRegisterDto.cs" />
+    <Compile Include="AccountSettingUpdateDataDto.cs" />
     <Compile Include="ClientSession.cs" />
     <Compile Include="CompanyAutoComplete.cs" />
     <Compile Include="CompanyDetailDto.cs" />
     <Compile Include="CompanyHeadquarterDto.cs" />
     <Compile Include="DropdownListDto.cs" />
     <Compile Include="InfoDto.cs" />
+    <Compile Include="ListAccountSettingDto.cs" />
     <Compile Include="ListCompanyContactDto.cs" />
     <Compile Include="ListCompanyDto.cs" />
     <Compile Include="ListComponentDto.cs" />

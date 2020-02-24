@@ -329,8 +329,7 @@
                                     </div>
                                     <div class="col">
                                         <div>
-                                            <input type="checkbox" id="chkConfig" name="chkConfig">
-                                            <label for="chkConfig">Usar como predeterminado</label>
+                                      
                                         </div>
                                     </div>
                                 </div>
@@ -402,8 +401,7 @@
         var swReg;
         var objData = {};
         swEnabled();    
-        $(document).ready(function () {
-                   
+        $(document).ready(function () {                   
 
             APIController.GetAccessUser().then((res) => {
                 objData = res;
@@ -465,37 +463,66 @@
 
         function VerifyDefaultCompany() {
             let username = $("#username").html();
-            let obj = {};
-            if (localStorage.getItem('configdefault' + username) == null) {
-                $("#AccountSettingModal").modal("show");
-            } else {
-                obj = JSON.parse(localStorage.getItem('configdefault' + username));
-                $('#ddlConfCompany').val(obj.companyId);
-                $('#ddlConfCompany').val(obj.companyId).trigger('change');
-                $("#ddlConfRole").val(obj.roleId);
 
+            if (localStorage.getItem('configdefault' + username) == null) {                
+                  APIController.GetAccountSettingBySystemUserId().then((resp) => {
+                      let data = resp.Data;
+
+                    if (data == null) {
+                          $("#AccountSettingModal").modal("show");
+                    } else {                                        
+                        $('#ddlConfCompany').val(data.OwnerCompanyId).trigger('change');
+                        $("#ddlConfRole").val(data.RoleId);
+                        buildSideBar({
+                        "OwnerCompanyId": data.OwnerCompanyId,
+                        "RoleId": data.RoleId,
+                        });
+                        SaveConfigAccountCache();
+                    }
+                  });                           
+            } else {
+              let obj = JSON.parse(localStorage.getItem('configdefault' + username));
+                $('#ddlConfCompany').val(obj.OwnerCompanyId);
+                $('#ddlConfCompany').val(obj.OwnerCompanyId).trigger('change');
+                $("#ddlConfRole").val(obj.RoleId);
                 buildSideBar(obj);
+            }            
+        }
+
+        function SaveConfigAccountCache() {
+             let username = $("#username").html();
+            obj = {
+                "OwnerCompanyId": $("#ddlConfCompany option:selected").val(),
+                "RoleId": $("#ddlConfRole option:selected").val(),
             }
+            localStorage.setItem('configdefault' + username, JSON.stringify(obj));
         }
 
         function SaveConfig() {
             let username = $("#username").html();
-            obj = {
-                "companyId": $("#ddlConfCompany option:selected").val(),
-                "roleId": $("#ddlConfRole option:selected").val(),
+            let data = {
+                OwnerCompanyId: $("#ddlConfCompany option:selected").val(),
+                RoleId: $("#ddlConfRole option:selected").val()
             }
 
-            localStorage.setItem('configdefault' + username, JSON.stringify(obj));
-            buildSideBar(obj);
+            if (localStorage.getItem('configdefault' + username) == null) {
+                APIController.SaveAccountSetting(data).then((res) => {
+                    buildSideBar(data);
+                });
+            } else {
+                APIController.UpdateAccountSetting(data).then((res) => {
+                   buildSideBar(data);
+                });
+            }
         }
 
         function buildSideBar(obj) {
             let company = objData.Companies.filter((res) => {
-                return res.CompanyId == obj.companyId;
+                return res.CompanyId == obj.OwnerCompanyId;
             });
 
             let roles = company[0].Roles.filter((res) => {
-                return res.RolId == obj.roleId
+                return res.RolId == obj.RoleId
             });
 
             let modules = roles[0].Modules;

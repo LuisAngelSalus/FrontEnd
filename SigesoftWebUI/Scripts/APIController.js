@@ -623,6 +623,46 @@
         });
     }
 
+    var accountSettingBySystemUserId = function () {
+        return new Promise((resolve, reject) => {
+            fetch('/AccountSetting/GetAccountSettingBySystemUserId' , {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }   
+
+    var saveAccountSetting = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/AccountSetting/Save', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var updateAccountSetting = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/AccountSetting/Update', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -885,6 +925,25 @@
                 pushNotification(parameters).then(res => resolve(res));
             });
         },
+
+        GetAccountSettingBySystemUserId: function () {
+            return new Promise((resolve, reject) => {
+                accountSettingBySystemUserId().then(res => resolve(res));
+            });
+        },
+
+        SaveAccountSetting: function (parameters) {
+            return new Promise((resolve, reject) => {
+                saveAccountSetting(parameters).then(res => resolve(res));
+            });
+        },
+
+        UpdateAccountSetting: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateAccountSetting(parameters).then(res => resolve(res));
+            });
+        },
+        
     }
 
 })();

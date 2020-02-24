@@ -43,10 +43,6 @@ namespace SigesoftWebUI.Controllers
                     var token = result.Token;
 
                     sessionModel = _securityBL.UserAccess(result.SystemUserId, token);
-
-                    //sessionModel.SystemUserId = dataUser.SystemUserId;
-                    //sessionModel.FullName = dataUser.FullName;
-                    //sessionModel.UserName = dataUser.UserName;
                     sessionModel.Pass = oLoginDto.v_Password;
 
                     FormsAuthentication.SetAuthCookie(sessionModel.UserName, false);
