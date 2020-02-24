@@ -84,6 +84,8 @@ namespace SigesoftWebUI.Controllers
                 data.CompanyName = company.Name;
                 data.CompanyDistrictName = company.District;
                 data.CompanyAddress = company.Address;
+                data.FullName = company.ContactName;
+                data.Email = company.Mail;
                 ViewBag.Headquarters = company.companyHeadquarter;
                 ViewBag.DataQuotation = data;
             }

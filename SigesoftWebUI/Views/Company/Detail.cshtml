@@ -179,13 +179,13 @@
                     <div class="col-md-6 col-12 mb-1">
                         <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">@(companyId == 0 ? "Crear Empresa" : "Modificar Empresa")</button>
                     </div>
-                    <div class="col-md-6 col-12 mb-1">
+                    @*<div class="col-md-6 col-12 mb-1">
                         @if (@ViewBag.Detail.IdentificationNumber != null)
                         {
                             <button onclick="location.href='@Url.Action("Register","Quotation", new { id = 0, ruc = ViewBag.Detail.IdentificationNumber})'" class="btn btn-primary waves-effect waves-light m-b-10">Crear  Cotización</button>
                         }
 
-                    </div>
+                    </div>*@
                 </div>
 
                 
@@ -248,7 +248,7 @@
 
         function SearchCompany(ruc) {
             APIController.GetCompanyByRuc(ruc).then((res) => {
-                console.log(res.data);
+                
                 $('#txtCompanyId').val(res.Data.CompanyId);
                 $('#txtCompanyName').val(res.Data.Name);
                 $('#txtDistrict').val(res.Data.District);
@@ -295,11 +295,8 @@
 
         function InfoSunat(ruc) {
             APIController.GetInfoSunat(ruc).then((res) => {
-                console.log(res.data);
-                swal("Búsqueda correcta");
-                //SaveCompany(res.Data);
-
-                console.log(res.data);
+                
+                swal("Búsqueda correcta");                               
                 $('#txtCompanyName').val(res.Data.RazonSocial);
                 $('#txtDistrict').val(res.Data.Distrito);
                 $('#txtAddress').val(res.Data.TipoVia + ' ' + res.Data.CodigoZona + ' N°' + res.Data.Numero + ' ' + res.Data.NombreVia + ' ' + res.Data.TipoZona,);
@@ -319,21 +316,7 @@
                     content += " </tr>";
                 }
                 $("tbody").append(content);
-
-                $('#txtCompanyName').attr('readonly', false);
-                $('#txtDistric').attr('readonly', false);
-                $('#txtAddress').attr('readonly', false);
-
                 $("#txtContactName").focus();
-
-            }).catch((res) => {
-                swal.close();
-                $('#txtCompanyName').val("");
-                $('#txtDistric').val("");
-                $('#txtAddress').val("");
-                $('#txtCompanyName').attr('readonly', false);
-                $('#txtDistrict').attr('readonly', false);
-                $('#txtAddress').attr('readonly', false);
             });
         }
 
@@ -342,7 +325,7 @@
         $(".disableTd").removeAttr("tabindex");
 
         $("#btnNewHeadquarter").click(function (e) {
-            console.log("Event", e);
+            
             let idTemp = Math.random().toString(36).substring(7);
             var content = "";
             content += "<tr>";
@@ -494,7 +477,6 @@
             title = "Empresa modificada correctamente";
         }
 
-    //console.log(data);
         if (data.CompanyId == 0) {
             APIController.GetCompanyByRuc(data.IdentificationNumber).then((resp) => {
                 data.CompanyId = resp.Data.CompanyId;
@@ -509,36 +491,60 @@
                     showLoaderOnConfirm: true
                 }, function () {
                     APIController.SaveCompany(data).then((res) => {
-                        swal({
-                            title: "Empresa modificada correctamente",
-                            icon: "success",
-                        });
-                        window.location.href = "/Company/Index/";
+                        //swal({
+                        //    title: "Empresa modificada correctamente",
+                        //    icon: "success",
+                        //});
+                        //window.location.href = "/Company/Index/";
+                        askWhatToDo(title,res.Data.IdentificationNumber);
                     });
                 });
             }).catch((err) => {
                 APIController.SaveCompany(data).then((res) => {
-                    swal({
-                        title: title,
-                        icon: "success",
-                    });
-                    window.location.href = "/Company/Index/";
+                    //swal({
+                    //    title: title,
+                    //    icon: "success",
+                    //});
+                    //window.location.href = "/Company/Index/";
+                     askWhatToDo(title,res.Data.IdentificationNumber);
                 });
             });
         } else {
             APIController.SaveCompany(data).then((res) => {
-                swal({  
-                    title: title,
-                    icon: "success",
-                });
-                window.location.href = "/Company/Index/";
+                //swal({  
+                //    title: title,
+                //    icon: "success",
+                //});
+                //window.location.href = "/Company/Index/";
+                 askWhatToDo(title,res.Data.IdentificationNumber);
             });
         }
-        
+    }
 
+    function askWhatToDo(title, ruc) {
+        swal({
+                title: title,
+                text: "",
+                type: "success",
+                showCancelButton: true,
+                confirmButtonClass: "btn-info",
+                confirmButtonText: "Volver a la bandeja",
+                cancelButtonText: "Crear una cotización",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = "/Company/Index/";
+                    } else {                        
+                        var url = '@Url.Action("Register", "Quotation", new { id = "js-id", ruc = "js-ruc" })'
+                            .replace("js-id", encodeURIComponent(0))
+                        .replace("js-ruc", encodeURIComponent(ruc));
 
-
-
+                        location.href = url;
+                        
+                    }
+                });
     }
 
     </script>

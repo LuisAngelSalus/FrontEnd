@@ -446,6 +446,7 @@
             $('#ddlConfCompany').change(function () {
                 var id = $("#ddlConfCompany option:selected").val();
                 let content = "";
+                console.log(objData,objData.Companies)
                 let company = objData.Companies.filter((rep) => {
                     return rep.CompanyId == id;
                 });
@@ -531,31 +532,11 @@
           }
         }
 
-        //function swEnabled() {
-        //    if (navigator.serviceWorker) {
-        //        console.log("SE cargó el swEnabled");
-        //        $(window).on('load', function ()
-        //        {
-        //            console.log("SE cargó el LOAD");
-        //        });
-        //    //  window.addEventListener("load", function () {
-        //    //      console.log("SE cargó el LOAD");
-        //    ////  navigator.serviceWorker.register("/sw.js").then(function(reg) {
-        //    ////    swReg = reg;
-        //    ////    swReg.pushManager.getSubscription().then(verifySubscription);
-        //    ////  });
-        //    //});
-        //  }
-        //}
-
-        function verifySubscription(activated) {          
-            console.log("44444444");
-            if (activated) {
-                console.log("Sí");
+        function verifySubscription(activated) {                      
+            if (activated) {                
                 $('#chkNotification').prop( "checked", true );
                 $("#li-notification").removeAttr('hidden');
-            } else {
-                console.log("No");
+            } else {                
                 $('#chkNotification').prop( "checked", false );
                 $("#li-notification").attr("hidden",true);            
           }          

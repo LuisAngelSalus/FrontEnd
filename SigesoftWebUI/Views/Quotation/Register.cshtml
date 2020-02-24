@@ -137,7 +137,6 @@
                         <div class="form-group col-md-4">
                             <label for="ddlSede">Sede</label>
                             <select class="form-control form-white" id="ddlSede">
-                                @*<option value=" -1">--Seleccionar--</option>*@
                                 @foreach (var item in ViewBag.Headquarters)
                                 {
                                     <option value="@item.CompanyHeadquarterId">@item.Name</option>

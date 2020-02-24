@@ -1,10 +1,4 @@
 ﻿
-@*@{
-    var username = ViewBag.UserData.Split('|')[0];
-    var rolId = ViewBag.UserData.Split('|')[1];
-}*@
-
-@*<input type="hidden" name="usernameHidden" id="usernameHidden" value="@username" />*@
 
 @Html.Action("Dashboard", "Generals", new { roleId = 5 })
 
@@ -12,20 +6,6 @@
 <script src="~/Scripts/APIController.js"></script>
 <script>
     $(document).ready(function () {
-        //let userName = $('#usernameHidden').val();
-        //if (localStorage.getItem('configdefault' + userName) != null) {
-        //    obj = JSON.parse(localStorage.getItem('configdefault' + userName));
-
-            //APIController.GetDashboard(obj.roleId).then((res) => {
-            //    console.log("RETORNO");
-            //});
-
-             @*$.get('@Url.Action("Dashboard", "Generals")', function( data ) {
-                $( "#myContentView" ).html( data );
-        }*@
-
-
-
-
+       
     });
 </script>

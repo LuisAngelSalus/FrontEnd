@@ -278,6 +278,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Base\ErrorController.cs" />
     <Compile Include="Controllers\Base\GenericController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoSunatController.cs" />
@@ -1723,9 +1724,11 @@
     <Content Include="Views\SystemUser\Index.cshtml" />
     <Content Include="Views\SystemUser\Register.cshtml" />
     <Content Include="Views\Quotation\_MigrateProtocolPartial.cshtml" />
+    <Content Include="Views\Shared\_DashboardCustomerPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Customer\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Generic\" />
     <Folder Include="Views\InfoSunat\" />

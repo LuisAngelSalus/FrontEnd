@@ -111,8 +111,8 @@
                             <td class="text-nowrap text-right">
                                 <div class="btn-list">
                                     <a class="" href="#" data-toggle="tooltip" data-original-title="Contactos"> <i onclick="Ver(@item.CompanyId)" class="fa fa-user btn waves-effect waves-light btn-primary"></i></a>
-                                    <a class="" href="@Url.Action("Detail","Company",new {id = @item.CompanyId })" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil btn waves-effect waves-light btn-secondary"></i></a>
-                                    @*<a class="" href="#" data-toggle="tooltip" data-original-title="Close"><i class="fa fa-close btn waves-effect waves-light btn-danger"></i></a>*@
+                                    <a class="" href="@Url.Action("Detail","Company",new {id = @item.CompanyId })" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil btn waves-effect waves-light btn-secondary"></i></a>
+                                    <a class="" href="@Url.Action("Register","Quotation", new { id = 0, ruc = @item.IdentificationNumber})" data-toggle="tooltip" data-original-title="Crear Cotización"><i class="fa fa-file-text-o btn waves-effect waves-light btn-warning"></i></a>
                                 </div>
                             </td>
                         </tr>
@@ -180,27 +180,6 @@
 
     minDateFilter = "";
     maxDateFilter = "";
-    //$.fn.dataTableExt.afnFiltering.push(
-    //    function (oSettings, aData, iDataIndex) {
-    //        if (typeof aData._date == 'undefined') {
-    //            aData._date = new Date(aData[0]).getTime();
-    //        }
-
-    //        if (minDateFilter && !isNaN(minDateFilter)) {
-    //            if (aData._date < minDateFilter) {
-    //                return false;
-    //            }
-    //        }
-
-    //        if (maxDateFilter && !isNaN(maxDateFilter)) {
-    //            if (aData._date > maxDateFilter) {
-    //                return false;
-    //            }
-    //        }
-
-    //        return true;
-    //    }
-    //);
 
     $(document).ready(function () {
         $('#tableOrganizations').dataTable({
