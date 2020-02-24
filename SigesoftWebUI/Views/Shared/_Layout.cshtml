@@ -511,6 +511,7 @@
                 });
             } else {
                 APIController.UpdateAccountSetting(data).then((res) => {
+                   SaveConfigAccountCache();
                    buildSideBar(data);
                 });
             }
