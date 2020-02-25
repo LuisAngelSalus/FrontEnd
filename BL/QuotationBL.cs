@@ -163,5 +163,19 @@ namespace BL
             return obj;
         }
 
+        public Response<List<ListTrackingChartModel>> Trackingchart(ParamsTrackingChartModel parameters, string token) {
+            Response<List<ListTrackingChartModel>> obj = null;
+            var hCliente = _global.rspClient("Quotation/GraficoSeguimiento/", parameters, token);
+
+            if (hCliente.StatusCode == System.Net.HttpStatusCode.NotFound)
+                return new JavaScriptSerializer().Deserialize<Response<List<ListTrackingChartModel>>>(hCliente.Content.ReadAsStringAsync().Result);
+
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<ListTrackingChartModel>>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
     }
 }

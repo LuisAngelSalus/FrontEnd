@@ -25,8 +25,9 @@ namespace SigesoftWebUI.Views.Organization
             var validated = _securityBL.ValidateAccess(oLoginDto);
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
-
-            var response = _companyBL.Companies(validated.Token);
+            var oParamsCompanyFilterModel = new ParamsCompanyFilterModel();
+            oParamsCompanyFilterModel.ResponsibleSystemUserId = validated.SystemUserId;
+            var response = _companyBL.Companies(oParamsCompanyFilterModel,validated.Token);
             if (response.IsSuccess)
             {
                 ViewBag.data = response.Data;
@@ -71,6 +72,8 @@ namespace SigesoftWebUI.Views.Organization
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
 
+            data.ResponsibleSystemUserId = validated.SystemUserId;
+            data.InsertUserId = validated.SystemUserId;
             var response = _companyBL.Save(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }

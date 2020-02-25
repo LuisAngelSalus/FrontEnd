@@ -663,6 +663,22 @@
         });
     }
 
+    var trackingChart = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Quotation/Trackingchart', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -941,6 +957,12 @@
         UpdateAccountSetting: function (parameters) {
             return new Promise((resolve, reject) => {
                 updateAccountSetting(parameters).then(res => resolve(res));
+            });
+        },
+
+        TrackingChart: function (parameters) {
+            return new Promise((resolve, reject) => {
+                trackingChart(parameters).then(res => resolve(res));
             });
         },
         

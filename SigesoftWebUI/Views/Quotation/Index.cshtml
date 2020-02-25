@@ -310,8 +310,7 @@
                         Filter();
                     });
                 }
-            }             
-
+            }            
         });
 
         $("#btn-close-TrackingModal").click(function () {            
@@ -436,7 +435,7 @@
 
             }
             $("#tbody-filter-quotation").append(content);
-            StatisticalGraph(data);
+            StatisticalGraph();;
         });
     }
 
@@ -550,9 +549,18 @@
         $("#txtComentary").val("");
     }
 
-    function StatisticalGraph(data) {
+    function StatisticalGraph() {
+         let params = {            
+            "StartDate": $("#dtpStart").val(),
+            "EndDate": $("#dtpEnd").val()            
+            } 
 
-        var ctx3 = document.getElementById("chart3").getContext("2d");
+        APIController.TrackingChart(params).then((resp) => {
+
+            console.log("RESP", resp);
+            let data = resp.Data;
+            if (data.length > 0) {
+                var ctx3 = document.getElementById("chart3").getContext("2d");
         var statusPotential = 0;
         var statusTracking = 0;
         var statusAccepted = 0;
@@ -618,6 +626,12 @@
             legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>",
             responsive: true
         });
+            }
+            
+        
+        });
+
+        
     }
 
     function show(value) {

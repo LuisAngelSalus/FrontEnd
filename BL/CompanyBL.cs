@@ -13,10 +13,10 @@ namespace BL
     {
         Global _global = new Global();
 
-        public Response<List<ListCompanyDto>> Companies(string token)
+        public Response<List<ListCompanyDto>> Companies(ParamsCompanyFilterModel data ,string token)
         {
             Response<List<ListCompanyDto>> obj = null;
-            var hCliente = _global.rspClientGET("Company", token);
+            var hCliente = _global.rspClient("Company/Filter", data, token);
             if (hCliente.IsSuccessStatusCode)
             {
                 obj = new JavaScriptSerializer().Deserialize<Response<List<ListCompanyDto>>>(hCliente.Content.ReadAsStringAsync().Result);
@@ -41,6 +41,12 @@ namespace BL
             if (data.CompanyId != 0)
             {
                 var hCliente = _global.rspClientPUT("Company/"+ data.CompanyId, data, token);
+
+                if (hCliente.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                {
+                    obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
+                }
+
                 if (hCliente.IsSuccessStatusCode)
                 {
                     obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);

@@ -43,7 +43,7 @@ namespace SigesoftWebUI.Controllers
             var validated = _securityBL.ValidateAccess(oLoginDto);
             if(validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
-
+            parameters.ResponsibleSystemUserId = validated.SystemUserId;
             var response = _quotationBL.Filter(parameters, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
@@ -136,7 +136,7 @@ namespace SigesoftWebUI.Controllers
 
             #region AUDIT
             data.InsertUserId = sessione.SystemUserId;
-            data.UserCreatedId = sessione.SystemUserId;
+            data.ResponsibleSystemUserId = sessione.SystemUserId;
             #endregion
 
             var response = _quotationBL.Save(data,validated.Token);
@@ -157,7 +157,7 @@ namespace SigesoftWebUI.Controllers
 
             #region AUDIT
             data.InsertUserId = sessione.SystemUserId;
-            data.UserCreatedId = sessione.SystemUserId;
+            data.ResponsibleSystemUserId = sessione.SystemUserId;
             #endregion
 
             var response = _quotationBL.NewVersion(data, validated.Token);
@@ -220,24 +220,7 @@ namespace SigesoftWebUI.Controllers
             var response = _quotationBL.GetVersions(code, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
-
-        //public FileResult GetDocumentPDF(string data)
-        //{
-
-        //    byte[] byteArray;
-        //    RootObject deserializeQuotation = JsonConvert.DeserializeObject<RootObject>(data);
-        //    using (MemoryStream stream = new System.IO.MemoryStream())
-        //    {
-        //        StringReader sr = new StringReader(data);
-        //        Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 100f, 0f);
-        //        PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
-        //        pdfDoc.Open();
-        //        XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
-        //        pdfDoc.Close();
-        //        return File(stream.ToArray(), "application/pdf", "Grid.pdf");
-        //    }
-        //}
-
+        
         [HttpPost]
         public JsonResult ExportToPDF(string data)
         {
@@ -373,5 +356,21 @@ namespace SigesoftWebUI.Controllers
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult Trackingchart(ParamsTrackingChartModel parameters)
+        {
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+            parameters.ResponsibleSystemUserId = validated.SystemUserId;
+            var response = _quotationBL.Trackingchart(parameters, validated.Token);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
-}
+}   

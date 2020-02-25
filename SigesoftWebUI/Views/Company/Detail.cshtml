@@ -490,32 +490,26 @@
                     cancelButtonText: "No",
                     showLoaderOnConfirm: true
                 }, function () {
-                    APIController.SaveCompany(data).then((res) => {
-                        //swal({
-                        //    title: "Empresa modificada correctamente",
-                        //    icon: "success",
-                        //});
-                        //window.location.href = "/Company/Index/";
+                APIController.SaveCompany(data).then((res) => {                              
+                    if (res.IsSuccess == false) {
+                        swal("Error", "¡Ocurrió un error en la operación!", "error");
+                    } else {
                         askWhatToDo(title,res.Data.IdentificationNumber);
+                    }
+                        
                     });
                 });
             }).catch((err) => {
-                APIController.SaveCompany(data).then((res) => {
-                    //swal({
-                    //    title: title,
-                    //    icon: "success",
-                    //});
-                    //window.location.href = "/Company/Index/";
+                APIController.SaveCompany(data).then((res) => {                    
                      askWhatToDo(title,res.Data.IdentificationNumber);
                 });
             });
         } else {
-            APIController.SaveCompany(data).then((res) => {
-                //swal({  
-                //    title: title,
-                //    icon: "success",
-                //});
-                //window.location.href = "/Company/Index/";
+            APIController.SaveCompany(data).then((res) => { 
+                console.log("SSSSs", res);
+                if (res.IsSuccess == false) {
+                    swal("Error", "¡Ocurrió un error en la operación!", "error");
+                }
                  askWhatToDo(title,res.Data.IdentificationNumber);
             });
         }
