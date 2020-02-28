@@ -609,6 +609,10 @@
     <Content Include="assets\plugins\dropify\src\images\test-image-1.jpg" />
     <Content Include="assets\plugins\dropify\src\images\test-image-2.jpg" />
     <Content Include="assets\plugins\dropify\src\js\dropify.js" />
+    <Content Include="assets\plugins\Highcharts\highcharts.js" />
+    <Content Include="assets\plugins\Highcharts\modules\export-data.js" />
+    <Content Include="assets\plugins\Highcharts\modules\exporting.js" />
+    <Content Include="assets\plugins\Highcharts\modules\series-label.js" />
     <Content Include="assets\plugins\html5-editor\bootstrap-wysihtml5.css" />
     <Content Include="assets\plugins\html5-editor\bootstrap-wysihtml5.js" />
     <Content Include="assets\plugins\html5-editor\wysiwyg-color.css" />
@@ -1661,6 +1665,9 @@
     <Content Include="assets\plugins\bootstrap-treeview-master\README.md" />
     <Content Include="assets\plugins\bootstrap-treeview-master\tests\README.md" />
     <Content Include="manifest.json" />
+    <Content Include="assets\plugins\Highcharts\modules\export-data.js.map" />
+    <Content Include="assets\plugins\Highcharts\modules\exporting.js.map" />
+    <Content Include="assets\plugins\Highcharts\modules\series-label.js.map" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\APIController.js" />

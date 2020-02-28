@@ -196,8 +196,8 @@
                     <ul class="navbar-nav my-lg-0">
                         <li class="nav-item dropdown" id="li-notification" hidden>
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="mdi mdi-message"></i>                                
-                            </a>                            
+                                <i class="mdi mdi-message"></i>
+                            </a>
                         </li>
                         <!-- ============================================================== -->
                         <!-- Profile -->
@@ -329,7 +329,7 @@
                                     </div>
                                     <div class="col">
                                         <div>
-                                      
+
                                         </div>
                                     </div>
                                 </div>
@@ -378,7 +378,11 @@
     <script src="~/Scripts/utils.js"></script>
     <script src="~/Scripts/moment.js"></script>
     <script src="~/Scripts/moment-with-locales.js"></script>
-
+    <!-- This is highcharts -->
+    <script src="~/assets/plugins/Highcharts/highcharts.js"></script>
+    <script src="~/assets/plugins/Highcharts/modules/series-label.js"></script>
+    <script src="~/assets/plugins/Highcharts/modules/exporting.js"></script>
+    <script src="~/assets/plugins/Highcharts/modules/export-data.js"></script>
     <!-- Treeview Plugin JavaScript -->
     <script src="~/assets/plugins/bootstrap-treeview-master/dist/bootstrap-treeview.min.js"></script>
     <script type="text/javascript">
@@ -400,8 +404,8 @@
     <script>
         var swReg;
         var objData = {};
-        swEnabled();    
-        $(document).ready(function () {                   
+        swEnabled();
+        $(document).ready(function () {
 
             APIController.GetAccessUser().then((res) => {
                 objData = res;
@@ -409,8 +413,8 @@
                 VerifyDefaultCompany();
             });
 
-        $('#chkNotification').change(function (event) {
-                if (event.target.checked) {             
+            $('#chkNotification').change(function (event) {
+                if (event.target.checked) {
                     if (!swReg) return console.log("No hay registro de SW");
 
                     APIController.GetKeyPublic().then((res) => {
@@ -426,12 +430,12 @@
                             .then(suscription => {
                                 APIController.SaveSuscription({ "Body": JSON.stringify(suscription) }).then(verifySubscription);
                             })
-                        .catch(error => {
-                            console.log("error", error.message);                        
-                        });
+                            .catch(error => {
+                                console.log("error", error.message);
+                            });
                     });
                 } else {
-                    $("#li-notification").attr("hidden",true);                    
+                    $("#li-notification").attr("hidden", true);
                 }
             });
         });
@@ -444,7 +448,7 @@
             $('#ddlConfCompany').change(function () {
                 var id = $("#ddlConfCompany option:selected").val();
                 let content = "";
-                console.log(objData,objData.Companies)
+                console.log(objData, objData.Companies)
                 let company = objData.Companies.filter((rep) => {
                     return rep.CompanyId == id;
                 });
@@ -464,33 +468,33 @@
         function VerifyDefaultCompany() {
             let username = $("#username").html();
 
-            if (localStorage.getItem('configdefault' + username) == null) {                
-                  APIController.GetAccountSettingBySystemUserId().then((resp) => {
-                      let data = resp.Data;
+            if (localStorage.getItem('configdefault' + username) == null) {
+                APIController.GetAccountSettingBySystemUserId().then((resp) => {
+                    let data = resp.Data;
 
                     if (data == null) {
-                          $("#AccountSettingModal").modal("show");
-                    } else {                                        
+                        $("#AccountSettingModal").modal("show");
+                    } else {
                         $('#ddlConfCompany').val(data.OwnerCompanyId).trigger('change');
                         $("#ddlConfRole").val(data.RoleId);
                         buildSideBar({
-                        "OwnerCompanyId": data.OwnerCompanyId,
-                        "RoleId": data.RoleId,
+                            "OwnerCompanyId": data.OwnerCompanyId,
+                            "RoleId": data.RoleId,
                         });
                         SaveConfigAccountCache();
                     }
-                  });                           
+                });
             } else {
-              let obj = JSON.parse(localStorage.getItem('configdefault' + username));
+                let obj = JSON.parse(localStorage.getItem('configdefault' + username));
                 $('#ddlConfCompany').val(obj.OwnerCompanyId);
                 $('#ddlConfCompany').val(obj.OwnerCompanyId).trigger('change');
                 $("#ddlConfRole").val(obj.RoleId);
                 buildSideBar(obj);
-            }            
+            }
         }
 
         function SaveConfigAccountCache() {
-             let username = $("#username").html();
+            let username = $("#username").html();
             obj = {
                 "OwnerCompanyId": $("#ddlConfCompany option:selected").val(),
                 "RoleId": $("#ddlConfRole option:selected").val(),
@@ -511,8 +515,8 @@
                 });
             } else {
                 APIController.UpdateAccountSetting(data).then((res) => {
-                   SaveConfigAccountCache();
-                   buildSideBar(data);
+                    SaveConfigAccountCache();
+                    buildSideBar(data);
                 });
             }
         }
@@ -550,24 +554,24 @@
         }
 
         function swEnabled() {
-            if (navigator.serviceWorker) {                
-                window.addEventListener("load", function () {                
-                navigator.serviceWorker.register("/sw.js").then(function (reg) {                
-                    swReg = reg;
-                    swReg.pushManager.getSubscription().then(verifySubscription);
-              });
-            }); 
-          }
+            if (navigator.serviceWorker) {
+                window.addEventListener("load", function () {
+                    navigator.serviceWorker.register("/sw.js").then(function (reg) {
+                        swReg = reg;
+                        swReg.pushManager.getSubscription().then(verifySubscription);
+                    });
+                });
+            }
         }
 
-        function verifySubscription(activated) {                      
-            if (activated) {                
-                $('#chkNotification').prop( "checked", true );
+        function verifySubscription(activated) {
+            if (activated) {
+                $('#chkNotification').prop("checked", true);
                 $("#li-notification").removeAttr('hidden');
-            } else {                
-                $('#chkNotification').prop( "checked", false );
-                $("#li-notification").attr("hidden",true);            
-          }          
+            } else {
+                $('#chkNotification').prop("checked", false);
+                $("#li-notification").attr("hidden", true);
+            }
         }
 
     </script>

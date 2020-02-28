@@ -15,24 +15,7 @@ namespace SigesoftWebUI.Controllers
             ViewBag.UserData =  roleId;
             return View();                    
         }
-
-        public PartialViewResult Dashboard(string roleId)
-        {            
-            if (roleId == "1")
-            {
-                return PartialView("_DashboardSistemasPartial");
-            }
-            else if(roleId == "5") 
-            {
-                return PartialView("_DashboardCommercialPartial");
-            }
-            else
-            {
-                return PartialView("_DashboardEmptyPartial");
-            }
-
-        }
-
+        
         public ActionResult home()
         {            
             return View();
