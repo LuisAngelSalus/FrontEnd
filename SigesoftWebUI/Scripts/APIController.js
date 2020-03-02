@@ -29,7 +29,7 @@
                 }).catch(err => { console.log(err); reject() });
         });
     }
-    
+
     var saveQuotation = function (parameters) {
         return new Promise((resolve, reject) => {
 
@@ -96,7 +96,7 @@
     }
 
     var infoSunat = function (ruc) {
-        return new Promise((resolve, reject) => {            
+        return new Promise((resolve, reject) => {
             let url = '/InfoSunat/Info?ruc=' + ruc
             fetch(url, {
                 headers: { 'Content-Type': 'application/json' }
@@ -111,7 +111,7 @@
 
     var CompanyByRuc = function (ruc) {
         return new Promise((resolve, reject) => {
-            
+
             let url = '/Company/CompanyByRuc?ruc=' + ruc
             fetch(url, {
                 headers: { 'Content-Type': 'application/json' }
@@ -144,7 +144,7 @@
     var ddlProtocolProfile = function () {
         return new Promise((resolve, reject) => {
 
-            fetch('/ProtocolProfile/DropdownList', {              
+            fetch('/ProtocolProfile/DropdownList', {
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
@@ -171,7 +171,7 @@
 
     }
 
-    var secuential = function (parameters){
+    var secuential = function (parameters) {
         return new Promise((resolve, reject) => {
 
             fetch('/Secuential/GetSecuential', {
@@ -267,7 +267,7 @@
 
     var components = function () {
         return new Promise((resolve, reject) => {
-            fetch('/Quotation/GetComponents', {               
+            fetch('/Quotation/GetComponents', {
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
@@ -323,7 +323,7 @@
     }
 
     var Dashboard = function (roleId) {
-        return new Promise((resolve, reject) => {            
+        return new Promise((resolve, reject) => {
             fetch('/Generals/Index?RoleId=' + roleId, {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -526,7 +526,7 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
-    }   
+    }
 
     var ProtocolDetailByProtocolId = function (protocolId) {
         return new Promise((resolve, reject) => {
@@ -538,7 +538,7 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
-    }   
+    }
 
     var saveProtocol = function (parameters) {
         return new Promise((resolve, reject) => {
@@ -625,7 +625,7 @@
 
     var accountSettingBySystemUserId = function () {
         return new Promise((resolve, reject) => {
-            fetch('/AccountSetting/GetAccountSettingBySystemUserId' , {
+            fetch('/AccountSetting/GetAccountSettingBySystemUserId', {
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
@@ -633,7 +633,7 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
-    }   
+    }
 
     var saveAccountSetting = function (parameters) {
         return new Promise((resolve, reject) => {
@@ -676,6 +676,20 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
 
+        });
+    }
+
+    var sendMail = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/Email/SendMail', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
         });
     }
 
@@ -733,7 +747,7 @@
         },
 
         SaveQuotation: function (parameters) {
-            return new Promise((resolve, reject) => {                
+            return new Promise((resolve, reject) => {
                 saveQuotation(parameters).then(res => resolve(res));
             });
         },
@@ -743,7 +757,7 @@
                 newVersionQuotation(parameters).then(res => resolve(res));
             });
         },
-        
+
         UpdateQuotation: function (parameters) {
             return new Promise((resolve, reject) => {
                 updateQuotation(parameters).then(res => resolve(res));
@@ -786,7 +800,7 @@
             });
         },
 
-        GetComponents: function() {
+        GetComponents: function () {
             return new Promise((resolve, reject) => {
                 components().then(res => resolve(res));
             });
@@ -917,7 +931,7 @@
                 saveProtocolDetail(parameters).then(res => resolve(res));
             });
         },
-        
+
         MigrateQuotationToProtocols: function (parameters) {
             return new Promise((resolve, reject) => {
                 migrateQuotationToProtocols(parameters).then(res => resolve(res));
@@ -965,7 +979,13 @@
                 trackingChart(parameters).then(res => resolve(res));
             });
         },
-        
+
+        SendMail: function (parameters) {
+            return new Promise((resolve, reject) => {
+                sendMail(parameters).then(res => resolve(res));
+            });
+        }
+
     }
 
 })();

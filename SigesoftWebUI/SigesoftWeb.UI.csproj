@@ -280,6 +280,7 @@
     <Compile Include="Controllers\Base\ErrorController.cs" />
     <Compile Include="Controllers\Base\GenericController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoSunatController.cs" />
@@ -1738,6 +1739,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\AccountSetting\" />
     <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Email\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Generic\" />
     <Folder Include="Views\InfoSunat\" />
