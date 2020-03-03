@@ -143,7 +143,7 @@ function formatDate(dateString) {
     if (dateString == null) return "";
 
     moment.locale('es');
-    return moment(dateString).format("dddd, MMMM YYYY");
+    return moment(dateString).format("DD, MMMM YYYY");
 }
 
 function browserSupportsNotifications(){
