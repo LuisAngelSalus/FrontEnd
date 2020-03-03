@@ -467,18 +467,16 @@
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function (isConfirm) {
-                    if (isConfirm) {
-                        APISaveQuoteTrackingAndUpdateStatusQuotationId();
-                        MigrateQuotationToProtocol();
+                    if (isConfirm) {                        
 
+                        let message = $('#txtComentary').val();
                         APIController.GetQuotation(quotationId).then((resp) => {
                             let data = resp.Data;
-                            console.log(data);
-                            SendMail(data.Email,"IMPORTANTE", $("#txtComentary").val());
+                            let email = data.Email;
+                            SendMail(email, "IMPORTANTE", message);
+                            APISaveQuoteTrackingAndUpdateStatusQuotationId();
+                            MigrateQuotationToProtocol();
                         });
-
-
-
 
                     }
                     else {
