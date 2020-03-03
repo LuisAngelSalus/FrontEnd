@@ -435,7 +435,7 @@
 
             }
             $("#tbody-filter-quotation").append(content);
-            StatisticalGraph();;
+            StatisticalGraph();
         });
     }
 
@@ -468,7 +468,7 @@
             }, function (isConfirm) {
                     if (isConfirm) {
                         APISaveQuoteTrackingAndUpdateStatusQuotationId();
-                        MigrateQuotationToProtocol();
+                        MigrateQuotationToProtocol($("#txthiddenQuotation").val());
                     }
                     else {
                         console.log("Canceló grabado");
@@ -479,16 +479,45 @@
             //Nuevo Seguimiento
             if (quotationTrackingId == 0) {
                 APISaveQuoteTrackingAndUpdateStatusQuotationId();
+                StatisticalGraph();
             }            
         }
     }
 
-    function MigrateQuotationToProtocol() {
+    function MigrateQuotationToProtocol(idQuotation) {
         APIController
-            .MigrateQuotationToProtocols({ "QuotationId": $("#txthiddenQuotation").val() })
+            .MigrateQuotationToProtocols({ "QuotationId":idQuotation })
             .then((res) => {
-                swal("Bien", "La cotización se migró correctamente", "success");
-            })
+                //swal("Bien", "La cotización se migró correctamente", "success");
+                swal({
+                    title: "¿Desea migrar el protocolo a SIGESoftWin?",
+                    text: "Este protocolo podrá ser usado en la versión SIGESoftWin.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "¡Sí, migrar!",
+                    cancelButtonText: "No, cancelar",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {                                     
+                            MigrarProtocolSIGESftWin(idQuotation);
+                        } else {
+                            swal("Cancelad", "Se canceló la migración", "error");
+                        }
+                    });
+
+                StatisticalGraph();
+            });
+    }
+
+    function MigrarProtocolSIGESftWin(idQuotation) {
+        APIController
+            .MigrateToProtocolSIGESoftWin({ "QuotationId": idQuotation })
+            .then((res) => {
+                swal("¡Migrado!", "El protocolo fue migrado correctamente", "success");
+            });
     }
 
     function APISaveQuoteTrackingAndUpdateStatusQuotationId() {
@@ -516,6 +545,7 @@
                 APIController.UpdateQuotation({ "QuotationId": quotationId, "StatusQuotationId": StatusQuotationId }).then((res) => {
 
                     Filter();
+                    StatisticalGraph();
 
                 });
 

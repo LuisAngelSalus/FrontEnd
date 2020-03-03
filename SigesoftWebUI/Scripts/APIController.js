@@ -679,6 +679,20 @@
         });
     }
 
+    var migrateToProtocolSIGESoftWin = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/Quotation/MigrateProtocolToSIGESoftWin', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -963,6 +977,12 @@
         TrackingChart: function (parameters) {
             return new Promise((resolve, reject) => {
                 trackingChart(parameters).then(res => resolve(res));
+            });
+        },
+
+        MigrateToProtocolSIGESoftWin: function (parameters) {
+            return new Promise((resolve, reject) => {
+                migrateToProtocolSIGESoftWin(parameters).then(res => resolve(res));
             });
         },
         
