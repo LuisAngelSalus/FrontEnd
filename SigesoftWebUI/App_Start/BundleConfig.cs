@@ -24,6 +24,20 @@ namespace SigesoftWebUI
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       //"~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/stylesheet").Include(
+                      //"~/Content/bootstrap.css",
+                      "~/Content/bootstrap.css",
+                      "~/Content/nifty.min.css",
+                      "~/Content/demo/nifty-demo-icons.min.css"
+                      ));
+
+            bundles.Add(new ScriptBundle("~/bundles/js").Include(
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/bootstrap.js",
+                        "~/Scripts/nifty.min.js"
+                        ));
+
         }
     }
 }
