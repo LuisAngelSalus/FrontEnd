@@ -48,6 +48,7 @@
     <Compile Include="CompanyDetailDto.cs" />
     <Compile Include="CompanyHeadquarterDto.cs" />
     <Compile Include="DropdownListDto.cs" />
+    <Compile Include="EmailDto.cs" />
     <Compile Include="InfoDto.cs" />
     <Compile Include="ListAccountSettingDto.cs" />
     <Compile Include="ListCompanyContactDto.cs" />

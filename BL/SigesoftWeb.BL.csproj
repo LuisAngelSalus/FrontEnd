@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AccountSettingBL.cs" />
     <Compile Include="CompanyBL.cs" />
+    <Compile Include="EmailBL.cs" />
     <Compile Include="InfoSunatBL.cs" />
     <Compile Include="OwnerCompanyBL.cs" />
     <Compile Include="PersonBL.cs" />
