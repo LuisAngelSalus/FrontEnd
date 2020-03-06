@@ -107,7 +107,7 @@
                                     <option value="1">Seguimiento</option>
                                     <option value="2">Aceptada</option>
                                     <option value="3">Descartada</option>
-                                </select>                                
+                                </select>
                             </div>
 
                         </div>
@@ -223,7 +223,7 @@
             <div class="modal-body" style="padding: 0">
                 <div class="form-group col-12">
                     <label for="txtComentary">Comentario</label>
-                    <textarea type="text" class="form-control" id="txtComentary" autocomplete="off"></textarea>                                        
+                    <textarea type="text" class="form-control" id="txtComentary" autocomplete="off"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -272,7 +272,7 @@
     <script type="text/javascript">
 
     $(document).ready(function () {
-        
+
         $('#ddlStatus').selectpicker();
         $('.selectpicker').selectpicker('val', [1, 4]);
 
@@ -282,15 +282,16 @@
 
         Filter();
 
-        $('#tbody-filter-quotation').on('change', '.select-StatusQuotation', function (event) {            
+        $('#tbody-filter-quotation').on('change', '.select-StatusQuotation', function (event) {
             let quotationId = event.target.id.split('-')[1];
             let id = event.target.id;
-            let StatusQuotationId = $("#" + id + " option:selected").val();        
-            $("#txthiddenStatusQuotationId").val(StatusQuotationId);        
+            let StatusQuotationId = $("#" + id + " option:selected").val();
+            $("#txthiddenStatusQuotationId").val(StatusQuotationId);
             AddTracking(quotationId);
+
         });
-        
-        $('#table-versions').click(function (event) {            
+
+        $('#table-versions').click(function (event) {
             let result = $(event.target).html();
             if (result== 'Desactivado') {
                 $('#table-versions > tr').each(function (index, tr) {
@@ -310,13 +311,13 @@
                         Filter();
                     });
                 }
-            }            
+            }
         });
 
-        $("#btn-close-TrackingModal").click(function () {            
+        $("#btn-close-TrackingModal").click(function () {
             $("#txthiddenQuotationTracking").val(0);
             $("#txthiddenQuotation").val(0);
-            $("#txthiddentxtDate").val(0);  
+            $("#txthiddentxtDate").val(0);
             $("#txthiddenStatusQuotationId").val(0);
 
              Filter();
@@ -347,9 +348,9 @@
             "EndDate": $("#dtpEnd").val(),
             "CompanyName": $("#txtRuc").val(),
             "StatusQuotationId": $("#ddlStatus").val()
-        }        
+        }
 
-        APIController.FilterQuotation(params).then((resp) => {            
+        APIController.FilterQuotation(params).then((resp) => {
             if (resp.Data.length == 0) {
                 let msg = MessageTable(resp,13,'messageTableEmpty');
                 $("#tbody-filter-quotation").append(msg);
@@ -416,14 +417,14 @@
                 content += "</thead>";
                 content += "<tbody id='tbody-Tracking-"+quotationId+"'>";
                 var detail = data[i].QuoteTracking;
-                
+
                 for (var ii = 0; ii < detail.length; ii++) {
                     content += "<tr id='tr-"+detail[ii].QuoteTrackingId+"'>";
                     content += "<td  style='display:none'>" + detail[ii].QuoteTrackingId + "</td>";
                     content += "<td>" + formatDate(detail[ii].Date)+ "</td>";
                     content += "<td>" + detail[ii].Version + "</td>";
                     content += "<td>" + detail[ii].StatusName + "</td>";
-                    content += "<td>" + detail[ii].Commentary + "</td>";                    
+                    content += "<td>" + detail[ii].Commentary + "</td>";
                     content += "</tr>";
                 }
                 content += "</tbody>";
@@ -439,7 +440,7 @@
         });
     }
 
-    function loadDates() {      
+    function loadDates() {
         let days = getFirstAndLastDayOfMonth();
         $("#dtpStart").val(days.FirstDate);
         $("#dtpEnd").val(days.EndDate);
@@ -452,11 +453,11 @@
     }
 
     function SaveTracking() {
-        
+
         let quotationTrackingId = $("#txthiddenQuotationTracking").val();
         let quotationId = $("#txthiddenQuotation").val();
         let StatusQuotationId = $("#ddlStatusQuotation-" + quotationId + " option:selected").val();
-                
+
         if (StatusQuotationId == STATUS_QUOTATION_ACEPTADA) {
             swal({
                 title: "IMPORTANTE",
@@ -466,21 +467,29 @@
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function (isConfirm) {
-                    if (isConfirm) {
-                        APISaveQuoteTrackingAndUpdateStatusQuotationId();
+                    if (isConfirm) {                        
+
+                        let message = $('#txtComentary').val();
+                        APIController.GetQuotation(quotationId).then((resp) => {
+                            let data = resp.Data;
+                            let email = data.Email;
+                            SendMail(email, "IMPORTANTE", message);
+                            APISaveQuoteTrackingAndUpdateStatusQuotationId();
                         MigrateQuotationToProtocol($("#txthiddenQuotation").val());
+                        });
+
                     }
                     else {
                         console.log("Canceló grabado");
                     }
-            });                
+            });
 
         } else {
             //Nuevo Seguimiento
             if (quotationTrackingId == 0) {
                 APISaveQuoteTrackingAndUpdateStatusQuotationId();
                 StatisticalGraph();
-            }            
+            }
         }
     }
 
@@ -524,24 +533,24 @@
          var params = {
                 "QuotationId": $("#txthiddenQuotation").val(),
                 "Commentary": $("#txtComentary").val(),
-                "StatusName": $("#ddlStatusQuotation-" + $("#txthiddenQuotation").val() + " option:selected").text(),                
+                "StatusName": $("#ddlStatusQuotation-" + $("#txthiddenQuotation").val() + " option:selected").text(),
         }
 
          APIController.SaveQuoteTracking(params).then((resp) => {
                 var data = resp.Data;
                 let content = "";
                 content += "<tr id='tr-"+data.QuoteTrackingId+"'>";
-                content += "<td  style='display:none'>" + data.QuoteTrackingId + "</td>";                
+                content += "<td  style='display:none'>" + data.QuoteTrackingId + "</td>";
                 content += "<td>" + formatDate(data.Date) + "</td>";
                 content += "<td>" + data.Version+ "</td>";
                 content += "<td>" + data.StatusName + "</td>";
-                content += "<td>" + data.Commentary + "</td>";                
+                content += "<td>" + data.Commentary + "</td>";
                 content += "</tr>";
 
                 $("#tbody-Tracking-" + data.QuotationId).append(content);
                 let quotationId = $("#txthiddenQuotation").val();
                 let StatusQuotationId = $("#ddlStatusQuotation-" + quotationId + " option:selected").val();
-                
+
                 APIController.UpdateQuotation({ "QuotationId": quotationId, "StatusQuotationId": StatusQuotationId }).then((res) => {
 
                     Filter();
@@ -553,23 +562,23 @@
             });
 
     }
-        
+
     function EditTracking(id) {
-        ClearPoupTracking();           
+        ClearPoupTracking();
 
              APIController.GetQuotationtracking(id).then((resp) => {
             let data = resp.Data;
 
             $("#TrackingModal").modal("show");
              $("#txtComentary").focus();
-            
+
             $("#txthiddenQuotation").val(data.QuotationId);
             $("#txtComentary").val(data.Commentary);
             $("#txthiddenQuotationTracking").val(data.QuoteTrackingId);
-            $("#txthiddentxtDate").val(formatDate(data.Date));            
+            $("#txthiddentxtDate").val(formatDate(data.Date));
 
         });
-      
+
     }
 
     function ClearPoupTracking() {
@@ -580,10 +589,10 @@
     }
 
     function StatisticalGraph() {
-         let params = {            
+         let params = {
             "StartDate": $("#dtpStart").val(),
-            "EndDate": $("#dtpEnd").val()            
-            } 
+            "EndDate": $("#dtpEnd").val()
+            }
 
         APIController.TrackingChart(params).then((resp) => {
 
@@ -612,7 +621,7 @@
         $("#statusAccepted").html(statusAccepted);
         $("#statusdiscarded").html(statusdiscarded);
         $("#statusPotential").html(statusPotential);
-                
+
         var data3 = [
             {
                 value: statusTracking,
@@ -657,11 +666,11 @@
             responsive: true
         });
             }
-            
-        
+
+
         });
 
-        
+
     }
 
     function show(value) {
@@ -681,9 +690,9 @@
         }
     }
 
-    function selected(value, id) {        
-        
-        if (value == id) {            
+    function selected(value, id) {
+
+        if (value == id) {
             return 'selected';
         }
         return '';
@@ -720,7 +729,7 @@
                 } else {
                     content += "<td>" + formatDate(data[i].ShippingDate) + "</td>";
                 }
-                
+
                 content += "<td>" + data[i].Total + "</td>";
                 content += "<td>" + data[i].StatusQuotationName + "</td>";
                 content += "<td><a onclick='edit(" + data[i].QuotationId + ")'  data-toggle='tooltip' data-original-title='Edit'> <i class='fa fa-pencil btn waves-effect waves-light btn-secondary'></i></a></td>";
@@ -731,7 +740,18 @@
         });
         }
 
-    function viewPropuesta(code) {            
+       function SendMail(email,subject, message) {
+            APIController.SendMail(
+                {
+                    "Email": email,
+                    "Subject": subject,
+                    "Message": message
+                }).then((res) => {
+                    swal("Ok", "Correo enviado con éxito", "success");
+                })
+        }
+
+    function viewPropuesta(code) {
             window.location.href = '/Quotation/ExportPlantilla?code=' + code;
         }
 
