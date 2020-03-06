@@ -693,6 +693,31 @@
         });
     }
 
+    var getWorkerData = function () {
+        return new Promise((resolve, reject) => {
+            fetch('/Worker/GetDataWorker' , {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }   
+
+    var updateWorkerData = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/Worker/UpdateWorkerData', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -985,7 +1010,17 @@
                 migrateToProtocolSIGESoftWin(parameters).then(res => resolve(res));
             });
         },
-        
+
+        GetWorkerData: function () {
+            return new Promise((resolve, reject) => {
+                getWorkerData().then(res => resolve(res));
+            });
+        },
+        UpdateWorkerData: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateWorkerData (parameters).then(res => resolve(res));
+            });
+        }        
     }
 
 })();

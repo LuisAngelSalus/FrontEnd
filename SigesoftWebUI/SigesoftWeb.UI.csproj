@@ -295,6 +295,7 @@
     <Compile Include="Controllers\SecuentialController.cs" />
     <Compile Include="Controllers\SuscriptionController.cs" />
     <Compile Include="Controllers\SystemUserController.cs" />
+    <Compile Include="Controllers\WorkerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1671,6 +1672,7 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\APIController.js" />
+    <Content Include="Scripts\dashboardWorker.js" />
     <Content Include="Scripts\Export\canvg.min.js" />
     <Content Include="Scripts\Export\FileSaver.js" />
     <Content Include="Scripts\Export\html2canvas.min.js" />
@@ -1701,7 +1703,6 @@
     <Content Include="Scripts\Quotation.js" />
     <Content Include="Scripts\QuotationValidation.js" />
     <Content Include="Scripts\utils.js" />
-    <Content Include="Views\Shared\sw.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1750,6 +1751,7 @@
     <Folder Include="Views\Role\" />
     <Folder Include="Views\Secuential\" />
     <Folder Include="Views\Suscription\" />
+    <Folder Include="Views\Worker\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

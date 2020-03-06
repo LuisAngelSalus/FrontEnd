@@ -4,6 +4,17 @@ const STATUS_QUOTATION_POTENCIAL = 4;
 const STATUS_QUOTATION_SEGUIMIENTO = 1;
 const STATUS_QUOTATION_ACEPTADA = 2;
 const STATUS_QUOTATION_DESCARTADA = 3;
+
+const ROLE_SISTEMAS = 1;
+const ROLE_MEDICO = 2;
+const ROLE_RECEPCION = 3;
+const ROLE_GERENCIA = 4;
+const ROLE_COMERCIAL = 5;
+const ROLE_ADMNISTRADOR = 6;
+const ROLE_CLIENTE = 7;
+const ROLE_TRABAJADOR = 8;
+
+
 function validateInputNumber(evt) {
     var theEvent = evt || window.event;
 
