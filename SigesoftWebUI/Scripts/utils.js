@@ -157,6 +157,13 @@ function formatDate(dateString) {
     return moment(dateString).format("DD, MMMM YYYY");
 }
 
+function formatDateForCalendar(dateString) {
+    if (dateString == null) return "";
+
+    moment.locale('es');
+    return moment(dateString).format("DD/MM/YYYY");
+}
+
 function browserSupportsNotifications(){
     if (!window.Notification) {
         return false;

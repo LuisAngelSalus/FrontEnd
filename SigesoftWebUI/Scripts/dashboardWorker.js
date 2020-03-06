@@ -1,7 +1,10 @@
 ﻿function renderDashboardWorker(data) {
     let dataWorker = data;
-    console.log("Datos", data); 
+    
     let content = "";
+
+    content += "<div class='content-alert'>";
+    content += "</div>";
     content += "<input id='workerIdhidden' type='hidden' value='" + dataWorker.WorkerId + "'>";
     content += "<input id='personIdhidden' type='hidden' value='" + dataWorker.PersonId + "'>";
     content += "<div class='card-body p-0'>";
@@ -50,7 +53,7 @@
     content += "                                <div class='form-group row'>";
     content += "                                    <label class='control-label text-right col-md-3'>Primer Nombre</label>";
     content += "                                    <div class='col-md-9 '>";
-    content += "                                        <input type='text' id='txtFirstName' class='form-control' value='" + dataWorker.FirstName + "' placeholder='Ingresar Primer Nombre'>";    
+    content += "                                        <input type='text' id='txtFirstName' class='form-control' value='" + dataWorker.FirstName + "' placeholder='Ingresar Primer Nombre' required>";    
     content += "                                    </div>";
     content += "                                </div>";
     content += "                            </div>";
@@ -59,7 +62,7 @@
     content += "                                    <div class='form-group  row'>";
     content += "                                        <label class='control-label text-right col-md-3'>Primer Apellido</label>";
     content += "                                        <div class='col-md-9'>";
-    content += "                                            <input type='text' id='txtFirstLastName' class='form-control' value='" + dataWorker.FirstLastName +"'  placeholder='Ingresar Primer Apellido'>";    
+    content += "                                            <input type='text' id='txtFirstLastName' class='form-control' value='" + dataWorker.FirstLastName +"'  placeholder='Ingresar Primer Apellido' required>";    
     content += "                        </div>";
     content += "                                        </div>";
     content += "                                    </div>";
@@ -71,7 +74,7 @@
     content += "                                        <div class='form-group  row'>";
     content += "                                            <label class='control-label text-right col-md-3'>Segundo Apellido</label>";
     content += "                                            <div class='col-md-9'>";
-    content += "                                                <input type='text' id='txtSecondLastName' class='form-control ' value='" + dataWorker.SecondLastName +"' placeholder='Ingresar Segundo Apellido'>";    
+    content += "                                                <input type='text' id='txtSecondLastName' class='form-control ' value='" + dataWorker.SecondLastName +"' placeholder='Ingresar Segundo Apellido' required>";    
     content += "                        </div>";
     content += "                                            </div>";
     content += "                                        </div>";
@@ -80,7 +83,7 @@
     content += "                                            <div class='form-group  row'>";
     content += "                                                <label class='control-label text-right col-md-3'>Nro. Documento</label>";
     content += "                                                <div class='col-md-9'>";
-    content += "                                                    <input type='text' id='txtNroDocument' class='form-control ' value='" + dataWorker.NroDocument +"' placeholder='Ingresar Nro. Documento'>";    
+    content += "                                                    <input type='text' id='txtNroDocument' class='form-control ' value='" + dataWorker.NroDocument +"' placeholder='Ingresar Nro. Documento' required>";    
     content += "                        </div>";
     content += "                                                </div>";
     content += "                                            </div>";
@@ -98,7 +101,6 @@ content += "                                        <option value='-1'>--Selecci
 content += "                                        <option value='1'>Masculino</option>";
 content += "                                        <option value='2'>Femenino</option>";
 content += "                                    </select>";
-content += "                                <small class='form-control-feedback'> Dato obligatorio </small>";
 content += "                            </div>";
     content += "                    </div>";
     content += "            </div>";
@@ -107,10 +109,10 @@ content += "                            </div>";
     content += "                                                <div class='form-group   row'>";
     content += "                                                    <label class='control-label text-right col-md-3'>Fecha Nacimiento</label>";
     content += "                                                    <div class='col-md-9'>";
-    content += "                                                        <input id='dpt-DateOfBirth' type='date' class='form-control' placeholder='dd/mm/yyyy'>";
-    content += "                        </div>";
+    content += "                                                        <input id='dpt-DateOfBirth' class='form-control' required>";
     content += "                                                    </div>";
     content += "                                                </div>";
+    content += "                </div>";
     
     content += "                        </div>";
                 
@@ -123,7 +125,7 @@ content += "                            </div>";
     content += "                                                    <div class='form-group row'>";
     content += "                                                        <label class='control-label text-right col-md-3'>Email</label>";
     content += "                                                        <div class='col-md-9'>";
-    content += "                                                            <input type='text' id='txtEmail' class='form-control value='" + dataWorker.Email + "' placeholder='Ingresar Correo Electrónico'>";
+    content += "                                                            <input type='text' id='txtEmail' class='form-control' value='" + dataWorker.Email + "' placeholder='Ingresar Correo Electrónico' required>";
 
     content += "                                                        </div>";
     content += "                                                    </div>";
@@ -132,7 +134,7 @@ content += "                            </div>";
     content += "                                                        <div class='form-group row'>";
     content += "                                                            <label class='control-label text-right col-md-3'>Celular</label>";
     content += "                                                            <div class='col-md-9'>";
-    content += "                                                                <input type='text' id='txtMobileNumber' class='form-control' value='" + dataWorker.MobileNumber + "' placeholder='Ingresar Nro. de Celular'>";
+    content += "                                                                <input type='text' id='txtMobileNumber' class='form-control' value='" + dataWorker.MobileNumber + "' placeholder='Ingresar Nro. de Celular' required>";
     content += "                                                            </div>";
     content += "                                                        </div>";
     content += "                                                </div>";

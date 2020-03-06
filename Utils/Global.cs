@@ -14,19 +14,7 @@ namespace Utils
     public class Global
     {
         readonly string _apiUrl = ConfigurationManager.AppSettings["SigesoftWebApiUrl"];
-        //public string rspwClient(string webService, object input, string token)
-        //{
-        //    string serviceUrl = _apiUrl + webService;
-
-        //    string inputJson = (new JavaScriptSerializer()).Serialize(input);
-
-        //    WebClient client = new WebClient();
-        //    client.Headers["Content-type"] = "application/json";
-        //    client.Encoding = Encoding.UTF8;
-        //    string heatmap = client.UploadString(serviceUrl, inputJson);
-        //    return heatmap;
-        //}
-
+    
         public HttpResponseMessage rspClient(string webService, object input, string token)
         {   
             var inputJson = JsonConvert.SerializeObject(input);
