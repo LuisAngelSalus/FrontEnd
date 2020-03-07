@@ -13,6 +13,17 @@ namespace BL
     {
         Global _global = new Global();
 
+        public Response<ClientUserDto> GetById(int clientUserId, string token)
+        {
+            Response<ClientUserDto> obj = null;
+            var hCliente = _global.rspClientGET("ClientUser/" + clientUserId , token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<ClientUserDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
         public Response<List<ClientUserDto>> GetAllAsyncByCompany(int companyId, string token)
         {
             Response<List<ClientUserDto>> obj = null;

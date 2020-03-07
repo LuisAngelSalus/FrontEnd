@@ -4,8 +4,7 @@
     clearErrorsWorkerData();
 
     //II)Valida
-    var validateFirstName = validateInputWorkerData("txtFirstName", "Primer nombre requerido");
-    console.log("validateFirstName", validateFirstName);
+    var validateFirstName = validateInputWorkerData("txtFirstName", "Primer nombre requerido");    
     var validateFirstLastName = validateInputWorkerData("txtFirstLastName", "Apellido Paterno requerido");
     var validateSecondLastName = validateInputWorkerData("txtSecondLastName", "Apellido Materno requerido");
     var validateNroDocument = validateInputWorkerData("txtNroDocument", "Nro. Documento requerido");

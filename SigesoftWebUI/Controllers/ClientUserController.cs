@@ -19,6 +19,21 @@ namespace SigesoftWebUI.Controllers
             return View();
         }
 
+        public JsonResult GetById(int clientUserId)
+        {
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _clientUserBL.GetById(clientUserId, validated.Token);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult ClientsUsersForCompany()
         {
             #region TOKEN
@@ -44,7 +59,9 @@ namespace SigesoftWebUI.Controllers
             var validated = _securityBL.ValidateAccess(oLoginDto);
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
-                        
+
+            data.CompanyId = sessione.CustomerCompanyId.Value;
+            data.InsertUserId = sessione.SystemUserId;
             var response = _clientUserBL.Save(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
@@ -59,10 +76,11 @@ namespace SigesoftWebUI.Controllers
             var validated = _securityBL.ValidateAccess(oLoginDto);
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
-
+            data.UpdateUserId = sessione.SystemUserId;
             var response = _clientUserBL.Update(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
+        
     }
 }
