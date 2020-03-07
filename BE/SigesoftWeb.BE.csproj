@@ -44,6 +44,7 @@
     <Compile Include="AccountSettingRegisterDto.cs" />
     <Compile Include="AccountSettingUpdateDataDto.cs" />
     <Compile Include="ClientSession.cs" />
+    <Compile Include="ClientUserDto.cs" />
     <Compile Include="CompanyAutoComplete.cs" />
     <Compile Include="CompanyDetailDto.cs" />
     <Compile Include="CompanyHeadquarterDto.cs" />

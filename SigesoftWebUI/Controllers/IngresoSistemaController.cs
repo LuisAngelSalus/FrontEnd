@@ -44,7 +44,7 @@ namespace SigesoftWebUI.Controllers
 
                     sessionModel = _securityBL.UserAccess(result.SystemUserId, token);
                     sessionModel.Pass = oLoginDto.v_Password;
-
+                    
                     FormsAuthentication.SetAuthCookie(sessionModel.UserName, false);
 
                     HttpSessionContext.SetAccount(sessionModel);

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountSettingBL.cs" />
+    <Compile Include="ClientUserBL.cs" />
     <Compile Include="CompanyBL.cs" />
     <Compile Include="EmailBL.cs" />
     <Compile Include="InfoSunatBL.cs" />

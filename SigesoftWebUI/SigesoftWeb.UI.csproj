@@ -279,6 +279,7 @@
     <Compile Include="Controllers\AccountSettingController.cs" />
     <Compile Include="Controllers\Base\ErrorController.cs" />
     <Compile Include="Controllers\Base\GenericController.cs" />
+    <Compile Include="Controllers\ClientUserController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\GeneralsController.cs" />
@@ -1736,11 +1737,12 @@
     <Content Include="Views\SystemUser\Register.cshtml" />
     <Content Include="Views\Quotation\_MigrateProtocolPartial.cshtml" />
     <Content Include="Views\Shared\_DashboardCustomerPartial.cshtml" />
+    <Content Include="Views\Customer\CompanyData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AccountSetting\" />
-    <Folder Include="Views\Customer\" />
+    <Folder Include="Views\ClientUser\" />
     <Folder Include="Views\Email\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Generic\" />

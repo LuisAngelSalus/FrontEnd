@@ -732,6 +732,47 @@
                 }).catch(err => { console.log(err); reject() });
         });
     }
+
+    var clientsUsersForCompany = function () {
+        return new Promise((resolve, reject) => {
+            fetch('/ClientUser/ClientsUsersForCompany', {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }   
+
+    var saveClientUser = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/ClientUser/Save', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var updateClientUser = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/ClientUser/Update', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -1025,12 +1066,12 @@
             });
         },
 
-
         GetWorkerData: function () {
             return new Promise((resolve, reject) => {
                 getWorkerData().then(res => resolve(res));
             });
         },
+
         UpdateWorkerData: function (parameters) {
             return new Promise((resolve, reject) => {
                 updateWorkerData (parameters).then(res => resolve(res));
@@ -1041,9 +1082,26 @@
             return new Promise((resolve, reject) => {
                 sendMail(parameters).then(res => resolve(res));
             });
-        }
+        },
 
+        ClientsUsersForCompany: function () {
+            return new Promise((resolve, reject) => {
+                clientsUsersForCompany().then(res => resolve(res));
+            });
+        },
 
+        SaveClientUser: function (parameters) {
+            return new Promise((resolve, reject) => {
+                saveClientUser(parameters).then(res => resolve(res));
+            });
+        },
+
+        UpdateClientUser: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateClientUser(parameters).then(res => resolve(res));
+            });
+        },
+        
     }
 
 })();
