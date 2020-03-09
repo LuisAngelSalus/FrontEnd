@@ -785,6 +785,37 @@
         });
     }
 
+    var changePassClientUser = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/ClientUser/ChangePassword', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var updateCompanyClientUser = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/ClientUser/UpdateCompany', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -1119,7 +1150,18 @@
                 getClientUser(clientUserId).then(res => resolve(res));
             });
         },
-        
+
+        ChangePassClientUser: function (parameters) {
+            return new Promise((resolve, reject) => {
+                changePassClientUser(parameters).then(res => resolve(res));
+            });
+        },
+
+        UpdateCompanyClientUser: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateCompanyClientUser(parameters).then(res => resolve(res));
+            });
+        }
     }
 
 })();

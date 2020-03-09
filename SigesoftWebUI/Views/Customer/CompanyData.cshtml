@@ -48,7 +48,7 @@
                                         <input type="hidden" id="txtCompanyId" value="@companyId" />
                                         <label for="txtIdentificationNumber">RUC<span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="txtIdentificationNumber" value="@ViewBag.Detail.IdentificationNumber" onkeypress="validateInputNumber(event)" placeholder="Ingresar RUC" min="11" maxlength="11">
+                                            <input type="text" class="form-control" id="txtIdentificationNumber" value="@ViewBag.Detail.IdentificationNumber" placeholder="Ingresar RUC" min="11" maxlength="11" readonly>
                                             <span class="input-group-btn">
                                                 <a id="btnBuscarRuc" class="btn btn-secondary"><i class="fa fa-search"></i></a>
                                             </span>
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="txtCompanyName">Empresa<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="txtCompanyName" value="@ViewBag.Detail.Name" placeholder="Ingresar Nombre Empresa">
+                                        <input type="text" class="form-control" id="txtCompanyName" value="@ViewBag.Detail.Name" placeholder="Ingresar Nombre Empresa" readonly>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -68,7 +68,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="txtAddress">Dirección<span class="text-danger"></span></label>
+                                        <label for="txtAddress">Dirección<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="txtAddress" value="@ViewBag.Detail.Address" placeholder="Ingresar Dirección">
                                     </div>
                                 </div>
@@ -78,13 +78,13 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group">
-                                                <label for="txtDistric">Distrito<span class="text-danger"></span></label>
+                                                <label for="txtDistric">Distrito<span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="txtDistrict" value="@ViewBag.Detail.District" placeholder="Ingresar Distrito">
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <label for="txtPhoneCompany">Teléfono Empresa<span class="text-danger"></span></label>
+                                                <label for="txtPhoneCompany">Teléfono Empresa<span class="text-danger">*</span></label>
                                                 <input type="tel" class="form-control" id="txtPhoneCompany" value="@ViewBag.Detail.PhoneCompany" onkeypress="validateInputNumber(event)" placeholder="Ingresar Teléfono">
                                             </div>
                                         </div>
@@ -103,7 +103,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group">
-                                                <label for="txtContactName">Contacto<span class="text-danger"></span></label>
+                                                <label for="txtContactName">Contacto<span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="txtContactName" value="@ViewBag.Detail.ContactName" placeholder="Ingresar Contacto">
                                             </div>
                                         </div>
@@ -111,14 +111,14 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group mb-2">
-                                                <label for="txtPhoneNumber">Teléfono Contacto<span class="text-danger"></span></label>
+                                                <label for="txtPhoneNumber">Teléfono Contacto<span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="txtPhoneNumber" value="@ViewBag.Detail.PhoneNumber" onkeypress="validateInputNumber(event)" placeholder="Ingresar Teléfono">
 
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group mb-2">
-                                                <label for="txtEmail">Email<span class="text-danger"></span></label>
+                                                <label for="txtEmail">Email<span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="txtMail" value="@ViewBag.Detail.Mail" placeholder="Ingresar Email">
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
                                     </div>
 
                                     <div class="table-responsive table-headquarter" style="height:138px">
-                                        <table id="mainTable" class="table editable-table table-bordered table-striped m-b-0">
+                                        <table id="mainTable" class="table table-bordered table-striped m-b-0">
                                             <thead>
                                                 <tr>
                                                     <th>Sede</th>
@@ -150,19 +150,17 @@
                                             <tbody>
                                                 @foreach (var item in ViewBag.Detail.companyHeadquarter)
                                                 {
-                                                    <tr>
-                                                        <td style="display:none" class="RecordType">@item.RecordType</td>
-                                                        <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
-                                                        <td style="display: none ">@item.CompanyHeadquarterId</td>
-                                                        <td class="disableTd">@item.Name</td>
-                                                        <td class="disableTd"> @item.Address</td>
-                                                        <td class="disableTd"> @item.PhoneNumber</td>
-                                                        <td class="disableBtn text-nowrap">
-                                                            <i id="edit-@item.CompanyHeadquarterId" class="btnEdit fa fa-pencil text-inverse m-r-10"></i>
-                                                            <i id="delete-@item.CompanyHeadquarterId" class="btnDelete fa fa-close text-danger"></i>
-                                                        </td>
-                                                        <td style="display:none">@item.CompanyId</td>
-                                                    </tr>
+                                                <tr>
+                                                    <td style="display:none" class="RecordType">@item.RecordType</td>
+                                                    <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
+                                                    <td style="display:none" class="RecordStatus">@item.CompanyHeadquarterId</td>
+                                                    <td> @item.Name</td>
+                                                    <td> @item.Address</td>
+                                                    <td> @item.PhoneNumber</td>
+                                                    <td class="text-nowrap">
+                                                        <a class="btnEditHeadquarter" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                    </td>
+                                                </tr>
                                                 }
                                             </tbody>
                                         </table>
@@ -243,11 +241,11 @@
                                                     <td><div class="label label-table label-danger">Inactivo</div></td>
                                                 }
 
-                                            <td class="text-nowrap">
-                                                <a data-toggle="tooltip" data-original-title="Editar" onclick="NewClientUser(@item.ClientUserId)"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                                <a data-toggle="tooltip" data-original-title="Cambiar Contraseña" onclick="NewClientUser(@item.ClientUserId)"> <i class="fa fa-key text-warning"></i> </a>
-                                                <a data-toggle="tooltip" data-original-title="Enviar correo" onclick="NewClientUser(@item.ClientUserId)"> <i class="fa fa-send text-primary"></i> </a>
-                                            </td>
+                                                <td class="text-nowrap">
+                                                    <a data-toggle="tooltip" data-original-title="Editar" onclick="NewClientUser(@item.ClientUserId)"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                    <a data-toggle="tooltip" data-original-title="Cambiar Contraseña" onclick="ChangePassword(@item.ClientUserId)"> <i class="fa fa-key text-warning"></i> </a>
+                                                    <a data-toggle="tooltip" data-original-title="Enviar correo" onclick="NewClientUser(@item.ClientUserId)"> <i class="fa fa-send text-primary"></i> </a>
+                                                </td>
                                             </tr>
                                         }
                                     </tbody>
@@ -268,7 +266,7 @@
     <div class="modal-dialog " role="document">
         <div class="content-alert">
         </div>
-        <input type="hidden" id="hiddenClientUserId" name="hiddenClientUserId" value="" />        
+        <input type="hidden" id="hiddenClientUserId" name="hiddenClientUserId" value="" />
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="labelModalUser">Nuevo Usuario</h4>
@@ -329,7 +327,7 @@
                         <input type="password" id="inputPassword2" name="inputPassword2" maxlength="20" class="form-control" value="" required />
                     </div>
                 </div>
-                
+
                 <div class="form-group col-12">
                     <div class="checkbox"> <input type="checkbox" id="chkIsActive" value="check" checked> <label for="chkIsActive">Es Activado</label></div>
                 </div>
@@ -337,6 +335,71 @@
             </div>
             <div class="modal-footer">
                 <button onsubmit="" onclick="SaveClientUser(event)" type="button" class="btn btn-warning">Grabar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="ModalClientUserChangePass" tabindex="-1" role="dialog" aria-labelledby="TrackingModalLabel1">
+    <div class="modal-dialog " role="document">
+        <div class="content-alert">
+        </div>
+        <input type="hidden" id="hiddenClientUserId-ChangePass" name="hiddenClientUserId-ChangePass" value="" />
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="labelModalUser">Cambiar de contraseña</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" style="padding: 0">
+                <div>
+                    <div class="form-group col-12 m-b-0">
+                        <label for="inputPassword1">Contraseña</label>
+                        <input type="password" id="inputPassword1-change" name="inputPassword1-change" maxlength="20" class="form-control" value="" required />
+                        <div id="meter"></div>
+                        <span id="result"></span>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="inputPassword2">Repita Contraseña</label>
+                        <input type="password" id="inputPassword2-change" name="inputPassword2-change" maxlength="20" class="form-control" value="" required />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onsubmit="" onclick="ChangePassClientUser(event)" type="button" class="btn btn-warning">Cambiar Contraseña</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalHeadquarter" tabindex="-1" role="dialog" aria-labelledby="TrackingModalLabel1">
+    <div class="modal-dialog " role="document">
+        <div class="content-alert">
+        </div>        
+        <input type="hidden" id="hiddenCompanyHeadquarterRowIndex" name="hiddenCompanyHeadquarterRowIndex" value="" />
+        <input type="hidden" id="hiddenCompanyHeadquarterId" name="hiddenCompanyHeadquarterId" value="" />
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="labelModalUser">Nuevo Usuario</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" style="padding: 0">
+                <div class="form-group col-12">
+                    <label for="txtHeadquarter">Sede</label>
+                    <input type="text" id="txtHeadquarter" name="txtHeadquarter" class="form-control" value="" maxlength="100" />
+                </div>
+                <div class="form-group col-12">
+                    <label for="txtHeadquarterAddress">Dirección</label>
+                    <input type="text" id="txtHeadquarterAddress" name="txtHeadquarterAddress" class="form-control" maxlength="150" value="" />
+                </div>
+                <div class="form-group col-12">
+                    <label for="txtHeadquarterPhone">Teléfono</label>
+                    <input type="text" id="txtHeadquarterPhone" name="txtHeadquarterPhone" class="form-control" maxlength="20" value="" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onsubmit="" onclick="AddHeadquarter(event)" type="button" class="btn btn-warning">Agregar</button>
             </div>
         </div>
 
@@ -353,6 +416,7 @@
     <script src="~/assets/plugins/tiny-editable/mindmup-editabletable.js"></script>
     <script src="~/assets/plugins/tiny-editable/numeric-input-example.js"></script>
     <script src="~/Scripts/APIController.js"></script>
+    <script src="~/Scripts/ValidateForm.js"></script>
     <!-- ============================================================== -->
     <!-- Plugins for this page -->
     <!-- ============================================================== -->
@@ -362,20 +426,7 @@
 
     <script type="text/javascript">
 
-        bootstrapValidate('#txtMail', 'email:Ingrese un email correcto');
-        bootstrapValidate('#txtIdentificationNumber', 'required:');
-        bootstrapValidate('#txtIdentificationNumber', 'max:11:Máximo 11 caracteres');
-        bootstrapValidate('#txtIdentificationNumber', 'integer:solo números');
 
-
-
-        bootstrapValidate('#txtPhoneCompany', 'required:');
-        bootstrapValidate('#txtPhoneCompany', 'integer:solo números');
-
-        bootstrapValidate('#txtPhoneNumber', 'required:');
-        bootstrapValidate('#txtPhoneNumber', 'integer:solo números');
-
-        $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
         $('.dropify').dropify({
             messages: {
                 'default': 'Arrastar y Soltar logo de la empresa',
@@ -386,22 +437,36 @@
         });
 
         $(document).ready(function () {
-              $("#inputPassword1").keyup(function(){
+            $("#inputPassword1").keyup(function () {
                 checkPassword($("#inputPassword1").val());
-		    });
+            });
+
+            $("#inputPassword1-change").keyup(function () {
+                checkPassword($("#inputPassword1-change").val());
+            });
+
+            $("#btnNewHeadquarter").click(function () {
+                clearFormHeadquarter();
+                $("#hiddenCompanyHeadquarterId").val(0);
+                $("#ModalHeadquarter").modal("show");
+            });
+
+            $('#mainTable tbody').on('click', '.btnEditHeadquarter', function (e) {                
+                EditHeadquarter(e);
+            });
         });
 
         function NewClientUser(clientUserId) {
             clearModal();
             clearErrors();
-            
+
             if (clientUserId != 0) {
                 $(".div-pass-clientUser").hide();
                 $("#inputPassword1").removeAttr("required");
                 $("#inputPassword2").removeAttr("required");
                 $("#hiddenClientUserId").val(clientUserId);
                 $("#labelModalUser").html("Editar Usuario");
-                APIController.GetClientUser(clientUserId).then((res) => {                   
+                APIController.GetClientUser(clientUserId).then((res) => {
                     let clientUser = res.Data;
 
                     $("#txtNroDocument").val(clientUser.NroDocument);
@@ -437,15 +502,15 @@
             $("#inputPassword1").val("");
             $("#inputPassword2").val("");
             $("#ddlUserTypeId").val("-1").change();
-            $("#ddlTypeDocumentId").val("-1").change();            
+            $("#ddlTypeDocumentId").val("-1").change();
         }
 
-         function ValidateEqualPasswordsUserClient() {
-             
+        function ValidateEqualPasswordsUserClient() {
+
             let p1 = $("#inputPassword1").val();
             let p2 = $("#inputPassword2").val();
-             
-             if (p1 !== p2) {
+
+            if (p1 !== p2) {
                 newAlert("#inputPassword1", "VALIDACIÓN", "Las contraseñas no son iguales");
                 return false;
             } else {
@@ -463,14 +528,14 @@
                     FullName: $("#txtFullName").val(),
                     UserTypeId: $("#ddlUserTypeId").val(),
                     TypeDocumentId: $("#ddlTypeDocumentId").val(),
-                    NroDocument:$("#txtNroDocument").val(),
-                    NroCpm:$("#txtNroCpm").val(),
+                    NroDocument: $("#txtNroDocument").val(),
+                    NroCpm: $("#txtNroCpm").val(),
                     MobileNumber: $("#txtMobileNumber").val(),
-                    Email:$("#txtEmail").val(),
-                    Password: $("#inputPassword1").val()                
+                    Email: $("#txtEmail").val(),
+                    Password: $("#inputPassword1").val()
                 }
 
-                let isactive = $('#chkIsActive').is(":checked");                
+                let isactive = $('#chkIsActive').is(":checked");
                 if (isactive) {
                     data.IsActive = 1;
                 } else {
@@ -479,21 +544,21 @@
 
                 if (clientUserId > 0) {
                     data.ClientUserId = clientUserId;
-                    APIController.UpdateClientUser(data).then((res) => {                            
+                    APIController.UpdateClientUser(data).then((res) => {
                         $("#ModalClientUser").modal("hide");
                         renderTableUserClient();
-                    });            
+                    });
                 }
                 else {
                     APIController.SaveClientUser(data).then((res) => {
                         $("#ModalClientUser").modal("hide");
                         renderTableUserClient();
-                    });                
-                }            
+                    });
+                }
             }
         }
 
-        function ValidateModalClientUser(event) {           
+        function ValidateModalClientUser(event) {
 
             //I)eliminar la clase error
             clearErrors();
@@ -508,7 +573,7 @@
 
             //Validate ddls--------------------------------------------------------------------------------------
             let validateTypeUser = false;
-            let typeUserId = $("#ddlUserTypeId option:selected").val();    
+            let typeUserId = $("#ddlUserTypeId option:selected").val();
             if (typeUserId == -1) {
                 InputError("#ddlUserTypeId");
                 newAlert("#ddlUserTypeId", "VALIDACIÓN", "Tipo usuario es requerido");
@@ -517,7 +582,7 @@
             }
 
             let validateTypeDocument = false;
-            let typeDocumentId = $("#ddlTypeDocumentId option:selected").val();    
+            let typeDocumentId = $("#ddlTypeDocumentId option:selected").val();
             if (typeDocumentId == -1) {
                 InputError("#ddlTypeDocumentId");
                 newAlert("#ddlTypeDocumentId", "VALIDACIÓN", "Tipo documento es requerido");
@@ -529,21 +594,20 @@
 
             //II)Retornar resultado de validación
             let clientUserId = $("#hiddenClientUserId").val();
-            if (clientUserId > 0) {
-                console.log("!!!");
-                if (validateNroDocument && validateFullName && validateUsernName && validateTypeUser && validateTypeDocument && validateEmail) {       
-                return true;
-            } else {   
-                return false;
-            }    
+            if (clientUserId > 0) {                
+                if (validateNroDocument && validateFullName && validateUsernName && validateTypeUser && validateTypeDocument && validateEmail) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                if (validateNroDocument && validateFullName && validateUsernName && validatePassword1 && validatePassword2 && validateTypeUser && validateTypeDocument && validateEmail) {       
-                return true;
-            } else {   
-                return false;
-            }    
+                if (validateNroDocument && validateFullName && validateUsernName && validatePassword1 && validatePassword2 && validateTypeUser && validateTypeDocument && validateEmail) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-            
+
         }
 
         function clearErrors() {
@@ -554,25 +618,25 @@
             $("#txtFullName").removeClass('error');
             $("#txtUserName").removeClass('error');
             $("#txtEmail").removeClass('error');
-            
-            $("#inputPassword1").removeClass('error');   
-            $("#inputPassword2").removeClass('error');   
+
+            $("#inputPassword1").removeClass('error');
+            $("#inputPassword2").removeClass('error');
         }
 
         function validateInputClientUser(id, message) {
-            let element = document.getElementById(id);    
-            if (!element.checkValidity()) {                         
+            let element = document.getElementById(id);
+            if (!element.checkValidity()) {
                 newAlert(element, "VALIDACIÓN", message);
                 InputError(element);
-            return false;
+                return false;
             }
-            return true;     
+            return true;
         }
 
         function renderTableUserClient() {
             $("#tbody-ClientUser").empty();
             let content = "";
-            APIController.ClientsUsersForCompany().then((res) => {                
+            APIController.ClientsUsersForCompany().then((res) => {
                 let data = res.Data;
                 for (var i = 0; i < data.length; i++) {
                     content += "<tr>";
@@ -585,32 +649,205 @@
                         content += "<td>DNI</td>";
                     } else if (data[i].TypeDocumentId == 2) {
                         content += "<td>Pasaporte</td>";
-                    }else if (data[i].TypeDocumentId == 3) {
+                    } else if (data[i].TypeDocumentId == 3) {
                         content += "<td>PTP</td>";
                     }
 
-                    content += "<td>"+data[i].NroDocument+"</td>";
-                    content += "<td>"+data[i].FullName+"</td>";
-                    content += "<td>"+data[i].NroCpm+"</td>";
-                    content += "<td>"+data[i].MobileNumber+"</td>";
-                    content += "<td>"+data[i].Email+"</td>";
-                    content += "<td>"+data[i].UserName+"</td>";
+                    content += "<td>" + data[i].NroDocument + "</td>";
+                    content += "<td>" + data[i].FullName + "</td>";
+                    content += "<td>" + data[i].NroCpm + "</td>";
+                    content += "<td>" + data[i].MobileNumber + "</td>";
+                    content += "<td>" + data[i].Email + "</td>";
+                    content += "<td>" + data[i].UserName + "</td>";
 
-                    if (data[i].IsActive == 1)                    
+                    if (data[i].IsActive == 1)
                         content += "<td><div class='label label-table label-success'>Activo</div></td>";
-                    else                    
+                    else
                         content += "<td><div class='label label-table label-danger'>Inactivo</div></td>";
 
-                        content += "<td class='text-nowrap'>";
-                        content += "<a data-toggle='tooltip' data-original-title='Editar' onclick='NewClientUser("+data[i].ClientUserId+")'> <i class='fa fa-pencil text-inverse m-r-10'></i> </a>";
-                        content += "<a data-toggle='tooltip' data-original-title='Cambiar Contraseña' onclick='NewClientUser("+data[i].ClientUserId+")'> <i class='fa fa-key text-warning'></i> </a>";
-                        content += "<a data-toggle='tooltip' data-original-title='Enviar correo' onclick='NewClientUser("+data[i].ClientUserId+")'> <i class='fa fa-send text-primary'></i> </a>";
-                        content += "</td>";
+                    content += "<td class='text-nowrap'>";
+                    content += "<a data-toggle='tooltip' data-original-title='Editar' onclick='NewClientUser(" + data[i].ClientUserId + ")'> <i class='fa fa-pencil text-inverse m-r-10'></i> </a>";
+                    content += "<a data-toggle='tooltip' data-original-title='Cambiar Contraseña' onclick='ChangePassword(" + data[i].ClientUserId + ")'> <i class='fa fa-key text-warning'></i> </a>";
+                    content += "<a data-toggle='tooltip' data-original-title='Enviar correo' onclick='NewClientUser(" + data[i].ClientUserId + ")'> <i class='fa fa-send text-primary'></i> </a>";
+                    content += "</td>";
 
                     content += "</tr>";
                 }
                 $("#tbody-ClientUser").append(content);
             });
+        }
+
+        function ChangePassClientUser() {
+            if (!ValidateEqualPasswordsUserClientChange()) return false;
+            APIController.ChangePassClientUser({ "ClientUserId": $("#hiddenClientUserId-ChangePass").val(), "Password": $("#inputPassword1-change").val() })
+                .then((res) => {
+                    $("#ModalClientUserChangePass").modal("hide");
+                    swal("¡Correcto!", "Se cambió la contraseña correctamente.", "success");
+                    //clear controls
+                    $("#hiddenClientUserId-ChangePass").val(0);
+                    $("#inputPassword1-change").val("");
+                    $("#inputPassword2-change").val("");
+                });
+        }
+
+        function ChangePassword(id) {
+            $("#hiddenClientUserId-ChangePass").val(id);
+            $("#ModalClientUserChangePass").modal("show");
+        }
+
+
+        function ValidateEqualPasswordsUserClientChange() {
+
+            let p1 = $("#inputPassword1-change").val();
+            let p2 = $("#inputPassword2-change").val();
+
+            if (p1 !== p2) {
+                newAlert("#inputPassword1-change", "VALIDACIÓN", "Las contraseñas no son iguales");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function UpdateDataCompany() {
+            let validateIdentificationNumber = validateInputText($("#txtIdentificationNumber"));
+            let validateCompanyName = validateInputText($("#txtCompanyName"));
+            let validateAddress = validateInputText($("#txtAddress"));
+            let validateDistrict = validateInputText($("#txtDistrict"));
+            let validatePhoneCompany = validateInputText($("#txtPhoneCompany"));
+            let validateContactName = validateInputText($("#txtContactName"));
+            let validatePhoneNumber = validateInputText($("#txtPhoneNumber"));
+            let validateMail = validateInputText($("#txtMail"));
+
+            if (validateIdentificationNumber
+                && validateCompanyName
+                && validateAddress
+                && validateDistrict
+                && validatePhoneCompany
+                && validateContactName
+                && validatePhoneNumber
+                && validateMail
+            ) {
+                var data = {
+                    "CompanyId":@companyId,
+                    "Name": $("#txtCompanyName").val(),
+                    "IdentificationNumber": $("#txtIdentificationNumber").val(),
+                    "Address": $("#txtAddress").val(),
+                    "PhoneNumber": $("#txtPhoneNumber").val(),
+                    "ContactName": $("#txtContactName").val(),
+                    "Mail": $("#txtMail").val(),
+                    "District": $("#txtDistrict").val(),
+                    "PhoneCompany": $("#txtPhoneCompany ").val() == null ? '-' : $("#txtPhoneCompany ").val(),
+                    "companyHeadquarter": new Array()
+                }
+
+                $('#mainTable > tbody tr').each(function () {
+                    var headquarter = {
+                        "RecordType": $(this).find("td").eq(0).html(),
+                        "RecordStatus": $(this).find("td").eq(1).html(),
+                        "CompanyHeadquarterId": $(this).find("td").eq(2).html(),
+                        "Name": $(this).find("td").eq(3).html(),
+                        "Address": $(this).find("td").eq(4).html(),
+                        "PhoneNumber": $(this).find("td").eq(5).html(),
+                        "CompanyId": $(this).find("td").eq(7).html(),
+                    }
+                    data.companyHeadquarter.push(headquarter);
+                });
+                
+                APIController.UpdateCompanyClientUser(data).then((res) => {        
+                    console.log("RES", res);
+                    if (res.IsSuccess == true) {
+                        swal("¡Correcto!", "Se actualizó correctamente.", "success");
+                    }
+                    if (res.IsSuccess == false) {
+                        swal("Error", "¡Ocurrió un error en la operación!", "error");
+                    }                 
+                });               
+
+            } else {
+                swal("¡Validación!", "Ingrese campos obligatorios", "error");
+            }
+        }
+        function clearFormHeadquarter() {  
+            $("#hiddenCompanyHeadquarterRowIndex").val(0);
+            $("#hiddenCompanyHeadquarterId").val(0);
+            $("#txtHeadquarter").val("");
+            $("#txtHeadquarterAddress").val("");
+            $("#txtHeadquarterPhone").val("");
+        }
+
+        function AddHeadquarter() {            
+            
+            let validateHeadquarter = validateInputText($("#txtHeadquarter"));
+            let validateHeadquarterAddress = validateInputText($("#txtHeadquarterAddress"));
+            let validateHeadquarterPhone = validateInputText($("#txtHeadquarterPhone"));
+
+            if (validateHeadquarter
+                && validateHeadquarterAddress
+                && validateHeadquarterPhone                
+            ) {
+                $("#ModalHeadquarter").modal("hide");                
+              
+                let rowIndex = $("#hiddenCompanyHeadquarterRowIndex").val();
+                
+                if (rowIndex == 0) {                    
+                     let idTemp = Math.random().toString(36).substring(7);
+                    var content = "";
+                    content += "<tr>";
+                    content += "<td style='display:none' class='RecordType'>TEMPORAL</td>";
+                    content += "<td style='display:none' class='RecordStatus'>AGREGADO</td>";
+                    content += "<td style='display:none'>" + idTemp + "</td>";
+                    content += "<td>"+$("#txtHeadquarter").val()+"</td>";
+                    content += "<td>"+$("#txtHeadquarterAddress").val()+"</td>";
+                    content += "<td>"+$("#txtHeadquarterPhone").val()+"</td>";                
+                    content += "<td><a class='btnEditHeadquarter' data-toggle='tooltip' data-original-title='Editar'> <i class='fa fa-pencil text-inverse m-r-10'></i> </a>";
+                    content += " </tr>";                
+
+                } else {
+                    $('#mainTable tbody tr').eq(rowIndex -1).remove();                    
+                    var content = "";
+                    content += "<tr>";
+                    
+                    if (parseInt($("#hiddenCompanyHeadquarterId").val()) == NaN) {
+                        content += "<td style='display:none' class='RecordType'>TEMPORAL</td>";
+                        content += "<td style='display:none' class='RecordStatus'>AGREGADO</td>";
+                    } else {
+                        content += "<td style='display:none' class='RecordType'>NOTEMPORAL</td>";
+                        content += "<td style='display:none' class='RecordStatus'>MODIFICADO</td>";
+                    }
+                    
+                    content += "<td style='display:none'>" + $("#hiddenCompanyHeadquarterId").val() + "</td>";
+                    content += "<td>"+$("#txtHeadquarter").val()+"</td>";
+                    content += "<td>"+$("#txtHeadquarterAddress").val()+"</td>";
+                    content += "<td>"+$("#txtHeadquarterPhone").val()+"</td>";                
+                    content += "<td><a class='btnEditHeadquarter' data-toggle='tooltip' data-original-title='Editar'> <i class='fa fa-pencil text-inverse m-r-10'></i> </a>";
+                    content += " </tr>";                
+                }
+
+                $("#mainTable tbody").append(content);
+
+                
+            } else {
+                swal("¡Validación!", "Ingrese campos obligatorios", "error");
+            }
+        }
+
+        function EditHeadquarter(e) {          
+            clearFormHeadquarter();            
+            let $tr = $(e.target).parent().parent().parent().get(0).cells;
+            let rowIndex = $(e.target).parent().parent().parent().get(0).rowIndex;
+            let HeadquarterId = $($tr).get(2).innerHTML;
+            let Headquarter = $($tr).get(3).innerHTML;
+            let HeadquarterAddress = $($tr).get(4).innerHTML;
+            let HeadquarterPhone = $($tr).get(5).innerHTML;
+
+            $("#hiddenCompanyHeadquarterRowIndex").val(rowIndex);
+            $("#hiddenCompanyHeadquarterId").val(HeadquarterId);
+            $("#txtHeadquarter").val(Headquarter);
+            $("#txtHeadquarterAddress").val(HeadquarterAddress);
+            $("#txtHeadquarterPhone").val(HeadquarterPhone);        
+
+            $("#ModalHeadquarter").modal("show");
         }
     </script>
 }

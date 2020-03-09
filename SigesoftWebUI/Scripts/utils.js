@@ -88,6 +88,7 @@ function baseUrl() {
 }
 
 function checkPassword(password) {
+    
 	var strength = 0;
 	if (password.length >= 5) {
 		strength++;
@@ -107,22 +108,22 @@ function checkPassword(password) {
 
 	}
 
-	if (strength == 0) {
+    if (strength == 0) {
 		$("#meter").progressbar({ value: 20 });
 		$(".ui-progressbar-value").css("background", "red");
 		$("#result").html("Demasiado corta").css("color", "red");
 	}
-	else if (strength < 3) {
+    else if (strength < 3) {
 		$("#meter").progressbar({ value: 40 });
 		$(".ui-progressbar-value").css("background", "orange");
 		$("#result").html("Débil").css("color", "orange");
 	}
-	else if (strength == 3) {
+    else if (strength == 3) {
 		$("#meter").progressbar({ value: 70 });
 		$(".ui-progressbar-value").css("background", "blue");
 		$("#result").html("Buena").css("color", "blue");
 	}
-	else {
+    else {
 		$("#meter").progressbar({ value: 100 });
 		$(".ui-progressbar-value").css("background", "green");
 		$("#result").html("Segura").css("color", "green");

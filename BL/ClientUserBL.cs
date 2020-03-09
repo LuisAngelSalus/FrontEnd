@@ -56,5 +56,28 @@ namespace BL
             }
             return obj;
         }
+
+        public bool ChangePassword(ClientUserPasswordDto data, string token)
+        {
+            var hCliente = _global.rspClient("ClientUser/cambiarcontrasena", data, token);
+            return true;
+        }
+
+        public Response<CompanyDetailDto> UpdateCompany(CompanyDetailDto data, string token)
+        {
+            Response<CompanyDetailDto> obj = null;
+            var hCliente = _global.rspClientPUT("ClientUser/" + data.CompanyId + "/actualizarEmpresa", data, token);
+
+            if (hCliente.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
     }
 }

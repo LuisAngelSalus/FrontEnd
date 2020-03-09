@@ -1705,6 +1705,7 @@
     <Content Include="Scripts\Quotation.js" />
     <Content Include="Scripts\QuotationValidation.js" />
     <Content Include="Scripts\utils.js" />
+    <Content Include="Scripts\ValidateForm.js" />
     <Content Include="Scripts\WorkerValidation.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
