@@ -714,9 +714,9 @@
        function SendMail(email,subject, message) {
             APIController.SendMail(
                 {
-                    "Email": email,
-                    "Subject": subject,
-                    "Message": message
+                    "to": email,
+                    "subject": subject,
+                    "body": message
                 }).then((res) => {
                     swal("Ok", "Correo enviado con éxito", "success");
                 })

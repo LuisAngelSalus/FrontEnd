@@ -1669,6 +1669,7 @@
     <Content Include="assets\plugins\Highcharts\modules\export-data.js.map" />
     <Content Include="assets\plugins\Highcharts\modules\exporting.js.map" />
     <Content Include="assets\plugins\Highcharts\modules\series-label.js.map" />
+    <Content Include="File\PLANTILLA_PROPUESTA_COMERCIAL.docx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\APIController.js" />
