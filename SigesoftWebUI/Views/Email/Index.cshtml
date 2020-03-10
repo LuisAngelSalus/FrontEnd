@@ -1,0 +1,47 @@
+﻿@using BE;
+@model EmailDto
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Message' == 'Sent') {
+            alert('Mail has been sent successfully');
+        }
+    });
+</script>
+
+<h2>Index</h2>
+<legend>Send Email </legend>
+
+<p>
+    @using (@Html.BeginForm("Index", "Email", FormMethod.Post, new { @id = "form1", @enctype = "multipart/form-data" }))
+    {
+        @Html.ValidationSummary()
+        <input type="submit" value="Send" />
+
+        <table>
+            <tbody>
+                <tr>
+                    <td>To:</td>
+                    <td>@Html.TextBoxFor(m => m.to)</td>
+                </tr>
+                <tr>
+                    <td>Subject:</td>
+                    <td>@Html.TextBoxFor(m => m.subject)</td>
+                </tr>
+                <tr>
+                    <td>Attachment</td>
+                    <td><input name="fileUploader" type="file" /></td>
+                </tr>
+                <tr>
+                    <td>Body:</td>
+                    <td>@Html.TextAreaFor(m => m.body)</td>
+                </tr>
+            </tbody>
+        </table>
+
+    }
+</p>

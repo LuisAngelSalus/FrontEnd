@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
@@ -17,6 +18,8 @@ namespace SigesoftWebUI.Controllers
         EmailBL _emailBL = new EmailBL();
         private SmtpClient Cliente { get; }
         private EmailSenderOptions Options { get; }
+        QuotationBL _quotationBL = new QuotationBL();
+        SecurityBL _securityBL = new SecurityBL();
         public EmailController()
         {
             Options = new EmailSenderOptions()
@@ -29,6 +32,63 @@ namespace SigesoftWebUI.Controllers
                 EnableSsl = true,
             };
         }
+
+        public ActionResult Index(int id)
+        {
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _quotationBL.GetQuotation(id, validated.Token);
+
+            var data = new EmailDto()
+            {
+                to = response.Data.Email
+            };
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult Index(EmailDto data, HttpPostedFileBase fileUploader)
+        {
+            if (ModelState.IsValid)
+            {
+
+                using (MailMessage mail = new MailMessage(Options.Email, data.to))
+                {
+                    mail.CC.Add(data.cc);
+                    mail.Subject = data.subject;
+                    mail.Body = data.body;
+                    if (fileUploader != null)
+                    {
+                        string fileName = Path.GetFileName(fileUploader.FileName);
+                        mail.Attachments.Add(new Attachment(fileUploader.InputStream, fileName));
+                    }
+                    mail.IsBodyHtml = false;
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Host = Options.Host;
+                    smtp.EnableSsl = Options.EnableSsl;
+                    NetworkCredential networkCredential = new NetworkCredential(Options.Email, Options.Password);
+                    smtp.UseDefaultCredentials = true;
+                    smtp.Credentials = networkCredential;
+                    smtp.Port = Options.Port;
+                    smtp.Send(mail);
+                    ViewBag.Message = "Sent";
+                    return View("Index", data);
+                }
+            }
+            else
+            {
+                return View();
+            }
+        }
+
         public JsonResult SendMail(EmailDto data)
         {
             try

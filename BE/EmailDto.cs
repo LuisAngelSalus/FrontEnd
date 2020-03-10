@@ -22,6 +22,7 @@ namespace BE
     public class EmailDto
     {
         public string to { get; set; }
+        public string cc { get; set; }
         public string body { get; set; }
         public string subject { get; set; }      
     }

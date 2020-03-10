@@ -1735,12 +1735,12 @@
     <Content Include="Views\SystemUser\Register.cshtml" />
     <Content Include="Views\Quotation\_MigrateProtocolPartial.cshtml" />
     <Content Include="Views\Shared\_DashboardCustomerPartial.cshtml" />
+    <Content Include="Views\Email\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AccountSetting\" />
     <Folder Include="Views\Customer\" />
-    <Folder Include="Views\Email\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Generic\" />
     <Folder Include="Views\InfoSunat\" />
