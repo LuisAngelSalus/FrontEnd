@@ -62,7 +62,10 @@ namespace SigesoftWebUI.Controllers
 
                 using (MailMessage mail = new MailMessage(Options.Email, data.to))
                 {
-                    mail.CC.Add(data.cc);
+                    if (!string.IsNullOrEmpty(data.cc))
+                    {
+                        mail.CC.Add(data.cc);
+                    }
                     mail.Subject = data.subject;
                     mail.Body = data.body;
                     if (fileUploader != null)
