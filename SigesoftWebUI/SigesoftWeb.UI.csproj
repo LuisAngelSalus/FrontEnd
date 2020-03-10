@@ -298,6 +298,7 @@
     <Compile Include="Controllers\SuscriptionController.cs" />
     <Compile Include="Controllers\SystemUserController.cs" />
     <Compile Include="Controllers\WorkerController.cs" />
+    <Compile Include="Controllers\WorkerSchedulingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1757,6 +1758,7 @@
     <Folder Include="Views\Role\" />
     <Folder Include="Views\Secuential\" />
     <Folder Include="Views\Suscription\" />
+    <Folder Include="Views\WorkerScheduling\" />
     <Folder Include="Views\Worker\" />
   </ItemGroup>
   <ItemGroup>

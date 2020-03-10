@@ -1396,7 +1396,7 @@ function AddAdditionalExamns() {
     }
 }
 
-function addRowAddExam() {
+function addRowAddExam() {       
 
     let idExamAdd = "ExamAdd-" + Math.random().toString(36).substring(7);
     let content = "";
@@ -1422,19 +1422,21 @@ function addRowAddExam() {
 }
 
 function getDataComponent(value, event) {
-    let data = JSON.parse(localStorage.getItem('components'));
+    APIController.GetPriceList($("#txtCompanyId").val()).then((res) => {        
+        objPriceList = res.Data;
+        let data = JSON.parse(localStorage.getItem('components'));
 
-    const result = data.filter(word => word.Name == value);
-    $(event.target).parent().parent().find(".AddExamPreMin").text(result[0].CostPrice == null ? "" : result[0].CostPrice);
-    $(event.target).parent().parent().find(".AddExamPreLis").text(result[0].BasePrice == null ? "" : result[0].BasePrice);
+        const result = data.filter(word => word.Name == value);
+        $(event.target).parent().parent().find(".AddExamPreMin").text(result[0].CostPrice == null ? "" : result[0].CostPrice);                
+        $(event.target).parent().parent().find(".AddExamPreLis").text(result[0].BasePrice == null ? "" : result[0].BasePrice);
+        $(event.target).parent().parent().find(".AddExamCatId").text(result[0].CategoryId);
+        $(event.target).parent().parent().find(".AddExamCatName").text(result[0].CategoryName);
+        $(event.target).parent().parent().find(".AddExamCompId").text(result[0].ComponentId);
+        $(event.target).parent().parent().find(".AddExamCompName").text(result[0].Name);
 
-    //$(event.target).parent().parent().find(".AddExamQuotationId").text(result[0].CategoryId);
-    $(event.target).parent().parent().find(".AddExamCatId").text(result[0].CategoryId);
-    $(event.target).parent().parent().find(".AddExamCatName").text(result[0].CategoryName);
-    $(event.target).parent().parent().find(".AddExamCompId").text(result[0].ComponentId);
-    $(event.target).parent().parent().find(".AddExamCompName").text(result[0].Name);
-
-    $(event.target).parent().parent().find(".AddExamPreVen").val(0);
+        $(event.target).parent().parent().find(".AddExamPreVen").val(SetPriceDB(result[0].ComponentId));
+    });
+    
 }
 
 function RemoveAddExamn(event) {
