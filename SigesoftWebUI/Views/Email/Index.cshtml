@@ -22,6 +22,9 @@
         @Html.ValidationSummary()
         <input type="submit" value="Send" />
 
+        @Html.HiddenFor(m => m.quotationStatusId)
+        @Html.HiddenFor(m => m.quotationId)
+
         <table>
             <tbody>
                 <tr>

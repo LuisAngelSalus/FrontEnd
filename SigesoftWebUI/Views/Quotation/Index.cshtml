@@ -531,9 +531,9 @@
     }
 
         function AddTracking(id) {
-            var quotationStatusId = $("#txthiddenStatusQuotationId").val();
-            
-            if (quotationStatusId == "2") {
+            var QuotationStatusId = $("#txthiddenStatusQuotationId").val();
+
+            if (QuotationStatusId == "2") {                
                 var route = '/Email/Index/' + id;
                 window.location.href = route;
             } else {

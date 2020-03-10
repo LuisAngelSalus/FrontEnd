@@ -21,6 +21,8 @@ namespace BE
 
     public class EmailDto
     {
+        public int quotationStatusId { get; set; }
+        public int quotationId { get; set; }
         public string to { get; set; }
         public string cc { get; set; }
         public string body { get; set; }
