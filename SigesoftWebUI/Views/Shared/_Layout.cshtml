@@ -447,8 +447,7 @@
         function ddlConfCompanyChange() {
             $('#ddlConfCompany').change(function () {
                 var id = $("#ddlConfCompany option:selected").val();
-                let content = "";
-                console.log(objData, objData.Companies)
+                let content = "";                
                 let company = objData.Companies.filter((rep) => {
                     return rep.CompanyId == id;
                 });
@@ -539,7 +538,7 @@
                 content += "<ul aria-expanded='true' >";
                 for (var ii = 0; ii < modules[i].Options.length; ii++) {
                     content += "<li>";
-                    console.log(baseUrl(), modules[i].Options[ii].Path);
+                    
                     content += "<a class='btn waves-effect waves-light btn-sm btn-outline-secondary' style='width:90%; text-aling:left' href='" + baseUrl() + modules[i].Options[ii].Path + "'>" + modules[i].Options[ii].OptionName + "</a>";
                     content += "</li>";
                 }

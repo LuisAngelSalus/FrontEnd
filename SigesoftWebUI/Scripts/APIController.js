@@ -816,6 +816,21 @@
 
     }
 
+    var uploadExcelSchedule = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Schedule/Upload', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -1160,6 +1175,12 @@
         UpdateCompanyClientUser: function (parameters) {
             return new Promise((resolve, reject) => {
                 updateCompanyClientUser(parameters).then(res => resolve(res));
+            });
+        },
+
+        UploadExcelSchedule: function(parameters) {
+            return new Promise((resolve, reject) => {
+                uploadExcelSchedule(parameters).then(res => resolve(res));
             });
         }
     }
