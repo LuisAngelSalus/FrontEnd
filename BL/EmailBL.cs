@@ -10,11 +10,11 @@ namespace BL
 {
     public class EmailBL
     {
-        Global _global = new Global();
+        private readonly Global _global = new Global();
 
         public void SendMail(EmailDto data)
         {
-            var hCliente = _global.rspClient("Email/", data);
+            _global.rspClient("Email/", data);
         }
 
     }
