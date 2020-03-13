@@ -831,6 +831,30 @@
         });
     }
 
+    var getComponentsByName = function (value) {
+        return new Promise((resolve, reject) => {
+            fetch('/Schedule/GetComponentsByName?value=' + value, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var getAdditionalComponents = function (id) {
+        return new Promise((resolve, reject) => {
+            fetch('/Schedule/GetAdditionalComponents?protocolId=' + id, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -1182,7 +1206,19 @@
             return new Promise((resolve, reject) => {
                 uploadExcelSchedule(parameters).then(res => resolve(res));
             });
-        }
+        },
+
+        GetComponentsByName: function (parameters) {
+            return new Promise((resolve, reject) => {
+                getComponentsByName(parameters).then(res => resolve(res));
+            });
+        },
+
+        GetAdditionalComponents: function (parameters) {
+            return new Promise((resolve, reject) => {
+                getAdditionalComponents(parameters).then(res => resolve(res));
+            });
+        },
     }
 
 })();

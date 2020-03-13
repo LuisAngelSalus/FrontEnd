@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AccountSettingRegisterDto.cs" />
     <Compile Include="AccountSettingUpdateDataDto.cs" />
+    <Compile Include="AdditionalComponentsModel.cs" />
     <Compile Include="ClientSession.cs" />
     <Compile Include="ClientUserDto.cs" />
     <Compile Include="CompanyAutoComplete.cs" />

@@ -16,7 +16,7 @@ namespace SigesoftWebUI.Controllers
     {
         SecurityBL _securityBL = new SecurityBL();
         ScheduleBL _scheduleBL = new ScheduleBL();
-        // GET: Schedule
+        
         public ActionResult Register()
         {
             return View();
@@ -44,6 +44,36 @@ namespace SigesoftWebUI.Controllers
            var result =  _scheduleBL.Read(arr, validated.Token);
 
             return Json(result);
+        }
+
+        public JsonResult GetComponentsByName(string value)
+        {
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _scheduleBL.GetByName(value,validated.Token);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetAdditionalComponents(int protocolId)
+        {
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+
+            var response = _scheduleBL.GetAdditionalComponents(protocolId, validated.Token);
+            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
     }
 }

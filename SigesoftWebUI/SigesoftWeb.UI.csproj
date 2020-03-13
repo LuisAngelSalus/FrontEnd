@@ -1235,6 +1235,8 @@
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\Jquery-ui.css" />
     <Content Include="Content\Quotation.css" />
+    <Content Include="Content\tagsinput.css" />
+    <Content Include="Scripts\tagsinput.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

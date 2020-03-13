@@ -3,6 +3,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+    <style>
+        .col-center {
+            text-align: center;
+            vertical-align: middle;
+            font-size: 15px;
+        }
+        
+    </style>
+<link href="~/Content/tagsinput.css" rel="stylesheet" type="text/css"/>
+
 <div class="card-body p-t-0">
     <div class="card b-all shadow-none">
         <div class="card-body">
@@ -73,13 +83,14 @@
                 <button id="btnImportExcel" onclick="ModalImportExcel()" class="btn btn-warning waves-effect waves-light m-2">Importar Excel</button>
             </div>
             <div class="row m-t-100">
-                <div class="table-responsive table-headquarter">
-                    <table id="mainTable" class="table table-bordered table-striped m-b-0">
+                <div class="table-responsive">
+                    <table id="mainTable" class="table table-bordered table-hover m-b-0">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Fecha Programación</th>
-                                <th>Tipo Doc</th>
-                                <th>Nro. Doc</th>
+                                <th>Tipo Documento</th>
+                                <th>Número Documento</th>
                                 <th>Nombres</th>
                                 <th>Apellido Paterno</th>
                                 <th>Apellido Materno</th>
@@ -87,11 +98,12 @@
                                 <th>Puesto Actual</th>
                                 <th>Celular</th>
                                 <th>Email</th>
-                                <th>Ex. Adicionales</th>
+                                <th>Exámenes Adicionales</th>
                                 <th class="text-nowrap">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
+                           
                         </tbody>
                     </table>
                 </div>
@@ -105,7 +117,7 @@
 </div>
 
 <div class="modal fade" id="UploadModal" tabindex="-1" role="dialog" aria-labelledby="UploadModalLabel1">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-sm"   role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="UploadModalLabel1">Importar Agenda</h4>
@@ -126,12 +138,74 @@
     </div>
 </div>
 
+<div class="modal fade" id="AddAdditionalExamModal" tabindex="-1" role="dialog" aria-labelledby="AddAdditionalExamModalModalLabel1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <input type="hidden"  id="txthiddenAdditionalExamId" value="" />
+            <div class="modal-header">
+                <h4 class="modal-title" id="AddAdditionalExamModalModalLabel1">Examenes adicionales</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" style="font-size:10px;">
+                
+                    <div>
+                        @*          <label>Seleccione el examen adicional</label>*@
+                        @*<input type="text" id="txtAdditionalExamen" class="form-control">*@
+                        <div class="card-body">
+                            <h4 class="card-title label-warning">Examenes Adicionales Pactados</h4>
+                            
+                            <div class="table-responsive">
+                                <table class="table color-table success-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Examen</th>
+                                            <th>Precio Venta</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-Add-Exam">
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                        <div class="card-body">
+                            <h4 class="card-title label-default">Otros examenes ocupacionales</h4>
+                            <h4 class="card-title"><button onclick="AddAdditionalExamnsSchedule()" class="btn btn-success waves-effect waves-light m-r-10">Agregar Examen Adicional</button></h4>
+                            <table class="table color-bordered-table primary-bordered-table">
+                                <thead>
+                                    <tr>
+                                        <th>Examen</th>
+                                        <th>Precio Venta</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-Add-Examns">
+                              
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+
+                        </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="AddAdditionalExam()" type="button" class="btn btn-info">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section scripts{
+    <script src="~/Scripts/tagsinput.js"></script>
     <script>
 
-        $(document).ready(function () {
-
+        $(document).ready(function () {            
         });
 
 
@@ -165,8 +239,7 @@
                 contentType: false,
                 processData: false,
                 url: '/Schedule/Upload',
-                success: function (json) {                    
-                    console.log("RESULT", json);
+                success: function (json) {      
                     renderTableSchedule(json)
                     $("#UploadModal").modal("hide");
                 },
@@ -177,33 +250,95 @@
             });
         }
 
-        function renderTableSchedule(data) {
-            $("#mainTable tbody").empty;
+        function renderTableSchedule(data) {           
+            let $table = $("#mainTable tbody");
+            $table.empty;
             let content = "";
             content += "";
-            for (var i = 0; i < data.length; i++) {
-                ApiSunat();
-                content += "<tr>";                
-                content += "<td style='width:200px;'><input class='form-control text-center datepick' id='dtp-"+ data[i].DocumentNumber +"'  value='"+ data[i].DateSchedule +"'></td>";
-                content += "<td style='width:200px;'>" + data[i].DocumentTypeName + "</td>";             
-                content += "<td ><input style='width:200px;' class='form-control text-center' id='txtNroDoc-"+ data[i].DocumentNumber +"'  value='"+ data[i].DocumentNumber +"'></td>";                
-                content += "<td style='width:400px;'>" + data[i].FirstName + "</td>";
-                content += "<td>" + data[i].FirstLastName + "</td>";
-                content += "<td>" + data[i].SecondLastName + "</td>";
-                content += "<td>" + data[i].Gender + "</td>";
-                content += "<td>" + data[i].CurrentOccupation + "</td>";
-                content += "<td>" + data[i].MobileNumber + "</td>";
-                content += "<td>" + data[i].Email + "</td>";
-                content += "<td >Adicionales</td>";
-                content += "<td >Acciones</td>";
+            for (var i = 0; i < data.length; i++) {                   
+                content += "<tr>";   
+                content += '<td style="width:40px"><div class="checkbox"> <input type="checkbox" id="' + data[i].DocumentNumber + '" value="check" > <label for="' + data[i].DocumentNumber + '"></label></div></td>' 
+                content += "<td><input style='width:150px;' class='form-control text-center datepick' id='dtp-"+ data[i].DocumentNumber +"'  value='"+ data[i].DateSchedule +"'></td>";
+                content += "<td>"+ renderddlTypeDoc(data[i].DocumentNumber) + "</td>";                
+                content += "<td><input style='width:200px;' class='form-control text-center' id='txtNroDoc-"+ data[i].DocumentNumber +"'  value='"+ data[i].DocumentNumber +"'></td>";                
+                content += "<td style='width:400px;'><input style='width:200px;' class='form-control text-center' id='txtFirstName-"+ data[i].DocumentNumber +"'  value='"+ data[i].FirstName +"'></td>";
+                content += "<td><input style='width:200px;' class='form-control text-center' id='txtFirstLastName-"+ data[i].DocumentNumber +"'  value='"+ data[i].FirstLastName +"'></td>";
+                content += "<td><input style='width:200px;' class='form-control text-center' id='txtSecondLastName-"+ data[i].DocumentNumber +"'  value='"+ data[i].SecondLastName +"'></td>";
+                content += "<td>" + renderddlGender(data[i].DocumentNumber) + "</td>";
+                content += "<td><input style='width:200px;' class='form-control text-center' id='txtCurrentOccupation-"+ data[i].DocumentNumber +"'  value='"+ data[i].CurrentOccupation +"'></td>";
+                content += "<td><input style='width:200px;' class='form-control text-center' id='txtMobileNumber-"+ data[i].DocumentNumber +"'  value='"+ data[i].MobileNumber +"'></td>";
+                content += "<td><input style='width:200px;' class='form-control text-center' id='txtEmail-"+ data[i].DocumentNumber +"'  value='"+ data[i].Email +"'></td>";
+                content += "<td><input class='div-tag' id='txtTag-"+data[i].DocumentNumber+"' type='text' value='' /></td>";
+                content += "<td class='text-nowrap'>";
+                content += "<a data-toggle='tooltip' data-original-title='Agregar Adicionales' onclick='ModalAdditionalExam("+data[i].DocumentNumber+")'> <i class='fa fa-plus text-inverse m-r-10'></i> </a>";
+                content += "<a data-toggle='tooltip' data-original-title='Eliminar' onclick='RemoveRow()'> <i class='fa fa-close text-warning'></i> </a>";
+                content += "</td>";
                 content += "</tr>";
             }
 
-            $("#mainTable tbody").append(content);
+            $table.append(content);
 
-             $('.datepick').each(function(){
+            $('.datepick').each(function(){
                 $(this).datepicker();
+            });           
+
+            $('.div-tag').each(function () {
+                //$(this).tagsinput();
+                $(this).tagsinput({
+                    itemValue: 'id', 
+                    itemText: 'text' 
+                });
+            });           
+
+            setValueDDL(data);
+        }
+
+        function setValueDDL(data) {
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+               var $tds = $(this).find('td');
+               let dni = $($tds.eq(2)).find('select').attr('id').split("-")[1];
+               let objPerson = data.find(p => p.DocumentNumber == dni);
+               let valueDocTypeId = "-1";
+               let valueGenderId = "-1";
+
+               if (objPerson.DocumentTypeName == "DNI") {
+                   valueDocTypeId = 1;
+               } else if (objPerson.DocumentTypeName == "PASAPORTE") {
+                   valueDocTypeId = 2;
+               } else if (objPerson.DocumentTypeName == "PTP") {
+                   valueDocTypeId = 3;
+               }             
+               
+               if (objPerson.Gender == "MASCULINO") {
+                   valueGenderId = 1;
+               } else if (objPerson.Gender == "FEMENINO") {
+                   valueGenderId = 2;
+               }               
+
+               $($tds.eq(2)).find('select').val(valueDocTypeId);
+               $($tds.eq(7)).find('select').val(valueGenderId);
+               
             });
+        }
+
+        function renderddlTypeDoc(id) {
+            let htmlddlTypeDoc = "<select style='width:auto;' class='form-control form-white select-Service' id='ddl-" + id + "'>";                
+                htmlddlTypeDoc += "<option value='-1'>--Seleccionar--</option>";
+                htmlddlTypeDoc += "<option value='1'>DNI</option>";
+                htmlddlTypeDoc += "<option value='2'>PASAPORTE</option>";
+                htmlddlTypeDoc += "<option value='3'>PTP</option>";
+                htmlddlTypeDoc += "</select>";
+            return htmlddlTypeDoc;
+        }
+
+        function renderddlGender(id) {
+            let htmlddlGender = "<select style='width:auto;' class='form-control form-white select-Service' id='ddl-" + id + "'>";                
+                htmlddlGender += "<option value='-1'>--Seleccionar--</option>";
+                htmlddlGender += "<option value='1'>MASCULINO</option>";
+                htmlddlGender += "<option value='2'>FEMENINO</option>";
+                htmlddlGender += "</select>";
+            return htmlddlGender;
         }
 
         function ApiSunat() {
@@ -211,6 +346,96 @@
                 console.log("ApiSunat", res);
             });            
         }
+
+        function ModalAdditionalExam(id) {
+            $("#txthiddenAdditionalExamId").val(id);
+            APIController.GetAdditionalComponents(1).then(res => {
+                console.log("DATA", res);
+                $("#tbody-Add-Exam").empty();
+                let data = res.Data;
+                let content = "";
+                for (var i = 0; i < data.length; i++) {
+                    content += "<tr>";
+                    content += "<td style='width:40px'><div class='checkbox'> <input type='checkbox' value='check'> <label for=''></label></div></td>";
+                    content += "<td>"+data[i].Name +"</td>";
+                    content += "<td>"+data[i].SalePrice+"</td>";
+                    content += "</tr>";
+                }
+
+                $("#tbody-Add-Exam").append(content);
+
+            });
+            $("#AddAdditionalExamModal").modal("show");
+
+        }
+
+        function RemoveRow() {
+        }
+
+        function AddAdditionalExam() {          
+            let input = $("#txtAdditionalExamen").val();
+            let idInput = "#txtTag-" + $("#txthiddenAdditionalExamId").val();
+            
+            $(idInput).tagsinput('add', { id: $("#txthiddenAdditionalExamId").val(), text: input });
+            $("#AddAdditionalExamModal").modal("hide");
+
+            $("#txthiddenAdditionalExamId").val(0);            
+        }
+
+        function Schedule() {
+            console.log("SSS", $("#txtTag-47987923").tagsinput('items'));
+        }
+
+        function AddAdditionalExamnsSchedule() {
+            addRowAddExamSchedule();
+           
+        }
+
+        function addRowAddExamSchedule() {       
+
+            let idExamAdd = "ExamAdd-" + Math.random().toString(36).substring(7);
+            let content = "";
+            content += "<tr id='" + idExamAdd + "'>";
+            content += "<td><input class='form-control tags'></td>"            
+            content += "<td class='col-center'></td>"
+            content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveAddExamn(event)'></i></td>"
+            content += "</tr>";
+            $('#tbody-Add-Examns').append(content);
+
+            $(".tags").autocomplete({        
+                minLength: 4,
+                delay: 500,
+                create: function () { $(this).val("");},
+                source: function (request, response) {
+                    APIController.GetComponentsByName(request.term).then((data) => {
+                        var result = data.Data;
+                        var array = result.map((res) => {
+                            return { "label": res.Name, "value": res.CompanyId, "SalePrice": res.SalePrice }
+                        });
+                        response(array);
+                    });                     
+                },        
+                open: function () {
+                    $(this).autocomplete('widget').css('z-index', 8000);
+                    return false;   
+                },
+                select: function (event, ui) {
+                    let salePrice = ui.SalePrice == null ? 0 : ui.SalePrice;
+                    console.log("UI", ui, $(this).parent().next().text(salePrice));
+                    //$("#table-Components-Migra tbody").empty();
+                    //let idCompany = ui.item.value;
+                    //APIController.GetAllProtocolsByCompany(idCompany).then((res) => {
+                    //    renderTableProtocols(res.Data);
+                    //});
+            
+                    //$(this).val(ui.item.label);
+                    //$(this).val("");
+                    //return false;
+                }
+            }); 
+        }
+
+        
     </script>
 }
 

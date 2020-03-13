@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using Utils;
 
 namespace BL
@@ -59,6 +60,28 @@ namespace BL
             }
             
             return list;
+        }
+
+        public Response<List<ListComponentForScheduleDto>> GetByName(string value, string token)
+        {
+            Response<List<ListComponentForScheduleDto>> obj = null;
+            var hCliente = _global.rspClientGET("ComponentWin/" + value, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<ListComponentForScheduleDto>>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
+        public Response<List<AdditionalComponentsModel>> GetAdditionalComponents(int protocolId, string token)
+        {
+            Response<List<AdditionalComponentsModel>> obj = null;
+            var hCliente = _global.rspClientGET("Protocol/"+ protocolId + "/ExamenesAdicionales", token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<AdditionalComponentsModel>>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
         }
 
     }
