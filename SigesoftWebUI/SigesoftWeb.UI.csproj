@@ -1675,6 +1675,7 @@
     <Content Include="assets\plugins\Highcharts\modules\export-data.js.map" />
     <Content Include="assets\plugins\Highcharts\modules\exporting.js.map" />
     <Content Include="assets\plugins\Highcharts\modules\series-label.js.map" />
+    <Content Include="File\PLANTILLA_PROPUESTA_COMERCIAL.docx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\APIController.js" />
@@ -1742,6 +1743,7 @@
     <Content Include="Views\SystemUser\Register.cshtml" />
     <Content Include="Views\Quotation\_MigrateProtocolPartial.cshtml" />
     <Content Include="Views\Shared\_DashboardCustomerPartial.cshtml" />
+    <Content Include="Views\Email\Index.cshtml" />
     <Content Include="Views\Customer\CompanyData.cshtml" />
     <Content Include="Views\Schedule\Register.cshtml" />
   </ItemGroup>
@@ -1749,7 +1751,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\AccountSetting\" />
     <Folder Include="Views\ClientUser\" />
-    <Folder Include="Views\Email\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Generic\" />
     <Folder Include="Views\InfoSunat\" />
