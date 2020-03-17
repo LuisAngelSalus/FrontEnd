@@ -133,6 +133,7 @@ namespace SigesoftWebUI.Repositories
                         if (i == 19)
                         {
                             //document.SetPageSize(iTextSharp.text.PageSize.A4.Rotate());
+                            //document.SetPageSize(PageSize.A4.Rotate());
 
                             var titleFont = FontFactory.GetFont("Arial", 12, Font.BOLD);
                             var titleFontBlue = FontFactory.GetFont("Arial", 14, Font.NORMAL, BaseColor.BLUE);
@@ -161,22 +162,26 @@ namespace SigesoftWebUI.Repositories
                             cell2.BackgroundColor = TabelHeaderBackGroundColor;
                             cell2.HorizontalAlignment = 1;
                             itemTable.AddCell(cell2);
-                            //PdfPCell cell3 = new PdfPCell(new Phrase("QUANTITY", boldTableFont));
-                            //cell3.BackgroundColor = TabelHeaderBackGroundColor;
-                            //cell3.HorizontalAlignment = Element.ALIGN_CENTER;
-                            //itemTable.AddCell(cell3);
-                            //PdfPCell cell4 = new PdfPCell(new Phrase("UNIT AMOUNT", boldTableFont));
-                            //cell4.BackgroundColor = TabelHeaderBackGroundColor;
-                            //cell4.HorizontalAlignment = Element.ALIGN_CENTER;
-                            //itemTable.AddCell(cell4);
-                            //PdfPCell cell5 = new PdfPCell(new Phrase("TOTAL", boldTableFont));
-                            //cell5.BackgroundColor = TabelHeaderBackGroundColor;
-                            //cell5.HorizontalAlignment = Element.ALIGN_CENTER;
-                            //itemTable.AddCell(cell5);
+                           
 
                             foreach (var item in response.Data.QuotationProfile)
                             {
                                 itemTable.AddCell(new PdfPCell(new Phrase(item.ProfileName, boldTableFont))).HorizontalAlignment = Element.ALIGN_CENTER;
+                            }
+
+                            PdfPCell cell2A = new PdfPCell(new Phrase("", boldTableFont));
+                            cell2A.BackgroundColor = TabelHeaderBackGroundColor;
+                            cell2A.HorizontalAlignment = Element.ALIGN_CENTER;
+                            itemTable.AddCell(cell2A);
+
+                            PdfPCell cell2B = new PdfPCell(new Phrase("", boldTableFont));
+                            cell2B.BackgroundColor = TabelHeaderBackGroundColor;
+                            cell2B.HorizontalAlignment = 1;
+                            itemTable.AddCell(cell2B);
+
+                            foreach (var item in response.Data.QuotationProfile)
+                            {
+                                itemTable.AddCell(new PdfPCell(new Phrase(item.ServiceTypeName, boldTableFont))).HorizontalAlignment = Element.ALIGN_CENTER;
                             }
 
                             //foreach (DataRow row in dt.Rows)
@@ -236,9 +241,10 @@ namespace SigesoftWebUI.Repositories
                             //cell.Colspan = 5;
                             //cell.HorizontalAlignment = 1;
                             //itemTable.AddCell(cell);
-                            document.Add(itemTable);
 
+                            document.Add(itemTable);
                             document.NewPage();
+                            
                         }
 
                         if (i == 20)
