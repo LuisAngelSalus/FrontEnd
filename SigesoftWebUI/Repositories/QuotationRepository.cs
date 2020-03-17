@@ -142,91 +142,100 @@ namespace SigesoftWebUI.Repositories
                             BaseColor TabelHeaderBackGroundColor = WebColors.GetRGBColor("#EEEEEE");
 
 
+                            int countProfile = response.Data.QuotationProfile.Count;
+                            int totalColumns = countProfile + 2;
+
                             //Create body table
-                            PdfPTable itemTable = new PdfPTable(5);
+                            PdfPTable itemTable = new PdfPTable(totalColumns);
 
                             itemTable.HorizontalAlignment = 0;
                             itemTable.WidthPercentage = 100;
-                            itemTable.SetWidths(new float[] { 5, 40, 10, 20, 25 });  // then set the column's __relative__ widths
+                            //itemTable.SetWidths(new float[] { 5, 40, 10, 20, 25 });  // then set the column's __relative__ widths
                             itemTable.SpacingAfter = 40;
                             itemTable.DefaultCell.Border = Rectangle.BOX;
-                            PdfPCell cell1 = new PdfPCell(new Phrase("NO", boldTableFont));
+                            PdfPCell cell1 = new PdfPCell(new Phrase("", boldTableFont));
                             cell1.BackgroundColor = TabelHeaderBackGroundColor;
                             cell1.HorizontalAlignment = Element.ALIGN_CENTER;
                             itemTable.AddCell(cell1);
-                            PdfPCell cell2 = new PdfPCell(new Phrase("DESCRIPTION", boldTableFont));
+                            PdfPCell cell2 = new PdfPCell(new Phrase("", boldTableFont));
                             cell2.BackgroundColor = TabelHeaderBackGroundColor;
                             cell2.HorizontalAlignment = 1;
                             itemTable.AddCell(cell2);
-                            PdfPCell cell3 = new PdfPCell(new Phrase("QUANTITY", boldTableFont));
-                            cell3.BackgroundColor = TabelHeaderBackGroundColor;
-                            cell3.HorizontalAlignment = Element.ALIGN_CENTER;
-                            itemTable.AddCell(cell3);
-                            PdfPCell cell4 = new PdfPCell(new Phrase("UNIT AMOUNT", boldTableFont));
-                            cell4.BackgroundColor = TabelHeaderBackGroundColor;
-                            cell4.HorizontalAlignment = Element.ALIGN_CENTER;
-                            itemTable.AddCell(cell4);
-                            PdfPCell cell5 = new PdfPCell(new Phrase("TOTAL", boldTableFont));
-                            cell5.BackgroundColor = TabelHeaderBackGroundColor;
-                            cell5.HorizontalAlignment = Element.ALIGN_CENTER;
-                            itemTable.AddCell(cell5);
-                            //foreach (DataRow row in dt.Rows)
+                            //PdfPCell cell3 = new PdfPCell(new Phrase("QUANTITY", boldTableFont));
+                            //cell3.BackgroundColor = TabelHeaderBackGroundColor;
+                            //cell3.HorizontalAlignment = Element.ALIGN_CENTER;
+                            //itemTable.AddCell(cell3);
+                            //PdfPCell cell4 = new PdfPCell(new Phrase("UNIT AMOUNT", boldTableFont));
+                            //cell4.BackgroundColor = TabelHeaderBackGroundColor;
+                            //cell4.HorizontalAlignment = Element.ALIGN_CENTER;
+                            //itemTable.AddCell(cell4);
+                            //PdfPCell cell5 = new PdfPCell(new Phrase("TOTAL", boldTableFont));
+                            //cell5.BackgroundColor = TabelHeaderBackGroundColor;
+                            //cell5.HorizontalAlignment = Element.ALIGN_CENTER;
+                            //itemTable.AddCell(cell5);
+
+                            foreach (var item in response.Data.QuotationProfile)
                             {
-                                PdfPCell numberCell = new PdfPCell(new Phrase("1", bodyFont));
-                                numberCell.HorizontalAlignment = 1;
-                                numberCell.PaddingLeft = 10f;
-                                numberCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
-                                itemTable.AddCell(numberCell);
-
-                                var _phrase = new Phrase();
-                                _phrase.Add(new Chunk("New Signup Subscription Plan\n", EmailFont));
-                                _phrase.Add(new Chunk("Subscription Plan description will add here.", bodyFont));
-                                PdfPCell descCell = new PdfPCell(_phrase);
-                                descCell.HorizontalAlignment = 0;
-                                descCell.PaddingLeft = 10f;
-                                descCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
-                                itemTable.AddCell(descCell);
-
-                                PdfPCell qtyCell = new PdfPCell(new Phrase("1", bodyFont));
-                                qtyCell.HorizontalAlignment = 1;
-                                qtyCell.PaddingLeft = 10f;
-                                qtyCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
-                                itemTable.AddCell(qtyCell);
-
-                                PdfPCell amountCell = new PdfPCell(new Phrase("$100", bodyFont));
-                                amountCell.HorizontalAlignment = 1;
-                                amountCell.PaddingLeft = 10f;
-                                amountCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
-                                itemTable.AddCell(amountCell);
-
-                                PdfPCell totalamtCell = new PdfPCell(new Phrase("$100", bodyFont));
-                                totalamtCell.HorizontalAlignment = 1;
-                                totalamtCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
-                                itemTable.AddCell(totalamtCell);
-
+                                itemTable.AddCell(new PdfPCell(new Phrase(item.ProfileName, boldTableFont))).HorizontalAlignment = Element.ALIGN_CENTER;
                             }
-                            // Table footer
-                            PdfPCell totalAmtCell1 = new PdfPCell(new Phrase(""));
-                            totalAmtCell1.Border = Rectangle.LEFT_BORDER | Rectangle.TOP_BORDER;
-                            itemTable.AddCell(totalAmtCell1);
-                            PdfPCell totalAmtCell2 = new PdfPCell(new Phrase(""));
-                            totalAmtCell2.Border = Rectangle.TOP_BORDER; //Rectangle.NO_BORDER; //Rectangle.TOP_BORDER;
-                            itemTable.AddCell(totalAmtCell2);
-                            PdfPCell totalAmtCell3 = new PdfPCell(new Phrase(""));
-                            totalAmtCell3.Border = Rectangle.TOP_BORDER; //Rectangle.NO_BORDER; //Rectangle.TOP_BORDER;
-                            itemTable.AddCell(totalAmtCell3);
-                            PdfPCell totalAmtStrCell = new PdfPCell(new Phrase("Total Amount", boldTableFont));
-                            totalAmtStrCell.Border = Rectangle.TOP_BORDER;   //Rectangle.NO_BORDER; //Rectangle.TOP_BORDER;
-                            totalAmtStrCell.HorizontalAlignment = 1;
-                            itemTable.AddCell(totalAmtStrCell);
-                            PdfPCell totalAmtCell = new PdfPCell(new Phrase("$100", boldTableFont));
-                            totalAmtCell.HorizontalAlignment = 1;
-                            itemTable.AddCell(totalAmtCell);
 
-                            PdfPCell cell = new PdfPCell(new Phrase("***NOTICE: A finance charge of 1.5% will be made on unpaid balances after 30 days. ***", bodyFont));
-                            cell.Colspan = 5;
-                            cell.HorizontalAlignment = 1;
-                            itemTable.AddCell(cell);
+                            //foreach (DataRow row in dt.Rows)
+                            //{
+                            //    PdfPCell numberCell = new PdfPCell(new Phrase("1", bodyFont));
+                            //    numberCell.HorizontalAlignment = 1;
+                            //    numberCell.PaddingLeft = 10f;
+                            //    numberCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
+                            //    itemTable.AddCell(numberCell);
+
+                            //    var _phrase = new Phrase();
+                            //    _phrase.Add(new Chunk("New Signup Subscription Plan\n", EmailFont));
+                            //    _phrase.Add(new Chunk("Subscription Plan description will add here.", bodyFont));
+                            //    PdfPCell descCell = new PdfPCell(_phrase);
+                            //    descCell.HorizontalAlignment = 0;
+                            //    descCell.PaddingLeft = 10f;
+                            //    descCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
+                            //    itemTable.AddCell(descCell);
+
+                            //    PdfPCell qtyCell = new PdfPCell(new Phrase("1", bodyFont));
+                            //    qtyCell.HorizontalAlignment = 1;
+                            //    qtyCell.PaddingLeft = 10f;
+                            //    qtyCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
+                            //    itemTable.AddCell(qtyCell);
+
+                            //    //PdfPCell amountCell = new PdfPCell(new Phrase("$100", bodyFont));
+                            //    //amountCell.HorizontalAlignment = 1;
+                            //    //amountCell.PaddingLeft = 10f;
+                            //    //amountCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
+                            //    //itemTable.AddCell(amountCell);
+
+                            //    //PdfPCell totalamtCell = new PdfPCell(new Phrase("$100", bodyFont));
+                            //    //totalamtCell.HorizontalAlignment = 1;
+                            //    //totalamtCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
+                            //    //itemTable.AddCell(totalamtCell);
+
+                            //}
+                            //// Table footer
+                            //PdfPCell totalAmtCell1 = new PdfPCell(new Phrase(""));
+                            //totalAmtCell1.Border = Rectangle.LEFT_BORDER | Rectangle.TOP_BORDER;
+                            //itemTable.AddCell(totalAmtCell1);
+                            //PdfPCell totalAmtCell2 = new PdfPCell(new Phrase(""));
+                            //totalAmtCell2.Border = Rectangle.TOP_BORDER; //Rectangle.NO_BORDER; //Rectangle.TOP_BORDER;
+                            //itemTable.AddCell(totalAmtCell2);
+                            //PdfPCell totalAmtCell3 = new PdfPCell(new Phrase(""));
+                            //totalAmtCell3.Border = Rectangle.TOP_BORDER; //Rectangle.NO_BORDER; //Rectangle.TOP_BORDER;
+                            //itemTable.AddCell(totalAmtCell3);
+                            //PdfPCell totalAmtStrCell = new PdfPCell(new Phrase("Total Amount", boldTableFont));
+                            //totalAmtStrCell.Border = Rectangle.TOP_BORDER;   //Rectangle.NO_BORDER; //Rectangle.TOP_BORDER;
+                            //totalAmtStrCell.HorizontalAlignment = 1;
+                            //itemTable.AddCell(totalAmtStrCell);
+                            //PdfPCell totalAmtCell = new PdfPCell(new Phrase("$100", boldTableFont));
+                            //totalAmtCell.HorizontalAlignment = 1;
+                            //itemTable.AddCell(totalAmtCell);
+
+                            //PdfPCell cell = new PdfPCell(new Phrase("***NOTICE: A finance charge of 1.5% will be made on unpaid balances after 30 days. ***", bodyFont));
+                            //cell.Colspan = 5;
+                            //cell.HorizontalAlignment = 1;
+                            //itemTable.AddCell(cell);
                             document.Add(itemTable);
 
                             document.NewPage();
