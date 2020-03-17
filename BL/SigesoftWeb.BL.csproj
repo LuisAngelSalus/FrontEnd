@@ -63,6 +63,7 @@
     <Compile Include="EmailBL.cs" />
     <Compile Include="InfoSunatBL.cs" />
     <Compile Include="OwnerCompanyBL.cs" />
+    <Compile Include="PDFReplaceTextUsingItextSharp.cs" />
     <Compile Include="PersonBL.cs" />
     <Compile Include="ProtocolBL.cs" />
     <Compile Include="ProtocolDetailBL.cs" />
