@@ -14,6 +14,10 @@
             vertical-align: middle;
             font-size: 15px;
         }
+
+        .invalido{
+            border:1px solid red;
+        }
     </style>
     <link href="~/Content/tagsinput.css" rel="stylesheet" type="text/css" />
 
@@ -59,6 +63,7 @@
                                 <span class="input-group-btn">
                                     <a class="btn btn-secondary" onclick="searchRuc('txtIdentificationNumberFac','txtCompanyNameFac')"><i class="fa fa-search"></i></a>
                                 </span>
+                                <button id="btnSetCompanyFac" class="btn btn-success waves-effect waves-light m-l-10">Asignar</button>
                             </div>
                         </div>
                         <div class="form-group">
@@ -73,13 +78,14 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="txtIdentificationNumberRuc" value="" placeholder="Ingresar RUC" min="11" maxlength="11">
                                 <span class="input-group-btn">
-                                    <a class="btn btn-secondary" onclick="searchRuc('txtIdentificationNumberRuc','txtCompanyNameRuc')"><i class="fa fa-search"></i></a>
+                                    <a class="btn btn-secondary" onclick="searchRuc('txtIdentificationNumberRuc','txtCompanyNameResult')"><i class="fa fa-search"></i></a>
                                 </span>
+                                <button id="btnSetCompanyResult" class="btn btn-success waves-effect waves-light  m-l-10">Asignar</button>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="txtCompanyName">Empresa<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="txtCompanyNameRuc" value=" " placeholder="Ingresar Nombre Empresa" readonly>
+                            <input type="text" class="form-control" id="txtCompanyNameResult" value=" " placeholder="Ingresar Nombre Empresa" readonly>
                         </div>
                     </div>
                 </div>
@@ -88,7 +94,7 @@
                         <button id="btnImportExcel" onclick="ModalImportExcel()" class="btn btn-warning waves-effect waves-light">Importar Excel</button>
                     </div>
                     <div class="col-md-6">
-                        <a href="#">Descargar Matriz de agendado trabajador</a>
+                        <a href="#" onclick="downloadFile()">Descargar Matriz de agendado trabajador</a>
                     </div>
 
                 </div>
@@ -99,7 +105,7 @@
                                 <select class="form-control " id="ddlProtocol">
                                     @foreach (var item in @protocols)
                                     {
-                                        <option value="@item.ProtocolId">@item.CompanyName</option>
+                                        <option value="@item.ProtocolId">@item.ProtocolName</option>
                                     }
                                 </select>
                             </div>
@@ -128,6 +134,8 @@
                                     <th>Género</th>
                                     <th>Puesto Actual</th>
                                     <th>Protocolo</th>
+                                    <th>Empresa Facturación</th>
+                                    <th>Empresa Resultado</th>                                    
                                     <th>Celular</th>
                                     <th>Email</th>
                                     <th>Exámenes Adicionales</th>
@@ -213,10 +221,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-
-
-
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -243,8 +247,39 @@
                         $($tds.eq(0).find('.selected-row').get(0)).prop( "checked", value );                        
                      });                    
                 });
+
+                $("#btnSetCompanyFac").click(function () {
+                    let name = $("#txtCompanyNameFac").val();
+                    setCompany("FACTURACION",name);
+                });
+
+                $("#btnSetCompanyResult").click(function () {                    
+                    let name = $("#txtCompanyNameResult").val();
+                    setCompany("RESULTADO",name);
+                });
+
+                $('#mainTable tbody').on('click', '.btnRemove', function (e) {                    
+                    $(this).parent().parent().parent().remove();
+                });
+
             });
 
+            function setCompany(tipoCompany, name) {
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {                    
+                    var $tds = $(this).find('td');
+
+                     let selectedRow = $tds.eq(0).find('.selected-row').get(0).checked;
+
+                    if (selectedRow) {
+                        if (tipoCompany == "FACTURACION") {
+                            $($tds.eq(10)).find('input').val(name);                    
+                        } else if (tipoCompany == "RESULTADO") {
+                            $($tds.eq(11)).find('input').val(name);
+                        }         
+                    }
+                });
+            }
 
             function searchRuc(txtRuc, txtRaz) {
                 let ruc = $('#' + txtRuc).val();
@@ -297,21 +332,25 @@
                     content += '<td style="width:40px"><div class="checkbox"> <input class="selected-row" type="checkbox" id="' + data[i].DocumentNumber + '" value="check" > <label for="' + data[i].DocumentNumber + '"></label></div></td>'
                     content += "<td><input style='width:150px;' class='form-control text-center datepick' id='dtp-" + data[i].DocumentNumber + "'  value='" + data[i].DateSchedule + "'></td>";
                     content += "<td>" + renderddlTypeDoc(data[i].DocumentNumber) + "</td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtNroDoc-" + data[i].DocumentNumber + "'  value='" + data[i].DocumentNumber + "'></td>";
-                    content += "<td style='width:400px;'><input style='width:200px;' class='form-control text-center' id='txtFirstName-" + data[i].DocumentNumber + "'  value='" + data[i].FirstName + "'></td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtFirstLastName-" + data[i].DocumentNumber + "'  value='" + data[i].FirstLastName + "'></td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtSecondLastName-" + data[i].DocumentNumber + "'  value='" + data[i].SecondLastName + "'></td>";
+                    content += "<td><input style='width:200px;' class='form-control text-center' maxlength='15' id='txtNroDoc-" + data[i].DocumentNumber + "'  value='" + data[i].DocumentNumber + "'></td>";
+                    content += "<td style='width:400px;'><input style='width:200px;' maxlength='50' class='form-control text-center' id='txtFirstName-" + data[i].DocumentNumber + "'  value='" + data[i].FirstName + "'></td>";
+                    content += "<td><input style='width:200px;' class='form-control maxlength='50' text-center' id='txtFirstLastName-" + data[i].DocumentNumber + "'  value='" + data[i].FirstLastName + "'></td>";
+                    content += "<td><input style='width:200px;' class='form-control maxlength='50' text-center' id='txtSecondLastName-" + data[i].DocumentNumber + "'  value='" + data[i].SecondLastName + "'></td>";
                     content += "<td>" + renderddlGender(data[i].DocumentNumber) + "</td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtCurrentOccupation-" + data[i].DocumentNumber + "'  value='" + data[i].CurrentOccupation + "'></td>";
-                    content += "<td><input style='width:600px;' class='form-control text-center' id='txtProtocol-" + data[i].DocumentNumber + "'  value=''></td>";
-                    content += "<td style='display:none' ><input  class='form-control text-center' id='txtProtocolId-" + data[i].DocumentNumber + "'  value=''></td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtMobileNumber-" + data[i].DocumentNumber + "'  value='" + data[i].MobileNumber + "'></td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtEmail-" + data[i].DocumentNumber + "'  value='" + data[i].Email + "'></td>";
+                    content += "<td><input style='width:200px;' class='form-control maxlength='50' text-center' id='txtCurrentOccupation-" + data[i].DocumentNumber + "'  value='" + data[i].CurrentOccupation + "'></td>";
+                    content += "<td><input style='width:600px;' class='form-control text-center' id='txtProtocol-" + data[i].DocumentNumber + "'  value='' readonly></td>";                  
+                    content += "<td><input style='width:600px;' class='form-control text-center' id='txtCompFact-" + data[i].DocumentNumber + "'  value='' readonly></td>";
+                    content += "<td><input style='width:600px;' class='form-control text-center' id='txtCompResult-" + data[i].DocumentNumber + "'  value='' readonly></td>";
+                    content += "<td><input style='width:200px;' class='form-control maxlength='20' text-center' id='txtMobileNumber-" + data[i].DocumentNumber + "'  value='" + data[i].MobileNumber + "'></td>";
+                    content += "<td><input style='width:200px;' class='form-control maxlength='50' text-center' id='txtEmail-" + data[i].DocumentNumber + "'  value='" + data[i].Email + "'></td>";
                     content += "<td><input class='div-tag' id='txtTag-" + data[i].DocumentNumber + "' type='text' value='' /></td>";
                     content += "<td class='text-nowrap'>";
                     content += "<a data-toggle='tooltip' data-original-title='Agregar Adicionales' onclick='ModalAdditionalExam(" + data[i].DocumentNumber + ")'> <i class='fa fa-plus text-inverse m-r-10'></i> </a>";
-                    content += "<a data-toggle='tooltip' data-original-title='Eliminar' onclick='RemoveRow()'> <i class='fa fa-close text-warning'></i> </a>";
+                    content += "<a data-toggle='tooltip' data-original-title='Eliminar'> <i class='fa fa-close text-warning btnRemove'></i> </a>";
                     content += "</td>";
+
+
+                    content += "<td style='display:none' ></td>";
                     content += "</tr>";
                 }
 
@@ -361,7 +400,7 @@
             }
 
             function renderddlTypeDoc(id) {
-                let htmlddlTypeDoc = "<select style='width:auto;' class='form-control form-white select-Service' id='ddl-" + id + "'>";
+                let htmlddlTypeDoc = "<select style='width:auto;' class='form-control form-white' id='ddl-" + id + "'>";
                 htmlddlTypeDoc += "<option value='-1'>--Seleccionar--</option>";
                 htmlddlTypeDoc += "<option value='1'>DNI</option>";
                 htmlddlTypeDoc += "<option value='2'>PASAPORTE</option>";
@@ -371,7 +410,7 @@
             }
 
             function renderddlGender(id) {
-                let htmlddlGender = "<select style='width:auto;' class='form-control form-white select-Service' id='ddl-" + id + "'>";
+                let htmlddlGender = "<select style='width:auto;' class='form-control form-white' id='ddl-" + id + "'>";
                 htmlddlGender += "<option value='-1'>--Seleccionar--</option>";
                 htmlddlGender += "<option value='1'>MASCULINO</option>";
                 htmlddlGender += "<option value='2'>FEMENINO</option>";
@@ -381,7 +420,7 @@
 
             function ApiSunat() {
                 fetch('https://api.reniec.cloud/dni/42708421').then(res => {
-                    console.log("ApiSunat", res);
+                    
                 });
             }
 
@@ -394,7 +433,7 @@
                     let content = "";
                     for (var i = 0; i < data.length; i++) {
                         content += "<tr>";
-                        content += "<td style='width:40px'><div class='checkbox'> <input type='checkbox' value='check'> <label for=''></label></div></td>";
+                        content += "<td style='width:40px'><div class='checkbox'> <input class='selected-AddExa' type='checkbox' id='AddExam-"+data[i].ComponentId+"' value='check'> <label for='AddExam-"+data[i].ComponentId+"'></label></div></td>";
                         content += "<td>" + data[i].Name + "</td>";
                         content += "<td>" + data[i].SalePrice + "</td>";
                         content += "</tr>";
@@ -408,20 +447,265 @@
             }
 
             function RemoveRow() {
+
             }
 
             function AddAdditionalExam() {
-                let input = $("#txtAdditionalExamen").val();
                 let idInput = "#txtTag-" + $("#txthiddenAdditionalExamId").val();
 
-                $(idInput).tagsinput('add', { id: $("#txthiddenAdditionalExamId").val(), text: input });
-                $("#AddAdditionalExamModal").modal("hide");
+                $("#tbody-Add-Exam").find('tr').each(function (i, el) {
+                    var $tds = $(this).find('td');
+                    let selectedRow = $tds.eq(0).find('.selected-AddExa').get(0).checked;                    
+                    let componentName = $tds.eq(1).get(0).textContent;
+                    if (selectedRow)                         
+                        $(idInput).tagsinput('add', { id: i, text: componentName });                   
+                }); 
 
+                $("#tbody-Add-Examns tr").each(function (index, tr) {
+                    let componentNameAdd = $(this).find("input").eq(0).val();
+                    
+                    $(idInput).tagsinput('add', { id: 1000, text: componentNameAdd });                   
+                });               
+                
+                $("#AddAdditionalExamModal").modal("hide");
                 $("#txthiddenAdditionalExamId").val(0);
             }
 
             function Schedule() {
-                console.log("SSS", $("#txtTag-47987923").tagsinput('items'));
+                ClearErrors();
+
+                var rowCounter = $('#mainTable > tbody tr').length;
+
+                if (rowCounter > 0) {
+
+                    let errors = 0;
+                    errors += ValidateTypeDocument();
+                    errors += ValidateNroDocument();
+                    errors += ValidateFirstName();
+                    errors += ValidateFirstLastName();
+                    errors += ValidateSecondName();
+                    errors += ValidateTypeGender();
+                    errors += ValidateOccupation();
+                    errors += ValidateProtocol();
+                    errors += ValidateCompanyFact();
+                    errors += ValidateCompanyResult();
+                    errors += ValidateCell();
+                    errors += ValidateEmail();
+                    if (errors == 0) SaveSchedule();
+                    else alert("Necesita Validar");
+                    
+                }               
+            }
+
+
+            function SaveSchedule() {
+                console.log("Iniciando Grabado");
+            }
+
+            function ClearErrors() {
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    $($tds.eq(2).find('select').get(0)).removeClass("invalido");
+                    $($tds.eq(3).find('input').get(0)).removeClass("invalido");
+                    $($tds.eq(4).find('input').get(0)).removeClass("invalido");
+                    $($tds.eq(5).find('input').get(0)).removeClass("invalido");
+                    $($tds.eq(6).find('input').get(0)).removeClass("invalido");
+                    $($tds.eq(7).find('select').get(0)).removeClass("invalido");
+                    $($tds.eq(8).find('input').get(0)).removeClass("invalido");
+                    $($tds.eq(9).find('input').get(0)).removeClass("invalido");
+                    $($tds.eq(10).find('input').get(0)).removeClass("invalido");
+                    $($tds.eq(11).find('input').get(0)).removeClass("invalido");
+                    $($tds.eq(12).find('input').get(0)).removeClass("invalido");
+                    $($tds.eq(13).find('input').get(0)).removeClass("invalido");
+                });
+            }
+
+            function ValidateTypeDocument() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $select = $($tds.eq(2).find('select').get(0));
+                    
+                    if ($select.val() == -1) {                     
+                        $select.addClass("invalido");
+                        countErr++;                        
+                    }                 
+                    
+                });
+
+                return countErr;
+            }
+
+            function ValidateNroDocument() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let typeDocumentId = $($tds.eq(2).find('select').get(0)).val();
+                    if (typeDocumentId == DOC_TYPE_DNI) {
+                        let $input = $($tds.eq(3).find('input').get(0));
+                        if ($input.val().length != 8) {
+                            $($tds.eq(3).find('input').get(0)).addClass("invalido");
+                            countErr++;
+                        }
+                    }                 
+                    
+                });
+
+                return countErr;
+            }
+
+            function ValidateFirstName() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $InputFirstName = $($tds.eq(4).find('input').get(0));
+                    if ($InputFirstName.val().length < 2) {                        
+                        $InputFirstName.addClass("invalido");
+                        countErr++;                        
+                    }                
+                });
+
+                return countErr;
+            }
+
+            function ValidateFirstLastName() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $InputFirstLastName = $($tds.eq(5).find('input').get(0));
+                    if ($InputFirstLastName.val().length < 2) {                        
+                        $InputFirstLastName.addClass("invalido");
+                        countErr++;                        
+                    }                
+                });
+
+                return countErr;
+            }
+
+            function ValidateSecondName() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $InputFirstLastName = $($tds.eq(6).find('input').get(0));
+                    if ($InputFirstLastName.val().length < 2) {                        
+                        $InputFirstLastName.addClass("invalido");
+                        countErr++;                        
+                    }                
+                });
+
+                return countErr;
+            }
+
+            function ValidateTypeGender() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $select = $($tds.eq(7).find('select').get(0));
+                    
+                    if ($select.val() == -1) {                     
+                        $select.addClass("invalido");
+                        countErr++;                        
+                    }
+                });
+
+                return countErr;
+            }
+
+            function ValidateOccupation() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $InputFirstLastName = $($tds.eq(8).find('input').get(0));
+                    if ($InputFirstLastName.val().length < 2) {                        
+                        $InputFirstLastName.addClass("invalido");
+                        countErr++;                        
+                    }                
+                });
+
+                return countErr;
+            }
+
+            function ValidateProtocol() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $InputFirstLastName = $($tds.eq(9).find('input').get(0));
+                    if ($InputFirstLastName.val().length < 2) {                        
+                        $InputFirstLastName.addClass("invalido");
+                        countErr++;                        
+                    }                
+                });
+
+                return countErr;
+            }
+
+            function ValidateCompanyFact() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $InputFirstLastName = $($tds.eq(9).find('input').get(0));
+                    if ($InputFirstLastName.val().length < 2) {                        
+                        $InputFirstLastName.addClass("invalido");
+                        countErr++;                        
+                    }                
+                });
+
+                return countErr;
+            }
+
+            function ValidateCompanyResult() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $InputFirstLastName = $($tds.eq(10).find('input').get(0));
+                    if ($InputFirstLastName.val().length < 2) {                        
+                        $InputFirstLastName.addClass("invalido");
+                        countErr++;                        
+                    }                
+                });
+
+                return countErr;
+            }
+
+            function ValidateCell() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $InputFirstLastName = $($tds.eq(11).find('input').get(0));
+                    if ($InputFirstLastName.val().length < 2) {                        
+                        $InputFirstLastName.addClass("invalido");
+                        countErr++;                        
+                    }                
+                });
+
+                return countErr;
+            }
+
+            function ValidateEmail() {
+                let countErr = 0; 
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    let $tds = $(this).find('td');
+                    let $InputFirstLastName = $($tds.eq(12).find('input').get(0));
+                    if ($InputFirstLastName.val().length < 2) {                        
+                        $InputFirstLastName.addClass("invalido");
+                        countErr++;                        
+                    }                
+                });
+
+                return countErr;
             }
 
             function AddAdditionalExamnsSchedule() {
@@ -477,16 +761,18 @@
 
                     if (selectedRow) {
                         $($tds.eq(9).find('input')).val(protocolName);
-                        $($tds.eq(10).find('input')).val(protocolId);
+                        $tds.eq(16).text(protocolId);
                     }
-
-
                 });
             }
 
             function ClearTableSchedule() {
                 let $table = $("#mainTable tbody");
                 $table.empty();
+            }
+
+            function downloadFile() {
+                    
             }
 
         </script>
