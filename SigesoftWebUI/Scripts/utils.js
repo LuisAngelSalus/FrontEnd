@@ -14,6 +14,9 @@ const ROLE_ADMNISTRADOR = 6;
 const ROLE_CLIENTE = 7;
 const ROLE_TRABAJADOR = 8;
 
+const DOC_TYPE_DNI = 1;
+const DOC_TYPE_PASSPORT = 2;
+const DOC_TYPE_PTP = 2;
 
 function validateInputNumber(evt) {
     var theEvent = evt || window.event;
@@ -211,4 +214,12 @@ function urlBase64ToUint8Array(base64String) {
     }
 
     return outputArray;
+}
+
+function ValidateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(myForm.emailAddr.value)) {
+        return (true)
+    }
+    alert("You have entered an invalid email address!")
+    return (false)
 }

@@ -86,5 +86,19 @@ namespace SigesoftWebUI.Controllers
             var response = _scheduleBL.GetAdditionalComponents(protocolId, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult Download()
+        {         
+            byte[] ms = System.IO.File.ReadAllBytes(@"c:\EF140400.xlsx");
+
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment;  filename=Probando.xlsx");
+            Response.BinaryWrite(ms);
+            Response.End();
+
+            return Json(Response);
+        }
     }
 }
