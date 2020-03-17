@@ -1,5 +1,6 @@
 ﻿using BE;
 using iTextSharp.text;
+using iTextSharp.text.html;
 using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
@@ -161,6 +162,69 @@ namespace SigesoftWebUI.Utils.PDF
             //elements.Alignment = Element.ALIGN_JUSTIFIED;
 
             return elements;
+        }
+
+        public PdfPTable GetPageNineTeen(Response<QuotationDto> response)
+        {
+            var titleFont = FontFactory.GetFont("Arial", 12, Font.BOLD);
+            var titleFontBlue = FontFactory.GetFont("Arial", 14, Font.NORMAL, BaseColor.BLUE);
+            var boldTableFont = FontFactory.GetFont("Arial", 8, Font.BOLD);
+            var bodyFont = FontFactory.GetFont("Arial", 8, Font.NORMAL);
+            var EmailFont = FontFactory.GetFont("Arial", 8, Font.NORMAL, BaseColor.BLUE);
+            BaseColor TabelHeaderBackGroundColor = WebColors.GetRGBColor("#EEEEEE");
+
+            int profileIndex = 0;
+
+
+            int countProfile = response.Data.QuotationProfile.Count;
+            int totalColumns = countProfile + 2;
+
+            //Create body table
+            PdfPTable itemTable = new PdfPTable(totalColumns);
+
+            itemTable.HorizontalAlignment = 0;
+            itemTable.WidthPercentage = 100;
+            //itemTable.SetWidths(new float[] { 5, 40, 10, 20, 25 });  // then set the column's __relative__ widths
+            itemTable.SpacingAfter = 40;
+            itemTable.DefaultCell.Border = Rectangle.BOX;
+            PdfPCell cell1 = new PdfPCell(new Phrase("", boldTableFont));
+            cell1.BackgroundColor = TabelHeaderBackGroundColor;
+            cell1.HorizontalAlignment = Element.ALIGN_CENTER;
+            itemTable.AddCell(cell1);
+            PdfPCell cell2 = new PdfPCell(new Phrase("", boldTableFont));
+            cell2.BackgroundColor = TabelHeaderBackGroundColor;
+            cell2.HorizontalAlignment = 1;
+            itemTable.AddCell(cell2);
+
+
+            foreach (var item in response.Data.QuotationProfile)
+            {
+                itemTable.AddCell(new PdfPCell(new Phrase(item.ProfileName, boldTableFont))).HorizontalAlignment = Element.ALIGN_CENTER;
+            }
+
+            PdfPCell cell2A = new PdfPCell(new Phrase("", boldTableFont));
+            cell2A.BackgroundColor = TabelHeaderBackGroundColor;
+            cell2A.HorizontalAlignment = Element.ALIGN_CENTER;
+            itemTable.AddCell(cell2A);
+
+            PdfPCell cell2B = new PdfPCell(new Phrase("", boldTableFont));
+            cell2B.BackgroundColor = TabelHeaderBackGroundColor;
+            cell2B.HorizontalAlignment = 1;
+            itemTable.AddCell(cell2B);
+
+            for (profileIndex = 0; profileIndex < response.Data.QuotationProfile.Count; profileIndex++)
+            {
+                itemTable.AddCell(new PdfPCell(new Phrase(response.Data.QuotationProfile[profileIndex].ServiceTypeName, boldTableFont))).HorizontalAlignment = Element.ALIGN_CENTER;
+            }
+
+            for (var componentIndex = 0; componentIndex < response.Data.QuotationProfile[profileIndex - 1].ProfileComponent.Count; componentIndex++)
+            {
+                itemTable.AddCell(new PdfPCell(new Phrase(response.Data.QuotationProfile[profileIndex - 1].ProfileComponent[componentIndex].CategoryName, boldTableFont))).HorizontalAlignment = Element.ALIGN_CENTER;
+                itemTable.AddCell(new PdfPCell(new Phrase(response.Data.QuotationProfile[profileIndex - 1].ProfileComponent[componentIndex].ComponentName, boldTableFont))).HorizontalAlignment = Element.ALIGN_CENTER;
+                itemTable.AddCell(new PdfPCell(new Phrase(response.Data.QuotationProfile[profileIndex - 1].ProfileComponent[componentIndex].RecordStatus == RecordStatus.Grabado ? "X" : "", boldTableFont))).HorizontalAlignment = Element.ALIGN_CENTER;
+            }
+
+            return itemTable;
         }
 
         public Paragraph GetPageTwentySix()

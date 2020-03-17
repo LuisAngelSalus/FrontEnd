@@ -313,6 +313,7 @@
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\helper.cs" />
     <Compile Include="Models\ModelCompanyDetail.cs" />
+    <Compile Include="Models\QuotationModel.cs" />
     <Compile Include="Models\QuotationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
