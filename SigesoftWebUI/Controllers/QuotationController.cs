@@ -19,11 +19,16 @@ using System.IO;
 //using iTextSharp.text;
 //using iTextSharp.text.pdf;
 using Spire.Doc;
+using SigesoftWebUI.Utils;
+using SigesoftWebUI.Repositories;
 
 namespace SigesoftWebUI.Controllers
 {
     public class QuotationController : GenericController
     {
+        private readonly QuotationRepository quotationRepository = new QuotationRepository();
+
+
         QuotationBL _quotationBL = new QuotationBL();
         CompanyBL _companyBL = new CompanyBL();
         SecurityBL _securityBL = new SecurityBL();
@@ -41,7 +46,7 @@ namespace SigesoftWebUI.Controllers
             oLoginDto.v_UserName = sessione.UserName;
             oLoginDto.v_Password = sessione.Pass;
             var validated = _securityBL.ValidateAccess(oLoginDto);
-            if(validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
             parameters.ResponsibleSystemUserId = validated.SystemUserId;
             var response = _quotationBL.Filter(parameters, validated.Token);
@@ -60,7 +65,7 @@ namespace SigesoftWebUI.Controllers
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
 
-            var response = _quotationBL.GetQuotation(id,validated.Token);
+            var response = _quotationBL.GetQuotation(id, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
@@ -103,7 +108,7 @@ namespace SigesoftWebUI.Controllers
                     ViewBag.DataQuotation = oQuotationDto;
                 }
             }
-           
+
             return View();
         }
 
@@ -118,7 +123,7 @@ namespace SigesoftWebUI.Controllers
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
 
-            var response = _quotationBL.GetProfile(profileId,validated.Token);
+            var response = _quotationBL.GetProfile(profileId, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
@@ -139,7 +144,7 @@ namespace SigesoftWebUI.Controllers
             data.ResponsibleSystemUserId = sessione.SystemUserId;
             #endregion
 
-            var response = _quotationBL.Save(data,validated.Token);
+            var response = _quotationBL.Save(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
@@ -196,15 +201,15 @@ namespace SigesoftWebUI.Controllers
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
-        public FileResult GetHTMLPageAsPDF()
-        {
-            var Renderer = new IronPdf.HtmlToPdf();
-            var PDF = Renderer.RenderHtmlAsPdf(Generator.GetHTMLString());
-            var contentLength = PDF.BinaryData.Length;
-            Response.AppendHeader("Content-Length", contentLength.ToString());
-            Response.AppendHeader("Content-Disposition", "inline; filename=Document_" + "demo" + ".pdf");
-            return File(PDF.BinaryData, "application/pdf;");
-        }
+        //public FileResult GetHTMLPageAsPDF()
+        //{
+        //    var Renderer = new IronPdf.HtmlToPdf();
+        //    var PDF = Renderer.RenderHtmlAsPdf(Generator.GetHTMLString());
+        //    var contentLength = PDF.BinaryData.Length;
+        //    Response.AppendHeader("Content-Length", contentLength.ToString());
+        //    Response.AppendHeader("Content-Disposition", "inline; filename=Document_" + "demo" + ".pdf");
+        //    return File(PDF.BinaryData, "application/pdf;");
+        //}
 
         public JsonResult GetVersions(string code)
         {
@@ -220,7 +225,7 @@ namespace SigesoftWebUI.Controllers
             var response = _quotationBL.GetVersions(code, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
-        
+
         [HttpPost]
         public JsonResult ExportToPDF(string data)
         {
@@ -242,7 +247,7 @@ namespace SigesoftWebUI.Controllers
             var validated = _securityBL.ValidateAccess(oLoginDto);
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
-            
+
             var response = _quotationBL.UpdateProccess(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
@@ -259,55 +264,16 @@ namespace SigesoftWebUI.Controllers
             }
         }
 
-        public ActionResult ExportPlantilla(int code)
+        public FileResult ExportPlantilla(int code)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+            var quotation = quotationRepository.GetQuotation(code, SessionUsuario);
+            MemoryStream memoryStream = quotationRepository.GetPDF(quotation);
 
-            var response = _quotationBL.GetQuotation(code, validated.Token);
+            string fileName = string.Empty;
+            DateTime fileCreationDatetime = DateTime.Now;
+            fileName = string.Format("{0}_{1}.pdf", quotation.Data.Code, fileCreationDatetime.ToString(@"yyyyMMdd") + "_" + fileCreationDatetime.ToString(@"HHmmss"));
 
-
-            string path = Path.Combine(HttpRuntime.AppDomainAppPath, "Template");
-
-
-            using (MemoryStream memoryStreamRead = new MemoryStream())
-            {
-                Document document = new Document();
-                document.LoadFromFile(path + "/PLANTILLA_PROPUESTA_COMERCIAL.docx");
-                document.Replace("@COTI", response.Data.Code.ToString(), false, true);
-                document.Replace("@VER", response.Data.Version.ToString(), false, true);
-                document.Replace("@FECHA", DateTime.Now.ToString("dd/MM/yyyy"), false, true);
-                document.Replace("@EMPRESA", response.Data.CompanyName.ToString(), false, true);
-                document.Replace("@PROPUESTA", response.Data.CommercialTerms.ToString(), false, true);
-
-                document.SaveToStream(memoryStreamRead, FileFormat.PDF);
-
-                MemoryStream workbook = memoryStreamRead;
-                string saveAsFileName = "PLANTILLA_PROPUESTA_COMERCIAL" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".pdf";
-                //return File(workbook.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", string.Format("{0}", saveAsFileName));
-                return File(workbook.ToArray(), "application/pdf", string.Format("{0}", saveAsFileName));
-            }
-
-            //Document doc = new Document(PageSize.Letter);
-            //FileStream file = new FileStream("Propuesta comercial.pdf", FileMode.Create);
-            //PdfWriter writer = PdfWriter.GetInstance(doc, file);
-
-            //doc.AddAuthor("SalusLaboris");
-            //doc.AddTitle("Propuesta Comercial");
-            //doc.Open();
-
-            //doc.Add(new Phrase("Por medio de la presente, reciban un cordial saludo a nombre de SALUS LABORIS\n S.A.C. Somos una empresa que brinda servicios integrales de Salud Ocupacional y \nRespuesta a Emergencias con más de 12 años de experiencia en el mercado."));
-            //writer.Close();
-            //doc.Close();
-
-            //var pdf = new FileStream("Propuesta comercial.pdf", FileMode.Open, FileAccess.Read);
-            //return File(pdf, "aplication/pdf");
+            return File(memoryStream, "application/pdf", fileName);
         }
 
         public JsonResult ListPrice(int CompanyId)
@@ -351,7 +317,7 @@ namespace SigesoftWebUI.Controllers
             var validated = _securityBL.ValidateAccess(oLoginDto);
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
-            
+
             var response = _quotationBL.MigrateQuotationToProtocols(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
@@ -387,4 +353,4 @@ namespace SigesoftWebUI.Controllers
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
     }
-}   
+}
