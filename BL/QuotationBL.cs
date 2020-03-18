@@ -1,6 +1,8 @@
 ﻿using BE;
+using NetPdf;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -186,6 +188,11 @@ namespace BL
                 obj = new JavaScriptSerializer().Deserialize<Response<bool>>(hCliente.Content.ReadAsStringAsync().Result);
             }
             return obj;
+        }
+
+        public MemoryStream GeneratePdf(int code)
+        {            
+           return QuotationDocumentPDF.CreateDocument(code);
         }
 
     }

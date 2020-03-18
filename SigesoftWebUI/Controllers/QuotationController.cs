@@ -266,8 +266,9 @@ namespace SigesoftWebUI.Controllers
 
         public FileResult ExportPlantilla(int code)
         {
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
             var quotation = quotationRepository.GetQuotation(code, SessionUsuario);
-            MemoryStream memoryStream = quotationRepository.GetPDF(quotation);
+            MemoryStream memoryStream = quotationRepository.GetPDF(quotation, sessione.FullName);
 
             string fileName = string.Empty;
             DateTime fileCreationDatetime = DateTime.Now;
@@ -275,6 +276,15 @@ namespace SigesoftWebUI.Controllers
 
             return File(memoryStream, "application/pdf", fileName);
         }
+
+        //public FileResult ExportPlantilla(int code)
+        //{
+        //    var memoryStream = _quotationBL.GeneratePdf(code);            
+        //    DateTime fileCreationDatetime = DateTime.Now;
+        //    var fileName = string.Format("{0}_{1}.pdf", code, fileCreationDatetime.ToString(@"yyyyMMdd") + "_" + fileCreationDatetime.ToString(@"HHmmss"));
+
+        //    return File(memoryStream, "application/pdf", fileName);
+        //}
 
         public JsonResult ListPrice(int CompanyId)
         {
