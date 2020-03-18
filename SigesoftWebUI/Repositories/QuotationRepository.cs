@@ -169,8 +169,6 @@ namespace SigesoftWebUI.Repositories
                             document.Add(pdfPTable);
                             document.SetPageSize(PageSize.A4);
                             document.NewPage();
-                            
-
                         }
 
                         if (i == 20)
