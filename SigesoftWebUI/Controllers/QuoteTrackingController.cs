@@ -18,48 +18,26 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult Save(QuoteTrackingRegisterDto data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+            
 
-            var response = _quoteTrackingBL.Save(data, validated.Token);
+            var response = _quoteTrackingBL.Save(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult Update(QuoteTrackingUpdateDto data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-
-            var response = _quoteTrackingBL.Update(data, validated.Token);
+          
+            var response = _quoteTrackingBL.Update(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult GetQuoteTracking(int id)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+          
 
-            var response = _quoteTrackingBL.GetQuoteTracking(id, validated.Token);
+            var response = _quoteTrackingBL.GetQuoteTracking(id, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }

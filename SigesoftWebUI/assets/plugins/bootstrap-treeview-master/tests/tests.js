@@ -1,7 +1,6 @@
 /* global $, module, test, equal, ok */
 
 ;(function () {
-
 	'use strict';
 
 	function init(options) {
@@ -201,18 +200,14 @@
 	test('Links enabled', function () {
 		init({enableLinks:true, data:data});
 		ok($('.list-group-item:first').children('a').length, 'Links are enabled');
-
 	});
-
 
 	module('Data');
 
 	test('Accepts JSON', function () {
 		var el = init({levels:1,data:json});
 		equal($(el.selector + ' ul li').length, 5, 'Correct number of root nodes');
-
 	});
-
 
 	module('Behaviour');
 
@@ -222,7 +217,6 @@
 	});
 
 	test('Correct initial levels shown', function () {
-
 		var el = init({levels:1,data:data});
 		equal($(el.selector + ' ul li').length, 5, 'Correctly display 5 root nodes when levels set to 1');
 
@@ -234,7 +228,6 @@
 	});
 
 	test('Expanding a node', function () {
-
 		var cbWorked, onWorked = false;
 		init({
 			data: data,
@@ -256,7 +249,6 @@
 	});
 
 	test('Collapsing a node', function () {
-
 		var cbWorked, onWorked = false;
 		init({
 			data: data,
@@ -278,7 +270,6 @@
 	});
 
 	test('Selecting a node', function () {
-
 		var cbWorked, onWorked = false;
 		var $tree = init({
 			data: data,
@@ -296,7 +287,7 @@
 
 		// Has class node-selected
 		ok($('.list-group-item:first').hasClass('node-selected'), 'Node is correctly selected : class "node-selected" added');
-		
+
 		// Only one can be selected
 		ok(($('.node-selected').length === 1), 'There is only one selected node');
 
@@ -310,7 +301,6 @@
 	});
 
 	test('Unselecting a node', function () {
-
 		var cbWorked, onWorked = false;
 		var $tree = init({
 			data: data,
@@ -332,20 +322,19 @@
 
 		// Has class node-selected
 		ok(!$('.list-group-item:first').hasClass('node-selected'), 'Node is correctly unselected : class "node-selected" removed');
-		
+
 		// Only one can be selected
 		ok(($('.node-selected').length === 0), 'There are no selected nodes');
 
 		// Has correct icon
 		ok(!options.nodeIcon || $('.expand-icon:first').hasClass(options.nodeIcon), 'Node icon is correct');
-		
+
 		// Events triggered
 		ok(cbWorked, 'onNodeUnselected function was called');
 		ok(onWorked, 'nodeUnselected was fired');
 	});
 
 	test('Selecting multiple nodes (multiSelect true)', function () {
-
 		init({
 			data: data,
 			multiSelect: true
@@ -416,7 +405,6 @@
 	});
 
 	test('Checking a node', function () {
-
 		// setup test
 		var cbWorked, onWorked = false;
 		var $tree = init({
@@ -443,7 +431,6 @@
 	});
 
 	test('Unchecking a node', function () {
-
 		// setup test
 		var cbWorked, onWorked = false;
 		var $tree = init({
@@ -473,7 +460,6 @@
 		ok(cbWorked, 'onNodeUnchecked function was called');
 		ok(onWorked, 'nodeUnchecked was fired');
 	});
-
 
 	module('Methods');
 
@@ -871,5 +857,4 @@
 		ok(cbWorked, 'onSearchCleared function was called');
 		ok(onWorked, 'searchCleared was fired');
 	});
-
 }());

@@ -18,22 +18,6 @@ namespace SigesoftWebUI.Utils
         private const string _mediaType = "application/json";
         readonly string _serviceUrl = ConfigurationManager.AppSettings["SigesoftWebApiUrl"];
 
-        private string GetToken(SessionModel sessionModel)
-        {
-            string token = string.Empty;
-
-            var oLoginDto = new LoginDto()
-            {
-                v_UserName = sessionModel.UserName,
-                v_Password = sessionModel.Pass
-            };
-
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            token = validated == null ? "" : validated.Token;
-
-            return token;
-        }
-
         public T GetAsync<T>(string path, SessionModel sessionModel) where T : class, new()
         {
             try
@@ -44,7 +28,7 @@ namespace SigesoftWebUI.Utils
                 {
                     client.BaseAddress = new Uri(_serviceUrl);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(_mediaType));
-                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", GetToken(sessionModel));
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", sessionModel.Token);
 
                     var response = client.GetAsync(path).Result;
 

@@ -23,19 +23,11 @@ namespace SigesoftWebUI.Controllers
 
         public ActionResult CompanyData()
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
 
-            var response = _companyBL.CompanyDetail(sessione.CustomerCompanyId.Value, validated.Token);
+            var response = _companyBL.CompanyDetail(SessionUsuario.CustomerCompanyId.Value, SessionUsuario.Token);
             ViewBag.Detail = response.Data;
 
-            var clientUsers = _clientUserBL.GetAllAsyncByCompany(sessione.CustomerCompanyId.Value, validated.Token);
+            var clientUsers = _clientUserBL.GetAllAsyncByCompany(SessionUsuario.CustomerCompanyId.Value, SessionUsuario.Token);
             ViewBag.CLIENTUSERS = clientUsers.Data;
             return View();
         }

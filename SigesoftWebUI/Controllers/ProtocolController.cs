@@ -1,5 +1,6 @@
 ﻿using BE;
 using BL;
+using SigesoftWebUI.Controllers.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace SigesoftWebUI.Controllers
 {
-    public class ProtocolController : Controller
+    public class ProtocolController : GenericController
     {
         ProtocolBL _protocolBL = new ProtocolBL();
         SecurityBL _securityBL = new SecurityBL();
@@ -22,16 +23,9 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult GetProtocolsByCompany(int id)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
 
-            var response = _protocolBL.GetProtocolsByCompanyId(id,validated.Token);
+
+            var response = _protocolBL.GetProtocolsByCompanyId(id, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }

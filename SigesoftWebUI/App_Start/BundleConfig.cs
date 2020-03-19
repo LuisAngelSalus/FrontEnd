@@ -37,7 +37,6 @@ namespace SigesoftWebUI
                         "~/Scripts/bootstrap.js",
                         "~/Scripts/nifty.min.js"
                         ));
-
         }
     }
 }

@@ -22,50 +22,25 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult GetAccountSettingBySystemUserId()
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+         
 
-            var response = _accountSettingBL.GetAccountSettingBySystemUserId(validated.SystemUserId, validated.Token);
+            var response = _accountSettingBL.GetAccountSettingBySystemUserId(SessionUsuario.SystemUserId, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Save(AccountSettingRegisterDto  data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-
-            data.SystemUserId = validated.SystemUserId;
-            data.InsertUserId = validated.SystemUserId;
-            var response = _accountSettingBL.Save(data, validated.Token);
+            data.SystemUserId = SessionUsuario.SystemUserId;
+            data.InsertUserId = SessionUsuario.SystemUserId;
+            var response = _accountSettingBL.Save(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Update(AccountSettingUpdateDto data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-
-            data.SystemUserId = validated.SystemUserId;
-            data.UpdateUserId= validated.SystemUserId;
-            var response = _accountSettingBL.Update(data, validated.Token);
+            data.SystemUserId = SessionUsuario.SystemUserId;
+            data.UpdateUserId= SessionUsuario.SystemUserId;
+            var response = _accountSettingBL.Update(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }

@@ -9,7 +9,6 @@
  */
 
 (function ($) {
-
     var createdElements = [];
 
     var defaults = {
@@ -30,7 +29,6 @@
         },
         methods: {
             init: function (options) {
-
                 var settings = $.extend(true, {}, defaults);
 
                 settings.options = $.extend(true, settings.options, options);
@@ -79,7 +77,6 @@
                 });
 
                 return this.each(function () {
-
                     // Get references to everything we're interested in
                     var $this = $(this),
                         $controlGroup = $this.parents(".control-group").first(),
@@ -273,7 +270,6 @@
                         });
 
                         validatorNamesToInspect = newValidatorNamesToInspect;
-
                     } while (validatorNamesToInspect.length > 0)
 
                     // =============================================================
@@ -318,7 +314,6 @@
                         );
 
                         if (!foundValidator && settings.builtInValidators[el.toLowerCase()]) {
-
                             var validator = $.extend(true, {}, settings.builtInValidators[el.toLowerCase()]);
                             if (hasOverrideMessage) {
                                 validator.message = message;
@@ -401,7 +396,6 @@
                     $this.bind(
                         "validation.validation",
                         function (event, params) {
-
                             var value = getValue($this);
 
                             // Get a list of the errors to apply
@@ -448,7 +442,6 @@
                             "change"
                         ].join(".validation ") + ".validation",
                         function (e, params) {
-
                             var value = getValue($this);
 
                             var errorsFound = [];
@@ -504,10 +497,8 @@
                 });
             },
             destroy: function () {
-
                 return this.each(
                     function () {
-
                         var
                             $this = $(this),
                             $controlGroup = $this.parents(".control-group").first(),
@@ -527,13 +518,10 @@
                         if (createdElements.indexOf($helpBlock[0]) > -1) {
                             $helpBlock.remove();
                         }
-
                     }
                 );
-
             },
             collectErrors: function (includeEmpty) {
-
                 var errorMessages = {};
                 this.each(function (i, el) {
                     var $el = $(el);
@@ -549,10 +537,8 @@
                 });
 
                 return errorMessages;
-
             },
             hasErrors: function () {
-
                 var errorMessages = [];
 
                 this.each(function (i, el) {
@@ -614,7 +600,6 @@
                     }
 
                     return false;
-
                 }
             },
             ajax: {
@@ -669,7 +654,6 @@
                     }
 
                     return false;
-
                 }
             },
             regex: {
@@ -891,7 +875,6 @@
     }
 
     $.fn.jqBootstrapValidation = function (method) {
-
         if (defaults.methods[method]) {
             return defaults.methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         } else if (typeof method === 'object' || !method) {
@@ -900,11 +883,9 @@
             $.error('Method ' + method + ' does not exist on jQuery.jqBootstrapValidation');
             return null;
         }
-
     };
 
     $.jqBootstrapValidation = function (options) {
         $(":input").not("[type=image],[type=submit]").jqBootstrapValidation.apply(this, arguments);
     };
-
 })(jQuery);

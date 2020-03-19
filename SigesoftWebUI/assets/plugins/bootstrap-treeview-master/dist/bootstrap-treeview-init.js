@@ -1,5 +1,4 @@
 $(function() {
-
         var defaultData = [
           {
             text: 'Parent 1',
@@ -138,7 +137,6 @@ $(function() {
           '}' +
         ']';
 
-
         $('#treeview1').treeview({
           selectedBackColor: "#03a9f3",
           onhoverColor: "rgba(0, 0, 0, 0.05)",
@@ -169,7 +167,6 @@ $(function() {
         });
 
         $('#treeview4').treeview({
-
           color: "#428bca",
           selectedBackColor: "#03a9f3",
           onhoverColor: "rgba(0, 0, 0, 0.05)",
@@ -180,7 +177,6 @@ $(function() {
         });
 
         $('#treeview5').treeview({
-         
           expandIcon: 'ti-angle-right',
           onhoverColor: "rgba(0, 0, 0, 0.05)",
           selectedBackColor: "#03a9f3",
@@ -243,8 +239,6 @@ $(function() {
           data: defaultData
         });
 
-
-
         var $searchableTree = $('#treeview-searchable').treeview({
           selectedBackColor: "#03a9f3",
           onhoverColor: "rgba(0, 0, 0, 0.05)",
@@ -279,10 +273,8 @@ $(function() {
           $('#search-output').html('');
         });
 
-
         var initSelectableTree = function() {
           return $('#treeview-selectable').treeview({
-            
             data: defaultData,
             multiSelect: $('#chk-select-multi').is(':checked'),
             onNodeSelected: function(event, node) {
@@ -303,7 +295,7 @@ $(function() {
         $('#chk-select-multi:checkbox').on('change', function () {
           console.log('multi-select change');
           $selectableTree = initSelectableTree();
-          selectableNodes = findSelectableNodes();          
+          selectableNodes = findSelectableNodes();
         });
 
         // Select/unselect/toggle nodes
@@ -323,8 +315,6 @@ $(function() {
         $('#btn-toggle-selected.select-node').on('click', function (e) {
           $selectableTree.treeview('toggleNodeSelected', [ selectableNodes, { silent: $('#chk-select-silent').is(':checked') }]);
         });
-
-
 
         var $expandibleTree = $('#treeview-expandible').treeview({
           data: defaultData,
@@ -370,8 +360,6 @@ $(function() {
           $expandibleTree.treeview('collapseAll', { silent: $('#chk-expand-silent').is(':checked') });
         });
 
-
-
         var $checkableTree = $('#treeview-checkable').treeview({
           data: defaultData,
           showIcon: false,
@@ -415,8 +403,6 @@ $(function() {
         $('#btn-uncheck-all').on('click', function (e) {
           $checkableTree.treeview('uncheckAll', { silent: $('#chk-check-silent').is(':checked') });
         });
-
-
 
         var $disabledTree = $('#treeview-disabled').treeview({
           data: defaultData,
@@ -468,8 +454,6 @@ $(function() {
         $('#btn-enable-all').on('click', function (e) {
           $disabledTree.treeview('enableAll', { silent: $('#chk-disable-silent').is(':checked') });
         });
-
-
 
         var $tree = $('#treeview12').treeview({
           data: json

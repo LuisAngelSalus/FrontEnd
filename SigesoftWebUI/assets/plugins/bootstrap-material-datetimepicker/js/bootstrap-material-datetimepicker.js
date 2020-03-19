@@ -17,7 +17,6 @@
       this.element = element;
       this.$element = $(element);
 
-
       this.params = {date: true, time: true, format: 'YYYY-MM-DD', minDate: null, maxDate: null, currentDate: null, lang: 'en', weekStart: 0, disabledDays: [], shortTime: false, clearButton: false, nowButton: false, cancelText: 'Cancel', okText: 'OK', clearText: 'Clear', nowText: 'Now', switchOnClick: false, triggerEvent: 'focus', monthPicker: false, year:true};
       this.params = $.fn.extend(this.params, options);
 
@@ -1119,7 +1118,6 @@
                  if(this.params.switchOnClick === true && this.params.time === false) {
                     setTimeout(this._onOKClick.bind(this), 200);
                  }
-
               },
               _onSelectHour: function (e)
               {
@@ -1253,12 +1251,12 @@
                  this.$dtpElement.remove();
               },
               show: function ()
-              {  
+              {
                  this.$dtpElement.removeClass('hidden');
                  this._attachEvent($(window), 'keydown', this._onKeydown.bind(this));
                  this._centerBox();
                  this.$element.trigger('open');
-                 
+
                  if (this.params.monthPicker === true)
                  {
                     this._hideCalendar();
@@ -1291,6 +1289,5 @@
                     });
                  }
               }
-
            };
 })(jQuery, moment);

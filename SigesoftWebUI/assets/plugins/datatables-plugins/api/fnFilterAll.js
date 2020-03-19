@@ -22,7 +22,7 @@
  *  @example
  *    $(document).ready(function() {
  *      var table = $(".dataTable").dataTable();
- *       
+ *
  *      $("#search").keyup( function () {
  *        // Filter on the column (the index) of this element
  *        table.fnFilterAll(this.value);
@@ -30,10 +30,10 @@
  *    });
  */
 
-jQuery.fn.dataTableExt.oApi.fnFilterAll = function(oSettings, sInput, iColumn, bRegex, bSmart) {
+jQuery.fn.dataTableExt.oApi.fnFilterAll = function (oSettings, sInput, iColumn, bRegex, bSmart) {
     var settings = $.fn.dataTableSettings;
 
-    for ( var i=0 ; i<settings.length ; i++ ) {
-      settings[i].oInstance.fnFilter( sInput, iColumn, bRegex, bSmart);
+    for (var i = 0; i < settings.length; i++) {
+        settings[i].oInstance.fnFilter(sInput, iColumn, bRegex, bSmart);
     }
 };

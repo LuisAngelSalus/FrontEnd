@@ -1,11 +1,11 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'), // the package file to use
- 
+
     uglify: {
       files: {
-        expand: true, 
-        flatten: true, 
+        expand: true,
+        flatten: true,
         src: 'src/js/*.js',
         dest: 'dist',
         ext: '.min.js'
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     },
 
     copy: {
-      main: { 
+      main: {
         files: [
           // copy dist to tests
           // { expand: true, cwd: 'dist', src: '*', dest: 'tests/lib/' },

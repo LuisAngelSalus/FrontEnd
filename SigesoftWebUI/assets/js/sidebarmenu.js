@@ -124,7 +124,6 @@ File: js
   }(jQuery);
 
   var AdminMenu = function ($) {
-
     var NAME = 'AdminMenu';
     var DATA_KEY = 'AdminMenu';
     var EVENT_KEY = '.' + DATA_KEY;
@@ -222,7 +221,6 @@ File: js
         this.setTransitioning(true);
 
         var complete = function complete() {
-
           _el.removeClass(_this._config.collapsingClass).addClass(_this._config.collapseClass + ' ' + _this._config.collapseInClass).height('').attr('aria-expanded', true);
 
           _this.setTransitioning(false);
@@ -239,7 +237,6 @@ File: js
       };
 
       AdminMenu.prototype._hide = function _hide(element) {
-
         if (this._transitioning || !$(element).hasClass(this._config.collapseInClass)) {
           return;
         }

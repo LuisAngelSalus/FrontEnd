@@ -6,10 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Text;
 using System.Web.Mvc;
+using SigesoftWebUI.Controllers.Base;
 
 namespace SigesoftWebUI.Controllers
 {
-    public class WorkerController : Controller
+    public class WorkerController : GenericController
     {
         WorkerBL _workerBL = new WorkerBL();
         SecurityBL _securityBL = new SecurityBL();
@@ -22,31 +23,17 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult GetDataWorker()
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;            
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+            
 
-            var response = _workerBL.GetDataWorker(validated.SystemUserId, validated.Token);
+            var response = _workerBL.GetDataWorker(SessionUsuario.SystemUserId, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult UpdateWorkerData(WorkerDto data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
             
-            var response = _workerBL.UpdateWorkerData(data, validated.Token);
+            
+            var response = _workerBL.UpdateWorkerData(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
     }

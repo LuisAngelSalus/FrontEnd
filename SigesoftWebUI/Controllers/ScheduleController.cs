@@ -20,31 +20,16 @@ namespace SigesoftWebUI.Controllers
 
         public ActionResult Register()
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+           
 
-            ViewBag.PROTOCOLS = _protocolBL.GetProtocolsByCompanyId(sessione.CustomerCompanyId.Value, validated.Token);
+            ViewBag.PROTOCOLS = _protocolBL.GetProtocolsByCompanyId(SessionUsuario.CustomerCompanyId.Value, SessionUsuario.Token);
             return View();            
         }
 
         [HttpPost]
         public JsonResult Upload()
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-
+            
             byte[] arr = null;
 
             using (var binaryReader = new BinaryReader(Request.Files[0].InputStream))
@@ -52,38 +37,24 @@ namespace SigesoftWebUI.Controllers
                 arr = binaryReader.ReadBytes(Request.Files[0].ContentLength);
             }
 
-           var result =  _scheduleBL.Read(arr, validated.Token);
+           var result =  _scheduleBL.Read(arr, SessionUsuario.Token);
 
             return Json(result);
         }
 
         public JsonResult GetComponentsByName(string value)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+           
 
-            var response = _scheduleBL.GetByName(value,validated.Token);
+            var response = _scheduleBL.GetByName(value,SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetAdditionalComponents(int protocolId)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+           
             
-            var response = _scheduleBL.GetAdditionalComponents(protocolId, validated.Token);
+            var response = _scheduleBL.GetAdditionalComponents(protocolId, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
     }

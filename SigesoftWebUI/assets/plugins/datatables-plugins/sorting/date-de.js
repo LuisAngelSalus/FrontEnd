@@ -22,8 +22,8 @@
  *    } );
  */
 
- jQuery.extend( jQuery.fn.dataTableExt.oSort, {
-	"de_datetime-asc": function ( a, b ) {
+jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+	"de_datetime-asc": function (a, b) {
 		var x, y;
 		if (jQuery.trim(a) !== '') {
 			var deDatea = jQuery.trim(a).split(' ');
@@ -46,7 +46,7 @@
 		return z;
 	},
 
-	"de_datetime-desc": function ( a, b ) {
+	"de_datetime-desc": function (a, b) {
 		var x, y;
 		if (jQuery.trim(a) !== '') {
 			var deDatea = jQuery.trim(a).split(' ');
@@ -69,7 +69,7 @@
 		return z;
 	},
 
-	"de_date-asc": function ( a, b ) {
+	"de_date-asc": function (a, b) {
 		var x, y;
 		if (jQuery.trim(a) !== '') {
 			var deDatea = jQuery.trim(a).split('.');
@@ -88,7 +88,7 @@
 		return z;
 	},
 
-	"de_date-desc": function ( a, b ) {
+	"de_date-desc": function (a, b) {
 		var x, y;
 		if (jQuery.trim(a) !== '') {
 			var deDatea = jQuery.trim(a).split('.');
@@ -106,5 +106,4 @@
 		var z = ((x < y) ? 1 : ((x > y) ? -1 : 0));
 		return z;
 	}
-} );
-
+});

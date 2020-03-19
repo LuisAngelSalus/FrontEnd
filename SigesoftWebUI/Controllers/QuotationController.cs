@@ -40,50 +40,28 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult Filter(ParamsQuotationFilterDto parameters)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-            parameters.ResponsibleSystemUserId = validated.SystemUserId;
-            var response = _quotationBL.Filter(parameters, validated.Token);
+          
+            parameters.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
+            var response = _quotationBL.Filter(parameters, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult GetQuotation(int id)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-
-            var response = _quotationBL.GetQuotation(id, validated.Token);
+          
+            var response = _quotationBL.GetQuotation(id, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Register(int id, string ruc)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+           
 
             if (id == 0)
             {
                 var data = new QuotationDto();
-                var company = _companyBL.CompanyByRuc(ruc, validated.Token).Data;
+                var company = _companyBL.CompanyByRuc(ruc, SessionUsuario.Token).Data;
                 data.CompanyId = company.CompanyId;
                 data.CompanyRuc = company.IdentificationNumber;
                 data.CompanyName = company.Name;
@@ -96,11 +74,11 @@ namespace SigesoftWebUI.Controllers
             }
             else
             {
-                var response = _quotationBL.GetQuotation(id, validated.Token);
+                var response = _quotationBL.GetQuotation(id, SessionUsuario.Token);
                 if (response != null)
                 {
                     ViewBag.DataQuotation = response.Data;
-                    ViewBag.Headquarters = _companyBL.CompanyDetail(response.Data.CompanyId, validated.Token).Data.companyHeadquarter;
+                    ViewBag.Headquarters = _companyBL.CompanyDetail(response.Data.CompanyId, SessionUsuario.Token).Data.companyHeadquarter;
                 }
                 else
                 {
@@ -114,90 +92,54 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult GetProfile(int profileId)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+          
 
-            var response = _quotationBL.GetProfile(profileId, validated.Token);
+            var response = _quotationBL.GetProfile(profileId, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult Save(QuotationRegisterDto data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+           
 
             #region AUDIT
-            data.InsertUserId = sessione.SystemUserId;
-            data.ResponsibleSystemUserId = sessione.SystemUserId;
+            data.InsertUserId = SessionUsuario.SystemUserId;
+            data.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
             #endregion
 
-            var response = _quotationBL.Save(data, validated.Token);
+            var response = _quotationBL.Save(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult NewVersion(QuotationNewVersionDto data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+            
 
             #region AUDIT
-            data.InsertUserId = sessione.SystemUserId;
-            data.ResponsibleSystemUserId = sessione.SystemUserId;
+            data.InsertUserId = SessionUsuario.SystemUserId;
+            data.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
             #endregion
 
-            var response = _quotationBL.NewVersion(data, validated.Token);
+            var response = _quotationBL.NewVersion(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult Update(QuotationUpdateDto data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+        
 
-            var response = _quotationBL.Update(data, validated.Token);
+            var response = _quotationBL.Update(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult GetComponents()
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-
-            var response = _quotationBL.GetComponents(validated.Token);
+           
+            var response = _quotationBL.GetComponents(SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
@@ -213,16 +155,9 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult GetVersions(string code)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+       
 
-            var response = _quotationBL.GetVersions(code, validated.Token);
+            var response = _quotationBL.GetVersions(code, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
@@ -239,16 +174,9 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult UpdateProccess(QuotationUpdateProcess data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+           
 
-            var response = _quotationBL.UpdateProccess(data, validated.Token);
+            var response = _quotationBL.UpdateProccess(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
@@ -278,78 +206,43 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult ListPrice(int CompanyId)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+           
 
-            var response = _quotationBL.GetListPrice(CompanyId, validated.Token);
+            var response = _quotationBL.GetListPrice(CompanyId, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult SetPrice(PriceListDto data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-            data.InsertUserId = sessione.SystemUserId;
-            data.UpdateUserId = sessione.SystemUserId;
-            var response = _quotationBL.UpdatePriceList(data, validated.Token);
+           
+            data.InsertUserId = SessionUsuario.SystemUserId;
+            data.UpdateUserId = SessionUsuario.SystemUserId;
+            var response = _quotationBL.UpdatePriceList(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult MigrateQuotationToProtocols(QuotationMigrateDto data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+           
 
-            var response = _quotationBL.MigrateQuotationToProtocols(data, validated.Token);
+            var response = _quotationBL.MigrateQuotationToProtocols(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Trackingchart(ParamsTrackingChartModel parameters)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-            parameters.ResponsibleSystemUserId = validated.SystemUserId;
-            var response = _quotationBL.Trackingchart(parameters, validated.Token);
+           
+            parameters.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
+            var response = _quotationBL.Trackingchart(parameters, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult MigrateProtocolToSIGESoftWin(QuotationMigrateDto data)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+            
 
-            var response = _quotationBL.MigrateProtocolToSIGESoftWin(data, validated.Token);
+            var response = _quotationBL.MigrateProtocolToSIGESoftWin(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
     }

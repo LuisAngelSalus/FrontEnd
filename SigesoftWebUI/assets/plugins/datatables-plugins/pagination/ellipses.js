@@ -2,10 +2,10 @@
  * This plug-in adds another pagination option similar to `full_numbers`, except
  * it adds ellipses around the page numbers when applicable. You can set how
  * many page numbers should be displayed with the iShowPages option.
- * 
+ *
  * This plug- in extends the oStdClasses object with the following properties:
  * sPageEllipsis, sPageNumber and sPageNumbers.
- * 
+ *
  * It also extends the oSettings object with the following properties:
  * _iShowPages, _iShowPagesHalf, _iCurrentPage, _iTotalPages, _iFirstPage and
  * _iLastPage.
@@ -36,7 +36,7 @@ $.fn.dataTableExt.oPagination.ellipses = {
     'oDefaults': {
         'iShowPages': 5
     },
-    'fnClickHandler': function(e) {
+    'fnClickHandler': function (e) {
         var fnCallbackDraw = e.data.fnCallbackDraw,
             oSettings = e.data.oSettings,
             sPage = e.data.sPage;
@@ -51,7 +51,7 @@ $.fn.dataTableExt.oPagination.ellipses = {
         return true;
     },
     // fnInit is called once for each instance of pager
-    'fnInit': function(oSettings, nPager, fnCallbackDraw) {
+    'fnInit': function (oSettings, nPager, fnCallbackDraw) {
         var oClasses = oSettings.oClasses,
             oLang = oSettings.oLanguage.oPaginate,
             that = this;
@@ -79,7 +79,7 @@ $.fn.dataTableExt.oPagination.ellipses = {
         $(nPager).append(oFirst, oPrevious, oNumbers, oNext, oLast);
     },
     // fnUpdate is only called once while table is rendered
-    'fnUpdate': function(oSettings, fnCallbackDraw) {
+    'fnUpdate': function (oSettings, fnCallbackDraw) {
         var oClasses = oSettings.oClasses,
             that = this;
 
@@ -133,7 +133,7 @@ $.fn.dataTableExt.oPagination.ellipses = {
     },
     // fnUpdateState used to be part of fnUpdate
     // The reason for moving is so we can access current state info before fnUpdate is called
-    'fnUpdateState': function(oSettings) {
+    'fnUpdateState': function (oSettings) {
         var iCurrentPage = Math.ceil((oSettings._iDisplayStart + 1) / oSettings._iDisplayLength),
             iTotalPages = Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength),
             iFirstPage = iCurrentPage - oSettings._iShowPagesHalf,

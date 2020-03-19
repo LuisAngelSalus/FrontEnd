@@ -38,7 +38,7 @@ $.fn.dataTableExt.oPagination.listbox = {
 		nPaging.appendChild(nInput);
 		nPaging.appendChild(nOf);
 		$(nInput).change(function (e) { // Set DataTables page property and redraw the grid on listbox change event.
-			window.scroll(0,0); //scroll to top of page
+			window.scroll(0, 0); //scroll to top of page
 			if (this.value === "" || this.value.match(/[^0-9]/)) { /* Nothing entered or non-numeric character */
 				return;
 			}
@@ -58,7 +58,7 @@ $.fn.dataTableExt.oPagination.listbox = {
 			return false;
 		});
 	},
-	 
+
 	/*
 	 * Function: oPagination.listbox.fnUpdate
 	 * Purpose:  Update the listbox element
@@ -77,7 +77,7 @@ $.fn.dataTableExt.oPagination.listbox = {
 			var spans = an[i].getElementsByTagName('span');
 			var inputs = an[i].getElementsByTagName('select');
 			var elSel = inputs[0];
-			if(elSel.options.length != iPages) {
+			if (elSel.options.length != iPages) {
 				elSel.options.length = 0; //clear the listbox contents
 				for (var j = 0; j < iPages; j++) { //add the pages
 					var oOption = document.createElement('option');
@@ -91,7 +91,7 @@ $.fn.dataTableExt.oPagination.listbox = {
 				}
 				spans[1].innerHTML = "&nbsp;of&nbsp;" + iPages;
 			}
-		  elSel.value = iCurrentPage;
+			elSel.value = iCurrentPage;
 		}
 	}
 };

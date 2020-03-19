@@ -36,16 +36,9 @@ namespace SigesoftWebUI.Controllers
 
         public ActionResult Index(int id)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
+           
 
-            var response = _quotationBL.GetQuotation(id, validated.Token);
+            var response = _quotationBL.GetQuotation(id, SessionUsuario.Token);
 
             var data = new EmailDto()
             {
@@ -88,19 +81,10 @@ namespace SigesoftWebUI.Controllers
                     smtp.Send(mail);
 
 
-                    #region TOKEN
-                    var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-                    LoginDto oLoginDto = new LoginDto();
-                    oLoginDto.v_UserName = sessione.UserName;
-                    oLoginDto.v_Password = sessione.Pass;
-                    var validated = _securityBL.ValidateAccess(oLoginDto);
-                    if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-                    #endregion
-
                     var dataQuotation = new QuotationRegisterDto()
                     {
-                        InsertUserId = sessione.SystemUserId,
-                        ResponsibleSystemUserId = sessione.SystemUserId,
+                        InsertUserId = SessionUsuario.SystemUserId,
+                        ResponsibleSystemUserId = SessionUsuario.SystemUserId,
                         QuotationId = data.quotationId,
                         StatusQuotationId = StateQuotation.Aceptada
                     };
@@ -116,9 +100,9 @@ namespace SigesoftWebUI.Controllers
                         StatusQuotationId = Convert.ToInt32(StateQuotation.Aceptada)
                     };
 
-                    var responseA= _quotationBL.Save(dataQuotation, validated.Token);
-                    var responseB= _quotationBL.MigrateQuotationToProtocols(dataQuotationMigrate, validated.Token);
-                    var responseC = _quotationBL.Update(dataQuotationUpdate, validated.Token);
+                    var responseA= _quotationBL.Save(dataQuotation, SessionUsuario.Token);
+                    var responseB= _quotationBL.MigrateQuotationToProtocols(dataQuotationMigrate, SessionUsuario.Token);
+                    var responseC = _quotationBL.Update(dataQuotationUpdate, SessionUsuario.Token);
 
                     return RedirectToAction("Index", "Quotation");
 
