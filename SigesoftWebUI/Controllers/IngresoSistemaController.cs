@@ -45,7 +45,7 @@ namespace SigesoftWebUI.Controllers
 
                     sessionModel.Token = result.Token;
                     sessionModel = _securityBL.UserAccess(result.SystemUserId, sessionModel.Token);                    
-
+                    
                     FormsAuthentication.SetAuthCookie(sessionModel.UserName, false);
 
                     HttpSessionContext.SetAccount(sessionModel);

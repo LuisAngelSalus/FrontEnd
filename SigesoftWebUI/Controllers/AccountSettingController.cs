@@ -1,5 +1,6 @@
 ﻿using BE;
 using BL;
+using SigesoftWebUI.Controllers.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace SigesoftWebUI.Controllers
 {
-    public class AccountSettingController : Controller
+    public class AccountSettingController : GenericController
     {
         AccountSettingBL _accountSettingBL = new AccountSettingBL();
         SecurityBL _securityBL = new SecurityBL();

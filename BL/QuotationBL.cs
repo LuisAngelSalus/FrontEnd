@@ -177,5 +177,16 @@ namespace BL
             return obj;
         }
 
+        public Response<bool> MigrateProtocolToSIGESoftWin(QuotationMigrateDto data, string token)
+        {
+            Response<bool> obj = null;
+            var hCliente = _global.rspClient("Quotation/MigrateProtocolToSigesoftWin", data, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<bool>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
     }
 }

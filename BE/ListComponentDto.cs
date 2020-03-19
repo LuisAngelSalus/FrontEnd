@@ -16,4 +16,13 @@ namespace BE
         public float? BasePrice { get; set; }
         public float? SalePrice { get; set; }
     }
+
+    public class ListComponentForScheduleDto
+    {
+        public string ComponentId { get; set; }
+        public string Name { get; set; }
+        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
+        public float? SalePrice { get; set; }
+    }
 }

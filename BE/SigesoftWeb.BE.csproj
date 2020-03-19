@@ -43,11 +43,14 @@
   <ItemGroup>
     <Compile Include="AccountSettingRegisterDto.cs" />
     <Compile Include="AccountSettingUpdateDataDto.cs" />
+    <Compile Include="AdditionalComponentsModel.cs" />
     <Compile Include="ClientSession.cs" />
+    <Compile Include="ClientUserDto.cs" />
     <Compile Include="CompanyAutoComplete.cs" />
     <Compile Include="CompanyDetailDto.cs" />
     <Compile Include="CompanyHeadquarterDto.cs" />
     <Compile Include="DropdownListDto.cs" />
+    <Compile Include="EmailDto.cs" />
     <Compile Include="InfoDto.cs" />
     <Compile Include="ListAccountSettingDto.cs" />
     <Compile Include="ListCompanyContactDto.cs" />
@@ -71,12 +74,14 @@
     <Compile Include="QuoteTrackingRegisterDto.cs" />
     <Compile Include="QuoteTrackingUpdateDto.cs" />
     <Compile Include="RegisterAccessDto.cs" />
+    <Compile Include="ScheduleExcelImportDto.cs" />
     <Compile Include="SecuentialDto.cs" />
     <Compile Include="SessionModel.cs" />
     <Compile Include="SuscriptionRegisterDto.cs" />
     <Compile Include="UserAccessDto.cs" />
     <Compile Include="SystemUserDto.cs" />
     <Compile Include="ValidatedAccessDto.cs" />
+    <Compile Include="WorkerDto.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utils\SigesoftWeb.Utils.csproj">

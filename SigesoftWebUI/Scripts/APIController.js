@@ -29,7 +29,7 @@
                 }).catch(err => { console.log(err); reject() });
         });
     }
-    
+
     var saveQuotation = function (parameters) {
         return new Promise((resolve, reject) => {
 
@@ -96,7 +96,7 @@
     }
 
     var infoSunat = function (ruc) {
-        return new Promise((resolve, reject) => {            
+        return new Promise((resolve, reject) => {
             let url = '/InfoSunat/Info?ruc=' + ruc
             fetch(url, {
                 headers: { 'Content-Type': 'application/json' }
@@ -111,7 +111,7 @@
 
     var CompanyByRuc = function (ruc) {
         return new Promise((resolve, reject) => {
-            
+
             let url = '/Company/CompanyByRuc?ruc=' + ruc
             fetch(url, {
                 headers: { 'Content-Type': 'application/json' }
@@ -144,7 +144,7 @@
     var ddlProtocolProfile = function () {
         return new Promise((resolve, reject) => {
 
-            fetch('/ProtocolProfile/DropdownList', {              
+            fetch('/ProtocolProfile/DropdownList', {
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
@@ -171,7 +171,7 @@
 
     }
 
-    var secuential = function (parameters){
+    var secuential = function (parameters) {
         return new Promise((resolve, reject) => {
 
             fetch('/Secuential/GetSecuential', {
@@ -267,7 +267,7 @@
 
     var components = function () {
         return new Promise((resolve, reject) => {
-            fetch('/Quotation/GetComponents', {               
+            fetch('/Quotation/GetComponents', {
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
@@ -323,7 +323,7 @@
     }
 
     var Dashboard = function (roleId) {
-        return new Promise((resolve, reject) => {            
+        return new Promise((resolve, reject) => {
             fetch('/Generals/Index?RoleId=' + roleId, {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -526,7 +526,7 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
-    }   
+    }
 
     var ProtocolDetailByProtocolId = function (protocolId) {
         return new Promise((resolve, reject) => {
@@ -538,7 +538,7 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
-    }   
+    }
 
     var saveProtocol = function (parameters) {
         return new Promise((resolve, reject) => {
@@ -625,7 +625,7 @@
 
     var accountSettingBySystemUserId = function () {
         return new Promise((resolve, reject) => {
-            fetch('/AccountSetting/GetAccountSettingBySystemUserId' , {
+            fetch('/AccountSetting/GetAccountSettingBySystemUserId', {
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
@@ -633,7 +633,7 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
-    }   
+    }
 
     var saveAccountSetting = function (parameters) {
         return new Promise((resolve, reject) => {
@@ -676,6 +676,182 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
 
+        });
+    }
+
+    var sendMail = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/Email/SendMail', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var migrateToProtocolSIGESoftWin = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/Quotation/MigrateProtocolToSIGESoftWin', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var getWorkerData = function () {
+        return new Promise((resolve, reject) => {
+            fetch('/Worker/GetDataWorker' , {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }   
+
+    var updateWorkerData = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/Worker/UpdateWorkerData', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var clientsUsersForCompany = function () {
+        return new Promise((resolve, reject) => {
+            fetch('/ClientUser/ClientsUsersForCompany', {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }   
+
+    var saveClientUser = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/ClientUser/Save', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var updateClientUser = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/ClientUser/Update', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var getClientUser = function (clientUserId) {
+        return new Promise((resolve, reject) => {
+            fetch('/ClientUser/GetById?clientUserId=' + clientUserId, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var changePassClientUser = function (parameters) {
+        return new Promise((resolve, reject) => {
+            fetch('/ClientUser/ChangePassword', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var updateCompanyClientUser = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/ClientUser/UpdateCompany', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+
+        });
+
+    }
+
+    var uploadExcelSchedule = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Schedule/Upload', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var getComponentsByName = function (value) {
+        return new Promise((resolve, reject) => {
+            fetch('/Schedule/GetComponentsByName?value=' + value, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var getAdditionalComponents = function (id) {
+        return new Promise((resolve, reject) => {
+            fetch('/Schedule/GetAdditionalComponents?protocolId=' + id, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
         });
     }
 
@@ -733,7 +909,7 @@
         },
 
         SaveQuotation: function (parameters) {
-            return new Promise((resolve, reject) => {                
+            return new Promise((resolve, reject) => {
                 saveQuotation(parameters).then(res => resolve(res));
             });
         },
@@ -743,7 +919,7 @@
                 newVersionQuotation(parameters).then(res => resolve(res));
             });
         },
-        
+
         UpdateQuotation: function (parameters) {
             return new Promise((resolve, reject) => {
                 updateQuotation(parameters).then(res => resolve(res));
@@ -786,7 +962,7 @@
             });
         },
 
-        GetComponents: function() {
+        GetComponents: function () {
             return new Promise((resolve, reject) => {
                 components().then(res => resolve(res));
             });
@@ -917,7 +1093,7 @@
                 saveProtocolDetail(parameters).then(res => resolve(res));
             });
         },
-        
+
         MigrateQuotationToProtocols: function (parameters) {
             return new Promise((resolve, reject) => {
                 migrateQuotationToProtocols(parameters).then(res => resolve(res));
@@ -965,7 +1141,84 @@
                 trackingChart(parameters).then(res => resolve(res));
             });
         },
-        
+
+        MigrateToProtocolSIGESoftWin: function (parameters) {
+            return new Promise((resolve, reject) => {
+                migrateToProtocolSIGESoftWin(parameters).then(res => resolve(res));
+            });
+        },
+
+        GetWorkerData: function () {
+            return new Promise((resolve, reject) => {
+                getWorkerData().then(res => resolve(res));
+            });
+        },
+
+        UpdateWorkerData: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateWorkerData (parameters).then(res => resolve(res));
+            });
+        }  ,      
+
+        SendMail: function (parameters) {
+            return new Promise((resolve, reject) => {
+                sendMail(parameters).then(res => resolve(res));
+            });
+        },
+
+        ClientsUsersForCompany: function () {
+            return new Promise((resolve, reject) => {
+                clientsUsersForCompany().then(res => resolve(res));
+            });
+        },
+
+        SaveClientUser: function (parameters) {
+            return new Promise((resolve, reject) => {
+                saveClientUser(parameters).then(res => resolve(res));
+            });
+        },
+
+        UpdateClientUser: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateClientUser(parameters).then(res => resolve(res));
+            });
+        },
+
+        GetClientUser: function (clientUserId) {
+            return new Promise((resolve, reject) => {
+                getClientUser(clientUserId).then(res => resolve(res));
+            });
+        },
+
+        ChangePassClientUser: function (parameters) {
+            return new Promise((resolve, reject) => {
+                changePassClientUser(parameters).then(res => resolve(res));
+            });
+        },
+
+        UpdateCompanyClientUser: function (parameters) {
+            return new Promise((resolve, reject) => {
+                updateCompanyClientUser(parameters).then(res => resolve(res));
+            });
+        },
+
+        UploadExcelSchedule: function(parameters) {
+            return new Promise((resolve, reject) => {
+                uploadExcelSchedule(parameters).then(res => resolve(res));
+            });
+        },
+
+        GetComponentsByName: function (parameters) {
+            return new Promise((resolve, reject) => {
+                getComponentsByName(parameters).then(res => resolve(res));
+            });
+        },
+
+        GetAdditionalComponents: function (parameters) {
+            return new Promise((resolve, reject) => {
+                getAdditionalComponents(parameters).then(res => resolve(res));
+            });
+        },
     }
 
 })();
