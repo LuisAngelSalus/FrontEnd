@@ -134,7 +134,7 @@ $(document).ready(function () {
                     return res.CompanyId == obj.OwnerCompanyId;
                 });
                 let roles = company[0].Roles.filter((res) => {
-                    return res.RolId == obj.RoleId
+                    return res.RolId == obj.RoleId;
                 });
                 let modules = roles[0].Modules;
                 let content = "";
@@ -145,15 +145,15 @@ $(document).ready(function () {
                     content += "<span class='menu-title'>" + modules[i].ModuleName + "</span>";
                     content += "<i class='arrow'></i>";
                     content += "</a>";
-                    content += "<ul class='collapse in'>";
+                    content += "<ul class='collapse'>";
                     for (var ii = 0; ii < modules[i].Options.length; ii++) {
                         content += "<li><a href='" + me.Funciones.baseUrl() + modules[i].Options[ii].Path + "'>" + modules[i].Options[ii].OptionName + "</a></li>";
                     }
                     content += "</ul>";
                     content += "</li>";
                 }
-                $("#mainnav-menu").empty();
-                $("#mainnav-menu").append(content);
+                // $("#mainnav-menu").empty();
+                //$("#mainnav-menu").append(content);
             },
             SaveConfigAccountCache: function () {
                 let username = $("#username").html();

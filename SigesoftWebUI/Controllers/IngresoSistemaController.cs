@@ -31,6 +31,8 @@ namespace SigesoftWebUI.Controllers
         {
             try
             {
+                SessionModel sessionModel = null;
+
                 var oLoginDto = new LoginDto();
                 oLoginDto.v_UserName = model.Username;
                 oLoginDto.v_Password = model.Password;
@@ -39,11 +41,10 @@ namespace SigesoftWebUI.Controllers
 
                 if (result != null)
                 {
-                    var sessionModel = new SessionModel();
-                    var token = result.Token;
+                    sessionModel = new SessionModel();
 
-                    sessionModel = _securityBL.UserAccess(result.SystemUserId, token);
-                    sessionModel.Pass = oLoginDto.v_Password;
+                    sessionModel.Token = result.Token;
+                    sessionModel = _securityBL.UserAccess(result.SystemUserId, sessionModel.Token);                    
 
                     FormsAuthentication.SetAuthCookie(sessionModel.UserName, false);
 
