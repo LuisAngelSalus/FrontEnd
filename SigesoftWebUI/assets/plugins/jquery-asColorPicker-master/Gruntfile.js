@@ -1,7 +1,6 @@
 'use strict';
 
-module.exports = function(grunt) {
-
+module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         // Metadata.
@@ -20,7 +19,6 @@ module.exports = function(grunt) {
                 src: ['src/core.js', 'src/trigger.js', 'src/clear.js', 'src/keyboard.js', 'src/alpha.js', 'src/buttons.js', 'src/hex.js', 'src/hue.js', 'src/info.js', 'src/palettes.js', 'src/preview.js', 'src/saturation.js', 'src/gradient.js'],
                 dest: 'dist/<%= pkg.name %>.js'
             },
-
         },
         uglify: {
             options: {
