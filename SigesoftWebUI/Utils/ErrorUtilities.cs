@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Web;
 
@@ -14,7 +12,6 @@ namespace SigesoftWebUI.Utils
         {
             var log = getLog(ex);
             ErrorUtilities.AddLogFile(log);
-
         }
 
         private static void AddLogFile(Log log)
@@ -45,6 +42,7 @@ namespace SigesoftWebUI.Utils
             sw.Close();
             sw.Dispose();
         }
+
         private static Log getLog(Exception ex)
         {
             var log = new Log();
@@ -93,8 +91,5 @@ namespace SigesoftWebUI.Utils
             sw.WriteLine(Environment.NewLine);
             sw.Close();
         }
-
-
-
     }
 }

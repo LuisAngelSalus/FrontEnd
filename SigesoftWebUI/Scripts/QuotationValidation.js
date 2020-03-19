@@ -9,32 +9,30 @@
     var validateRuc = validateInput("txtRuc", "Ruc requerido");
     var validateFullName = validateInput("txtFullName", "Primer Contacto requerido");
     var validateEmail = validateInput("txtEmail", "Email requerido");
-    var validateHeadquarter = validateddlHeadquarter("ddlSede", "Sede requerida"); 
-    
+    var validateHeadquarter = validateddlHeadquarter("ddlSede", "Sede requerida");
+
     //II)Retornar resultado de validación
     if (quotationState == 4) {
-        if (validateRuc && validateFullName && validateEmail && validateHeadquarter) 
-            return true;         
+        if (validateRuc && validateFullName && validateEmail && validateHeadquarter)
+            return true;
         return false;
-        
     } else {
         var validateCommercialTerms = validateInput("txtCommercialTerms", "Términos comerciales requerido");
         var validateTableQuotation = ValidateTableQuotation();
-        if (validateRuc && validateFullName && validateEmail && validateTableQuotation && validateHeadquarter && validateCommercialTerms) 
-            return true;        
-        return false;            
+        if (validateRuc && validateFullName && validateEmail && validateTableQuotation && validateHeadquarter && validateCommercialTerms)
+            return true;
+        return false;
     }
-    
 }
 
 function validateInput(id, message) {
-    let element = document.getElementById(id);    
-    if (!element.checkValidity()) {        
+    let element = document.getElementById(id);
+    if (!element.checkValidity()) {
         newAlert(element, "VALIDACIÓN", message);
         InputError(element);
         return false;
     }
-    return true;     
+    return true;
 }
 
 function clearErrors() {
@@ -44,8 +42,8 @@ function clearErrors() {
     $("#tbody-main").parent().parent().removeClass('error');
 }
 
-function ValidateTableQuotation() {   
-   return ValidateTable('tbody-main');
+function ValidateTableQuotation() {
+    return ValidateTable('tbody-main');
 }
 
 function ValidateTable(tbodyId) {
@@ -65,8 +63,7 @@ function ValidateTable(tbodyId) {
                 InputError($(trr));
                 breakOut = true;
                 return false;
-            } 
-
+            }
         });
 
         $('#' + tbodyId + ' tr').each(function (index, tr) {
@@ -76,7 +73,6 @@ function ValidateTable(tbodyId) {
                 breakOut = true;
                 return false;
             }
-
         });
 
         if (breakOut) {
@@ -86,14 +82,12 @@ function ValidateTable(tbodyId) {
             console.log("¡????");
             return true;
         }
-
-        
     }
-} 
+}
 
-function validateddlHeadquarter(element,message) {    
-    var val = $("#" + element+" option:selected").val();    
-    if (val == undefined) {       
+function validateddlHeadquarter(element, message) {
+    var val = $("#" + element + " option:selected").val();
+    if (val == undefined) {
         newAlert(element, "VALIDACIÓN", message);
         return false;
     }

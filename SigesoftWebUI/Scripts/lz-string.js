@@ -8,7 +8,6 @@
 //
 // LZ-based compression algorithm, version 1.4.4
 var LZString = (function () {
-
     // private property
     var f = String.fromCharCode;
     var keyStrBase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -83,11 +82,8 @@ var LZString = (function () {
                     result.push(f(c));
                 });
                 return LZString.decompress(result.join(''));
-
             }
-
         },
-
 
         //compress into a string that is already URI encoded
         compressToEncodedURIComponent: function (input) {
@@ -202,8 +198,6 @@ var LZString = (function () {
                             }
                             value = value >> 1;
                         }
-
-
                     }
                     context_enlargeIn--;
                     if (context_enlargeIn == 0) {
@@ -287,8 +281,6 @@ var LZString = (function () {
                         }
                         value = value >> 1;
                     }
-
-
                 }
                 context_enlargeIn--;
                 if (context_enlargeIn == 0) {
@@ -487,7 +479,6 @@ var LZString = (function () {
                     enlargeIn = Math.pow(2, numBits);
                     numBits++;
                 }
-
             }
         }
     };

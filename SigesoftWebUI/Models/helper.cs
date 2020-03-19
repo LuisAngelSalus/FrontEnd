@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -40,7 +37,6 @@ namespace SigesoftWebUI.Models
 
         private static string generateFunction(string urlPattern, IEnumerable<string> scriptVars)
         {
-
             var sb = new StringBuilder();
             sb.Append("(function() {");
             sb.AppendFormat(" return '{0}'", urlPattern);

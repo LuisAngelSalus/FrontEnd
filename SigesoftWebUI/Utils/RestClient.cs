@@ -2,21 +2,18 @@
 using BL;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Web;
 
 namespace SigesoftWebUI.Utils
 {
     public class RestClient
     {
-        SecurityBL _securityBL = new SecurityBL();
+        private SecurityBL _securityBL = new SecurityBL();
 
         private const string _mediaType = "application/json";
-        readonly string _serviceUrl = ConfigurationManager.AppSettings["SigesoftWebApiUrl"];
+        private readonly string _serviceUrl = ConfigurationManager.AppSettings["SigesoftWebApiUrl"];
 
         public T GetAsync<T>(string path, SessionModel sessionModel) where T : class, new()
         {
@@ -47,6 +44,5 @@ namespace SigesoftWebUI.Utils
                 throw new InvalidOperationException("RestClient.GetAsync error " + ex.Message);
             }
         }
-
     }
 }

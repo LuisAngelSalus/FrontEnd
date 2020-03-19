@@ -1,13 +1,11 @@
 ﻿using BE;
 using iTextSharp.text;
-using iTextSharp.text.html;
 using iTextSharp.text.pdf;
 using SigesoftWebUI.Utils;
 using SigesoftWebUI.Utils.PDF;
 using System;
 
 using System.IO;
-using System.Text;
 using System.Web;
 using Utils;
 
@@ -16,7 +14,6 @@ namespace SigesoftWebUI.Repositories
     public class QuotationRepository
     {
         private readonly RestClient restClient = new RestClient();
-
 
         public MemoryStream GetPDF(Response<QuotationDto> response)
         {
@@ -160,11 +157,11 @@ namespace SigesoftWebUI.Repositories
                             var elements = generator.GetPageTwentySix();
                             document.Add(elements);
                             document.SetPageSize(PageSize.A4.Rotate());
-                            document.NewPage();                            
+                            document.NewPage();
                         }
 
                         if (i == 19)
-                        {                        
+                        {
                             var pdfPTable = generator.GetPageNineTeen(response);
                             document.Add(pdfPTable);
                             document.SetPageSize(PageSize.A4);
@@ -256,7 +253,6 @@ namespace SigesoftWebUI.Repositories
                     byte[] byteInfo = memoryStream.ToArray();
                     memoryStream.Write(byteInfo, 0, byteInfo.Length);
                     memoryStream.Position = 0;
-
                 }
                 catch (Exception ex)
                 {

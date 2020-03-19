@@ -1,10 +1,6 @@
 ﻿using BE;
-using SigesoftWebUI.Models;
 using SigesoftWebUI.Seguridad;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -14,9 +10,9 @@ namespace SigesoftWebUI.Controllers.Base
     public class GenericController : Controller
     {
         private SessionModel _sessionUsuario;
+
         public GenericController()
         {
-
         }
 
         public GenericController(SessionModel sessionModel)
@@ -35,7 +31,6 @@ namespace SigesoftWebUI.Controllers.Base
                 _sessionUsuario = value;
             }
         }
-
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {

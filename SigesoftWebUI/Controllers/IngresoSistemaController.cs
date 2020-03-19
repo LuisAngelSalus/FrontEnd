@@ -3,9 +3,6 @@ using BL;
 using SigesoftWebUI.Models;
 using SigesoftWebUI.Seguridad;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -13,11 +10,10 @@ namespace SigesoftWebUI.Controllers
 {
     public class IngresoSistemaController : Controller
     {
-        SecurityBL _securityBL = new SecurityBL();
+        private SecurityBL _securityBL = new SecurityBL();
 
         // GET: IngresoSistema
         [AllowAnonymous]
-
         public ActionResult Login(string returnUrl = null)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -44,8 +40,8 @@ namespace SigesoftWebUI.Controllers
                     sessionModel = new SessionModel();
 
                     sessionModel.Token = result.Token;
-                    sessionModel = _securityBL.UserAccess(result.SystemUserId, sessionModel.Token);                    
-                    
+                    sessionModel = _securityBL.UserAccess(result.SystemUserId, sessionModel.Token);
+
                     FormsAuthentication.SetAuthCookie(sessionModel.UserName, false);
 
                     HttpSessionContext.SetAccount(sessionModel);
@@ -55,7 +51,6 @@ namespace SigesoftWebUI.Controllers
                     ModelState.AddModelError("", "Contraseña o identificador de usuario incorrectos. Escriba la contraseña y el identificador de usuario correctos e inténtelo de nuevo.");
                     return View(model);
                 }
-
             }
             catch (Exception ex)
             {
@@ -93,13 +88,10 @@ namespace SigesoftWebUI.Controllers
             System.Web.HttpContext.Current.Session.Abandon();
             System.Web.HttpContext.Current.Session.Clear();
 
-
             urlSignOut = string.Format("{0}", System.Web.Security.FormsAuthentication.LoginUrl);
-
 
             return Redirect(urlSignOut);
         }
-
 
         [AllowAnonymous]
         public ActionResult SesionExpirada(string returnUrl)
@@ -127,6 +119,5 @@ namespace SigesoftWebUI.Controllers
                 ViewBag.ReturnURL = returnUrl;
             }
         }
-
     }
 }

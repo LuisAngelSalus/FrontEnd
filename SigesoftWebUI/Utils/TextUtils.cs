@@ -1,6 +1,5 @@
 ﻿using iTextSharp.text;
 
-
 namespace SigesoftWebUI.Utils
 {
     public class TextUtils

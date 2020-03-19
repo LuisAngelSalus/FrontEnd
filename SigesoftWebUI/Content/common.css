@@ -1,9 +1,10 @@
-﻿.alertCustom {       
+﻿.alertCustom {
 }
 
 .error {
     border: solid 2px #ff0000;
 }
+
 .content-alert {
     right: 10px;
     margin: 5px;
@@ -11,9 +12,8 @@
     z-index: 999;
 }
 
-
-.btn-filter{
-    position:absolute;
-    bottom:0;
-    width:80%;
+.btn-filter {
+    position: absolute;
+    bottom: 0;
+    width: 80%;
 }

@@ -1,9 +1,8 @@
-﻿
-.messageTableEmpty {
+﻿.messageTableEmpty {
     color: blue;
-    text-align: center;    
+    text-align: center;
 }
 
-.messageTableEmpty td p{
-    padding-top:15px;
-}
+    .messageTableEmpty td p {
+        padding-top: 15px;
+    }

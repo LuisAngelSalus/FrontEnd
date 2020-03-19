@@ -62,9 +62,7 @@
                     <h4><span class="lstick"></span>Empresas</h4>
                 </div>
                 <div class="owner-group">
-
                 </div>
-
             </div>
         </div>
         <div class="card">
@@ -73,7 +71,6 @@
                     <h4><span class="lstick"></span>Roles</h4>
                 </div>
                 <div class="row button-group roles-group">
-
                 </div>
             </div>
         </div>
@@ -87,21 +84,21 @@
                 <div class="area">
                     @foreach (var company in companies)
                     {
-                        <div class="div-Owner ui-draggable ui-draggable-handle ui-draggable-disabled" style="position: relative; z-index: 100; left: 0px; top: 0px;">
-                            <span class="close-owner" style="display: inline;">x</span>
-                            <span id="btnOwner-@company.CompanyId" class="label label-info label-rounded">@company.CompanyName</span>
-                            <div class="div-Owner-Role ui-droppable">
-                                @foreach (var role in company.Roles)
+                    <div class="div-Owner ui-draggable ui-draggable-handle ui-draggable-disabled" style="position: relative; z-index: 100; left: 0px; top: 0px;">
+                        <span class="close-owner" style="display: inline;">x</span>
+                        <span id="btnOwner-@company.CompanyId" class="label label-info label-rounded">@company.CompanyName</span>
+                        <div class="div-Owner-Role ui-droppable">
+                            @foreach (var role in company.Roles)
                                 {
 
-                                    <div class="col-12 col-md-6 div-Role ui-draggable ui-draggable-handle ui-draggable-disabled" style="z-index: 200; left: 0px; top: 0px; position: relative;">
-                                        <span class="close-owner" style="display: inline;">x</span>
-                                        <span id="btnRole-@role.RolId" class="label label-warning label-rounded">@role.RolName</span>
-                                    </div>
+                            <div class="col-12 col-md-6 div-Role ui-draggable ui-draggable-handle ui-draggable-disabled" style="z-index: 200; left: 0px; top: 0px; position: relative;">
+                                <span class="close-owner" style="display: inline;">x</span>
+                                <span id="btnRole-@role.RolId" class="label label-warning label-rounded">@role.RolName</span>
+                            </div>
 
                                 }
-                            </div>
                         </div>
+                    </div>
                     }
                 </div>
             </div>
@@ -220,7 +217,6 @@
                     htmlCompanies = res[0];
                     htmlRoles = res[1];
                 });
-
 
             });
 

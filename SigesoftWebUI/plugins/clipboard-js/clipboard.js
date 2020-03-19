@@ -1,7 +1,7 @@
 /*!
  * clipboard.js v2.0.1
  * https://zenorocha.github.io/clipboard.js
- * 
+ *
  * Licensed MIT © Zeno Rocha
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -85,7 +85,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
-
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
     if (true) {
         !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(7)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
@@ -157,7 +156,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
          * Defines base properties passed from constructor.
          * @param {Object} options
          */
-
 
         _createClass(ClipboardAction, [{
             key: 'resolveOptions',
@@ -322,7 +320,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
-
 var is = __webpack_require__(6);
 var delegate = __webpack_require__(5);
 
@@ -419,11 +416,9 @@ function listenSelector(selector, type, callback) {
 
 module.exports = listen;
 
-
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
-
 function E () {
   // Keep this empty so it's easier to inherit from
   // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
@@ -491,11 +486,9 @@ E.prototype = {
 
 module.exports = E;
 
-
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
-
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
     if (true) {
         !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(0), __webpack_require__(2), __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
@@ -603,7 +596,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
          * @param {Object} options
          */
 
-
         _createClass(Clipboard, [{
             key: 'resolveOptions',
             value: function resolveOptions() {
@@ -710,7 +702,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ }),
 /* 4 */
 /***/ (function(module, exports) {
-
 var DOCUMENT_NODE_TYPE = 9;
 
 /**
@@ -745,11 +736,9 @@ function closest (element, selector) {
 
 module.exports = closest;
 
-
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
-
 var closest = __webpack_require__(4);
 
 /**
@@ -829,11 +818,9 @@ function listener(element, selector, type, callback) {
 
 module.exports = delegate;
 
-
 /***/ }),
 /* 6 */
 /***/ (function(module, exports) {
-
 /**
  * Check if argument is a HTML element.
  *
@@ -884,11 +871,9 @@ exports.fn = function(value) {
     return type === '[object Function]';
 };
 
-
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
-
 function select(element) {
     var selectedText;
 
@@ -932,7 +917,6 @@ function select(element) {
 }
 
 module.exports = select;
-
 
 /***/ })
 /******/ ]);

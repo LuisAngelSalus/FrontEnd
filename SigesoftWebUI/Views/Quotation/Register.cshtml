@@ -93,12 +93,9 @@
                 text-align: center;
                 vertical-align: middle
             }
-            
     </style>
 
-
 }
-
 
 <div class="content-alert">
 </div>
@@ -139,7 +136,7 @@
                             <select class="form-control form-white" id="ddlSede">
                                 @foreach (var item in ViewBag.Headquarters)
                                 {
-                                    <option value="@item.CompanyHeadquarterId">@item.Name</option>
+                                <option value="@item.CompanyHeadquarterId">@item.Name</option>
                                 }
                             </select>
                         </div>
@@ -165,13 +162,11 @@
                             </select>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 <div class="card">
     <div class="card-body" style="text-align:right">
@@ -201,57 +196,57 @@
 
                 @foreach (var profile in ViewBag.DataQuotation.QuotationProfile)
                 {
-                    <tr id="perfil-@profile.QuotationProfileId" class="parent">
-                        <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
-                        <td style="display:none" class="RecordType">@profile.RecordType</td>
-                        <td style="display:none" class="RecordStatus">@profile.RecordStatus</td>
-                        <td style="display:none" class="profileId"></td>
-                        <td><input class="form-control input-perfil" type="text" value="@profile.ProfileName" disabled /></td>
-                        <td>
-                            <select class="form-control form-white select-Service" data-placeholder="Seleccione un servicio..." id="ddlService" disabled>
-                                <option value="-1" @(@profile.ServiceTypeId == -1 ? "selected" : "")>--Seleccionar--</option>
-                                <option value="1" @(@profile.ServiceTypeId == 1 ? "selected" : "")>Preocupacional</option>
-                                <option value="2" @(@profile.ServiceTypeId == 2 ? "selected" : "")>Periodico</option>
-                                <option value="3" @(@profile.ServiceTypeId == 3 ? "selected" : "")>Anual</option>
-                                <option value="4" @(@profile.ServiceTypeId == 4 ? "selected" : "")>Visita</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select class="form-control form-white select-TypeFormat" id="ddlTypeFormat">
-                                <option value="-1" @(@profile.TypeFormatId == -1 ? "selected" : "")>--Seleccionar--</option>
-                                <option value="1" @(@profile.TypeFormatId == 1 ? "selected" : "")>RM 312</option>
-                                <option value="2" @(@profile.TypeFormatId == 2 ? "selected" : "")>Anexo 16</option>
-                                <option value="3" @(@profile.TypeFormatId == 3 ? "selected" : "")>Anexo 16.A</option>
-                                <option value="4" @(@profile.TypeFormatId == 4 ? "selected" : "")>Ambos</option>
-                                <option value="5" @(@profile.TypeFormatId == 5 ? "selected" : "")>Componente</option>
-                            </select>   
-                        </td>
-                        <td class="counterComp col-center">0</td>
-                        <td class="subTotal col-center">0</td>
-                        <td>@profile.QuotationProfileId</td>
-                        <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveProfile(event)"></i></td>
-                    </tr>
-                    <tr class="perfil-@profile.QuotationProfileId child">
-                        <td colspan="10">
-                            <table class="table-examenes">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th style="display:none">RecordType</th>
-                                        <th style="display:none">RecordStatus</th>
-                                        <th>EXAMENES - PERFIL</th>
+                <tr id="perfil-@profile.QuotationProfileId" class="parent">
+                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId')"></i></td>
+                    <td style="display:none" class="RecordType">@profile.RecordType</td>
+                    <td style="display:none" class="RecordStatus">@profile.RecordStatus</td>
+                    <td style="display:none" class="profileId"></td>
+                    <td><input class="form-control input-perfil" type="text" value="@profile.ProfileName" disabled /></td>
+                    <td>
+                        <select class="form-control form-white select-Service" data-placeholder="Seleccione un servicio..." id="ddlService" disabled>
+                            <option value="-1" @(@profile.ServiceTypeId == -1 ? "selected" : "")>--Seleccionar--</option>
+                            <option value="1" @(@profile.ServiceTypeId == 1 ? "selected" : "")>Preocupacional</option>
+                            <option value="2" @(@profile.ServiceTypeId == 2 ? "selected" : "")>Periodico</option>
+                            <option value="3" @(@profile.ServiceTypeId == 3 ? "selected" : "")>Anual</option>
+                            <option value="4" @(@profile.ServiceTypeId == 4 ? "selected" : "")>Visita</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control form-white select-TypeFormat" id="ddlTypeFormat">
+                            <option value="-1" @(@profile.TypeFormatId == -1 ? "selected" : "")>--Seleccionar--</option>
+                            <option value="1" @(@profile.TypeFormatId == 1 ? "selected" : "")>RM 312</option>
+                            <option value="2" @(@profile.TypeFormatId == 2 ? "selected" : "")>Anexo 16</option>
+                            <option value="3" @(@profile.TypeFormatId == 3 ? "selected" : "")>Anexo 16.A</option>
+                            <option value="4" @(@profile.TypeFormatId == 4 ? "selected" : "")>Ambos</option>
+                            <option value="5" @(@profile.TypeFormatId == 5 ? "selected" : "")>Componente</option>
+                        </select>
+                    </td>
+                    <td class="counterComp col-center">0</td>
+                    <td class="subTotal col-center">0</td>
+                    <td>@profile.QuotationProfileId</td>
+                    <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveProfile(event)"></i></td>
+                </tr>
+                <tr class="perfil-@profile.QuotationProfileId child">
+                    <td colspan="10">
+                        <table class="table-examenes">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th style="display:none">RecordType</th>
+                                    <th style="display:none">RecordStatus</th>
+                                    <th>EXAMENES - PERFIL</th>
 
-                                        <th>CONDICIONAL EDAD</th>
-                                        <th>EDAD</th>
-                                        <th>CONDICIONAL GÉNERO</th>
-                                        <th class="col-center">PRECIO MÍNIMO</th>
-                                        <th class="col-center">PRECIO LISTA</th>
-                                        <th class="col-center">PRECIO VENTA</th>
-                                        <th class="col-center"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
+                                    <th>CONDICIONAL EDAD</th>
+                                    <th>EDAD</th>
+                                    <th>CONDICIONAL GÉNERO</th>
+                                    <th class="col-center">PRECIO MÍNIMO</th>
+                                    <th class="col-center">PRECIO LISTA</th>
+                                    <th class="col-center">PRECIO VENTA</th>
+                                    <th class="col-center"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
                                         var valor = "";
                                         for (int i = 0; i < profile.ProfileComponent.Count; i++)
                                         {
@@ -259,56 +254,56 @@
                                             if (valor != valorAntiguo)
                                             {
                                                 valor = valorAntiguo;
-                                                <tr id="perfil-@profile.QuotationProfileId-@profile.ProfileComponent[i].CategoryName">
-                                                    <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponent[i].CategoryName')"></i></td>
+                                    <tr id="perfil-@profile.QuotationProfileId-@profile.ProfileComponent[i].CategoryName">
+                                        <td><i class="fa fa-plus text-inverse m-r-10" onclick="show('perfil-@profile.QuotationProfileId-@profile.ProfileComponent[i].CategoryName')"></i></td>
 
-                                                    <td colspan="9">@profile.ProfileComponent[i].CategoryName</td>
-                                                    <td style="display:none" class="col-center"></td>
-                                                </tr>
+                                        <td colspan="9">@profile.ProfileComponent[i].CategoryName</td>
+                                        <td style="display:none" class="col-center"></td>
+                                    </tr>
                                                 i--;
                                             }
                                             else
                                             {
-                                                <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponent[i].CategoryName">
-                                                    <td style="color:white">@profile.ProfileComponent[i].ProfileComponentId</td>
-                                                    <td style="display:none">@profile.ProfileComponent[i].CategoryId</td>
-                                                    <td style="display:none">@profile.ProfileComponent[i].ComponentId</td>
-                                                    <td style="display:none" class="RecordType">@profile.ProfileComponent[i].RecordType</td>
-                                                    <td style="display:none" class="RecordStatus">@profile.ProfileComponent[i].RecordStatus</td>
-                                                    <td>@profile.ProfileComponent[i].ComponentName</td>
-                                                    <td>
-                                                        <select class="form-control form-white select-ConditionalAge" id="ddlConditionalAge">
-                                                            <option value="-1" @(@profile.ProfileComponent[i].AgeConditionalId == null ? "selected" : "")></option>
-                                                            <option value="1" @(@profile.ProfileComponent[i].AgeConditionalId == 1 ? "selected" : "")>Mayores de</option>
-                                                            <option value="2" @(@profile.ProfileComponent[i].AgeConditionalId == 2 ? "selected" : "")>Menores de</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><input class="form-control input-numeric" type="text" maxlength="2" min="0" max="90" onkeypress="validateInputNumber(event)" value="@profile.ProfileComponent[i].Age" /></td>
-                                                    <td>
-                                                        <select class="form-control form-white select-ConditionalGender" id="ddlConditionalGender">
-                                                            <option value="-1" @(@profile.ProfileComponent[i].GenderConditionalId == null ? "selected" : "")></option>
-                                                            <option value="1" @(@profile.ProfileComponent[i].GenderConditionalId == 1 ? "selected" : "")>Masculino</option>
-                                                            <option value="2" @(@profile.ProfileComponent[i].GenderConditionalId == 2 ? "selected" : "")>Femenino</option>
-                                                            <option value="2" @(@profile.ProfileComponent[i].GenderConditionalId == 3 ? "selected" : "")>Ambos</option>
-                                                        </select>
-                                                    </td>
-                                                    <td class="col-center">@profile.ProfileComponent[i].MinPrice</td>
-                                                    <td class="col-center">@profile.ProfileComponent[i].PriceList</td>
-                                                    <td class="col-center"><input type="text" id="@profile.ProfileComponent[i].ComponentId" class="salePrice input-numeric form-control" value="@profile.ProfileComponent[i].SalePrice" /> </td>
-                                                    <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveComponent(event)"></i></td>
-                                                </tr>
+                                    <tr class="component perfil-@profile.QuotationProfileId-@profile.ProfileComponent[i].CategoryName">
+                                        <td style="color:white">@profile.ProfileComponent[i].ProfileComponentId</td>
+                                        <td style="display:none">@profile.ProfileComponent[i].CategoryId</td>
+                                        <td style="display:none">@profile.ProfileComponent[i].ComponentId</td>
+                                        <td style="display:none" class="RecordType">@profile.ProfileComponent[i].RecordType</td>
+                                        <td style="display:none" class="RecordStatus">@profile.ProfileComponent[i].RecordStatus</td>
+                                        <td>@profile.ProfileComponent[i].ComponentName</td>
+                                        <td>
+                                            <select class="form-control form-white select-ConditionalAge" id="ddlConditionalAge">
+                                                <option value="-1" @(@profile.ProfileComponent[i].AgeConditionalId == null ? "selected" : "")></option>
+                                                <option value="1" @(@profile.ProfileComponent[i].AgeConditionalId == 1 ? "selected" : "")>Mayores de</option>
+                                                <option value="2" @(@profile.ProfileComponent[i].AgeConditionalId == 2 ? "selected" : "")>Menores de</option>
+                                            </select>
+                                        </td>
+                                        <td><input class="form-control input-numeric" type="text" maxlength="2" min="0" max="90" onkeypress="validateInputNumber(event)" value="@profile.ProfileComponent[i].Age" /></td>
+                                        <td>
+                                            <select class="form-control form-white select-ConditionalGender" id="ddlConditionalGender">
+                                                <option value="-1" @(@profile.ProfileComponent[i].GenderConditionalId == null ? "selected" : "")></option>
+                                                <option value="1" @(@profile.ProfileComponent[i].GenderConditionalId == 1 ? "selected" : "")>Masculino</option>
+                                                <option value="2" @(@profile.ProfileComponent[i].GenderConditionalId == 2 ? "selected" : "")>Femenino</option>
+                                                <option value="2" @(@profile.ProfileComponent[i].GenderConditionalId == 3 ? "selected" : "")>Ambos</option>
+                                            </select>
+                                        </td>
+                                        <td class="col-center">@profile.ProfileComponent[i].MinPrice</td>
+                                        <td class="col-center">@profile.ProfileComponent[i].PriceList</td>
+                                        <td class="col-center"><input type="text" id="@profile.ProfileComponent[i].ComponentId" class="salePrice input-numeric form-control" value="@profile.ProfileComponent[i].SalePrice" /> </td>
+                                        <td class="col-center"><i class="fa fa-close text-danger m-r-10" onclick="RemoveComponent(event)"></i></td>
+                                    </tr>
                                             }
 
                                         }
-                                    }
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
-    </div>    
+    </div>
     <div class="card card-body table-total">
         <table class="table color-bordered-table muted-bordered-table">
             <thead>
@@ -316,7 +311,7 @@
                     <th></th>
                     <th></th>
                     <th style="text-align:right">Costo Trámite</th>
-                    <th ></th>
+                    <th></th>
                     <th class="Tramite col-center">0</th>
                     <th></th>
                 </tr>
@@ -352,22 +347,22 @@
                     <tbody id="tbody-Add-Examns">
                         @foreach (var examAddi in ViewBag.DataQuotation.AdditionalComponentsQuote)
                         {
-                            <tr id="@examAddi.AdditionalComponentsQuoteId">
+                        <tr id="@examAddi.AdditionalComponentsQuoteId">
 
-                                <td style="display:none" class="RecordType">@examAddi.RecordType</td>
-                                <td style="display:none" class="RecordStatus">@examAddi.RecordStatus</td>
-                                <td style="display:none" class="AddExamID">@examAddi.AdditionalComponentsQuoteId</td>
-                                <td style="display:none" class="AddExamQuotationId"></td>
-                                <td style="display:none" class="AddExamCatId">@examAddi.CategoryId</td>
-                                <td style="display:none" class="AddExamCatName">@examAddi.CategoryName</td>
-                                <td style="display:none" class="AddExamCompId">@examAddi.ComponentId</td>
-                                <td style="display:none" class="AddExamCompName">@examAddi.ComponentName</td>
-                                <td>@examAddi.ComponentName</td>
-                                <td class='AddExamPreMin'>@examAddi.MinPrice</td>
-                                <td class='AddExamPreLis'>@examAddi.PriceList</td>
-                                <td>@examAddi.SalePrice</td>
-                                <td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveAddExamn(event)'></i></td>
-                            </tr>
+                            <td style="display:none" class="RecordType">@examAddi.RecordType</td>
+                            <td style="display:none" class="RecordStatus">@examAddi.RecordStatus</td>
+                            <td style="display:none" class="AddExamID">@examAddi.AdditionalComponentsQuoteId</td>
+                            <td style="display:none" class="AddExamQuotationId"></td>
+                            <td style="display:none" class="AddExamCatId">@examAddi.CategoryId</td>
+                            <td style="display:none" class="AddExamCatName">@examAddi.CategoryName</td>
+                            <td style="display:none" class="AddExamCompId">@examAddi.ComponentId</td>
+                            <td style="display:none" class="AddExamCompName">@examAddi.ComponentName</td>
+                            <td>@examAddi.ComponentName</td>
+                            <td class='AddExamPreMin'>@examAddi.MinPrice</td>
+                            <td class='AddExamPreLis'>@examAddi.PriceList</td>
+                            <td>@examAddi.SalePrice</td>
+                            <td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveAddExamn(event)'></i></td>
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -398,8 +393,8 @@
                     <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
-                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(77px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">                        
-                        <a class="dropdown-item preview_quotation" href="javascript:;">Vista Previa</a>                        
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(77px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item preview_quotation" href="javascript:;">Vista Previa</a>
                     </div>
                 </div>
                 <button id="btnSaveQuotation" onclick="SaveQuotation(event)" class="btn btn-primary waves-effect waves-light m-r-10">Grabar Cotización</button>
@@ -486,7 +481,6 @@
                 <col style="width: 106px">
                 <col style="width: 106px">
             </colgroup>
-         
         </table>
     </div>
 </div>
@@ -530,14 +524,12 @@
                     <tbody id="tbody-profile-unselectd">
                     </tbody>
                 </table>
-
             </div>
 
-            <div class="modal-footer">                
+            <div class="modal-footer">
                 <div class="col-12 col-md-4">
                     <button type="button" class="btn btn-info" data-dismiss="modal" onclick="AddProfile()">Seleccionar</button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -567,7 +559,6 @@
     </div>
 </div>
 
-
 <!-- ============================================================== -->
 <!-- MODAL -->
 <!-- ============================================================== -->
@@ -592,7 +583,6 @@
                         <input type="checkbox" id="chkVersionNext" value="check"><label for="chkProfile">Versión Siguiente</label>
                     </div>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button onclick="SaveProfile()" type="button" class="btn btn-primary">Aceptar</button>
@@ -601,7 +591,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- ============================================================== -->
 <!-- MODAL -->
@@ -657,5 +646,3 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 }
-
-

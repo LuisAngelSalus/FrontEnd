@@ -1,11 +1,10 @@
-﻿<div class="container-fluid p-0 div-dashboard">   
-    
+﻿<div class="container-fluid p-0 div-dashboard">
 </div>
-        <script src="~/assets/plugins/jquery/jquery.min.js"></script>
-        <script src="~/Scripts/APIController.js"></script>
-        <script src="~/Scripts/dashboardWorker.js"></script>
-        <script src="~/Scripts/WorkerValidation.js"></script>
-        <script>
+<script src="~/assets/plugins/jquery/jquery.min.js"></script>
+<script src="~/Scripts/APIController.js"></script>
+<script src="~/Scripts/dashboardWorker.js"></script>
+<script src="~/Scripts/WorkerValidation.js"></script>
+<script>
             $(document).ready(function () {
                 $(".container-fluid").empty();
                 let username = $("#username").html();
@@ -28,9 +27,8 @@
                     renderDashboardCustomer();
                 } else if (config.RoleId == ROLE_TRABAJADOR) {
                     DashboardWorker();
-                }     
+                }
 
-                
                 $('.container-fluid').on('click', '#btnUpdateDataWorker', function (event) {
                     if (ValidateWorkerData(event)) {
                     let data = {
@@ -39,15 +37,15 @@
                         "FirstName": $("#txtFirstName").val(),
                         "FirstLastName": $("#txtFirstLastName").val(),
                         "SecondLastName": $("#txtSecondLastName").val(),
-                        "NroDocument": $("#txtNroDocument").val(),                         
-                        "GenderId": $("#select-gender-Worker option:selected").val(),                         
-                        "DateOfBirth": $("#dpt-DateOfBirth").val(),  
-                        "Email": $("#txtEmail").val(),            
-                        "MobileNumber": $("#txtMobileNumber").val(),            
-                        "HomeAddress": $("#txtHomeAddress").val(),            
-                        "CurrentPosition": $("#txtCurrentPosition").val(),                                 
+                        "NroDocument": $("#txtNroDocument").val(),
+                        "GenderId": $("#select-gender-Worker option:selected").val(),
+                        "DateOfBirth": $("#dpt-DateOfBirth").val(),
+                        "Email": $("#txtEmail").val(),
+                        "MobileNumber": $("#txtMobileNumber").val(),
+                        "HomeAddress": $("#txtHomeAddress").val(),
+                        "CurrentPosition": $("#txtCurrentPosition").val(),
                      }
-                    
+
                     swal({
                           title: "¿Está seguro de actualizar los datos?",
                           text: "Revise correctamente antes de grabar",
@@ -58,10 +56,10 @@
                         }, function () {
                             APIController.UpdateWorkerData(data).then((res) => {
                                  swal("Registro Actualizado");
-                            });                            
-                        });      
+                            });
+                        });
                     }
-                    
+
                  });
 
             });
@@ -381,17 +379,16 @@
             }
 
             function DashboardWorker() {
-                APIController.GetWorkerData().then((res) => {                    
-                    let content = renderDashboardWorker(res.Data);                    
-                    $(".container-fluid").append(content);    
-                    //transform controls------------------------------------------                    
+                APIController.GetWorkerData().then((res) => {
+                    let content = renderDashboardWorker(res.Data);
+                    $(".container-fluid").append(content);
+                    //transform controls------------------------------------------
                     $("#dpt-DateOfBirth").datepicker({ dateFormat: 'dd-mm-yy' });
-                    let datebirth = formatDateForCalendar(res.Data.DateOfBirth);                   
+                    let datebirth = formatDateForCalendar(res.Data.DateOfBirth);
                     $("#dpt-DateOfBirth").val(datebirth);
                     //set gender--------------------------------------------------
                     let genderId = res.Data.GenderId;
                      $('#select-gender-Worker option[value='+genderId+']').attr('selected', 'selected');
                 });
             }
-
-        </script>
+</script>

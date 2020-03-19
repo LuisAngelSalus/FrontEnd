@@ -49,13 +49,10 @@
             -webkit-animation: load2 2s infinite ease;
             animation: load2 2s infinite ease;
         }
-
     }
-
 }
 
 @mixin load2-frames() {
-
     0% {
         -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
@@ -65,7 +62,6 @@
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
-
 }
 
 @-webkit-keyframes load2 {

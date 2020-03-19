@@ -2,9 +2,7 @@
 using BL;
 using SigesoftWebUI.Controllers.Base;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -16,11 +14,12 @@ namespace SigesoftWebUI.Controllers
 {
     public class EmailController : GenericController
     {
-        EmailBL _emailBL = new EmailBL();
+        private EmailBL _emailBL = new EmailBL();
         private SmtpClient Cliente { get; }
         private EmailSenderOptions Options { get; }
-        QuotationBL _quotationBL = new QuotationBL();
-        SecurityBL _securityBL = new SecurityBL();
+        private QuotationBL _quotationBL = new QuotationBL();
+        private SecurityBL _securityBL = new SecurityBL();
+
         public EmailController()
         {
             Options = new EmailSenderOptions()
@@ -36,8 +35,6 @@ namespace SigesoftWebUI.Controllers
 
         public ActionResult Index(int id)
         {
-           
-
             var response = _quotationBL.GetQuotation(id, SessionUsuario.Token);
 
             var data = new EmailDto()
@@ -47,7 +44,6 @@ namespace SigesoftWebUI.Controllers
                 to = response.Data.Email
             };
 
-
             return View(data);
         }
 
@@ -56,7 +52,6 @@ namespace SigesoftWebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 using (MailMessage mail = new MailMessage(Options.Email, data.to))
                 {
                     if (!string.IsNullOrEmpty(data.cc))
@@ -80,7 +75,6 @@ namespace SigesoftWebUI.Controllers
                     smtp.Port = Options.Port;
                     smtp.Send(mail);
 
-
                     var dataQuotation = new QuotationRegisterDto()
                     {
                         InsertUserId = SessionUsuario.SystemUserId,
@@ -100,12 +94,11 @@ namespace SigesoftWebUI.Controllers
                         StatusQuotationId = Convert.ToInt32(StateQuotation.Aceptada)
                     };
 
-                    var responseA= _quotationBL.Save(dataQuotation, SessionUsuario.Token);
-                    var responseB= _quotationBL.MigrateQuotationToProtocols(dataQuotationMigrate, SessionUsuario.Token);
+                    var responseA = _quotationBL.Save(dataQuotation, SessionUsuario.Token);
+                    var responseB = _quotationBL.MigrateQuotationToProtocols(dataQuotationMigrate, SessionUsuario.Token);
                     var responseC = _quotationBL.Update(dataQuotationUpdate, SessionUsuario.Token);
 
                     return RedirectToAction("Index", "Quotation");
-
                 }
             }
             else
@@ -143,7 +136,6 @@ namespace SigesoftWebUI.Controllers
                 var response = "ok";
 
                 return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-
             }
             catch (Exception ex)
             {

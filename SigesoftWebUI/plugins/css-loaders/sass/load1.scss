@@ -1,5 +1,4 @@
 .load1 {
-
     .loader,
     .loader:before,
     .loader:after {
@@ -22,6 +21,7 @@
         -webkit-animation-delay: -0.16s;
         animation-delay: -0.16s;
         max-height: 4em;
+
         &:before,
         &:after {
             position: absolute;
@@ -38,9 +38,7 @@
         &:after {
             left: 1.5em;
         }
-
     }
-
 }
 
 @mixin load1-frames {

@@ -1,8 +1,4 @@
 ﻿using BE;
-using SigesoftWebUI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -12,6 +8,7 @@ namespace SigesoftWebUI.Seguridad
     public sealed class HttpSessionContext
     {
         private static string USER_APPLICATION = Resources.Constante.SessionUsuario;
+
         /// <summary>
         /// Obtiene la sesión actual.
         /// </summary>
@@ -22,6 +19,7 @@ namespace SigesoftWebUI.Seguridad
 
             return result;
         }
+
         /// <summary>
         /// Obtiene la sesión actual.
         /// </summary>
@@ -31,8 +29,6 @@ namespace SigesoftWebUI.Seguridad
             //FormsAuthentication.SetAuthCookie(account.Usuario.UserName, true);
             HttpContext.Current.Session.Add(USER_APPLICATION, account);
         }
-
-
 
         public static void RemoveAccount()
         {

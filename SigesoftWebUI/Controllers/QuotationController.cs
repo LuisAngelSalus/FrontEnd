@@ -1,26 +1,14 @@
 ﻿using BE;
 using BL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Web.Mvc;
-using Utils;
-using IronPdf;
-using SigesoftWebUI.Utils.PDF;
 using SigesoftWebUI.Controllers.Base;
-using Newtonsoft.Json;
-using SigesoftWebUI.Models;
-using System.Data;
-using Newtonsoft.Json.Linq;
 
-using System.IO;
 //using iTextSharp.text;
 //using iTextSharp.text.pdf;
-using Spire.Doc;
-using SigesoftWebUI.Utils;
 using SigesoftWebUI.Repositories;
+using System;
+using System.IO;
+using System.Text;
+using System.Web.Mvc;
 
 namespace SigesoftWebUI.Controllers
 {
@@ -28,10 +16,9 @@ namespace SigesoftWebUI.Controllers
     {
         private readonly QuotationRepository quotationRepository = new QuotationRepository();
 
-
-        QuotationBL _quotationBL = new QuotationBL();
-        CompanyBL _companyBL = new CompanyBL();
-        SecurityBL _securityBL = new SecurityBL();
+        private QuotationBL _quotationBL = new QuotationBL();
+        private CompanyBL _companyBL = new CompanyBL();
+        private SecurityBL _securityBL = new SecurityBL();
 
         public ActionResult Index()
         {
@@ -40,24 +27,19 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult Filter(ParamsQuotationFilterDto parameters)
         {
-          
             parameters.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
             var response = _quotationBL.Filter(parameters, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-
         }
 
         public JsonResult GetQuotation(int id)
         {
-          
             var response = _quotationBL.GetQuotation(id, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Register(int id, string ruc)
         {
-           
-
             if (id == 0)
             {
                 var data = new QuotationDto();
@@ -92,53 +74,44 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult GetProfile(int profileId)
         {
-          
-
             var response = _quotationBL.GetProfile(profileId, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-
         }
 
         public JsonResult Save(QuotationRegisterDto data)
         {
-           
-
             #region AUDIT
+
             data.InsertUserId = SessionUsuario.SystemUserId;
             data.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
-            #endregion
+
+            #endregion AUDIT
 
             var response = _quotationBL.Save(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-
         }
 
         public JsonResult NewVersion(QuotationNewVersionDto data)
         {
-            
-
             #region AUDIT
+
             data.InsertUserId = SessionUsuario.SystemUserId;
             data.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
-            #endregion
+
+            #endregion AUDIT
 
             var response = _quotationBL.NewVersion(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-
         }
 
         public JsonResult Update(QuotationUpdateDto data)
         {
-        
-
             var response = _quotationBL.Update(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-
         }
 
         public JsonResult GetComponents()
         {
-           
             var response = _quotationBL.GetComponents(SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
@@ -155,8 +128,6 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult GetVersions(string code)
         {
-       
-
             var response = _quotationBL.GetVersions(code, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
@@ -174,8 +145,6 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult UpdateProccess(QuotationUpdateProcess data)
         {
-           
-
             var response = _quotationBL.UpdateProccess(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
@@ -206,15 +175,12 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult ListPrice(int CompanyId)
         {
-           
-
             var response = _quotationBL.GetListPrice(CompanyId, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult SetPrice(PriceListDto data)
         {
-           
             data.InsertUserId = SessionUsuario.SystemUserId;
             data.UpdateUserId = SessionUsuario.SystemUserId;
             var response = _quotationBL.UpdatePriceList(data, SessionUsuario.Token);
@@ -223,25 +189,19 @@ namespace SigesoftWebUI.Controllers
 
         public JsonResult MigrateQuotationToProtocols(QuotationMigrateDto data)
         {
-           
-
             var response = _quotationBL.MigrateQuotationToProtocols(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Trackingchart(ParamsTrackingChartModel parameters)
         {
-           
             parameters.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
             var response = _quotationBL.Trackingchart(parameters, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-
         }
 
         public JsonResult MigrateProtocolToSIGESoftWin(QuotationMigrateDto data)
         {
-            
-
             var response = _quotationBL.MigrateProtocolToSIGESoftWin(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }

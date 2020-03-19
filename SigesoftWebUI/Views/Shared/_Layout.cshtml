@@ -188,7 +188,6 @@
                         <!-- This is  -->
                         <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
                         <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-
                     </ul>
                     <!-- ============================================================== -->
                     <!-- User profile and search -->
@@ -317,7 +316,7 @@
                                             <option value="-1">--Seleccionar--</option>
                                             @foreach (var comp in usuarioSession.Companies)
                                             {
-                                                <option value="@comp.CompanyId">@comp.CompanyName</option>
+                                            <option value="@comp.CompanyId">@comp.CompanyName</option>
                                             }
                                         </select>
                                     </div>
@@ -329,7 +328,6 @@
                                     </div>
                                     <div class="col">
                                         <div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -398,7 +396,6 @@
         function CerrarSesion() {
             location.href = baseUrl() + 'IngresoSistema/LogOff';
         }
-
     </script>
     <script src="~/Scripts/APIController.js"></script>
     <script>
@@ -447,7 +444,7 @@
         function ddlConfCompanyChange() {
             $('#ddlConfCompany').change(function () {
                 var id = $("#ddlConfCompany option:selected").val();
-                let content = "";                
+                let content = "";
                 let company = objData.Companies.filter((rep) => {
                     return rep.CompanyId == id;
                 });
@@ -538,7 +535,7 @@
                 content += "<ul aria-expanded='true' >";
                 for (var ii = 0; ii < modules[i].Options.length; ii++) {
                     content += "<li>";
-                    
+
                     content += "<a class='btn waves-effect waves-light btn-sm btn-outline-secondary' style='width:90%; text-aling:left' href='" + baseUrl() + modules[i].Options[ii].Path + "'>" + modules[i].Options[ii].OptionName + "</a>";
                     content += "</li>";
                 }
@@ -572,14 +569,8 @@
                 $("#li-notification").attr("hidden", true);
             }
         }
-
     </script>
 
     @RenderSection("scripts", required: false)
-
 </body>
 </html>
-
-  
-
-

@@ -1,8 +1,6 @@
 ﻿var APIController = (function () {
-
     var saveCompany = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Company/Save', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -12,9 +10,7 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var viewContactsByCompany = function (id) {
@@ -32,7 +28,6 @@
 
     var saveQuotation = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Quotation/Save', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -42,14 +37,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var updateQuotation = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Quotation/Update', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -59,14 +51,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var newVersionQuotation = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Quotation/NewVersion', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -76,9 +65,7 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var profile = function (id) {
@@ -91,7 +78,6 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
     }
 
@@ -105,13 +91,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
     }
 
     var CompanyByRuc = function (ruc) {
         return new Promise((resolve, reject) => {
-
             let url = '/Company/CompanyByRuc?ruc=' + ruc
             fetch(url, {
                 headers: { 'Content-Type': 'application/json' }
@@ -120,13 +104,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
     }
 
     var saveProtocolProfile = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/ProtocolProfile/Save', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -136,14 +118,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var ddlProtocolProfile = function () {
         return new Promise((resolve, reject) => {
-
             fetch('/ProtocolProfile/DropdownList', {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -151,14 +130,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var autocompleteProtocolProfile = function (value) {
         return new Promise((resolve, reject) => {
-
             fetch('/ProtocolProfile/Autocomplete?value=' + value, {
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -166,14 +142,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var secuential = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Secuential/GetSecuential', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -183,13 +156,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
     }
 
     var filterQuotation = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Quotation/Filter', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -199,7 +170,6 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
     }
 
@@ -213,13 +183,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
     }
 
     var saveQuoteTracking = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/QuoteTracking/Save', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -229,14 +197,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var updateQuoteTracking = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/QuoteTracking/Update', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -246,9 +211,7 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var quotationtracking = function (id) {
@@ -261,7 +224,6 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
     }
 
@@ -274,7 +236,6 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
     }
 
@@ -288,13 +249,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
     }
 
     var updateProccessQuotation = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Quotation/UpdateProccess', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -304,9 +263,7 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var AccessUser = function () {
@@ -348,7 +305,6 @@
 
     var setPrice = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Quotation/SetPrice', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -358,9 +314,7 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var systemUsers = function () {
@@ -428,7 +382,6 @@
 
     var savePerson = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Person/Save', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -438,14 +391,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var updatePerson = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Person/Update', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -455,14 +405,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var saveUSer = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/SystemUser/Save', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -477,7 +424,6 @@
 
     var updateUser = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/SystemUser/Update', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -665,7 +611,6 @@
 
     var trackingChart = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Quotation/Trackingchart', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -675,7 +620,6 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
     }
 
@@ -709,7 +653,7 @@
 
     var getWorkerData = function () {
         return new Promise((resolve, reject) => {
-            fetch('/Worker/GetDataWorker' , {
+            fetch('/Worker/GetDataWorker', {
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
@@ -717,7 +661,7 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
-    }   
+    }
 
     var updateWorkerData = function (parameters) {
         return new Promise((resolve, reject) => {
@@ -743,7 +687,7 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
-    }   
+    }
 
     var saveClientUser = function (parameters) {
         return new Promise((resolve, reject) => {
@@ -801,7 +745,6 @@
 
     var updateCompanyClientUser = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/ClientUser/UpdateCompany', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -811,14 +754,11 @@
                 .then(data => {
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
-
         });
-
     }
 
     var uploadExcelSchedule = function (parameters) {
         return new Promise((resolve, reject) => {
-
             fetch('/Schedule/Upload', {
                 method: 'POST',
                 body: JSON.stringify(parameters),
@@ -1156,9 +1096,9 @@
 
         UpdateWorkerData: function (parameters) {
             return new Promise((resolve, reject) => {
-                updateWorkerData (parameters).then(res => resolve(res));
+                updateWorkerData(parameters).then(res => resolve(res));
             });
-        }  ,      
+        },
 
         SendMail: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -1202,7 +1142,7 @@
             });
         },
 
-        UploadExcelSchedule: function(parameters) {
+        UploadExcelSchedule: function (parameters) {
             return new Promise((resolve, reject) => {
                 uploadExcelSchedule(parameters).then(res => resolve(res));
             });
@@ -1220,5 +1160,4 @@
             });
         },
     }
-
 })();

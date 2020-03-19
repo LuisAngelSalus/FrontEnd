@@ -21,11 +21,9 @@
         -webkit-animation: load8 1.1s infinite linear;
         animation: load8 1.1s infinite linear;
     }
-
 }
 
 @mixin load8-frames() {
-
     0% {
         -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
@@ -35,7 +33,6 @@
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
-
 }
 
 @-webkit-keyframes load8 {

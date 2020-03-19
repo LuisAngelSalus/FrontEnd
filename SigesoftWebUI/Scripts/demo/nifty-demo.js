@@ -5,10 +5,7 @@
 // ====================================================================
 // - ThemeOn.net -
 
-
 $(document).on('nifty.ready', function () {
-
-
     // SETTINGS WINDOW
     // =================================================================
     var contentIndi = '<div id="demo-settings-load" class="demo-settings-load"><i class="text-main demo-pli-repeat-2 icon-3x fa-spin"></i><br><h4 id="demo-get-status" class="text-bold text-uppercase">Loading...</h4><p id="demo-get-status-text">Please wait while the content is loaded</p></div>';
@@ -16,90 +13,87 @@ $(document).on('nifty.ready', function () {
 
     $("body").append(settingsComp);
 
-    $('#demo-set-btn').one('click', function(){
+    $('#demo-set-btn').one('click', function () {
         $("#demo-nifty-settings").addClass("in");
         $("#demo-set-content").append(contentIndi);
-        $.get("settings.html", function( data ) {
+        $.get("settings.html", function (data) {
             $("#demo-set-content").empty().append(data);
             settingsInit();
-        }).fail(function(e) {
+        }).fail(function (e) {
             $("#demo-get-status").html(e.status);
             $("#demo-get-status-text").html(e.statusText);
         });
     });
 
-
     //Offcanvas initialize
-    var nav_mode = function(){
+    var nav_mode = function () {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if(pair[0] == "offcanvas"){return pair[1];}
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == "offcanvas") { return pair[1]; }
         }
-        return(false);
+        return (false);
     }();
-    if(nav_mode == "push" || nav_mode == "slide" ||nav_mode == "reveal"){
+    if (nav_mode == "push" || nav_mode == "slide" || nav_mode == "reveal") {
         $('.mainnav-toggle').removeClass('push slide reveal').addClass(nav_mode);
-        $('#container').removeClass('mainnav-lg mainnav-sm').addClass('mainnav-out '+nav_mode);
+        $('#container').removeClass('mainnav-lg mainnav-sm').addClass('mainnav-out ' + nav_mode);
     }
 
-
-    var settingsInit = function(){
-        var demoSet             = $('#demo-nifty-settings'),
-            niftyContainer      = $('#container'),
-            niftyMainNav        = $('#mainnav-container'),
-            niftyAside          = $('#aside-container'),
-            demoSetBtn          = $('#demo-set-btn');
+    var settingsInit = function () {
+        var demoSet = $('#demo-nifty-settings'),
+            niftyContainer = $('#container'),
+            niftyMainNav = $('#mainnav-container'),
+            niftyAside = $('#aside-container'),
+            demoSetBtn = $('#demo-set-btn');
 
         // BOXED LAYOUT
         // =================================================================
-        var boxedLayoutCheckbox     = document.getElementById('demo-box-lay'),
-            boxedLayoutImgBtn       = document.getElementById('demo-box-img'),
-            boxedLayoutImgBox       = $('#demo-bg-boxed'),
-            boxedLayoutBtnClose     = document.getElementById('demo-close-boxed-img'),
-            blurredBgList           = $('#demo-blurred-bg'),
-            polygonBgList           = $('#demo-polygon-bg'),
-            abstractBgList          = $('#demo-abstract-bg');
-
+        var boxedLayoutCheckbox = document.getElementById('demo-box-lay'),
+            boxedLayoutImgBtn = document.getElementById('demo-box-img'),
+            boxedLayoutImgBox = $('#demo-bg-boxed'),
+            boxedLayoutBtnClose = document.getElementById('demo-close-boxed-img'),
+            blurredBgList = $('#demo-blurred-bg'),
+            polygonBgList = $('#demo-polygon-bg'),
+            abstractBgList = $('#demo-abstract-bg');
 
         // Initialize
         // =================================================================
         $("#demo-set-tooltip").tooltip();
 
-        if(niftyContainer.hasClass('boxed-layout')){
+        if (niftyContainer.hasClass('boxed-layout')) {
             boxedLayoutCheckbox.checked = true;
             boxedLayoutImgBtn.disabled = false;
-        }else{
+        } else {
             boxedLayoutCheckbox.checked = false;
             boxedLayoutImgBtn.disabled = true;
         }
 
         if (boxedLayoutImgBox.hasClass('open')) {
             boxedLayoutImgBtn.checked = true;
-        }else{
+        } else {
             boxedLayoutImgBtn.checked = false;
         }
 
-        function bg_thumb_template(cat){
+        function bg_thumb_template(cat) {
             var list = '';
             for (var i = 1; i < 17; i++) {
-                list += '<a href="#" class="thumbnail box-inline"><img class="img-responsive" src="./premium/boxed-bg/'+cat+'/thumbs/'+i+'.jpg" alt="Background Image"></a>';
+                list += '<a href="#" class="thumbnail box-inline"><img class="img-responsive" src="./premium/boxed-bg/' + cat + '/thumbs/' + i + '.jpg" alt="Background Image"></a>';
             }
             return list;
         }
-        function add_bg_thumbs(){
+        function add_bg_thumbs() {
             blurredBgList.append(bg_thumb_template('blurred'));
             polygonBgList.append(bg_thumb_template('polygon'));
             abstractBgList.append(bg_thumb_template('abstract'));
 
             var boxedBgthumb = boxedLayoutImgBox.find('.thumbnail');
-            boxedBgthumb.on('click', function(){
+            boxedBgthumb.on('click', function () {
                 boxedBgthumb.removeClass('selected');
-                var url = $(this).children('img').prop('src').replace('thumbs','bg');
+                var url = $(this).children('img').prop('src').replace('thumbs', 'bg');
                 $(this).addClass('selected');
                 niftyContainer.css({
-                    'background-image': 'url('+url+')',
+                    'background-image': 'url(' + url + ')',
                     'background-repeat': 'no-repeat',
                     'background-size': 'cover',
                     'background-attachment': 'fixed'
@@ -107,16 +101,14 @@ $(document).on('nifty.ready', function () {
             });
         }
 
-
-
         // Boxed Layout Checkbox
         // =================================================================
-        boxedLayoutCheckbox.onchange = function(){
+        boxedLayoutCheckbox.onchange = function () {
             if (boxedLayoutCheckbox.checked) {
                 niftyContainer.addClass('boxed-layout');
                 boxedLayoutImgBtn.disabled = false;
             } else {
-                niftyContainer.removeClass('boxed-layout').removeAttr( 'style' );
+                niftyContainer.removeClass('boxed-layout').removeAttr('style');
                 boxedLayoutImgBtn.checked = false;
                 boxedLayoutImgBtn.disabled = true;
                 boxedLayoutImgBox.removeClass('open').find('.thumbnail').removeClass('selected');
@@ -126,10 +118,10 @@ $(document).on('nifty.ready', function () {
 
         // Image Buttons
         // =================================================================
-        boxedLayoutImgBtn.onchange = function(){
+        boxedLayoutImgBtn.onchange = function () {
             if (boxedLayoutImgBtn.checked) {
                 boxedLayoutImgBox.addClass('open');
-                if(!demoSet.hasClass('hasbgthumbs')){
+                if (!demoSet.hasClass('hasbgthumbs')) {
                     add_bg_thumbs();
                     demoSet.addClass('hasbgthumbs')
                 }
@@ -140,16 +132,11 @@ $(document).on('nifty.ready', function () {
 
         // Close Button
         // =================================================================
-        boxedLayoutBtnClose.onclick = function(){
+        boxedLayoutBtnClose.onclick = function () {
             boxedLayoutImgBox.removeClass('open');
             boxedLayoutImgBtn.disabled = false;
             boxedLayoutImgBtn.checked = false;
         }
-
-
-
-
-
 
         // TRANSITION EFFECTS
         // =================================================================
@@ -158,19 +145,18 @@ $(document).on('nifty.ready', function () {
             animCheckbox = document.getElementById('demo-anim'),
             transitionVal = document.getElementById('demo-ease');
 
-
         // Initialize
         // =================================================================
-        if(niftyContainer.hasClass('effect')){
+        if (niftyContainer.hasClass('effect')) {
             animCheckbox.checked = true;
             transitionVal.disabled = false;
-        }else{
+        } else {
             animCheckbox.checked = false;
             transitionVal.disabled = true;
         }
 
         // Animations checkbox
-        animCheckbox.onchange = function(){
+        animCheckbox.onchange = function () {
             if (animCheckbox.checked) {
                 niftyContainer.addClass('effect');
                 transitionVal.disabled = false;
@@ -181,26 +167,21 @@ $(document).on('nifty.ready', function () {
             }
         };
 
-
         // Transition selectbox
         var effectArray = effectList.split(" ");
         for (i = 0; i < effectArray.length; i++) {
-            if (niftyContainer.hasClass(effectArray[i])){
+            if (niftyContainer.hasClass(effectArray[i])) {
                 transitionVal.value = effectArray[i];
                 break;
             }
         }
-        transitionVal.onchange = function(){
+        transitionVal.onchange = function () {
             var optionSelected = $("option:selected", this);
             var valueSelected = this.options[this.selectedIndex].value;
             if (valueSelected) {
                 niftyContainer.removeClass(effectList).addClass(valueSelected);
             }
         };
-
-
-
-
 
         // NAVBAR
         // =================================================================
@@ -209,15 +190,15 @@ $(document).on('nifty.ready', function () {
 
         // Initialize
         // =================================================================
-        if(niftyContainer.hasClass('navbar-fixed')){
+        if (niftyContainer.hasClass('navbar-fixed')) {
             navbarFixedCheckbox.checked = true;
-        }else{
+        } else {
             navbarFixedCheckbox.checked = false;
         }
 
         // Fixed Position
         // =================================================================
-        navbarFixedCheckbox.onchange = function(){
+        navbarFixedCheckbox.onchange = function () {
             if (navbarFixedCheckbox.checked) {
                 niftyContainer.addClass('navbar-fixed');
             } else {
@@ -229,25 +210,22 @@ $(document).on('nifty.ready', function () {
             niftyAside.niftyAffix('update');
         };
 
-
-
         // FOOTER
         // =================================================================
         // =================================================================
         var footerFixedCheckbox = document.getElementById('demo-footer-fixed');
 
-
         // Initialize
         // =================================================================
-        if(niftyContainer.hasClass('footer-fixed')){
+        if (niftyContainer.hasClass('footer-fixed')) {
             footerFixedCheckbox.checked = true;
-        }else{
+        } else {
             footerFixedCheckbox.checked = false;
         }
 
         // Fixed Position
         // =================================================================
-        footerFixedCheckbox.onchange = function(){
+        footerFixedCheckbox.onchange = function () {
             if (footerFixedCheckbox.checked) {
                 niftyContainer.addClass('footer-fixed');
             } else {
@@ -255,39 +233,33 @@ $(document).on('nifty.ready', function () {
             }
         };
 
-
-
-
         // NAVIGATION
         // =================================================================
         // =================================================================
-        var collapsedCheckbox   = document.getElementById('demo-nav-coll'),
-            navFixedCheckbox    = document.getElementById('demo-nav-fixed'),
-            navProfileCheckbox  = document.getElementById('demo-nav-profile'),
+        var collapsedCheckbox = document.getElementById('demo-nav-coll'),
+            navFixedCheckbox = document.getElementById('demo-nav-fixed'),
+            navProfileCheckbox = document.getElementById('demo-nav-profile'),
             navShortcutCheckbox = document.getElementById('demo-nav-shortcut'),
-            navOffcanvasSB      = document.getElementById('demo-nav-offcanvas'),
-            navProfile          = $('#mainnav-profile'),
-            navShortcut         = $('#mainnav-shortcut');
-
-
+            navOffcanvasSB = document.getElementById('demo-nav-offcanvas'),
+            navProfile = $('#mainnav-profile'),
+            navShortcut = $('#mainnav-shortcut');
 
         // Initialize
         // =================================================================
-        if(niftyContainer.hasClass('mainnav-fixed')){
+        if (niftyContainer.hasClass('mainnav-fixed')) {
             navFixedCheckbox.checked = true;
-        }else{
+        } else {
             navFixedCheckbox.checked = false;
         }
-
 
         // Fixed Position
         // =================================================================
-        if(niftyContainer.hasClass('mainnav-fixed')){
+        if (niftyContainer.hasClass('mainnav-fixed')) {
             navFixedCheckbox.checked = true;
-        } else{
+        } else {
             navFixedCheckbox.checked = false;
         }
-        navFixedCheckbox.onchange = function(){
+        navFixedCheckbox.onchange = function () {
             if (navFixedCheckbox.checked) {
                 $.niftyNav('fixedPosition');
             } else {
@@ -295,43 +267,38 @@ $(document).on('nifty.ready', function () {
             }
         };
 
-
         // Profile
         // =================================================================
-        if(navProfile.hasClass('hidden')){
+        if (navProfile.hasClass('hidden')) {
             navProfileCheckbox.checked = false;
-        } else{
+        } else {
             navProfileCheckbox.checked = true;
         }
-        navProfileCheckbox.onchange = function(){
+        navProfileCheckbox.onchange = function () {
             navProfile.toggleClass('hidden');
         };
 
-
-
         // Shortcut Buttons
         // =================================================================
-        if(navShortcut.hasClass('hidden')){
+        if (navShortcut.hasClass('hidden')) {
             navShortcutCheckbox.checked = false;
-        } else{
+        } else {
             navShortcutCheckbox.checked = true;
         }
-        navShortcutCheckbox.onchange = function(){
+        navShortcutCheckbox.onchange = function () {
             navShortcut.toggleClass('hidden');
         };
 
-
-
         // Collapsing/Expanding Navigation
         // =================================================================
-        if(niftyContainer.hasClass('mainnav-sm')){
+        if (niftyContainer.hasClass('mainnav-sm')) {
             collapsedCheckbox.checked = true;
-        }else{
+        } else {
             collapsedCheckbox.checked = false;
         }
-        collapsedCheckbox.onchange = function(){
+        collapsedCheckbox.onchange = function () {
             if (collapsedCheckbox.checked) {
-                if(navOffcanvasSB.value != 'none'){
+                if (navOffcanvasSB.value != 'none') {
                     navOffcanvasSB.value = 'none';
                     location.href = location.protocol + '//' + location.host + location.pathname;
                 }
@@ -341,11 +308,9 @@ $(document).on('nifty.ready', function () {
             }
         };
 
-
-
         // Offcanvas Navigation
         // =================================================================
-        navOffcanvasSB.onchange = function(){
+        navOffcanvasSB.onchange = function () {
             if (collapsedCheckbox.checked) {
                 collapsedCheckbox.checked = false;
             }
@@ -354,44 +319,34 @@ $(document).on('nifty.ready', function () {
             location.href = location.protocol + '//' + location.host + location.pathname + '?&offcanvas=' + this.options[this.selectedIndex].value;
         };
 
-        if(nav_mode == "push" || nav_mode == "slide" ||nav_mode == "reveal"){
+        if (nav_mode == "push" || nav_mode == "slide" || nav_mode == "reveal") {
             $('.mainnav-toggle').removeClass('push slide reveal').addClass(nav_mode);
             navOffcanvasSB.value = nav_mode;
-        }else{
-            if(niftyContainer.hasClass('mainnav-sm')){
+        } else {
+            if (niftyContainer.hasClass('mainnav-sm')) {
                 collapsedCheckbox.checked = true;
-            }else{
+            } else {
                 collapsedCheckbox.checked = false;
             }
         }
 
-
-
-
-
-
-
         // ASIDE
         // =================================================================
         // =================================================================
-        var asdVisCheckbox      = document.getElementById('demo-asd-vis'),
-            asdFixedCheckbox    = document.getElementById('demo-asd-fixed'),
-            asdFloatCheckbox    = document.getElementById('demo-asd-float'),
-            asdPosCheckbox      = document.getElementById('demo-asd-align'),
-            asdThemeCheckbox    = document.getElementById('demo-asd-themes');
-
-
-
-
+        var asdVisCheckbox = document.getElementById('demo-asd-vis'),
+            asdFixedCheckbox = document.getElementById('demo-asd-fixed'),
+            asdFloatCheckbox = document.getElementById('demo-asd-float'),
+            asdPosCheckbox = document.getElementById('demo-asd-align'),
+            asdThemeCheckbox = document.getElementById('demo-asd-themes');
 
         // Visible
         // =================================================================
-        if(niftyContainer.hasClass('aside-in')){
+        if (niftyContainer.hasClass('aside-in')) {
             asdVisCheckbox.checked = true;
-        } else{
+        } else {
             asdVisCheckbox.checked = false;
         }
-        asdVisCheckbox.onchange = function() {
+        asdVisCheckbox.onchange = function () {
             if (asdVisCheckbox.checked) {
                 $.niftyAside('show');
             } else {
@@ -399,16 +354,14 @@ $(document).on('nifty.ready', function () {
             }
         };
 
-
-
         // Fixed Position
         // =================================================================
-        if(niftyContainer.hasClass('aside-fixed')){
+        if (niftyContainer.hasClass('aside-fixed')) {
             asdFixedCheckbox.checked = true;
-        } else{
+        } else {
             asdFixedCheckbox.checked = false;
         }
-        asdFixedCheckbox.onchange = function() {
+        asdFixedCheckbox.onchange = function () {
             if (asdFixedCheckbox.checked) {
                 $.niftyAside('fixedPosition');
             } else {
@@ -416,15 +369,14 @@ $(document).on('nifty.ready', function () {
             };
         };
 
-
         // Floating Aside
         // =================================================================
-        if(niftyContainer.hasClass('aside-float')){
+        if (niftyContainer.hasClass('aside-float')) {
             asdFloatCheckbox.checked = true;
-        } else{
+        } else {
             asdFloatCheckbox.checked = false;
         }
-        asdFloatCheckbox.onchange = function() {
+        asdFloatCheckbox.onchange = function () {
             if (asdFloatCheckbox.checked) {
                 niftyContainer.addClass('aside-float');
             } else {
@@ -433,15 +385,14 @@ $(document).on('nifty.ready', function () {
             $(window).trigger('resize');
         };
 
-
         // Align
         // =================================================================
-        if(niftyContainer.hasClass('aside-left')){
+        if (niftyContainer.hasClass('aside-left')) {
             asdPosCheckbox.checked = true;
-        } else{
+        } else {
             asdPosCheckbox.checked = false;
         }
-        asdPosCheckbox.onchange = function() {
+        asdPosCheckbox.onchange = function () {
             if (asdPosCheckbox.checked) {
                 $.niftyAside('alignLeft');
             } else {
@@ -449,15 +400,14 @@ $(document).on('nifty.ready', function () {
             };
         };
 
-
         // Themes
         // =================================================================
-        if(niftyContainer.hasClass('aside-bright')){
+        if (niftyContainer.hasClass('aside-bright')) {
             asdThemeCheckbox.checked = false;
-        } else{
+        } else {
             asdThemeCheckbox.checked = true;
         }
-        asdThemeCheckbox.onchange = function() {
+        asdThemeCheckbox.onchange = function () {
             if (asdThemeCheckbox.checked) {
                 $.niftyAside('darkTheme');
             } else {
@@ -465,23 +415,21 @@ $(document).on('nifty.ready', function () {
             };
         };
 
-
-
         // COLOR SCHEMES
         // =================================================================
         var themeBtn = $('.demo-theme'),
-        changeTheme = function (themeName, type) {
-            var themeCSS = $('#theme'),
-                fileext = '.min.css',
-                filename = 'css/themes/type-' + type + '/' + themeName + fileext;
+            changeTheme = function (themeName, type) {
+                var themeCSS = $('#theme'),
+                    fileext = '.min.css',
+                    filename = 'css/themes/type-' + type + '/' + themeName + fileext;
 
-            if (themeCSS.length) {
-                themeCSS.prop('href', filename);
-            } else {
-                themeCSS = '<link id="theme" href="' + filename + '" rel="stylesheet">';
-                $('head').append(themeCSS);
-            }
-        };
+                if (themeCSS.length) {
+                    themeCSS.prop('href', filename);
+                } else {
+                    themeCSS = '<link id="theme" href="' + filename + '" rel="stylesheet">';
+                    $('head').append(themeCSS);
+                }
+            };
 
         $('#demo-theme').on('click', '.demo-theme', function (e) {
             e.preventDefault();
@@ -495,14 +443,13 @@ $(document).on('nifty.ready', function () {
             return false;
         });
 
-
-        demoSet.on('click', function(e){
-            if (demoSet.hasClass('in')){
+        demoSet.on('click', function (e) {
+            if (demoSet.hasClass('in')) {
                 if ($(e.target).is(demoSet)) demoSet.removeClass('in');
             }
         });
 
-        demoSetBtn.on('click', function(){
+        demoSetBtn.on('click', function () {
             demoSet.toggleClass('in');
             return false;
         });

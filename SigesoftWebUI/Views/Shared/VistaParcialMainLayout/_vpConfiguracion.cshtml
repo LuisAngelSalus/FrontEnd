@@ -3,7 +3,6 @@
     var usuarioSession = (SessionModel)Session[Resources.Constante.SessionUsuario];
 }
 
-
 <div class="modal fade" id="AccountSettingModal" role="dialog" tabindex="-1" aria-labelledby="AccountSettingModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -24,7 +23,7 @@
                         <option value="-1">--Seleccionar--</option>
                         @foreach (var comp in usuarioSession.Companies)
                         {
-                            <option value="@comp.CompanyId">@comp.CompanyName</option>
+                        <option value="@comp.CompanyId">@comp.CompanyName</option>
                         }
                     </select>
                 </div>

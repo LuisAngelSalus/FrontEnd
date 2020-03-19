@@ -1,6 +1,6 @@
 ﻿function renderDashboardWorker(data) {
     let dataWorker = data;
-    
+
     let content = "";
 
     content += "<div class='content-alert'>";
@@ -40,7 +40,6 @@
     content += "        <h4><i class='fa fa-user m-r-10 m-b-10'></i> Datos del trabajador</h4>";
     content += "        <div class='row'>";
 
-
     content += "        </div>";
     content += "        <div class='b-all m-t-20 p-20'>";
 
@@ -53,58 +52,57 @@
     content += "                                <div class='form-group row'>";
     content += "                                    <label class='control-label text-right col-md-3'>Primer Nombre</label>";
     content += "                                    <div class='col-md-9 '>";
-    content += "                                        <input type='text' id='txtFirstName' class='form-control' value='" + dataWorker.FirstName + "' placeholder='Ingresar Primer Nombre' required>";    
+    content += "                                        <input type='text' id='txtFirstName' class='form-control' value='" + dataWorker.FirstName + "' placeholder='Ingresar Primer Nombre' required>";
     content += "                                    </div>";
     content += "                                </div>";
     content += "                            </div>";
-                
+
     content += "                <div class='col-md-6'>";
     content += "                                    <div class='form-group  row'>";
     content += "                                        <label class='control-label text-right col-md-3'>Primer Apellido</label>";
     content += "                                        <div class='col-md-9'>";
-    content += "                                            <input type='text' id='txtFirstLastName' class='form-control' value='" + dataWorker.FirstLastName +"'  placeholder='Ingresar Primer Apellido' required>";    
+    content += "                                            <input type='text' id='txtFirstLastName' class='form-control' value='" + dataWorker.FirstLastName + "'  placeholder='Ingresar Primer Apellido' required>";
     content += "                        </div>";
     content += "                                        </div>";
     content += "                                    </div>";
-                
+
     content += "            </div>";
-                
+
     content += "            <div class='row'>";
     content += "                                    <div class='col-md-6'>";
     content += "                                        <div class='form-group  row'>";
     content += "                                            <label class='control-label text-right col-md-3'>Segundo Apellido</label>";
     content += "                                            <div class='col-md-9'>";
-    content += "                                                <input type='text' id='txtSecondLastName' class='form-control ' value='" + dataWorker.SecondLastName +"' placeholder='Ingresar Segundo Apellido' required>";    
+    content += "                                                <input type='text' id='txtSecondLastName' class='form-control ' value='" + dataWorker.SecondLastName + "' placeholder='Ingresar Segundo Apellido' required>";
     content += "                        </div>";
     content += "                                            </div>";
     content += "                                        </div>";
-                
+
     content += "                <div class='col-md-6'>";
     content += "                                            <div class='form-group  row'>";
     content += "                                                <label class='control-label text-right col-md-3'>Nro. Documento</label>";
     content += "                                                <div class='col-md-9'>";
-    content += "                                                    <input type='text' id='txtNroDocument' class='form-control ' value='" + dataWorker.NroDocument +"' placeholder='Ingresar Nro. Documento' required>";    
+    content += "                                                    <input type='text' id='txtNroDocument' class='form-control ' value='" + dataWorker.NroDocument + "' placeholder='Ingresar Nro. Documento' required>";
     content += "                        </div>";
     content += "                                                </div>";
     content += "                                            </div>";
-                
+
     content += "            </div>";
-                
-                
+
     content += "            <div class='row'>";
     content += "                <div class='col-md-6'>";
     content += "                    <div class='form-group   row'>";
     content += "                        <label  class='control-label text-right col-md-3'>Género</label>";
-content += "                            <div class='col-md-9'>";
+    content += "                            <div class='col-md-9'>";
     content += "                                <select id='select-gender-Worker' class='form-control custom-select'>";
-content += "                                        <option value='-1'>--Seleccionar--</option>";
-content += "                                        <option value='1'>Masculino</option>";
-content += "                                        <option value='2'>Femenino</option>";
-content += "                                    </select>";
-content += "                            </div>";
+    content += "                                        <option value='-1'>--Seleccionar--</option>";
+    content += "                                        <option value='1'>Masculino</option>";
+    content += "                                        <option value='2'>Femenino</option>";
+    content += "                                    </select>";
+    content += "                            </div>";
     content += "                    </div>";
     content += "            </div>";
-                
+
     content += "                <div class='col-md-6'>";
     content += "                                                <div class='form-group   row'>";
     content += "                                                    <label class='control-label text-right col-md-3'>Fecha Nacimiento</label>";
@@ -113,10 +111,9 @@ content += "                            </div>";
     content += "                                                    </div>";
     content += "                                                </div>";
     content += "                </div>";
-    
+
     content += "                        </div>";
-                
-    
+
     content += "                                                    <h3 class='box-title'>Datos Generales</h3>";
     content += "                                                    <hr class='m-t-0 m-b-40'>";
 
@@ -195,7 +192,6 @@ content += "                            </div>";
     content += "                                                            </div>";
 
     content += "</div>";
-
 
     content += "                                                    </div>";
     content += "                                                </div>";

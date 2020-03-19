@@ -1,8 +1,5 @@
 ﻿using BE;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace SigesoftWebUI.Models
 {
@@ -12,6 +9,7 @@ namespace SigesoftWebUI.Models
         {
             companyHeadquarter = new List<CompanyHeadquarterDto>();
         }
+
         public string CompanyId { get; set; }
         public string Name { get; set; }
         public string IdentificationNumber { get; set; }

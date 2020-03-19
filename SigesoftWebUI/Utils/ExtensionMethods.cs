@@ -213,6 +213,7 @@ namespace SigesoftWebUI.Utils
         {
             return dictionary.ContainsKey(key) ? dictionary[key] : valueDefault;
         }
+
         static public String ParseString(object value)
         {
             var cadena = Convert.ToString(value);

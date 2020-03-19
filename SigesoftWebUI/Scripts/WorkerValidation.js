@@ -4,7 +4,7 @@
     clearErrorsWorkerData();
 
     //II)Valida
-    var validateFirstName = validateInputWorkerData("txtFirstName", "Primer nombre requerido");    
+    var validateFirstName = validateInputWorkerData("txtFirstName", "Primer nombre requerido");
     var validateFirstLastName = validateInputWorkerData("txtFirstLastName", "Apellido Paterno requerido");
     var validateSecondLastName = validateInputWorkerData("txtSecondLastName", "Apellido Materno requerido");
     var validateNroDocument = validateInputWorkerData("txtNroDocument", "Nro. Documento requerido");
@@ -12,7 +12,7 @@
 
     //Validate Gender--------------------------------------------------
     let validateGender = false;
-    let GenderId = $("#select-gender-Worker option:selected").val();    
+    let GenderId = $("#select-gender-Worker option:selected").val();
     if (GenderId == -1) {
         InputErrorWorkerData("#select-gender-Worker");
         newAlertWorkerData("select-gender-Worker", "VALIDACIÓN", "Género es requerido");
@@ -20,16 +20,13 @@
         validateGender = true;
     }
 
-
     //Validate Calendar---------------------------------------------
 
     //II)Retornar resultado de validación
     if (validateFirstName && validateFirstLastName && validateSecondLastName && validateNroDocument && validateGender && validateDateBirth)
         return true;
     return false;
-
 }
-
 
 function clearErrorsWorkerData() {
     $("#txtFirstName").removeClass('error');

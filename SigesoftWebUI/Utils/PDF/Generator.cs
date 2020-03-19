@@ -3,10 +3,6 @@ using iTextSharp.text;
 using iTextSharp.text.html;
 using iTextSharp.text.pdf;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
 using Utils;
 
 namespace SigesoftWebUI.Utils.PDF
@@ -14,6 +10,7 @@ namespace SigesoftWebUI.Utils.PDF
     public class Generator
     {
         private readonly TextUtils textUtils = new TextUtils();
+
         public PdfPTable GetPageOne(Response<QuotationDto> response)
         {
             Phrase phraseOne = new Phrase("PROPUESTA TÉCNICO" + Environment.NewLine + "ECONÓMICA N° " + response.Data.Code + Environment.NewLine + Environment.NewLine, textUtils.fontBold16Black);
@@ -21,7 +18,6 @@ namespace SigesoftWebUI.Utils.PDF
             Phrase phraseThree = new Phrase("CLIENTE:" + Environment.NewLine + response.Data.CompanyName + Environment.NewLine + Environment.NewLine, textUtils.fontBold18Black);
             Phrase phraseFour = new Phrase("EJECUTIVO/A COMERCIAL:" + Environment.NewLine + Environment.NewLine + "Ejecutiva de prueba" + Environment.NewLine + Environment.NewLine, textUtils.fontBold18Black);
             Phrase phraseFive = new Phrase("Cel.: XXXXXXXXXXXX" + Environment.NewLine + "Of.: (511) 640-7309   Ext. XXXX" + Environment.NewLine + "Correo: demo@demo.com", textUtils.fontBold16Black);
-
 
             PdfPTable pdfPTable = new PdfPTable(1);
             pdfPTable.WidthPercentage = 55;
@@ -175,7 +171,6 @@ namespace SigesoftWebUI.Utils.PDF
 
             int profileIndex = 0;
 
-
             int countProfile = response.Data.QuotationProfile.Count;
             int totalColumns = countProfile + 2;
 
@@ -195,7 +190,6 @@ namespace SigesoftWebUI.Utils.PDF
             cell2.BackgroundColor = TabelHeaderBackGroundColor;
             cell2.HorizontalAlignment = 1;
             itemTable.AddCell(cell2);
-
 
             foreach (var item in response.Data.QuotationProfile)
             {

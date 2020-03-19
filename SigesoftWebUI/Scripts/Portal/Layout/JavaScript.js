@@ -106,7 +106,6 @@ $(document).on("ready", function () {
                 });
             },
             NodoBaseClick: function () {
-
                 var codigo = $("#a-home-nodobase").attr("codigo");
                 var nivel = $("#a-home-nodobase").attr("nivel");
 
@@ -152,7 +151,6 @@ $(document).on("ready", function () {
                 });
             },
             NodoBaseMobileClick: function () {
-
                 var nivel = $(this).attr("nivel");
 
                 if (me.Variables.entornoHome.NivelActual == nivel) {
@@ -195,7 +193,6 @@ $(document).on("ready", function () {
                     me.Funciones.CargarIndicadores();
                     me.Funciones.ActualizarBreadCrumb();
                 });
-
             },
             BreadCrumbRegionClick: function () {
                 var strComboRegion = "#cbo-region-home";
@@ -212,13 +209,11 @@ $(document).on("ready", function () {
                 me.Funciones.CargarDataReport();
             },
             IndicadoresClick: function () {
-
                 $('#lnk-resumen').removeClass('active');
                 $('#lnk-indicadores').addClass('active');
                 $('#lnk-datareport').removeClass('active');
                 paginaVirtual('/Home/indicadores/', 'Indicadores – Home');
                 me.Funciones.ActivarTab("tab-indicadores");
-
             },
             CambiarPerfilClick: function () {
                 $('.content-usuario-sac-option').css('display', 'block');
@@ -232,7 +227,6 @@ $(document).on("ready", function () {
                 me.Funciones.CargarUsuarioSAC();
             },
             RightClick: function (e, data) {
-
                 var sy = $(this).parents(".table-controls").data('scroll');
                 var tselect = $(this).parents(".table-controls");
                 me.Variables.scrollY = $("." + tselect.data('fortable')).scrollLeft() + sy;
@@ -243,7 +237,6 @@ $(document).on("ready", function () {
                 else {
                     me.Variables.scrollY = $("." + tselect.data('fortable')).scrollLeft() + sy + 350;
                     me.Variables.animacion = 0;
-
                 }
                 $("." + tselect.data('fortable')).animate({ scrollLeft: "+=300px" }, 800);
             },
@@ -262,7 +255,7 @@ $(document).on("ready", function () {
                 var label = this.title;
                 descargaVirtual("Data report", label);
             },
-            MarcacionesNuevoDataReportClick: function () {                
+            MarcacionesNuevoDataReportClick: function () {
                 menuTabVirtual("Home", 'Reportes de Campaña');
             },
             RedireccionarIndicadorUneteClick: function () {
@@ -282,12 +275,10 @@ $(document).on("ready", function () {
                     });
             },
             //activarSaludoNavidenio: function () {
-
             //    setTimeout(me.Funciones.pararAnimacion, 20000);
 
             //},
             //pararAnimacion: function () {
-
             //    $('.contenedor_estrellas').fadeOut(800);
             //    setTimeout(function () {
             //        $('.contenedor_estrellas').remove();
@@ -335,15 +326,12 @@ $(document).on("ready", function () {
                 $(document).ajaxStop(me.Eventos.FinalizarAjax);
             },
             MarcacionesDescargaReporteCierre: function () {
-
                 var labelFinal = $(this).attr('subseccion') + ' | ' + $(this).attr('title');
 
                 virtualEventFFVV('Reportes de Cierre', 'Descargar', labelFinal);
             },
 
             OcultarFilasDataReport: function () {
-
-
                 var id = "#table-data-report";
                 var table = id + " tbody tr";
                 var numOfrows = $(table).length;
@@ -358,7 +346,6 @@ $(document).on("ready", function () {
                     $("#ver-mas-data-report").addClass("hide")
                     $("#ver-menos-data-report").addClass("hide");
                 }
-
             },
             OcultarFilasDataPlanificacion: function () {
                 var id = "#table-data-planificacion";
@@ -375,13 +362,11 @@ $(document).on("ready", function () {
                     $("#ver-mas-data-planificacion").addClass("hide");
                     $("#ver-menos-data-planificacion").addClass("hide");
                 }
-
             },
             MostrarMenosDataPlanificacion: function () {
                 me.Funciones.OcultarFilasDataPlanificacion();
             },
             MostrarMasDataPlanificacion: function () {
-
                 virtualEventFFVV('Reportes de Cierre', 'Ver más', 'Datos para planificación');
 
                 var id = "#table-data-planificacion";
@@ -391,7 +376,6 @@ $(document).on("ready", function () {
                 var numOfnoneRows = $(table).filter(function () {
                     return $(this).css('display') == 'none';
                 }).length;
-
 
                 var numOfblockRows = $(table).filter(function () {
                     return $(this).css('display') != 'none';
@@ -417,7 +401,6 @@ $(document).on("ready", function () {
                 me.Funciones.OcultarFilasDataReport();
             },
             MostrarMasDataReport: function () {
-
                 virtualEventFFVV('Reportes de Cierre', 'Ver más', 'Data Report');
 
                 var id = "#table-data-report";
@@ -448,22 +431,18 @@ $(document).on("ready", function () {
                     $("#ver-mas-data-report").addClass("hide")
                     $("#ver-menos-data-report").removeClass("hide");
                 }
-
             },
 
             CargarInicio: function () {
-
                 me.Funciones.ActivarTab("tab-indicadores");
 
                 var obtenerDatosSessionAjax = me.Funciones.ObtenerDatosSession();
 
                 obtenerDatosSessionAjax.done(function (result) {
-
                     if (me.Variables.sinFiltroAutomatico)
                         me.Variables.sinFiltroAutomatico = false;
                     else
                         virtualEventFiltros(me.Variables.entornoHome.CodigoRol, 'Home', 'Filtrar-Automático', me.Variables.entornoHome.CodigoRegion, me.Variables.entornoHome.CodigoZona, me.Variables.entornoHome.CodigoSeccion, true);
-
 
                     if (me.Variables.entornoHome.CodigoRol == "DV")
                         me.Funciones.CargarInicioDV();
@@ -492,7 +471,6 @@ $(document).on("ready", function () {
                 });
             },
             CargarInicioDV: function () {
-
                 var nivelBase = $("#a-home-nodobase").attr("nivel");
 
                 me.Funciones.DesactivarNodoBase();
@@ -536,7 +514,6 @@ $(document).on("ready", function () {
                 }
             },
             CargarInicioGR: function () {
-
                 var nivelBase = $("#a-home-nodobase").attr("nivel");
 
                 me.Funciones.DesactivarNodoBase();
@@ -566,7 +543,6 @@ $(document).on("ready", function () {
                 }
             },
             CargarInicioGZ: function () {
-
                 var nivelBase = $("#a-home-nodobase").attr("nivel");
                 me.Funciones.DesactivarNodoBase();
                 me.Funciones.ActivarNodoSeccion();
@@ -576,7 +552,6 @@ $(document).on("ready", function () {
                 }
             },
             CargarIndicadores: function () {
-
                 $.ajax({
                     url: "/Home/Indicadores",
                     type: "POST",
@@ -584,7 +559,6 @@ $(document).on("ready", function () {
                     dataType: "html",
                     data: null,
                     success: function (result) {
-
                         $('#div-contenido-indicadores').html(result);
                         //JGR
                         //if (me.Variables.entornoHome.EsPaisUnete && me.Variables.entornoHome.CodigoRol == "GZ") {
@@ -716,7 +690,6 @@ $(document).on("ready", function () {
                 $("#lbl-home-fase").html("ETAPA: " + faseDescripcion);
             },
             ObtenerDatosSession: function () {
-
                 var obtenerDatosSessionAjax = $.ajax({
                     url: "/Home/ObtenerDatosSession",
                     type: "POST",
@@ -1068,7 +1041,6 @@ $(document).on("ready", function () {
                 $("#cbo-home-region-mobile").css("display", "none");
             },
             ActualizarEntorno: function () {
-
                 var data = JSON.stringify(me.Variables.entornoHome);
 
                 var actualizarEntornoAjax = $.ajax({
@@ -1085,7 +1057,6 @@ $(document).on("ready", function () {
                 return actualizarEntornoAjax;
             },
             ActivarTab: function (activeTab) {
-
                 $("#tab-indicadores").removeClass('active');
                 $("#tab-resumen").removeClass('active');
                 $("#tab-datareport").removeClass('active');
@@ -1245,7 +1216,6 @@ $(document).on("ready", function () {
             //if (verSaludoNavidad) {
             //    me.Funciones.activarSaludoNavidenio();
             //}
-
         };
     }
 

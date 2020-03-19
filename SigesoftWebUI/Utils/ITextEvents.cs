@@ -7,32 +7,33 @@ namespace SigesoftWebUI.Utils
 {
     public class ITextEvents : PdfPageEventHelper
     {
-
         // This is the contentbyte object of the writer
-        PdfContentByte cb;
+        private PdfContentByte cb;
 
         // we will put the final number of pages in a template
-        PdfTemplate headerTemplate, footerTemplate;
+        private PdfTemplate headerTemplate, footerTemplate;
 
         // this is the BaseFont we are going to use for the header / footer
-        BaseFont bf = null;
+        private BaseFont bf = null;
 
         // This keeps track of the creation time
-        DateTime PrintTime = DateTime.Now;
-
+        private DateTime PrintTime = DateTime.Now;
 
         #region Fields
+
         private string _header;
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         public string Header
         {
             get { return _header; }
             set { _header = value; }
         }
-        #endregion
 
+        #endregion Properties
 
         public override void OnOpenDocument(PdfWriter writer, Document document)
         {
@@ -76,13 +77,11 @@ namespace SigesoftWebUI.Utils
             pdfTab.TotalWidth = 520f;
             pdfTab.LockedWidth = true;
 
-
             //We will have to create separate cells to include image logo and 2 separate strings
             //Row 1
             PdfPCell pdfCell1 = new PdfPCell(logo);
             PdfPCell pdfCell2 = new PdfPCell(p1Header);
             String text = "Página " + writer.PageNumber + " de ";
-
 
             //Add paging to header
             {
@@ -96,7 +95,7 @@ namespace SigesoftWebUI.Utils
                 cb.AddTemplate(headerTemplate, document.PageSize.GetRight(120) + len, document.PageSize.GetTop(45));
             }
             //Add paging to footer
-            {               
+            {
                 Image logoSoftware = Image.GetInstance(HttpContext.Current.Server.MapPath("~/assets/images/SLEmpresarial.png"));
                 logoSoftware.ScaleToFit(140f, 50f);
 
@@ -123,7 +122,6 @@ namespace SigesoftWebUI.Utils
                 var footerCell5 = new PdfPCell(address);
                 var footerCell6 = new PdfPCell(fax);
 
-
                 footerCell1.Border = 0;
                 footerCell2.Border = 0;
                 footerCell3.Border = 0;
@@ -146,7 +144,6 @@ namespace SigesoftWebUI.Utils
                 footerTbl.AddCell(footerCell6);
                 footerTbl.WriteSelectedRows(0, -1, 40, 80, writer.DirectContent);
             }
-          
 
             PdfPCell pdfCell3 = new PdfPCell();
             PdfPCell pdfCell4 = new PdfPCell();
@@ -209,8 +206,6 @@ namespace SigesoftWebUI.Utils
             footerTemplate.SetTextMatrix(0, 0);
             footerTemplate.ShowText((writer.PageNumber - 1).ToString());
             footerTemplate.EndText();
-
-
         }
     }
 }

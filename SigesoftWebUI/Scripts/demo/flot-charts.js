@@ -5,8 +5,6 @@
 //
 // - ThemeOn.net -
 
-
-
 $(document).on('nifty.ready', function () {
     // FLOT AREA CHART
     // =================================================================
@@ -38,7 +36,7 @@ $(document).on('nifty.ready', function () {
                 show: false,
                 radius: 2
             }
-            },
+        },
         {
             label: 'Visitors',
             data: visitor,
@@ -58,8 +56,8 @@ $(document).on('nifty.ready', function () {
                 show: false,
                 radius: 4
             }
-            }
-        ], {
+        }
+    ], {
         series: {
             lines: {
                 show: true
@@ -94,7 +92,6 @@ $(document).on('nifty.ready', function () {
         }
     });
 
-
     // FLOT LINE CHART
     // =================================================================
     // Require Flot Charts
@@ -118,7 +115,7 @@ $(document).on('nifty.ready', function () {
                 show: true,
                 radius: 4
             }
-            },
+        },
         {
             label: 'Visitors',
             data: visitor,
@@ -131,8 +128,8 @@ $(document).on('nifty.ready', function () {
                 show: true,
                 radius: 4
             }
-            }
-        ], {
+        }
+    ], {
         series: {
             lines: {
                 show: true
@@ -166,9 +163,6 @@ $(document).on('nifty.ready', function () {
             content: 'x: %x, y: %y'
         }
     });
-
-
-
 
     // FLOT FULL CONTENT
     // =================================================================
@@ -221,7 +215,7 @@ $(document).on('nifty.ready', function () {
                 radius: 4
             }
         }
-        ], {
+    ], {
         series: {
             lines: {
                 show: true
@@ -257,10 +251,6 @@ $(document).on('nifty.ready', function () {
             content: 'x: %x, y: %y'
         }
     });
-
-
-
-
 
     // FLOT BAR CHART
     // =================================================================
@@ -310,14 +300,6 @@ $(document).on('nifty.ready', function () {
         }
     });
 
-
-
-
-
-
-
-
-
     // FLOT DONUTS CHART
     // =================================================================
     // Require Flot Charts
@@ -359,10 +341,6 @@ $(document).on('nifty.ready', function () {
             defaultTheme: false
         }
     });
-
-
-
-
 
     // FLOT PIE CHART
     // =================================================================
@@ -421,9 +399,6 @@ $(document).on('nifty.ready', function () {
         }
     });
 
-
-
-
     // FLOT REALTIME
     // =================================================================
     // Require Flot Charts
@@ -437,7 +412,6 @@ $(document).on('nifty.ready', function () {
         totalPoints = 300;
 
     function getRandomData() {
-
         if (data.length > 0)
             data = data.slice(1);
 
@@ -522,5 +496,4 @@ $(document).on('nifty.ready', function () {
     }
 
     update();
-
 });

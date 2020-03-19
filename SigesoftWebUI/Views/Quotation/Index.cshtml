@@ -73,7 +73,6 @@
             }
     </style>
 
-
 }
 <div class="card mb-2">
     <div class="card-body pt-2 pb-2">
@@ -109,7 +108,6 @@
                                     <option value="3">Descartada</option>
                                 </select>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="form-group col-md-4">
@@ -150,22 +148,18 @@
                                     <tr>
                                         <td><span class="label label-potencial">Potencial</span></td>
                                         <td id="statusPotential">0</td>
-
                                     </tr>
                                     <tr>
                                         <td><span class="label label-seguimiento">Seguimiento</span></td>
                                         <td id="statusTracking">0</td>
-
                                     </tr>
                                     <tr>
                                         <td><span class="label label-aceptada">Aceptada</span></td>
                                         <td id="statusAccepted">0</td>
-
                                     </tr>
                                     <tr>
                                         <td><span class="label label-descartada">Descartada</span></td>
                                         <td id="statusdiscarded">0</td>
-
                                     </tr>
                                 </tbody>
                             </table>
@@ -176,8 +170,6 @@
         </div>
     </div>
 </div>
-
-
 
 <div class="card">
     <div class="card-body">
@@ -248,8 +240,6 @@
             </div>
         </div>
 
-
-
         <!--Input form-->
         <form role="form" class="form-horizontal">
             <div class="form-group">
@@ -277,7 +267,6 @@
                 </div>
             </div>
         </form>
-
 
         <!--Attact file button-->
         <!--                    <div class="media pad-btm">
@@ -309,12 +298,10 @@
             </button>
         </div>
 
-
         <!--===================================================-->
         <!-- END COMPOSE EMAIL -->
     </div>
 </div>
-
 
 <div class="modal fade" id="ModalVersions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
     <div class="modal-dialog modal-lg" role="document">
@@ -346,7 +333,6 @@
         </div>
     </div>
 </div>
-
 
 @section scripts{
     <script src="~/Scripts/APIController.js"></script>
@@ -456,14 +442,12 @@
 
                 content += "<td>";
 
-
                 content += "<select class='form-control form-white select-StatusQuotation'  id='ddlStatusQuotation-" + quotationId + "' "+ Isdisabled(data[i].StatusQuotationId) +">";
                 content += "<option value='4' "+selected(4,data[i].StatusQuotationId)+">Potencial</option>";
                 content += "<option value='1' "+selected(1,data[i].StatusQuotationId)+">Seguimiento</option>";
                 content += "<option value='2' "+selected(2,data[i].StatusQuotationId)+">Aceptada</option>";
                 content += "<option value='3' "+selected(3,data[i].StatusQuotationId)+">Descartada</option>";
                 content += "</select>";
-
 
                 content += "</td>";
                 content += "<td>" + formatDate(data[i].USDate) + "</td>";
@@ -533,7 +517,7 @@
         function AddTracking(id) {
             var QuotationStatusId = $("#txthiddenStatusQuotationId").val();
 
-            if (QuotationStatusId == "2") {                
+            if (QuotationStatusId == "2") {
                 var route = '/Email/Index/' + id;
                 window.location.href = route;
             } else {
@@ -541,7 +525,6 @@
                 $("#TrackingModal").modal("show");
                 $("#txthiddenQuotation").val(id);
             }
-
 
         }
 
@@ -603,7 +586,7 @@
                     closeOnCancel: false
                 },
                     function (isConfirm) {
-                        if (isConfirm) {                                     
+                        if (isConfirm) {
                             MigrarProtocolSIGESftWin(idQuotation);
                         } else {
                             swal("Cancelad", "Se canceló la migración", "error");
@@ -760,9 +743,7 @@
         });
             }
 
-
         });
-
 
     }
 
@@ -847,10 +828,6 @@
     function viewPropuesta(code) {
             window.location.href = '/Quotation/ExportPlantilla?code=' + code;
         }
-
     </script>
 
 }
-
-
-

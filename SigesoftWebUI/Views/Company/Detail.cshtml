@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -14,12 +13,11 @@
     <link rel="stylesheet" href="~/assets/plugins/dropify/dist/css/dropify.min.css">
 
     <style type="text/css">
-        .invalid-feedback .has-error-required{
+        .invalid-feedback .has-error-required {
             display: none !important;
         }
     </style>
 }
-
 
 <div class="row">
     <div class="col-lg-12">
@@ -106,7 +104,6 @@
                                 <div class="form-group mb-2">
                                     <label for="txtPhoneNumber">Teléfono Contacto<span class="text-danger"></span></label>
                                     <input type="text" class="form-control" id="txtPhoneNumber" value="@ViewBag.Detail.PhoneNumber" onkeypress="validateInputNumber(event)" placeholder="Ingresar Teléfono">
-
                                 </div>
                             </div>
                             <div class="col">
@@ -143,24 +140,23 @@
                                 <tbody>
                                     @foreach (var item in ViewBag.Detail.companyHeadquarter)
                                     {
-                                        <tr>
-                                            <td style="display:none" class="RecordType">@item.RecordType</td>
-                                            <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
-                                            <td style="display: none ">@item.CompanyHeadquarterId</td>
-                                            <td class="disableTd">@item.Name</td>
-                                            <td class="disableTd"> @item.Address</td>
-                                            <td class="disableTd"> @item.PhoneNumber</td>
-                                            <td class="disableBtn text-nowrap">
-                                                <i id="edit-@item.CompanyHeadquarterId" class="btnEdit fa fa-pencil text-inverse m-r-10"></i>
-                                                <i id="delete-@item.CompanyHeadquarterId" class="btnDelete fa fa-close text-danger"></i>
-                                            </td>
-                                            <td style="display:none">@item.CompanyId</td>
-                                        </tr>
+                                    <tr>
+                                        <td style="display:none" class="RecordType">@item.RecordType</td>
+                                        <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
+                                        <td style="display: none ">@item.CompanyHeadquarterId</td>
+                                        <td class="disableTd">@item.Name</td>
+                                        <td class="disableTd"> @item.Address</td>
+                                        <td class="disableTd"> @item.PhoneNumber</td>
+                                        <td class="disableBtn text-nowrap">
+                                            <i id="edit-@item.CompanyHeadquarterId" class="btnEdit fa fa-pencil text-inverse m-r-10"></i>
+                                            <i id="delete-@item.CompanyHeadquarterId" class="btnDelete fa fa-close text-danger"></i>
+                                        </td>
+                                        <td style="display:none">@item.CompanyId</td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -175,9 +171,8 @@
                 <div class="row">
                     <div class="col-md-6 col-12 mb-1">
                         <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">@(companyId == 0 ? "Crear Empresa" : "Modificar Empresa")</button>
-                    </div>              
+                    </div>
                 </div>
-                
             </div>
         </div>
     </div>
@@ -221,7 +216,7 @@
 
         function SearchCompany(ruc) {
             APIController.GetCompanyByRuc(ruc).then((res) => {
-                
+
                 $('#txtCompanyId').val(res.Data.CompanyId);
                 $('#txtCompanyName').val(res.Data.Name);
                 $('#txtDistrict').val(res.Data.District);
@@ -268,8 +263,8 @@
 
         function InfoSunat(ruc) {
             APIController.GetInfoSunat(ruc).then((res) => {
-                
-                swal("Búsqueda correcta");                               
+
+                swal("Búsqueda correcta");
                 $('#txtCompanyName').val(res.Data.RazonSocial);
                 $('#txtDistrict').val(res.Data.Distrito);
                 $('#txtAddress').val(res.Data.TipoVia + ' ' + res.Data.CodigoZona + ' N°' + res.Data.Numero + ' ' + res.Data.NombreVia + ' ' + res.Data.TipoZona,);
@@ -293,12 +288,11 @@
             });
         }
 
-
         $(".disableBtn").removeAttr("tabindex");
         $(".disableTd").removeAttr("tabindex");
 
         $("#btnNewHeadquarter").click(function (e) {
-            
+
             let idTemp = Math.random().toString(36).substring(7);
             var content = "";
             content += "<tr>";
@@ -463,22 +457,22 @@
                     cancelButtonText: "No",
                     showLoaderOnConfirm: true
                 }, function () {
-                APIController.SaveCompany(data).then((res) => {                              
+                APIController.SaveCompany(data).then((res) => {
                     if (res.IsSuccess == false) {
                         swal("Error", "¡Ocurrió un error en la operación!", "error");
                     } else {
                         askWhatToDo(title,res.Data.IdentificationNumber);
                     }
-                        
+
                     });
                 });
             }).catch((err) => {
-                APIController.SaveCompany(data).then((res) => {                    
+                APIController.SaveCompany(data).then((res) => {
                      askWhatToDo(title,res.Data.IdentificationNumber);
                 });
             });
         } else {
-            APIController.SaveCompany(data).then((res) => { 
+            APIController.SaveCompany(data).then((res) => {
                 console.log("SSSSs", res);
                 if (res.IsSuccess == false) {
                     swal("Error", "¡Ocurrió un error en la operación!", "error");
@@ -503,17 +497,16 @@
                 function (isConfirm) {
                     if (isConfirm) {
                         window.location.href = "/Company/Index/";
-                    } else {                        
+                    } else {
                         var url = '@Url.Action("Register", "Quotation", new { id = "js-id", ruc = "js-ruc" })'
                             .replace("js-id", encodeURIComponent(0))
                         .replace("js-ruc", encodeURIComponent(ruc));
 
                         location.href = url;
-                        
+
                     }
                 });
     }
-
     </script>
 
     <!-- ============================================================== -->
@@ -521,6 +514,3 @@
     <!-- ============================================================== -->
     <script src="~/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 }
-
-
-

@@ -19,36 +19,36 @@
 <p>
     @using (@Html.BeginForm("Index", "Email", FormMethod.Post, new { @id = "form1", @enctype = "multipart/form-data" }))
     {
-        @Html.ValidationSummary()
-        <input type="submit" value="Send" />
+    @Html.ValidationSummary()
+    <input type="submit" value="Send" />
 
-        @Html.HiddenFor(m => m.quotationStatusId)
-        @Html.HiddenFor(m => m.quotationId)
+    @Html.HiddenFor(m => m.quotationStatusId)
+    @Html.HiddenFor(m => m.quotationId)
 
-        <table>
-            <tbody>
-                <tr>
-                    <td>To:</td>
-                    <td>@Html.TextBoxFor(m => m.to)</td>
-                </tr>
-                <tr>
-                    <td>CC:</td>
-                    <td>@Html.TextBoxFor(m => m.cc)</td>
-                </tr>
-                <tr>
-                    <td>Subject:</td>
-                    <td>@Html.TextBoxFor(m => m.subject)</td>
-                </tr>
-                <tr>
-                    <td>Attachment</td>
-                    <td><input name="fileUploader" type="file" /></td>
-                </tr>
-                <tr>
-                    <td>Body:</td>
-                    <td>@Html.TextAreaFor(m => m.body)</td>
-                </tr>
-            </tbody>
-        </table>
+    <table>
+        <tbody>
+            <tr>
+                <td>To:</td>
+                <td>@Html.TextBoxFor(m => m.to)</td>
+            </tr>
+            <tr>
+                <td>CC:</td>
+                <td>@Html.TextBoxFor(m => m.cc)</td>
+            </tr>
+            <tr>
+                <td>Subject:</td>
+                <td>@Html.TextBoxFor(m => m.subject)</td>
+            </tr>
+            <tr>
+                <td>Attachment</td>
+                <td><input name="fileUploader" type="file" /></td>
+            </tr>
+            <tr>
+                <td>Body:</td>
+                <td>@Html.TextAreaFor(m => m.body)</td>
+            </tr>
+        </tbody>
+    </table>
 
     }
 </p>

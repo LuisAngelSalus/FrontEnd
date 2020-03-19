@@ -9,20 +9,18 @@
             text-align: center;
         }
 
-        #meter
-        {
-            border:1px solid maroon;
-            width:300px;
-            height:15px;
-            margin:5px auto;
+        #meter {
+            border: 1px solid maroon;
+            width: 300px;
+            height: 15px;
+            margin: 5px auto;
             border-radius: 5px;
         }
-        #result
-        {
+
+        #result {
             font-size: larger;
             font-weight: bold;
-            margin-left:120px;
-            
+            margin-left: 120px;
         }
     </style>
 }
@@ -96,16 +94,13 @@
                     <label for="inputPassword2">Repita Contraseña</label>
                     <input type="password" id="inputPassword2" name="inputPassword2" class="form-control" value="" required />
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button onsubmit="" onclick="SaveUser(event)" type="button" class="btn btn-warning">Grabar</button>
             </div>
         </div>
-
     </div>
 </div>
-
 
 @section scripts{
     <script src="~/Scripts/APIController.js"></script>
@@ -113,7 +108,7 @@
 
         $(document).ready(function () {
             $("#meter").progressbar();
-            
+
             $("#inputPassword1").keyup(function(){
                 checkPassword($("#inputPassword1").val());
 		    });
@@ -121,7 +116,7 @@
                 renderTable(res.Data);
                 initDataTable();
             });
-        });       
+        });
 
         function renderTable(data) {
             let content = "";
@@ -135,11 +130,11 @@
                 content += "</tr>";
             }
 
-            $('#table-systemusers tbody').append(content);            
+            $('#table-systemusers tbody').append(content);
         }
 
         function initDataTable() {
-            $('#table-systemusers').dataTable({                
+            $('#table-systemusers').dataTable({
                 "columns": [{'width':'85%'},{'width':'5%',"className":"dt-center"},{'width':'5%',"className":"dt-center"},{'width':'5%',"className":"dt-center"}],
                 dom: 'lfrtip',
                 "language": {
@@ -171,10 +166,10 @@
 
         function Filter() {
             $('#table-systemusers tbody').empty();
-            APIController.GetAllSystemUser().then((res) => {                 
+            APIController.GetAllSystemUser().then((res) => {
                  let content = "";
                 let data = res.Data;
-                
+
                 for (var i = 0; i < data.length; i++) {
 
                     content += "<tr>";
@@ -193,7 +188,7 @@
             location.href = url;
         }
 
-        function openModalUser(idUser, idPerson) {    
+        function openModalUser(idUser, idPerson) {
             clearModal();
             if (idUser != 0) {
                 $("#hiddenSystemUserId").val(idUser);
@@ -203,8 +198,8 @@
                 APIController.GetUser(idUser).then((res) => {
                     let dataUser = res.Data;
                     APIController.GetPerson(res.Data.PersonId).then((res) => {
-                        
-                        let dataPerson = res.Data;                            
+
+                        let dataPerson = res.Data;
                         $("#inputFirstName").val(dataPerson.FirstName);
                         $("#inputFirstLastName").val(dataPerson.FirstLastName);
                         $("#inputSecondtLastName").val(dataPerson.SecondLastName);
@@ -233,7 +228,7 @@
         }
 
         function ValidateEqualPasswords() {
-             
+
             let p1 = $("#inputPassword1").val();
             let p2 = $("#inputPassword2").val();
             if (p1 !== p2) {
@@ -261,13 +256,13 @@
                         "SecondLastName": $("#inputSecondtLastName").val(),
                     }
                     APIController.SavePerson(params).then((res) => {
-                       
+
                         let datauser = res.Data;
                         let params = {
                             "PersonId": datauser.PersonId,
                             "UserName": $("#inputUserName").val(),
                             "Password": $("#inputPassword1").val(),
-                            "Email": $("#inputEmail").val()                            
+                            "Email": $("#inputEmail").val()
                         }
                         APIController.SaveUser(params).then((res) => {
                             $("#ModalUser").modal("hide");
@@ -276,7 +271,7 @@
                     });
 
                 } else if (idUser > 0) {
-                        
+
                     let params = {
                         "PersonId": idPerson,
                         "FirstName": $("#inputFirstName").val(),
@@ -285,23 +280,23 @@
                     }
 
                     APIController.UpdatePerson(params).then((res) => {
-                        
+
                         let params = {
                             "SystemUserId": idUser,
                             "UserName": $("#inputUserName").val(),
                             "Password": $("#inputPassword1").val(),
-                            "Email": $("#inputEmail").val()                            
+                            "Email": $("#inputEmail").val()
                         }
-                        APIController.UpdateUser(params).then((res) => {                            
+                        APIController.UpdateUser(params).then((res) => {
                             $("#ModalUser").modal("hide");
                             Filter();
                         });
                     });
-                }                
+                }
             }
         }
 
-        function ValidateModalUSer(event) {           
+        function ValidateModalUSer(event) {
 
             //I)eliminar la clase error
             clearErrors();
@@ -314,13 +309,13 @@
 
             var validatePassword1 = validateInputUser("inputPassword1", "Password requerido");
             var validatePassword2 = validateInputUser("inputPassword2", "Confirmación de password requerido");
-            
+
             //II)Retornar resultado de validación
-            if (validateFirstName && validateFirtsLastName && validateSecondLastName && validateUsernName && validatePassword1 && validatePassword2) {       
+            if (validateFirstName && validateFirtsLastName && validateSecondLastName && validateUsernName && validatePassword1 && validatePassword2) {
                 return true;
-            } else {   
+            } else {
                 return false;
-            }    
+            }
         }
 
         function clearErrors() {
@@ -328,23 +323,23 @@
             $("#inputFirstLastName").removeClass('error');
             $("#inputSecondtLastName").removeClass('error');
             $("#inputEmail").removeClass('error');
-            $("#inputUserName").removeClass('error');   
-            $("#inputPassword1").removeClass('error');   
-            $("#inputPassword2").removeClass('error');   
+            $("#inputUserName").removeClass('error');
+            $("#inputPassword1").removeClass('error');
+            $("#inputPassword2").removeClass('error');
         }
 
         function validateInputUser(id, message) {
-            let element = document.getElementById(id);    
-            if (!element.checkValidity()) {                         
+            let element = document.getElementById(id);
+            if (!element.checkValidity()) {
                 newAlert(element, "VALIDACIÓN", message);
                 InputError(element);
             return false;
             }
-            return true;     
+            return true;
         }
 
         function enviarCorreo() {
-        
+
         }
     </script>
 

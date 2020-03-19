@@ -14,7 +14,6 @@ const ROLE_ADMNISTRADOR = 6;
 const ROLE_CLIENTE = 7;
 const ROLE_TRABAJADOR = 8;
 
-
 function validateInputNumber(evt) {
     var theEvent = evt || window.event;
 
@@ -33,12 +32,12 @@ function validateInputNumber(evt) {
     }
 }
 
-function newAlert(elem, title, message) {    
+function newAlert(elem, title, message) {
     var id = $(elem).attr('id');
-    
+
     let content = "";
-    content += "<div id='vali-" + id+"' class='alert alert-warning alert-dismissible fade show alertCustom' role='alert'>";
-    content += "<strong>" + title + "</strong> <span>" + message +"</span> ";
+    content += "<div id='vali-" + id + "' class='alert alert-warning alert-dismissible fade show alertCustom' role='alert'>";
+    content += "<strong>" + title + "</strong> <span>" + message + "</span> ";
     content += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
     content += "<span aria-hidden='true'>&times;</span>";
     content += "</button>";
@@ -47,7 +46,7 @@ function newAlert(elem, title, message) {
     $('.content-alert').append(content);
 
     $("#vali-" + id).delay(2000).slideUp(200, function () {
-        $(this).alert('close'); 
+        $(this).alert('close');
     });
 }
 
@@ -69,12 +68,12 @@ function newAlertCustom(elem, title, message) {
     });
 }
 
-function InputError(elem) {    
+function InputError(elem) {
     $(elem).addClass('error');
 }
 
-function isNumberKey(evt) {    
-    var charCode = (evt.which) ? evt.which : evt.keyCode;    
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
     if (charCode != 46 && charCode > 31
         && (charCode < 48 || charCode > 57))
         return false;
@@ -88,51 +87,49 @@ function baseUrl() {
 }
 
 function checkPassword(password) {
-    
-	var strength = 0;
-	if (password.length >= 5) {
-		strength++;
+    var strength = 0;
+    if (password.length >= 5) {
+        strength++;
 
-		if (password.match(/([a-z])/) && password.match(/([A-Z])/)) {
-			strength++;
-		}
-		if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) {
-			strength++;
-		}
-		if (password.match(/([!, @, #, $, %, ^, &, *, _, ~, ?])/)) {
-			strength++;
-		}
-		if (password.match(/(.*[!, @, #, $, %, ^, &, *, _, ~, ?].*[!, @, #, $, %, ^, &, *, _, ~, ?])/)) {
-			strength++;
-		}
-
-	}
+        if (password.match(/([a-z])/) && password.match(/([A-Z])/)) {
+            strength++;
+        }
+        if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) {
+            strength++;
+        }
+        if (password.match(/([!, @, #, $, %, ^, &, *, _, ~, ?])/)) {
+            strength++;
+        }
+        if (password.match(/(.*[!, @, #, $, %, ^, &, *, _, ~, ?].*[!, @, #, $, %, ^, &, *, _, ~, ?])/)) {
+            strength++;
+        }
+    }
 
     if (strength == 0) {
-		$("#meter").progressbar({ value: 20 });
-		$(".ui-progressbar-value").css("background", "red");
-		$("#result").html("Demasiado corta").css("color", "red");
-	}
+        $("#meter").progressbar({ value: 20 });
+        $(".ui-progressbar-value").css("background", "red");
+        $("#result").html("Demasiado corta").css("color", "red");
+    }
     else if (strength < 3) {
-		$("#meter").progressbar({ value: 40 });
-		$(".ui-progressbar-value").css("background", "orange");
-		$("#result").html("Débil").css("color", "orange");
-	}
+        $("#meter").progressbar({ value: 40 });
+        $(".ui-progressbar-value").css("background", "orange");
+        $("#result").html("Débil").css("color", "orange");
+    }
     else if (strength == 3) {
-		$("#meter").progressbar({ value: 70 });
-		$(".ui-progressbar-value").css("background", "blue");
-		$("#result").html("Buena").css("color", "blue");
-	}
+        $("#meter").progressbar({ value: 70 });
+        $(".ui-progressbar-value").css("background", "blue");
+        $("#result").html("Buena").css("color", "blue");
+    }
     else {
-		$("#meter").progressbar({ value: 100 });
-		$(".ui-progressbar-value").css("background", "green");
-		$("#result").html("Segura").css("color", "green");
-	}
-	if (password.length == 0) {
-		$("#meter").progressbar({ value: 0 });
-		$(".ui-progressbar-value").css("background", "white");
-		$("#result").html("");
-	}
+        $("#meter").progressbar({ value: 100 });
+        $(".ui-progressbar-value").css("background", "green");
+        $("#result").html("Segura").css("color", "green");
+    }
+    if (password.length == 0) {
+        $("#meter").progressbar({ value: 0 });
+        $(".ui-progressbar-value").css("background", "white");
+        $("#result").html("");
+    }
 }
 
 function getFirstAndLastDayOfMonth() {
@@ -147,7 +144,7 @@ function getFirstAndLastDayOfMonth() {
     }
 }
 
-function MessageTable(response,nroColumns,className) {
+function MessageTable(response, nroColumns, className) {
     return `<tr class='${className}'><td colspan='${nroColumns}'><p> ${response.Message} </p></td></tr>`;
 }
 
@@ -165,17 +162,17 @@ function formatDateForCalendar(dateString) {
     return moment(dateString).format("DD/MM/YYYY");
 }
 
-function browserSupportsNotifications(){
+function browserSupportsNotifications() {
     if (!window.Notification) {
         return false;
         alert("No soporta notificaciones");
-    } else {        
-        return true;   
+    } else {
+        return true;
     }
 }
 
 function requestPermission() {
-    if (window.Notification.permission === "granted") {        
+    if (window.Notification.permission === "granted") {
         new Notification("Hola Mundo -granted");
     } else if (
         Notification.permission !== "denied" ||
