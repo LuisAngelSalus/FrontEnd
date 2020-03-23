@@ -1231,6 +1231,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\common.css" />
     <Content Include="Content\custom.css" />
+    <Content Include="Content\demo.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\ui-bg_flat_0_888888_40x100.png" />
@@ -1248,9 +1249,11 @@
     <Content Include="Content\images\ui-icons_bf3030_256x240.png" />
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\Jquery-ui.css" />
+    <Content Include="Content\myTheme.css" />
     <Content Include="Content\Quotation.css" />
     <Content Include="Content\tagsinput.css" />
     <Content Include="images\certificado_registro.png" />
+    <Content Include="Scripts\jquery.fixedheadertable.min.js" />
     <Content Include="Scripts\tagsinput.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />

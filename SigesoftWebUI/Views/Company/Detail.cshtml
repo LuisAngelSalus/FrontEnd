@@ -215,9 +215,22 @@
             if ($('#txtIdentificationNumber').val().length < 11) {
                 swal("RUC debe tener 11 digitos");
             } else {
-                SearchCompany(ruc);
+                ValidateUserCompany(ruc);           
             }
-        });
+        }); 
+
+        function ValidateUserCompany(ruc) {
+            //let param = { "ruc": ruc };
+            //console.log("param", param);
+            APIController.ValidateUserCompany(ruc).then(res => {
+                if (res) {
+                    SearchCompany(ruc);
+                } else {
+                    swal("Esta empresa le pertenece a otra persona");                               
+                }
+            });
+        }
+
 
         function SearchCompany(ruc) {
             APIController.GetCompanyByRuc(ruc).then((res) => {
@@ -293,8 +306,8 @@
             });
         }
 
-
         $(".disableBtn").removeAttr("tabindex");
+
         $(".disableTd").removeAttr("tabindex");
 
         $("#btnNewHeadquarter").click(function (e) {
@@ -478,8 +491,7 @@
                 });
             });
         } else {
-            APIController.SaveCompany(data).then((res) => { 
-                console.log("SSSSs", res);
+            APIController.SaveCompany(data).then((res) => {                 
                 if (res.IsSuccess == false) {
                     swal("Error", "¡Ocurrió un error en la operación!", "error");
                 }

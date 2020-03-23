@@ -100,5 +100,19 @@ namespace SigesoftWebUI.Controllers
 
             return Json(Response);
         }
+
+        public JsonResult Schedule(List<ScheduleDto> scheduleDto)
+        {
+            #region TOKEN
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            LoginDto oLoginDto = new LoginDto();
+            oLoginDto.v_UserName = sessione.UserName;
+            oLoginDto.v_Password = sessione.Pass;
+            var validated = _securityBL.ValidateAccess(oLoginDto);
+            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            #endregion
+            var result = _scheduleBL.Schedule(scheduleDto, validated.Token);
+            return Json("OK");
+        }
     }
 }

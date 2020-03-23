@@ -855,6 +855,33 @@
         });
     }
 
+    var validateUserCompany = function (ruc) {
+        return new Promise((resolve, reject) => {
+            fetch('/Company/ValidateUserCompany?ruc=' + ruc, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var schedule = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Schedule/Schedule', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -1219,6 +1246,18 @@
                 getAdditionalComponents(parameters).then(res => resolve(res));
             });
         },
+
+        ValidateUserCompany: function (parameters) {
+            return new Promise((resolve, reject) => {
+                validateUserCompany(parameters).then(res => resolve(res));
+            });
+        },
+
+        Schedule: function (parameters) {
+            return new Promise((resolve, reject) => {
+                schedule(parameters).then(res => resolve(res));
+            });
+        }
     }
 
 })();

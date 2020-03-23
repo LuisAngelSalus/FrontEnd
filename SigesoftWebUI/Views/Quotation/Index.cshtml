@@ -533,14 +533,14 @@
         function AddTracking(id) {
             var QuotationStatusId = $("#txthiddenStatusQuotationId").val();
 
-            if (QuotationStatusId == "2") {                
-                var route = '/Email/Index/' + id;
-                window.location.href = route;
-            } else {
+            //if (QuotationStatusId == "2") {                
+            //    var route = '/Email/Index/' + id;
+            //    window.location.href = route;
+            //} else {
                 ClearPoupTracking();
                 $("#TrackingModal").modal("show");
                 $("#txthiddenQuotation").val(id);
-            }
+            //}
 
 
         }
