@@ -350,6 +350,7 @@
     <Content Include="assets\images\SLEmpresarial.png" />
     <Content Include="assets\images\SLSigesoft.png" />
     <Content Include="assets\images\Star.png" />
+    <Content Include="assets\images\thumbnail\descarga.png" />
     <Content Include="assets\images\Tracking.png" />
     <Content Include="assets\images\users\1.jpg" />
     <Content Include="assets\images\users\1_.jpg" />
@@ -628,6 +629,18 @@
     <Content Include="assets\plugins\dropify\src\images\test-image-1.jpg" />
     <Content Include="assets\plugins\dropify\src\images\test-image-2.jpg" />
     <Content Include="assets\plugins\dropify\src\js\dropify.js" />
+    <Content Include="assets\plugins\dropzone-master\.gitignore" />
+    <Content Include="assets\plugins\dropzone-master\dist\basic.css" />
+    <Content Include="assets\plugins\dropzone-master\dist\dropzone-amd-module.js" />
+    <Content Include="assets\plugins\dropzone-master\dist\dropzone.css" />
+    <Content Include="assets\plugins\dropzone-master\dist\dropzone.js" />
+    <Content Include="assets\plugins\dropzone-master\dist\min\basic.min.css" />
+    <Content Include="assets\plugins\dropzone-master\dist\min\dropzone-amd-module.min.js" />
+    <Content Include="assets\plugins\dropzone-master\dist\min\dropzone.min.css" />
+    <Content Include="assets\plugins\dropzone-master\dist\min\dropzone.min.js" />
+    <Content Include="assets\plugins\dropzone-master\index.js" />
+    <Content Include="assets\plugins\dropzone-master\test\test.html" />
+    <Content Include="assets\plugins\dropzone-master\test\test.js" />
     <Content Include="assets\plugins\Highcharts\highcharts.js" />
     <Content Include="assets\plugins\Highcharts\modules\export-data.js" />
     <Content Include="assets\plugins\Highcharts\modules\exporting.js" />
@@ -1225,6 +1238,7 @@
     <Content Include="assets\scss\icons\weather-icons\less\css\variables-night.css" />
     <Content Include="assets\scss\icons\weather-icons\less\css\variables-time.css" />
     <Content Include="assets\scss\icons\weather-icons\less\css\variables-wind-names.css" />
+    <Content Include="assets\images\thumbnail\pdf.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1693,6 +1707,25 @@
     <Content Include="assets\plugins\Highcharts\modules\export-data.js.map" />
     <Content Include="assets\plugins\Highcharts\modules\exporting.js.map" />
     <Content Include="assets\plugins\Highcharts\modules\series-label.js.map" />
+    <Content Include="assets\plugins\dropzone-master\.tagconfig" />
+    <Content Include="assets\plugins\dropzone-master\.travis.yml" />
+    <Content Include="assets\plugins\dropzone-master\AMD_footer" />
+    <Content Include="assets\plugins\dropzone-master\AMD_header" />
+    <Content Include="assets\plugins\dropzone-master\bower.json" />
+    <Content Include="assets\plugins\dropzone-master\component.json" />
+    <Content Include="assets\plugins\dropzone-master\composer.json" />
+    <Content Include="assets\plugins\dropzone-master\CONTRIBUTING.md" />
+    <Content Include="assets\plugins\dropzone-master\dist\readme.md" />
+    <Content Include="assets\plugins\dropzone-master\Gruntfile.coffee" />
+    <Content Include="assets\plugins\dropzone-master\LICENSE" />
+    <Content Include="assets\plugins\dropzone-master\package.json" />
+    <Content Include="assets\plugins\dropzone-master\README.md" />
+    <Content Include="assets\plugins\dropzone-master\src\basic.scss" />
+    <Content Include="assets\plugins\dropzone-master\src\dropzone.coffee" />
+    <Content Include="assets\plugins\dropzone-master\src\dropzone.scss" />
+    <Content Include="assets\plugins\dropzone-master\test.sh" />
+    <Content Include="assets\plugins\dropzone-master\test\test.coffee" />
+    <Content Include="Documents\archivo1.pdf" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\APIController.js" />
@@ -1766,7 +1799,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Documents\" />
     <Folder Include="Log\" />
     <Folder Include="Views\AccountSetting\" />
     <Folder Include="Views\ClientUser\" />

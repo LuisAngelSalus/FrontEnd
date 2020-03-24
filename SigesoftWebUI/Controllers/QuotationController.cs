@@ -362,5 +362,28 @@ namespace SigesoftWebUI.Controllers
             var response = _quotationBL.MigrateProtocolToSIGESoftWin(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult getAttachForQuotation()
+        {            
+            string pdf1 = Server.MapPath(@"~\Documents\archivo1.pdf") ;
+            string pdf2 = Server.MapPath(@"~\Template\PLANTILLA_PROPUESTA_COMERCIAL.pdf");
+
+            long lengthPdf1 = new FileInfo(pdf1).Length;
+            long lengthPdf2 = new FileInfo(pdf2).Length;
+
+            var list = new List<AttachDto>();
+            var AttachDto1 = new AttachDto();
+            AttachDto1.Name = "archivo1";
+            AttachDto1.Size = lengthPdf1;
+            list.Add(AttachDto1);
+
+
+            var AttachDto2 = new AttachDto();
+            AttachDto2.Name = "archivo2";
+            AttachDto2.Size = lengthPdf2;
+            list.Add(AttachDto2);
+
+            return Json(list, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
     }
 }

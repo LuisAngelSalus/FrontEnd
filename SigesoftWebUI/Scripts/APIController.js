@@ -906,6 +906,18 @@
         });
     }
 
+    var getAttachForQuotation = function () {
+        return new Promise((resolve, reject) => {
+            fetch('/Quotation/getAttachForQuotation', {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -1281,7 +1293,12 @@
             return new Promise((resolve, reject) => {
                 schedule(parameters).then(res => resolve(res));
             });
-        }
+        },
+        GetAttachForQuotation: function () {
+            return new Promise((resolve, reject) => {
+                getAttachForQuotation().then(res => resolve(res));
+            });
+        },
     }
 
 })();

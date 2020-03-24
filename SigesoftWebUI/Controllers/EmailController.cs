@@ -201,11 +201,12 @@ namespace SigesoftWebUI.Controllers
                 mail.From = new MailAddress(Options.Email, Options.Name, Encoding.UTF8);
                 mail.To.Add(data.to);
                 mail.Subject = data.subject;
-                mail.Body = data.body;
-                System.Net.Mail.Attachment attachmentA;
-                System.Net.Mail.Attachment attachmentB;
-                attachmentA = new System.Net.Mail.Attachment(filePath);
-                attachmentB = new System.Net.Mail.Attachment(pdfPathDocument);
+                mail.Body = "<html><body>" +data.body + "</html></body>";
+                mail.IsBodyHtml = true;
+                Attachment attachmentA;
+                Attachment attachmentB;
+                attachmentA = new Attachment(filePath);
+                attachmentB = new Attachment(pdfPathDocument);
                 mail.Attachments.Add(attachmentA);
                 mail.Attachments.Add(attachmentB);
 
