@@ -1693,7 +1693,6 @@
     <Content Include="assets\plugins\Highcharts\modules\export-data.js.map" />
     <Content Include="assets\plugins\Highcharts\modules\exporting.js.map" />
     <Content Include="assets\plugins\Highcharts\modules\series-label.js.map" />
-    <Content Include="File\PLANTILLA_PROPUESTA_COMERCIAL.docx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\APIController.js" />
@@ -1753,7 +1752,6 @@
     <Content Include="Views\IngresoSistema\Login.cshtml" />
     <Content Include="Views\IngresoSistema\UserUnknown.cshtml" />
     <Content Include="Views\Quotation\ExportToPDF.cshtml" />
-    <Content Include="Template\PLANTILLA_PROPUESTA_COMERCIAL.docx" />
     <Content Include="Views\Shared\_DashboardCommercialPartial.cshtml" />
     <Content Include="Views\Shared\_DashboardEmptyPartial.cshtml" />
     <Content Include="Views\Shared\_DashboardSistemasPartial.cshtml" />
@@ -1764,10 +1762,11 @@
     <Content Include="Views\Email\Index.cshtml" />
     <Content Include="Views\Customer\CompanyData.cshtml" />
     <Content Include="Views\Schedule\Register.cshtml" />
+    <Content Include="Template\PLANTILLA_PROPUESTA_COMERCIAL.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Document\" />
+    <Folder Include="Documents\" />
     <Folder Include="Log\" />
     <Folder Include="Views\AccountSetting\" />
     <Folder Include="Views\ClientUser\" />

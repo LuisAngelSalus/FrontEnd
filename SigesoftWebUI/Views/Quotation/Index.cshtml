@@ -533,7 +533,7 @@
         function AddTracking(id) {
             var QuotationStatusId = $("#txthiddenStatusQuotationId").val();
 
-            //if (QuotationStatusId == "2") {                
+            //if (QuotationStatusId == "2") {
             //    var route = '/Email/Index/' + id;
             //    window.location.href = route;
             //} else {
@@ -566,7 +566,7 @@
                         APIController.GetQuotation(quotationId).then((resp) => {
                             let data = resp.Data;
                             let email = data.Email;
-                            SendMail(email, "IMPORTANTE", message);
+                            SendMail(email, "IMPORTANTE", message,quotationId);
                             APISaveQuoteTrackingAndUpdateStatusQuotationId();
                         MigrateQuotationToProtocol($("#txthiddenQuotation").val());
                         });
@@ -603,7 +603,7 @@
                     closeOnCancel: false
                 },
                     function (isConfirm) {
-                        if (isConfirm) {                                     
+                        if (isConfirm) {
                             MigrarProtocolSIGESftWin(idQuotation);
                         } else {
                             swal("Cancelad", "Se canceló la migración", "error");
@@ -833,12 +833,13 @@
         });
         }
 
-       function SendMail(email,subject, message) {
+       function SendMail(email,subject, message,quotationId) {
             APIController.SendMail(
                 {
                     "to": email,
                     "subject": subject,
-                    "body": message
+                    "body": message,
+                    "quotationId":quotationId,
                 }).then((res) => {
                     swal("Ok", "Correo enviado con éxito", "success");
                 })

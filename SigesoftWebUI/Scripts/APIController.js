@@ -95,18 +95,42 @@
         });
     }
 
-    var infoSunat = function (ruc) {
-        return new Promise((resolve, reject) => {
-            let url = '/InfoSunat/Info?ruc=' + ruc
-            fetch(url, {
-                headers: { 'Content-Type': 'application/json' }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    return resolve(data);
-                }).catch(err => { console.log(err); reject() });
+    //var infoSunat = function (ruc) {
+    //    return new Promise((resolve, reject) => {
+    //        let url = '/InfoSunat/Info?ruc=' + ruc
+    //        fetch(url, {
+    //            headers: { 'Content-Type': 'application/json' }
+    //        })
+    //            .then(res => res.json())
+    //            .then(data => {
+    //                return resolve(data);
+    //            }).catch(err => { console.log(err); reject() });
 
+    //    });
+
+
+
+    //}
+
+    var infoSunat = function (parameter) {
+
+        var data = {
+            ruc: parameter
+        };
+
+        var infoSunatAjax = $.ajax({
+            url: "/InfoSunat/Info",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(data),
+            error: function (rqh, status, error) {
+                console.log(rqh);
+            }
+        }).done(function (result) {
+            console.log(result);
         });
+        return infoSunatAjax;
     }
 
     var CompanyByRuc = function (ruc) {
@@ -709,7 +733,7 @@
 
     var getWorkerData = function () {
         return new Promise((resolve, reject) => {
-            fetch('/Worker/GetDataWorker' , {
+            fetch('/Worker/GetDataWorker', {
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
@@ -717,7 +741,7 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
-    }   
+    }
 
     var updateWorkerData = function (parameters) {
         return new Promise((resolve, reject) => {
@@ -743,7 +767,7 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
-    }   
+    }
 
     var saveClientUser = function (parameters) {
         return new Promise((resolve, reject) => {
@@ -1183,9 +1207,9 @@
 
         UpdateWorkerData: function (parameters) {
             return new Promise((resolve, reject) => {
-                updateWorkerData (parameters).then(res => resolve(res));
+                updateWorkerData(parameters).then(res => resolve(res));
             });
-        }  ,      
+        },
 
         SendMail: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -1229,7 +1253,7 @@
             });
         },
 
-        UploadExcelSchedule: function(parameters) {
+        UploadExcelSchedule: function (parameters) {
             return new Promise((resolve, reject) => {
                 uploadExcelSchedule(parameters).then(res => resolve(res));
             });
