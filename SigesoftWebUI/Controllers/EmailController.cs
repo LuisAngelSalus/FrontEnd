@@ -1,6 +1,10 @@
 ﻿using BE;
 using BL;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using SigesoftWebUI.Controllers.Base;
+using SigesoftWebUI.Repositories;
+using SigesoftWebUI.Utils.PDF;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +21,8 @@ namespace SigesoftWebUI.Controllers
     public class EmailController : GenericController
     {
         EmailBL _emailBL = new EmailBL();
+        private readonly QuotationRepository quotationRepository = new QuotationRepository();
+        Generator generator = new Generator();
         private SmtpClient Cliente { get; }
         private EmailSenderOptions Options { get; }
         QuotationBL _quotationBL = new QuotationBL();
@@ -116,8 +122,8 @@ namespace SigesoftWebUI.Controllers
                         StatusQuotationId = Convert.ToInt32(StateQuotation.Aceptada)
                     };
 
-                    var responseA= _quotationBL.Save(dataQuotation, validated.Token);
-                    var responseB= _quotationBL.MigrateQuotationToProtocols(dataQuotationMigrate, validated.Token);
+                    var responseA = _quotationBL.Save(dataQuotation, validated.Token);
+                    var responseB = _quotationBL.MigrateQuotationToProtocols(dataQuotationMigrate, validated.Token);
                     var responseC = _quotationBL.Update(dataQuotationUpdate, validated.Token);
 
                     return RedirectToAction("Index", "Quotation");
@@ -137,17 +143,71 @@ namespace SigesoftWebUI.Controllers
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient(Options.Host);
 
-                string path = Path.Combine(HttpRuntime.AppDomainAppPath, "File");
-                string fileName = "PLANTILLA_PROPUESTA_COMERCIAL.docx";
+                string path = Path.Combine(HttpRuntime.AppDomainAppPath, "Template");
+                string fileName = "PLANTILLA_PROPUESTA_COMERCIAL.pdf";
                 string filePath = Path.Combine(path, fileName);
+
+
+
+
+                var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+                var quotation = quotationRepository.GetQuotation(data.quotationId, SessionUsuario);
+
+                DateTime fileCreationDatetime = DateTime.Now;
+                string fileNameDocument = string.Format("{0}_{1}.pdf", quotation.Data.Code, fileCreationDatetime.ToString(@"yyyyMMdd") + "_" + fileCreationDatetime.ToString(@"HHmmss"));
+                string pdfPathDocument = Server.MapPath(@"~\Documents\") + fileNameDocument;
+
+                using (FileStream msReport = new FileStream(pdfPathDocument, FileMode.Create))
+                {
+                    //step 1
+                    using (Document pdfDoc = new Document(PageSize.A4, 40, 40, 140, 40))
+                    {
+                        try
+                        {
+                            // step 2
+                            PdfWriter pdfWriter = PdfWriter.GetInstance(pdfDoc, msReport);
+                            //pdfWriter.PageEvent = new ITextEvents();
+
+                            pdfDoc.SetPageSize(PageSize.A4.Rotate());
+                            //open the stream 
+                            pdfDoc.Open();
+                            
+
+                            var elements = generator.GetPageEight(quotation, sessione.FullName);
+                            pdfDoc.Add(elements);
+
+
+                            pdfDoc.NewPage();
+                            pdfDoc.SetPageSize(PageSize.A4.Rotate());
+
+                            pdfDoc.Close();
+
+                        }
+                        catch (Exception ex)
+                        {
+                            //handle exception
+                        }
+
+                        finally
+                        {
+
+
+                        }
+
+                    }
+
+                }
 
                 mail.From = new MailAddress(Options.Email, Options.Name, Encoding.UTF8);
                 mail.To.Add(data.to);
                 mail.Subject = data.subject;
                 mail.Body = data.body;
-                System.Net.Mail.Attachment attachment;
-                attachment = new System.Net.Mail.Attachment(filePath);
-                mail.Attachments.Add(attachment);
+                System.Net.Mail.Attachment attachmentA;
+                System.Net.Mail.Attachment attachmentB;
+                attachmentA = new System.Net.Mail.Attachment(filePath);
+                attachmentB = new System.Net.Mail.Attachment(pdfPathDocument);
+                mail.Attachments.Add(attachmentA);
+                mail.Attachments.Add(attachmentB);
 
                 SmtpServer.Port = Options.Port;
                 SmtpServer.Credentials = new System.Net.NetworkCredential(Options.Email, Options.Password);
