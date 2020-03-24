@@ -14,6 +14,9 @@ namespace SigesoftWebUI.Utils.PDF
     public class Generator
     {
         private readonly TextUtils textUtils = new TextUtils();
+
+       
+
         public PdfPTable GetPageOne(Response<QuotationDto> response)
         {
             Phrase phraseOne = new Phrase("PROPUESTA TÉCNICO" + Environment.NewLine + "ECONÓMICA N° " + response.Data.Code + Environment.NewLine + Environment.NewLine, textUtils.fontBold16Black);

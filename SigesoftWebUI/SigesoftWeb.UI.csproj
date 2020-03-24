@@ -1251,7 +1251,16 @@
     <Content Include="Content\Jquery-ui.css" />
     <Content Include="Content\Quotation.css" />
     <Content Include="Content\tagsinput.css" />
+    <Content Include="images\acreditacion.png" />
+    <Content Include="images\acreditacion_digesa.png" />
+    <Content Include="images\acreditacion_minsa.png" />
     <Content Include="images\certificado_registro.png" />
+    <Content Include="images\equipo_trabajo.png" />
+    <Content Include="images\equipo_trabajo_b.png" />
+    <Content Include="images\experiencia.png" />
+    <Content Include="images\licencia.png" />
+    <Content Include="images\licencia_a.png" />
+    <Content Include="images\presentacion_a.png" />
     <Content Include="Scripts\tagsinput.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -1838,7 +1847,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61905</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44310/</IISUrl>
+          <IISUrl>http://localhost:44310/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
