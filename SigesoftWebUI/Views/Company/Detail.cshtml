@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="~/assets/plugins/dropify/dist/css/dropify.min.css">
 
     <style type="text/css">
-        .invalid-feedback .has-error-required{
+        .invalid-feedback .has-error-required {
             display: none !important;
         }
     </style>
@@ -175,9 +175,9 @@
                 <div class="row">
                     <div class="col-md-6 col-12 mb-1">
                         <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">@(companyId == 0 ? "Crear Empresa" : "Modificar Empresa")</button>
-                    </div>              
+                    </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -215,9 +215,9 @@
             if ($('#txtIdentificationNumber').val().length < 11) {
                 swal("RUC debe tener 11 digitos");
             } else {
-                ValidateUserCompany(ruc);           
+                ValidateUserCompany(ruc);
             }
-        }); 
+        });
 
         function ValidateUserCompany(ruc) {
             //let param = { "ruc": ruc };
@@ -226,7 +226,7 @@
                 if (res) {
                     SearchCompany(ruc);
                 } else {
-                    swal("Esta empresa le pertenece a otra persona");                               
+                    swal("Esta empresa le pertenece a otra persona");
                 }
             });
         }
@@ -234,7 +234,7 @@
 
         function SearchCompany(ruc) {
             APIController.GetCompanyByRuc(ruc).then((res) => {
-                
+
                 $('#txtCompanyId').val(res.Data.CompanyId);
                 $('#txtCompanyName').val(res.Data.Name);
                 $('#txtDistrict').val(res.Data.District);
@@ -281,8 +281,8 @@
 
         function InfoSunat(ruc) {
             APIController.GetInfoSunat(ruc).then((res) => {
-                
-                swal("Búsqueda correcta");                               
+
+                swal("Búsqueda correcta");
                 $('#txtCompanyName').val(res.Data.RazonSocial);
                 $('#txtDistrict').val(res.Data.Distrito);
                 $('#txtAddress').val(res.Data.TipoVia + ' ' + res.Data.CodigoZona + ' N°' + res.Data.Numero + ' ' + res.Data.NombreVia + ' ' + res.Data.TipoZona,);
@@ -311,7 +311,7 @@
         $(".disableTd").removeAttr("tabindex");
 
         $("#btnNewHeadquarter").click(function (e) {
-            
+
             let idTemp = Math.random().toString(36).substring(7);
             var content = "";
             content += "<tr>";
@@ -429,6 +429,31 @@
             return;
         }
 
+        var formdata = new FormData(); //FormData object
+        var fileInput = document.getElementById('input-file-now');
+        //Iterating through each files selected in fileInput
+        for (i = 0; i < fileInput.files.length; i++) {
+            //Appending each file to FormData object
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+
+            //var fileUpload = $("#input-file-now").get(0);
+            //var files = fileUpload.files;
+
+            //// Create FormData object
+            //var fileData = new FormData();
+
+            //// Looping over all files and add it to FormData object
+            //for (var i = 0; i < files.length; i++) {
+            //    fileData.append(files[i].name, files[i]);
+            //}
+
+            // Adding one more key to FormData object
+            //fileData.append('username', ‘Manas’);
+
+        //console.log(fileInput.files.length);
+        //console.log(formdata);
+
         var data = {
             "CompanyId":@companyId,
             "Name": $("#txtCompanyName").val(),
@@ -476,25 +501,68 @@
                     cancelButtonText: "No",
                     showLoaderOnConfirm: true
                 }, function () {
-                APIController.SaveCompany(data).then((res) => {                              
+                APIController.SaveCompany(data).then((res) => {
                     if (res.IsSuccess == false) {
                         swal("Error", "¡Ocurrió un error en la operación!", "error");
                     } else {
+                        //APIController.SaveLogoCompany(fileData, res.Data.CompanyId);
+
+                        $.ajax({
+                            type: "GET",
+                            url: '/Company/UploadLogoCompany?id=' + res.Data.CompanyId,
+                            contentType: false,
+                            processData: false,
+                            data: formdata,
+                            success: function (result) {
+                                console.log(result);
+                            },
+                            error: function (xhr, status, p3, p4) {
+                                var err = "Error " + " " + status + " " + p3 + " " + p4;
+                                if (xhr.responseText && xhr.responseText[0] == "{")
+                                    err = JSON.parse(xhr.responseText).Message;
+                                    console.log(err);
+                            }
+                        });
+
                         askWhatToDo(title,res.Data.IdentificationNumber);
                     }
-                        
+
+                    console.log(res);
+
+
+
                     });
                 });
             }).catch((err) => {
-                APIController.SaveCompany(data).then((res) => {                    
+                APIController.SaveCompany(data).then((res) => {
                      askWhatToDo(title,res.Data.IdentificationNumber);
                 });
             });
         } else {
-            APIController.SaveCompany(data).then((res) => {                 
+            APIController.SaveCompany(data).then((res) => {
                 if (res.IsSuccess == false) {
                     swal("Error", "¡Ocurrió un error en la operación!", "error");
                 }
+                console.log(res);
+                //APIController.SaveLogoCompany(fileData, res.Data.CompanyId);
+
+                $.ajax({
+                            type: "POST",
+                            url: '/Company/UploadLogoCompany?id=' + res.Data.CompanyId,
+                            contentType: false,
+                            processData: false,
+                            data: formdata,
+                            success: function (result) {
+                            console.log(result);
+                        },
+                            error: function (xhr, status, p3, p4) {
+                                var err = "Error " + " " + status + " " + p3 + " " + p4;
+                                if (xhr.responseText && xhr.responseText[0] == "{")
+                                    err = JSON.parse(xhr.responseText).Message;
+                                    console.log(err);
+                        }
+                });
+
                  askWhatToDo(title,res.Data.IdentificationNumber);
             });
         }
@@ -515,13 +583,13 @@
                 function (isConfirm) {
                     if (isConfirm) {
                         window.location.href = "/Company/Index/";
-                    } else {                        
+                    } else {
                         var url = '@Url.Action("Register", "Quotation", new { id = "js-id", ruc = "js-ruc" })'
                             .replace("js-id", encodeURIComponent(0))
                         .replace("js-ruc", encodeURIComponent(ruc));
 
                         location.href = url;
-                        
+
                     }
                 });
     }

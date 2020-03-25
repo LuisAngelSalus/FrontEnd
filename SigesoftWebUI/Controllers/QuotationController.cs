@@ -16,9 +16,8 @@ using System.Data;
 using Newtonsoft.Json.Linq;
 
 using System.IO;
-//using iTextSharp.text;
-//using iTextSharp.text.pdf;
-using Spire.Doc;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using SigesoftWebUI.Utils;
 using SigesoftWebUI.Repositories;
 
@@ -32,6 +31,8 @@ namespace SigesoftWebUI.Controllers
         QuotationBL _quotationBL = new QuotationBL();
         CompanyBL _companyBL = new CompanyBL();
         SecurityBL _securityBL = new SecurityBL();
+
+        Generator generator = new Generator();
 
         public ActionResult Index()
         {
@@ -363,27 +364,84 @@ namespace SigesoftWebUI.Controllers
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult getAttachForQuotation()
-        {            
-            string pdf1 = Server.MapPath(@"~\Documents\archivo1.pdf") ;
+        public JsonResult getAttachForQuotation(int id)
+        {
+
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            var quotation = quotationRepository.GetQuotation(id, SessionUsuario);
+
+            DateTime fileCreationDatetime = DateTime.Now;
+            string fileNameDocument = string.Format("{0}_{1}.pdf", quotation.Data.Code, fileCreationDatetime.ToString(@"yyyyMMdd") + "_" + fileCreationDatetime.ToString(@"HHmmss"));
+            string pdfPathDocument = Server.MapPath(@"~\Documents\") + fileNameDocument;
+
+            using (FileStream msReport = new FileStream(pdfPathDocument, FileMode.Create))
+            {
+                //step 1
+                using (Document pdfDoc = new Document(PageSize.A4, 40, 40, 140, 40))
+                {
+                    try
+                    {
+                        // step 2
+                        PdfWriter pdfWriter = PdfWriter.GetInstance(pdfDoc, msReport);
+                        //pdfWriter.PageEvent = new ITextEvents();
+
+                        pdfDoc.SetPageSize(PageSize.A4.Rotate());
+                        //open the stream 
+                        pdfDoc.Open();
+
+
+                        var elements = generator.GetPageEight(quotation, sessione.FullName);
+                        pdfDoc.Add(elements);
+
+
+                        pdfDoc.NewPage();
+                        pdfDoc.SetPageSize(PageSize.A4.Rotate());
+
+                        pdfDoc.Close();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //handle exception
+                    }
+
+                    finally
+                    {
+
+
+                    }
+
+                }
+
+            }
+
+            //string pdf1 = Server.MapPath(@"~\Documents\archivo1.pdf") ;
+            ////string pdf1 = Server.MapPath(@"~\Documents\") + fileNameDocument;
             string pdf2 = Server.MapPath(@"~\Template\PLANTILLA_PROPUESTA_COMERCIAL.pdf");
 
-            long lengthPdf1 = new FileInfo(pdf1).Length;
+            long lengthPdf1 = new FileInfo(pdfPathDocument).Length;
             long lengthPdf2 = new FileInfo(pdf2).Length;
 
             var list = new List<AttachDto>();
             var AttachDto1 = new AttachDto();
-            AttachDto1.Name = "archivo1";
+            AttachDto1.Name = fileNameDocument;
             AttachDto1.Size = lengthPdf1;
             list.Add(AttachDto1);
 
 
             var AttachDto2 = new AttachDto();
-            AttachDto2.Name = "archivo2";
+            AttachDto2.Name = "PLANTILLA_PROPUESTA_COMERCIAL.pdf";
             AttachDto2.Size = lengthPdf2;
             list.Add(AttachDto2);
 
-            return Json(list, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            var _json = new SendMessage
+            {
+                attaches = list,
+                FirstNameDocument = fileNameDocument,
+                SecondNameDocument = "PLANTILLA_PROPUESTA_COMERCIAL.pdf"
+            };
+
+            return Json(_json, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
     }
 }

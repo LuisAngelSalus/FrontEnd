@@ -325,6 +325,7 @@
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\PDF\Generator.cs" />
     <Compile Include="Utils\RestClient.cs" />
+    <Compile Include="Utils\SendMessage.cs" />
     <Compile Include="Utils\TextUtils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1248,6 +1249,7 @@
     <Content Include="Content\demo.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\icons\loading.gif" />
     <Content Include="Content\images\ui-bg_flat_0_888888_40x100.png" />
     <Content Include="Content\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -1799,6 +1801,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Logos\" />
     <Folder Include="Log\" />
     <Folder Include="Views\AccountSetting\" />
     <Folder Include="Views\ClientUser\" />
