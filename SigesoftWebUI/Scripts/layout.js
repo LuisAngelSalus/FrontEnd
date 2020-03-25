@@ -1,6 +1,6 @@
 ﻿var ajaxLoader = null;
 
-$(document).on("ready", function () {
+$(document).ready(function () {
     ajaxLoader = $('body').loadingIndicator({
         useImage: false,
         showOnInit: false,

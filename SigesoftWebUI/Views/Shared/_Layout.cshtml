@@ -366,9 +366,8 @@
         </div>
     </div>
 
-    @*<script src="~/assets/plugins/jquery/jquery.min.js"></script>*@
-    <script src="http://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="http://code.jquery.com/jquery-migrate-1.4.1.js"></script>
+    <script src="~/assets/plugins/jquery/jquery.min.js"></script>
+
     <script src="~/Scripts/jquery-ui.js"></script>
     <!-- Bootstrap popper Core JavaScript -->
     <script src="~/assets/plugins/bootstrap/js/popper.min.js"></script>
@@ -424,6 +423,9 @@
         var objData = {};
         swEnabled();
         $(document).ready(function () {
+
+            $(document).ajaxStart(ShowLoading());
+            $(document).ajaxStop(CloseLoading());
 
             APIController.GetAccessUser().then((res) => {
                 objData = res;
