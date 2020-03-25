@@ -101,8 +101,9 @@ $(document).ready(function () {
         $("#tbody-profile").text("obteniendo información");
         $("#tbody-profile-unselectd").text("obteniendo información");
         var idProfile = $(this).attr('id');
-
+        
         if (idProfile == PROFILE_POTENCIAL) {
+        
             updateControlStatusQuotation();
         }
 

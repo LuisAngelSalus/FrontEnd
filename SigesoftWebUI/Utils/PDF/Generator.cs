@@ -226,5 +226,158 @@ namespace SigesoftWebUI.Utils.PDF
             Paragraph elements = new Paragraph("demor");
             return elements;
         }
+
+
+        public Paragraph GetPageEight(Response<QuotationDto> response, string fullNameUser)
+        {
+            var data = response.Data;
+            Chunk chunkOne = new Chunk("PROPUESTA ECONÓMICA\n", textUtils.fontBold12Black);
+            
+            Phrase phrase = new Phrase();
+            phrase.Add(chunkOne);
+            
+            Paragraph elements = new Paragraph();
+            elements.Add(phrase);
+            elements.Alignment = Element.ALIGN_LEFT;
+
+
+            var examenes = new List<Detail>();            
+            var perfiles = data.QuotationProfile;
+            foreach (var perfil in perfiles)
+            {
+                foreach (var item in perfil.ProfileComponent)
+                {
+                    var oDetail = new Detail();
+                    oDetail.ComponentId = item.ComponentId;
+                    oDetail.ComponentName = item.ComponentName;
+                    oDetail.Price = item.SalePrice.Value;
+                    oDetail.AgeConditionalId = item.AgeConditionalId;
+                    oDetail.Age= item.Age;
+                    oDetail.GenderConditionalId = item.GenderConditionalId;
+                    examenes.Add(oDetail);
+                }
+            }
+
+            examenes = examenes.GroupBy(p => p.ComponentName).Select(p => p.First()).ToList();
+
+            var cells = new List<PdfPCell>();
+            //ROW 1
+            cells.Add(new PdfPCell(new Phrase("FECHA: " + DateTime.Now.ToString("MM/dd/yyyy"), textUtils.font08Black)) { Colspan=2, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_MIDDLE});
+            cells.Add(new PdfPCell(new Phrase("Tipo de Examen Ocupacional", textUtils.font08Black)) {Colspan = data.QuotationProfile.Count , HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_MIDDLE });
+
+            //ROW 2
+            var typeExams = data.QuotationProfile.GroupBy(g => g.ServiceTypeName).Select(s => new { name = s.Key, count = s.Count() }).ToList();
+            cells.Add(new PdfPCell(new Phrase("Ejecutiva: " + fullNameUser, textUtils.font08Black)) { Colspan = 2 });
+            foreach (var typeExam in typeExams)
+            {
+                var colspanValue = typeExam.count;
+                    cells.Add(new PdfPCell(new Phrase(typeExam.name, textUtils.font08Black)) { Colspan = colspanValue, HorizontalAlignment = Element.ALIGN_CENTER });
+            }
+
+            //ROW 3
+            cells.Add(new PdfPCell(new Phrase("Grupos de Vigilancia Médica Similar (GVMS)", textUtils.font08Black)) { Colspan=2});            
+            foreach (var profile in data.QuotationProfile)
+            {
+                cells.Add(new PdfPCell(new Phrase(profile.ProfileName, textUtils.font08Black)) { HorizontalAlignment = Element.ALIGN_CENTER, BackgroundColor = BaseColor.GRAY });
+            }
+
+            //ROW 4
+            cells.Add(new PdfPCell(new Phrase("Exámenes Ocupacionales", textUtils.font08Black)));
+            cells.Add(new PdfPCell(new Phrase("P.U.", textUtils.font08Black)) { HorizontalAlignment = Element.ALIGN_CENTER });
+            foreach (var profile in data.QuotationProfile)
+            {                    
+                cells.Add(new PdfPCell(new Phrase(profile.ProfileComponent.Count.ToString(), textUtils.font08Black)) { HorizontalAlignment = Element.ALIGN_CENTER });                   
+            }
+
+            //ROW 5
+            foreach (var item in examenes)
+            {
+                cells.Add(new PdfPCell(new Phrase(item.ComponentName, textUtils.font08Black)));
+                cells.Add(new PdfPCell(new Phrase("S/." + item.Price.ToString(), textUtils.font08Black)));
+                foreach (var profile in data.QuotationProfile)
+                {
+                    var existe = profile.ProfileComponent.Find(p => p.ComponentId == item.ComponentId);
+                    if (existe != null)
+                    {
+                        cells.Add(new PdfPCell(new Phrase("X", textUtils.font08Black)) { HorizontalAlignment = Element.ALIGN_CENTER });
+                    }
+                    else
+                    {
+                        cells.Add(new PdfPCell(new Phrase("", textUtils.font08Black)));
+                    }
+                    
+                }
+            }
+
+            //ROW 6
+            cells.Add(new PdfPCell(new Phrase("Sub total por GVMS", textUtils.font08Black)) { Colspan = 2});            
+            foreach (var profile in data.QuotationProfile)
+            {
+                cells.Add(new PdfPCell(new Phrase("S/." + profile.ProfileComponent.Sum(p => p.SalePrice).ToString(), textUtils.font08Black)) { HorizontalAlignment = Element.ALIGN_CENTER});
+            }
+
+            //ROW 7
+            cells.Add(new PdfPCell(new Phrase("Total (No incluye IGV)", textUtils.font08Black)) { Colspan = 2 });
+            decimal? total = 0;
+            foreach (var profile in data.QuotationProfile)
+            {
+                total += profile.ProfileComponent.Sum(p => p.SalePrice);
+            }
+
+            cells.Add(new PdfPCell(new Phrase("S/." + total.ToString(), textUtils.font08Black)) {Colspan= data.QuotationProfile.Count, HorizontalAlignment = Element.ALIGN_CENTER });
+
+
+            var table = HandlingItextSharp.GenerateTableFromCells(cells, HandlingItextSharp.GetColumns(2 + data.QuotationProfile.Count), "PROTOCOLO EXÁMENES MÉDICOS OCUPACIONALES N°: "+ data.Code, textUtils.font12Black, new BaseColor(252, 252, 252));
+            elements.Add(table);
+
+
+            //TABLA EXAMENES ADICIONALES
+            var cellsAdi = new List<PdfPCell>();
+            var adicionales = data.AdditionalComponentsQuote;
+            foreach (var item in adicionales)
+            {
+                cellsAdi.Add(new PdfPCell(new Phrase(item.ComponentName, textUtils.font08Black)));
+                cellsAdi.Add(new PdfPCell(new Phrase("S/." + item.SalePrice.ToString(), textUtils.font08Black)));
+                cellsAdi.Add(new PdfPCell(new Phrase("", textUtils.font08Black)) { Colspan= typeExams.Count  + 3});
+            }
+
+            var tableAddic = HandlingItextSharp.GenerateTableFromCells(cellsAdi, HandlingItextSharp.GetColumns(2 + data.QuotationProfile.Count), "EXÁMENES ADICIONALES", textUtils.font12Black, new BaseColor(252, 252, 252));
+            elements.Add(tableAddic);
+
+            //TABLA CONDICIONALES
+            var cellsCond = new List<PdfPCell>();   
+            foreach (var exam in examenes)
+            {
+                if (exam.GenderConditionalId != -1)
+                {
+                    cellsCond.Add(new PdfPCell(new Phrase(exam.ComponentName , textUtils.font08Black)));
+                }
+
+                if (exam.AgeConditionalId != -1)
+                {
+                    cellsCond.Add(new PdfPCell(new Phrase(exam.ComponentName, textUtils.font08Black)));
+                }
+
+            }
+
+            var tableCondi = HandlingItextSharp.GenerateTableFromCells(cellsCond, new float[] { 100f }, "CONDICIONALES", textUtils.font12Black, new BaseColor(252, 252, 252));
+            elements.Add(tableCondi);
+
+
+
+            return elements;
+        }
+
+    }
+
+    public class Detail
+    {
+        public string ComponentId { get; set; }
+        public string ComponentName { get; set; }
+        public decimal Price { get; set; }
+        public int? AgeConditionalId { get; set; }
+        public int? Age { get; set; }
+        public int? GenderConditionalId { get; set; }
+
     }
 }

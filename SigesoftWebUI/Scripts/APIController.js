@@ -11,6 +11,29 @@
                     return resolve(data);
                 }).catch(err => { console.log(err); reject() });
         });
+
+
+    }
+
+    var saveLogoCompany = function (data, myID) {
+        var actualizarLogoAjax = $.ajax({
+            type: "POST",
+            url: '/Company/UploadLogoCompany?id=' + myID,
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (xhr, status, p3, p4) {
+                var err = "Error " + " " + status + " " + p3 + " " + p4;
+                if (xhr.responseText && xhr.responseText[0] == "{")
+                    err = JSON.parse(xhr.responseText).Message;
+                console.log(err);
+            }
+        });
+
+        return actualizarLogoAjax;
     }
 
     var viewContactsByCompany = function (id) {
@@ -81,17 +104,41 @@
         });
     }
 
-    var infoSunat = function (ruc) {
-        return new Promise((resolve, reject) => {
-            let url = '/InfoSunat/Info?ruc=' + ruc
-            fetch(url, {
-                headers: { 'Content-Type': 'application/json' }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    return resolve(data);
-                }).catch(err => { console.log(err); reject() });
+    //var infoSunat = function (ruc) {
+    //    return new Promise((resolve, reject) => {
+    //        let url = '/InfoSunat/Info?ruc=' + ruc
+    //        fetch(url, {
+    //            headers: { 'Content-Type': 'application/json' }
+    //        })
+    //            .then(res => res.json())
+    //            .then(data => {
+    //                return resolve(data);
+    //            }).catch(err => { console.log(err); reject() });
+
+    //    });
+
+
+
+    //}
+
+    var infoSunat = function (parameter) {
+
+        var data = {
+            ruc: parameter
+        };
+        var infoSunatAjax = $.ajax({
+            url: "/InfoSunat/Info",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(data),
+            error: function (rqh, status, error) {
+                console.log(rqh);
+            }
+        }).done(function (result) {
+            console.log(result);
         });
+        return infoSunatAjax;
     }
 
     var CompanyByRuc = function (ruc) {
@@ -795,11 +842,55 @@
         });
     }
 
+    var validateUserCompany = function (ruc) {
+        return new Promise((resolve, reject) => {
+            fetch('/Company/ValidateUserCompany?ruc=' + ruc, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var schedule = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Schedule/Schedule', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var getAttachForQuotation = function (parameters) {
+        console.log(parameters);
+        return new Promise((resolve, reject) => {
+            fetch('/Quotation/getAttachForQuotation?id=' + parameters.id, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
                 saveCompany(parameters).then(res => resolve(res));
             });
+        },
+
+        SaveLogoCompany: function (data, myID) {
+            return saveLogoCompany(data, myID);
         },
 
         GetContacts: function (companyId) {
@@ -1157,6 +1248,23 @@
         GetAdditionalComponents: function (parameters) {
             return new Promise((resolve, reject) => {
                 getAdditionalComponents(parameters).then(res => resolve(res));
+            });
+        },
+
+        ValidateUserCompany: function (parameters) {
+            return new Promise((resolve, reject) => {
+                validateUserCompany(parameters).then(res => resolve(res));
+            });
+        },
+
+        Schedule: function (parameters) {
+            return new Promise((resolve, reject) => {
+                schedule(parameters).then(res => resolve(res));
+            });
+        },
+        GetAttachForQuotation: function (parameters) {
+            return new Promise((resolve, reject) => {
+                getAttachForQuotation(parameters).then(res => resolve(res));
             });
         },
     }

@@ -15,7 +15,7 @@ namespace SigesoftWebUI.Repositories
     {
         private readonly RestClient restClient = new RestClient();
 
-        public MemoryStream GetPDF(Response<QuotationDto> response)
+        public MemoryStream GetPDF(Response<QuotationDto> response, string fullNameUser)
         {
             MemoryStream memoryStream = new MemoryStream();
             Generator generator = new Generator();
@@ -49,114 +49,133 @@ namespace SigesoftWebUI.Repositories
 
                         if (i == 3)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;                           
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 4)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 5)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 6)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 7)
-                        {
-                            var elements = generator.GetPageTwentySix();
+                        {                            
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
+
+                            document.SetPageSize(PageSize.A4.Rotate());
                             document.NewPage();
                         }
 
                         if (i == 8)
-                        {
-                            var elements = generator.GetPageTwentySix();
+                        {                            
+                            var elements = generator.GetPageEight(response, fullNameUser);
                             document.Add(elements);
+
+                            document.SetPageSize(PageSize.A4);
                             document.NewPage();
                         }
 
                         if (i == 9)
-                        {
-                            var elements = generator.GetPageTwentySix();
+                        {                            
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
+                            
                         }
 
                         if (i == 10)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 11)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 12)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 13)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 14)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 15)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 16)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 17)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 18)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
-                            document.SetPageSize(PageSize.A4.Rotate());
                             document.NewPage();
                         }
 
@@ -170,42 +189,48 @@ namespace SigesoftWebUI.Repositories
 
                         if (i == 20)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 21)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 22)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 23)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 24)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 25)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
@@ -228,21 +253,24 @@ namespace SigesoftWebUI.Repositories
 
                         if (i == 27)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 28)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }
 
                         if (i == 29)
                         {
-                            var elements = generator.GetPageTwentySix();
+                            Paragraph elements = new Paragraph("SIN DATA", textUtils.fontBold12Black);
+                            elements.Alignment = Element.ALIGN_JUSTIFIED;
                             document.Add(elements);
                             document.NewPage();
                         }

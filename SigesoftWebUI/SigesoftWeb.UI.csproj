@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -326,6 +326,7 @@
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\PDF\Generator.cs" />
     <Compile Include="Utils\RestClient.cs" />
+    <Compile Include="Utils\SendMessage.cs" />
     <Compile Include="Utils\TextUtils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +352,7 @@
     <Content Include="assets\images\SLEmpresarial.png" />
     <Content Include="assets\images\SLSigesoft.png" />
     <Content Include="assets\images\Star.png" />
+    <Content Include="assets\images\thumbnail\descarga.png" />
     <Content Include="assets\images\Tracking.png" />
     <Content Include="assets\images\users\1.jpg" />
     <Content Include="assets\images\users\1_.jpg" />
@@ -629,6 +631,18 @@
     <Content Include="assets\plugins\dropify\src\images\test-image-1.jpg" />
     <Content Include="assets\plugins\dropify\src\images\test-image-2.jpg" />
     <Content Include="assets\plugins\dropify\src\js\dropify.js" />
+    <Content Include="assets\plugins\dropzone-master\.gitignore" />
+    <Content Include="assets\plugins\dropzone-master\dist\basic.css" />
+    <Content Include="assets\plugins\dropzone-master\dist\dropzone-amd-module.js" />
+    <Content Include="assets\plugins\dropzone-master\dist\dropzone.css" />
+    <Content Include="assets\plugins\dropzone-master\dist\dropzone.js" />
+    <Content Include="assets\plugins\dropzone-master\dist\min\basic.min.css" />
+    <Content Include="assets\plugins\dropzone-master\dist\min\dropzone-amd-module.min.js" />
+    <Content Include="assets\plugins\dropzone-master\dist\min\dropzone.min.css" />
+    <Content Include="assets\plugins\dropzone-master\dist\min\dropzone.min.js" />
+    <Content Include="assets\plugins\dropzone-master\index.js" />
+    <Content Include="assets\plugins\dropzone-master\test\test.html" />
+    <Content Include="assets\plugins\dropzone-master\test\test.js" />
     <Content Include="assets\plugins\Highcharts\highcharts.js" />
     <Content Include="assets\plugins\Highcharts\modules\export-data.js" />
     <Content Include="assets\plugins\Highcharts\modules\exporting.js" />
@@ -1226,6 +1240,7 @@
     <Content Include="assets\scss\icons\weather-icons\less\css\variables-night.css" />
     <Content Include="assets\scss\icons\weather-icons\less\css\variables-time.css" />
     <Content Include="assets\scss\icons\weather-icons\less\css\variables-wind-names.css" />
+    <Content Include="assets\images\thumbnail\pdf.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1239,6 +1254,7 @@
     <Content Include="Content\demo\nifty-demo.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\icons\loading.gif" />
     <Content Include="Content\images\ui-bg_flat_0_888888_40x100.png" />
     <Content Include="Content\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -1259,6 +1275,7 @@
     <Content Include="Content\Quotation.css" />
     <Content Include="Content\tagsinput.css" />
     <Content Include="images\certificado_registro.png" />
+    <Content Include="Scripts\jquery.fixedheadertable.min.js" />
     <Content Include="Scripts\tagsinput.js" />
     <Content Include="Content\themes\type-a\theme-coffee.css" />
     <Content Include="Content\themes\type-a\theme-coffee.min.css" />
@@ -1906,7 +1923,7 @@
     <Content Include="assets\plugins\Highcharts\modules\export-data.js.map" />
     <Content Include="assets\plugins\Highcharts\modules\exporting.js.map" />
     <Content Include="assets\plugins\Highcharts\modules\series-label.js.map" />
-    <Content Include="File\PLANTILLA_PROPUESTA_COMERCIAL.docx" />
+    <Content Include="assets\plugins\dropzone-master\.tagconfig" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
@@ -4460,7 +4477,6 @@
     <Content Include="Views\IngresoSistema\Login.cshtml" />
     <Content Include="Views\IngresoSistema\UserUnknown.cshtml" />
     <Content Include="Views\Quotation\ExportToPDF.cshtml" />
-    <Content Include="Template\PLANTILLA_PROPUESTA_COMERCIAL.docx" />
     <Content Include="Views\Shared\_DashboardCommercialPartial.cshtml" />
     <Content Include="Views\Shared\_DashboardEmptyPartial.cshtml" />
     <Content Include="Views\Shared\_DashboardSistemasPartial.cshtml" />
@@ -4477,7 +4493,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Document\" />
+    <Folder Include="Logos\" />
     <Folder Include="plugins\flot-charts\examples\gauge\" />
     <Folder Include="Log\" />
     <Folder Include="Views\AccountSetting\" />
@@ -4555,9 +4571,9 @@
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

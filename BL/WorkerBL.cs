@@ -34,6 +34,29 @@ namespace BL
             }
             return obj;
         }
-        
+
+        public Response<WorkerDto> GetDataWorker(string doc, string token)
+        {
+            Response<WorkerDto> obj = null;
+            var hCliente = _global.rspClientGET("Worker/" + doc + "/ObtenerDataTrabajadorPorDoc", token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<WorkerDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
+        public Response<WorkerDto> Save(WorkerRegisterDto data, string token)
+        {
+            Response<WorkerDto> obj = null;
+
+            var hCliente = _global.rspClient("Worker/", data, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<WorkerDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+
+        }
     }
 }

@@ -12,6 +12,18 @@ namespace BL
    public class ProtocolBL
     {
         Global _global = new Global();
+
+        public Response<ProtocolDto> GetById(int id, string token)
+        {
+            Response<ProtocolDto> obj = null;
+            var hCliente = _global.rspClientGET("Protocol/" + id, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<ProtocolDto>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
         public Response<List<ProtocolListDto>> GetProtocolsByCompanyId(int id, string token)
         {
             Response<List<ProtocolListDto>> obj = null;

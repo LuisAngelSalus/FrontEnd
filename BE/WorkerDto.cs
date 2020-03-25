@@ -22,4 +22,17 @@ namespace BE
         public int TypeDocumentId { get; set; }
         public string NroDocument { get; set; }
     }
+
+    public class WorkerRegisterDto
+    {
+        public string CurrentPosition { get; set; }
+        public string HomeAddress { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public int? GenderId { get; set; }
+        public string Email { get; set; }
+        public string MobileNumber { get; set; }
+        public int? TypeDocumentId { get; set; }
+        public string NroDocument { get; set; }
+        public PersonRegistertDto Person { get; set; }
+    }
 }

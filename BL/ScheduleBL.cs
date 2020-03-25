@@ -15,6 +15,8 @@ namespace BL
     public class ScheduleBL
     {
         Global _global = new Global();
+        WorkerBL _workerBL = new WorkerBL();
+        ProtocolBL _protocolBL = new ProtocolBL();
 
         public List<ScheduleExcelImportDto> Read (byte[] bytes, string token)
         {           
@@ -84,5 +86,71 @@ namespace BL
             return obj;
         }
 
+        public Response<bool> Schedule(List<ScheduleDto> scheduleDtos, string token)
+        {
+            List<ScheduleRegisterDto> listSchedule = new List<ScheduleRegisterDto>();  
+            foreach (var schedule in scheduleDtos)
+            {
+                var ScheduleRegister = new ScheduleRegisterDto();
+
+                ScheduleRegister.DateTimeCalendar = schedule.dateSchedule;
+                ScheduleRegister.CalendarStatusId = CalendarStatus.NoIniciado;
+                ScheduleRegister.IsVipId = YesNo.No;
+                ScheduleRegister.MoodId = Mood.Normal;
+
+                ScheduleRegister.Service.ProtocolId = schedule.protocolId;
+
+                var worker = _workerBL.GetDataWorker(schedule.nroDoc, token);
+                if (worker.IsSuccess)
+                {
+                    ScheduleRegister.Service.WorkerId = worker.Data.WorkerId.Value;
+                }
+                else
+                {
+                    var oWorkerRegisterDto = new WorkerRegisterDto();
+                    oWorkerRegisterDto.CurrentPosition = schedule.currentOcupation;
+                    oWorkerRegisterDto.HomeAddress = string.Empty;
+                    oWorkerRegisterDto.DateOfBirth = DateTime.Now;
+                    oWorkerRegisterDto.GenderId = schedule.genderType;
+                    oWorkerRegisterDto.Email = schedule.email;
+                    oWorkerRegisterDto.MobileNumber = schedule.cell;
+                    oWorkerRegisterDto.TypeDocumentId = schedule.docType;
+                    oWorkerRegisterDto.NroDocument = schedule.nroDoc;
+
+                    var oPersonRegistertDto = new PersonRegistertDto();
+                    oPersonRegistertDto.FirstName = schedule.firstName;
+                    oPersonRegistertDto.FirstLastName = schedule.firstLastName;
+                    oPersonRegistertDto.SecondLastName = schedule.secondLastName;
+                    oWorkerRegisterDto.Person = oPersonRegistertDto;
+
+                    _workerBL.Save(oWorkerRegisterDto, token);
+                }
+
+                ScheduleRegister.Service.ServiceStatusId = ServiceStatus.PorIniciar;
+
+                var protocolDetail = _protocolBL.GetById(schedule.protocolId, token).Data.ProtocolDetail;
+
+                var Detail = new List<ServiceComponentRegisterDto>();
+                foreach (var detailDto in protocolDetail)
+                {
+                    var oServiceComponentRegisterDto = new ServiceComponentRegisterDto();
+                    oServiceComponentRegisterDto.ComponentId = detailDto.ComponentId;
+                    oServiceComponentRegisterDto.ServiceComponentStatusId = ServiceComponentStatus.PorIniciar;
+                    Detail.Add(oServiceComponentRegisterDto);
+                }
+
+                ScheduleRegister.Service.ServiceComponent = Detail;
+
+                listSchedule.Add(ScheduleRegister);
+            }
+
+            Response<bool> obj = null;
+            var hCliente = _global.rspClient("Schedule/", listSchedule, token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<bool>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
     }
 }

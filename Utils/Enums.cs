@@ -32,4 +32,33 @@ namespace Utils
         Descartada = 3,
         Potencial = 4
     }
+
+    public enum CalendarStatus
+    {
+        NoIniciado =1,
+        EnEvaluacion=2,
+        Culminado=3
+    }
+
+    public enum ServiceStatus
+    {
+        PorIniciar=1,
+        Iniciado=2,
+        Culminado=3,
+        Incompleto=4,
+        Cancelado=5
+    }
+
+    public enum ServiceComponentStatus
+    {
+        PorIniciar = 1       
+    }
+
+    public enum Mood
+    {
+        Normal=1,
+        Enojado=2,
+        Mango=3
+    }
+    
 }

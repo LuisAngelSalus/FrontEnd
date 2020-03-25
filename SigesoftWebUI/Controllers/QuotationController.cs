@@ -2,8 +2,8 @@
 using BL;
 using SigesoftWebUI.Controllers.Base;
 
-//using iTextSharp.text;
-//using iTextSharp.text.pdf;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using SigesoftWebUI.Repositories;
 using System;
 using System.IO;
@@ -19,6 +19,8 @@ namespace SigesoftWebUI.Controllers
         private QuotationBL _quotationBL = new QuotationBL();
         private CompanyBL _companyBL = new CompanyBL();
         private SecurityBL _securityBL = new SecurityBL();
+
+        Generator generator = new Generator();
 
         public ActionResult Index()
         {
@@ -163,8 +165,9 @@ namespace SigesoftWebUI.Controllers
 
         public FileResult ExportPlantilla(int code)
         {
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
             var quotation = quotationRepository.GetQuotation(code, SessionUsuario);
-            MemoryStream memoryStream = quotationRepository.GetPDF(quotation);
+            MemoryStream memoryStream = quotationRepository.GetPDF(quotation, sessione.FullName);
 
             string fileName = string.Empty;
             DateTime fileCreationDatetime = DateTime.Now;
@@ -172,6 +175,15 @@ namespace SigesoftWebUI.Controllers
 
             return File(memoryStream, "application/pdf", fileName);
         }
+
+        //public FileResult ExportPlantilla(int code)
+        //{
+        //    var memoryStream = _quotationBL.GeneratePdf(code);            
+        //    DateTime fileCreationDatetime = DateTime.Now;
+        //    var fileName = string.Format("{0}_{1}.pdf", code, fileCreationDatetime.ToString(@"yyyyMMdd") + "_" + fileCreationDatetime.ToString(@"HHmmss"));
+
+        //    return File(memoryStream, "application/pdf", fileName);
+        //}
 
         public JsonResult ListPrice(int CompanyId)
         {
@@ -204,6 +216,86 @@ namespace SigesoftWebUI.Controllers
         {
             var response = _quotationBL.MigrateProtocolToSIGESoftWin(data, SessionUsuario.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getAttachForQuotation(int id)
+        {
+
+            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
+            var quotation = quotationRepository.GetQuotation(id, SessionUsuario);
+
+            DateTime fileCreationDatetime = DateTime.Now;
+            string fileNameDocument = string.Format("{0}_{1}.pdf", quotation.Data.Code, fileCreationDatetime.ToString(@"yyyyMMdd") + "_" + fileCreationDatetime.ToString(@"HHmmss"));
+            string pdfPathDocument = Server.MapPath(@"~\Documents\") + fileNameDocument;
+
+            using (FileStream msReport = new FileStream(pdfPathDocument, FileMode.Create))
+            {
+                //step 1
+                using (Document pdfDoc = new Document(PageSize.A4, 40, 40, 140, 40))
+                {
+                    try
+                    {
+                        // step 2
+                        PdfWriter pdfWriter = PdfWriter.GetInstance(pdfDoc, msReport);
+                        //pdfWriter.PageEvent = new ITextEvents();
+
+                        pdfDoc.SetPageSize(PageSize.A4.Rotate());
+                        //open the stream 
+                        pdfDoc.Open();
+
+
+                        var elements = generator.GetPageEight(quotation, sessione.FullName);
+                        pdfDoc.Add(elements);
+
+
+                        pdfDoc.NewPage();
+                        pdfDoc.SetPageSize(PageSize.A4.Rotate());
+
+                        pdfDoc.Close();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //handle exception
+                    }
+
+                    finally
+                    {
+
+
+                    }
+
+                }
+
+            }
+
+            //string pdf1 = Server.MapPath(@"~\Documents\archivo1.pdf") ;
+            ////string pdf1 = Server.MapPath(@"~\Documents\") + fileNameDocument;
+            string pdf2 = Server.MapPath(@"~\Template\PLANTILLA_PROPUESTA_COMERCIAL.pdf");
+
+            long lengthPdf1 = new FileInfo(pdfPathDocument).Length;
+            long lengthPdf2 = new FileInfo(pdf2).Length;
+
+            var list = new List<AttachDto>();
+            var AttachDto1 = new AttachDto();
+            AttachDto1.Name = fileNameDocument;
+            AttachDto1.Size = lengthPdf1;
+            list.Add(AttachDto1);
+
+
+            var AttachDto2 = new AttachDto();
+            AttachDto2.Name = "PLANTILLA_PROPUESTA_COMERCIAL.pdf";
+            AttachDto2.Size = lengthPdf2;
+            list.Add(AttachDto2);
+
+            var _json = new SendMessage
+            {
+                attaches = list,
+                FirstNameDocument = fileNameDocument,
+                SecondNameDocument = "PLANTILLA_PROPUESTA_COMERCIAL.pdf"
+            };
+
+            return Json(_json, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
     }
 }

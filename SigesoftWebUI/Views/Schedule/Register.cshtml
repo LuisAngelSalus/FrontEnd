@@ -3,9 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
-
     var protocols = ViewBag.PROTOCOLS.Data;
-
 }
 
 <style>
@@ -14,35 +12,18 @@
         vertical-align: middle;
         font-size: 15px;
     }
+    .invalido {
+        border: 1px solid red;
+    }
+
 </style>
 <link href="~/Content/tagsinput.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/myTheme.css" rel="stylesheet" type="text/css" />
 
-<div class="card-body p-t-0">
+<div class="p-t-0">
     <div class="card b-all shadow-none">
         <div class="card-body">
             <h3 class="card-title m-b-0">AGENDADO DE CITAS</h3>
-        </div>
-        <div>
-            <hr class="m-t-0">
-        </div>
-        <div class="row">
-            <div class="card-body col-md-6">
-                <p><b><strong>Consideraciones</strong></b></p>
-                <p>1. Salus Laboris no se responsabiliza del registro errado de pacientes o protocolos.</p>
-                <p>2. Puede realizar el agendado masico importnado la información de los pacientes desde el archivo excel. El formato puede descargarlo en el enlace MATRIZ DE AGENDADO.</p>
-                <p>3. Contamos con 90 cupos diarios de atención, de exeder el límite por favor agendar citas para días posteriores.</p>
-                <p>4. Corroborar toda la información antes de ser registrada.</p>
-            </div>
-            <div class="card-body col-md-6">
-                <p><b><strong>Requisitos para citas Programadas</strong></b></p>
-                <p>Los pacientes deben:</p>
-                <p>1. Traer DNI.</p>
-                <p>2. Haber descansado mínimo 10 horas.</p>
-                <p>3. No ingerir alimentos durante las últimas 10 horas.</p>
-                <p>4. Llegar 15 min antes de la cita.</p>
-                <p>5. Traer lentes en caso los utilice.</p>
-                <p>6. Reposo auditivo durante las últimas 12 horas.</p>
-            </div>
         </div>
         <div>
             <hr class="m-t-0">
@@ -59,6 +40,7 @@
                             <span class="input-group-btn">
                                 <a class="btn btn-secondary" onclick="searchRuc('txtIdentificationNumberFac','txtCompanyNameFac')"><i class="fa fa-search"></i></a>
                             </span>
+                            <button id="btnSetCompanyFac" class="btn btn-success waves-effect waves-light m-l-10">Asignar</button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -73,13 +55,14 @@
                         <div class="input-group">
                             <input type="text" class="form-control" id="txtIdentificationNumberRuc" value="" placeholder="Ingresar RUC" min="11" maxlength="11">
                             <span class="input-group-btn">
-                                <a class="btn btn-secondary" onclick="searchRuc('txtIdentificationNumberRuc','txtCompanyNameRuc')"><i class="fa fa-search"></i></a>
+                                <a class="btn btn-secondary" onclick="searchRuc('txtIdentificationNumberRuc','txtCompanyNameResult')"><i class="fa fa-search"></i></a>
                             </span>
+                            <button id="btnSetCompanyResult" class="btn btn-success waves-effect waves-light  m-l-10">Asignar</button>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="txtCompanyName">Empresa<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="txtCompanyNameRuc" value=" " placeholder="Ingresar Nombre Empresa" readonly>
+                        <input type="text" class="form-control" id="txtCompanyNameResult" value=" " placeholder="Ingresar Nombre Empresa" readonly>
                     </div>
                 </div>
             </div>
@@ -88,7 +71,7 @@
                     <button id="btnImportExcel" onclick="ModalImportExcel()" class="btn btn-warning waves-effect waves-light">Importar Excel</button>
                 </div>
                 <div class="col-md-6">
-                    <a href="#">Descargar Matriz de agendado trabajador</a>
+                    <a href="#" onclick="downloadFile()">Descargar Matriz de agendado trabajador</a>
                 </div>
             </div>
             <div class="row">
@@ -97,9 +80,9 @@
                         <div class="col-md-6">
                             <select class="form-control " id="ddlProtocol">
                                 @foreach (var item in @protocols)
-                                    {
-                                <option value="@item.ProtocolId">@item.CompanyName</option>
-                                    }
+                                {
+                                    <option value="@item.ProtocolId">@item.ProtocolName</option>
+                                }
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -114,7 +97,8 @@
             </div>
             <div class="row m-t-100">
                 <div class="table-responsive">
-                    <table id="mainTable" class="table table-bordered table-hover m-b-0">
+                
+                        <table id="mainTable" class="table table-bordered table-hover m-b-0 main-table">
                         <thead>
                             <tr>
                                 <th><div class="checkbox"> <input type="checkbox" id="checkAll" value="check"> <label for="checkAll"></label></div></th>
@@ -127,6 +111,8 @@
                                 <th>Género</th>
                                 <th>Puesto Actual</th>
                                 <th>Protocolo</th>
+                                    <th>Empresa Facturación</th>
+                                    <th>Empresa Resultado</th>
                                 <th>Celular</th>
                                 <th>Email</th>
                                 <th>Exámenes Adicionales</th>
@@ -134,9 +120,44 @@
                             </tr>
                         </thead>
                         <tbody>
-                        </tbody>
+                                
+                            </tbody>                            
                     </table>
+                
                 </div>
+            </div>
+        </div>
+        <div id="accordion">
+            <div class="card m-b-0">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Información Adicional
+                        </button>
+                    </h5>
+                </div>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="row m-0">
+                    <div class="card-body col-md-6">
+                        <p><b><strong>Consideraciones</strong></b></p>
+                        <p>1. Salus Laboris no se responsabiliza del registro errado de pacientes o protocolos.</p>
+                        <p>2. Puede realizar el agendado masico importnado la información de los pacientes desde el archivo excel. El formato puede descargarlo en el enlace MATRIZ DE AGENDADO.</p>
+                        <p>3. Contamos con 90 cupos diarios de atención, de exeder el límite por favor agendar citas para días posteriores.</p>
+                        <p>4. Corroborar toda la información antes de ser registrada.</p>
+                    </div>
+                    <div class="card-body col-md-6">
+                        <p><b><strong>Requisitos para citas Programadas</strong></b></p>
+                        <p>Los pacientes deben:</p>
+                        <p>1. Traer DNI.</p>
+                        <p>2. Haber descansado mínimo 10 horas.</p>
+                        <p>3. No ingerir alimentos durante las últimas 10 horas.</p>
+                        <p>4. Llegar 15 min antes de la cita.</p>
+                        <p>5. Traer lentes en caso los utilice.</p>
+                        <p>6. Reposo auditivo durante las últimas 12 horas.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -175,8 +196,6 @@
             <div class="modal-body" style="font-size:10px;">
 
                 <div>
-                    @*          <label>Seleccione el examen adicional</label>*@
-                    @*<input type="text" id="txtAdditionalExamen" class="form-control">*@
                     <div class="card-body">
                         <h4 class="card-title label-warning">Examenes Adicionales Pactados</h4>
 
@@ -194,7 +213,6 @@
                             </table>
                         </div>
                     </div>
-
                     <div class="card-body">
                         <h4 class="card-title label-default">Otros examenes ocupacionales</h4>
                         <h4 class="card-title"><button onclick="AddAdditionalExamnsSchedule()" class="btn btn-success waves-effect waves-light m-r-10">Agregar Examen Adicional</button></h4>
@@ -221,262 +239,590 @@
 
 @section scripts{
     <script src="~/Scripts/tagsinput.js"></script>
+    <script src="~/Scripts/jquery.fixedheadertable.min.js"></script>
     <script>
 
-            $(document).ready(function () {
+        $(document).ready(function () {                      
+  
+            $("#checkAll").click(function () {
+                let value = false;
+                if ($(this).is(':checked'))
+                    value = true;
 
-                $("#checkAll").click(function () {
-                    let value = false;
-                    if ($(this).is(':checked'))
-                        value = true;
-
-                    let $table = $("#mainTable tbody");
-                    $table.find('tr').each(function (i, el) {
-                        var $tds = $(this).find('td');
-                        $($tds.eq(0).find('.selected-row').get(0)).prop( "checked", value );
-                     });
+                let $table = $("#mainTable tbody");
+                $table.find('tr').each(function (i, el) {
+                    var $tds = $(this).find('td');
+                    $($tds.eq(0).find('.selected-row').get(0)).prop("checked", value);
                 });
             });
 
-            function searchRuc(txtRuc, txtRaz) {
-                let ruc = $('#' + txtRuc).val();
-                if (ruc.length < 11) {
-                    swal("RUC debe tener 11 digitos");
-                } else {
-                    SearchCompany(ruc, txtRaz);
-                }
-            }
+            $("#btnSetCompanyFac").click(function () {
+                let name = $("#txtCompanyNameFac").val();
+                setCompany("FACTURACION", name);
+            });
 
-            function SearchCompany(ruc, txtRaz) {
-                APIController.GetCompanyByRuc(ruc).then((res) => {
-                    $('#' + txtRaz).val(res.Data.Name);
-                });
-            }
+            $("#btnSetCompanyResult").click(function () {
+                let name = $("#txtCompanyNameResult").val();
+                setCompany("RESULTADO", name);
+            });
 
-            function ModalImportExcel() {
-                $("#UploadModal").modal("show");
-            }
+            $('#mainTable tbody').on('click', '.btnRemove', function (e) {
+                $(this).parent().parent().parent().remove();
+            });
 
-            function ImportExcel() {
-                var data = new FormData();
-                data.append("file", document.getElementById("archivo").files[0]);
-                $.ajax({
-                    cache: false,
-                    dataType: 'json',
-                    method: 'POST',
-                    data: data,
-                    contentType: false,
-                    processData: false,
-                    url: '/Schedule/Upload',
-                    success: function (json) {
-                        renderTableSchedule(json)
-                        $("#UploadModal").modal("hide");
-                    },
-                    error: function (error) {
-                        alerta("Sucedió un error al conectarse al servidor", "rojo");
-                        console.log(error);
+        });
+
+        function setCompany(tipoCompany, name) {
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+
+                let selectedRow = $tds.eq(0).find('.selected-row').get(0).checked;
+
+                if (selectedRow) {
+                    if (tipoCompany == "FACTURACION") {
+                        $($tds.eq(10)).find('input').val(name);
+                    } else if (tipoCompany == "RESULTADO") {
+                        $($tds.eq(11)).find('input').val(name);
                     }
-                });
+                }
+            });
+        }
+        function searchRuc(txtRuc, txtRaz) {
+            let ruc = $('#' + txtRuc).val();
+            if (ruc.length < 11) {
+                swal("RUC debe tener 11 digitos");
+            } else {
+                SearchCompany(ruc, txtRaz);
+            }
+        }
+
+        function SearchCompany(ruc, txtRaz) {
+            APIController.GetCompanyByRuc(ruc).then((res) => {
+                $('#' + txtRaz).val(res.Data.Name);
+            });
+        }
+
+        function ModalImportExcel() {
+            $("#UploadModal").modal("show");
+        }
+
+        function ImportExcel() {
+            var data = new FormData();
+            data.append("file", document.getElementById("archivo").files[0]);
+            $.ajax({
+                cache: false,
+                dataType: 'json',
+                method: 'POST',
+                data: data,
+                contentType: false,
+                processData: false,
+                url: '/Schedule/Upload',
+                success: function (json) {
+                    renderTableSchedule(json)
+                    $("#UploadModal").modal("hide");
+                },
+                error: function (error) {
+                    alerta("Sucedió un error al conectarse al servidor", "rojo");
+                    console.log(error);
+                }
+            });
+        }
+
+        function renderTableSchedule(data) {
+            let $table = $("#mainTable tbody");
+            $table.empty;
+            let content = "";
+            content += "";
+            for (var i = 0; i < data.length; i++) {
+                content += "<tr>";
+                content += '<td style="width:40px"><div class="checkbox"> <input class="selected-row" type="checkbox" id="' + data[i].DocumentNumber + '" value="check" > <label for="' + data[i].DocumentNumber + '"></label></div></td>'
+                content += "<td ><input style='width:150px;' class='form-control text-center datepick' id='dtp-" + data[i].DocumentNumber + "'  value='" + data[i].DateSchedule + "'></td>";
+                content += "<td >" + renderddlTypeDoc(data[i].DocumentNumber) + "</td>";
+                content += "<td ><input style='width:200px;' class='form-control text-center' maxlength='15' id='txtNroDoc-" + data[i].DocumentNumber + "'  value='" + data[i].DocumentNumber + "'></td>";
+                content += "<td style='width:400px;'><input style='width:200px;' maxlength='50' class='form-control text-center' id='txtFirstName-" + data[i].DocumentNumber + "'  value='" + data[i].FirstName + "'></td>";
+                content += "<td ><input style='width:200px;' class='form-control maxlength='50' text-center' id='txtFirstLastName-" + data[i].DocumentNumber + "'  value='" + data[i].FirstLastName + "'></td>";
+                content += "<td><input style='width:200px;' class='form-control maxlength='50' text-center' id='txtSecondLastName-" + data[i].DocumentNumber + "'  value='" + data[i].SecondLastName + "'></td>";
+                content += "<td>" + renderddlGender(data[i].DocumentNumber) + "</td>";
+                content += "<td><input style='width:200px;' class='form-control maxlength='50' text-center' id='txtCurrentOccupation-" + data[i].DocumentNumber + "'  value='" + data[i].CurrentOccupation + "'></td>";
+                content += "<td><input style='width:600px;' class='form-control text-center' id='txtProtocol-" + data[i].DocumentNumber + "'  value='' readonly></td>";
+                content += "<td><input style='width:600px;' class='form-control text-center' id='txtCompFact-" + data[i].DocumentNumber + "'  value='' readonly></td>";
+                content += "<td><input style='width:600px;' class='form-control text-center' id='txtCompResult-" + data[i].DocumentNumber + "'  value='' readonly></td>";
+                content += "<td><input style='width:200px;' class='form-control maxlength='20' text-center' id='txtMobileNumber-" + data[i].DocumentNumber + "'  value='" + data[i].MobileNumber + "'></td>";
+                content += "<td><input style='width:200px;' class='form-control maxlength='50' text-center' id='txtEmail-" + data[i].DocumentNumber + "'  value='" + data[i].Email + "'></td>";
+                content += "<td><input class='div-tag' id='txtTag-" + data[i].DocumentNumber + "' type='text' value='' /></td>";
+                content += "<td class='text-nowrap'>";
+                content += "<a data-toggle='tooltip' data-original-title='Agregar Adicionales' onclick='ModalAdditionalExam(" + data[i].DocumentNumber + ")'> <i class='fa fa-plus text-inverse m-r-10'></i> </a>";
+                content += "<a data-toggle='tooltip' data-original-title='Eliminar'> <i class='fa fa-close text-warning btnRemove'></i> </a>";
+                content += "</td>";
+
+                content += "<td id='txtProtocolId-" + data[i].DocumentNumber + "' style='display:none' ></td>";
+                content += "</tr>";
             }
 
-            function renderTableSchedule(data) {
-                let $table = $("#mainTable tbody");
-                $table.empty;
+            $table.append(content);
+
+            $('.datepick').each(function () {
+                $(this).datepicker();
+                //{ dateFormat: 'dd-mm-yy' }
+            });
+
+            $('.div-tag').each(function () {
+                $(this).tagsinput({
+                    itemValue: 'id',
+                    itemText: 'text'
+                });
+            });
+
+            setValueDDL(data);
+        }
+
+        function setValueDDL(data) {
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                let dni = $($tds.eq(2)).find('select').attr('id').split("-")[1];
+                let objPerson = data.find(p => p.DocumentNumber == dni);
+                let valueDocTypeId = "-1";
+                let valueGenderId = "-1";
+
+                if (objPerson.DocumentTypeName == "DNI") {
+                    valueDocTypeId = DOC_TYPE_DNI;
+                } else if (objPerson.DocumentTypeName == "PASAPORTE") {
+                    valueDocTypeId = DOC_TYPE_PASSPORT;
+                } else if (objPerson.DocumentTypeName == "PTP") {
+                    valueDocTypeId = DOC_TYPE_PTP;
+                }
+
+                if (objPerson.Gender == "MASCULINO") {
+                    valueGenderId = 1;
+                } else if (objPerson.Gender == "FEMENINO") {
+                    valueGenderId = 2;
+                }
+
+                $($tds.eq(2)).find('select').val(valueDocTypeId);
+                $($tds.eq(7)).find('select').val(valueGenderId);
+
+            });
+        }
+
+        function renderddlTypeDoc(id) {
+            let htmlddlTypeDoc = "<select style='width:auto;' class='form-control form-white' id='ddl-" + id + "'>";
+            htmlddlTypeDoc += "<option value='-1'>--Seleccionar--</option>";
+            htmlddlTypeDoc += "<option value='1'>DNI</option>";
+            htmlddlTypeDoc += "<option value='2'>PASAPORTE</option>";
+            htmlddlTypeDoc += "<option value='3'>PTP</option>";
+            htmlddlTypeDoc += "</select>";
+            return htmlddlTypeDoc;
+        }
+
+        function renderddlGender(id) {
+            let htmlddlGender = "<select style='width:auto;' class='form-control form-white' id='ddl-" + id + "'>";
+            htmlddlGender += "<option value='-1'>--Seleccionar--</option>";
+            htmlddlGender += "<option value='1'>MASCULINO</option>";
+            htmlddlGender += "<option value='2'>FEMENINO</option>";
+            htmlddlGender += "</select>";
+            return htmlddlGender;
+        }
+
+        function ApiSunat() {
+            fetch('https://api.reniec.cloud/dni/42708421').then(res => {
+
+            });
+        }
+
+        function ModalAdditionalExam(id) {
+
+            $("#txthiddenAdditionalExamId").val(id);
+            let protocolId = $("#txtProtocolId-" + id).html();
+            if (protocolId == "") {
+                swal("Asigne un protocolo a este servicio por favor");
+                return;
+            }
+
+            $("#tbody-Add-Exam").empty();
+            $('#tbody-Add-Examns').empty();
+
+            APIController.GetAdditionalComponents(protocolId).then(res => {
+
+                let data = res.Data;
                 let content = "";
-                content += "";
                 for (var i = 0; i < data.length; i++) {
                     content += "<tr>";
-                    content += '<td style="width:40px"><div class="checkbox"> <input class="selected-row" type="checkbox" id="' + data[i].DocumentNumber + '" value="check" > <label for="' + data[i].DocumentNumber + '"></label></div></td>'
-                    content += "<td><input style='width:150px;' class='form-control text-center datepick' id='dtp-" + data[i].DocumentNumber + "'  value='" + data[i].DateSchedule + "'></td>";
-                    content += "<td>" + renderddlTypeDoc(data[i].DocumentNumber) + "</td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtNroDoc-" + data[i].DocumentNumber + "'  value='" + data[i].DocumentNumber + "'></td>";
-                    content += "<td style='width:400px;'><input style='width:200px;' class='form-control text-center' id='txtFirstName-" + data[i].DocumentNumber + "'  value='" + data[i].FirstName + "'></td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtFirstLastName-" + data[i].DocumentNumber + "'  value='" + data[i].FirstLastName + "'></td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtSecondLastName-" + data[i].DocumentNumber + "'  value='" + data[i].SecondLastName + "'></td>";
-                    content += "<td>" + renderddlGender(data[i].DocumentNumber) + "</td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtCurrentOccupation-" + data[i].DocumentNumber + "'  value='" + data[i].CurrentOccupation + "'></td>";
-                    content += "<td><input style='width:600px;' class='form-control text-center' id='txtProtocol-" + data[i].DocumentNumber + "'  value=''></td>";
-                    content += "<td style='display:none' ><input  class='form-control text-center' id='txtProtocolId-" + data[i].DocumentNumber + "'  value=''></td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtMobileNumber-" + data[i].DocumentNumber + "'  value='" + data[i].MobileNumber + "'></td>";
-                    content += "<td><input style='width:200px;' class='form-control text-center' id='txtEmail-" + data[i].DocumentNumber + "'  value='" + data[i].Email + "'></td>";
-                    content += "<td><input class='div-tag' id='txtTag-" + data[i].DocumentNumber + "' type='text' value='' /></td>";
-                    content += "<td class='text-nowrap'>";
-                    content += "<a data-toggle='tooltip' data-original-title='Agregar Adicionales' onclick='ModalAdditionalExam(" + data[i].DocumentNumber + ")'> <i class='fa fa-plus text-inverse m-r-10'></i> </a>";
-                    content += "<a data-toggle='tooltip' data-original-title='Eliminar' onclick='RemoveRow()'> <i class='fa fa-close text-warning'></i> </a>";
-                    content += "</td>";
+                    content += "<td style='width:40px'><div class='checkbox'> <input class='selected-AddExa' type='checkbox' id='AddExam-" + data[i].ComponentId + "' value='check'> <label for='AddExam-" + data[i].ComponentId + "'></label></div></td>";
+                    content += "<td>" + data[i].Name + "</td>";
+                    content += "<td>" + data[i].SalePrice + "</td>";
+                    content += "<td style:'display:none'>" + data[i].ComponentId + "</td>";
                     content += "</tr>";
                 }
 
-                $table.append(content);
+                $("#tbody-Add-Exam").append(content);
 
-                $('.datepick').each(function () {
-                    $(this).datepicker();
-                });
+            });
+            $("#AddAdditionalExamModal").modal("show");
 
-                $('.div-tag').each(function () {
-                    $(this).tagsinput({
-                        itemValue: 'id',
-                        itemText: 'text'
-                    });
-                });
+        }
 
-                setValueDDL(data);
+        function RemoveAddExamn(event) {
+            $(event.target).parent().parent().remove();
+        }
+
+        function AddAdditionalExam() {
+            let idInput = "#txtTag-" + $("#txthiddenAdditionalExamId").val();
+
+            $("#tbody-Add-Exam").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                let selectedRow = $tds.eq(0).find('.selected-AddExa').get(0).checked;
+                let componentName = $tds.eq(1).get(0).textContent;
+                let componentId = $tds.eq(3).get(0).textContent;
+                if (selectedRow)
+                    $(idInput).tagsinput('add', { id: componentId, text: componentName });
+            });
+
+            $("#tbody-Add-Examns tr").each(function (index, tr) {
+                let componentNameAdd = $(this).find("input").eq(0).val();
+                let componentIdAdd = $(this).find(".compId").eq(0).html();
+
+                $(idInput).tagsinput('add', { id: componentIdAdd, text: componentNameAdd });
+            });
+
+            $("#AddAdditionalExamModal").modal("hide");
+            $("#txthiddenAdditionalExamId").val(0);
+        }
+
+        function Schedule() {
+            ClearErrors();
+
+            var rowCounter = $('#mainTable > tbody tr').length;
+
+            if (rowCounter > 0) {
+
+                let errors = 0;
+                errors += ValidateTypeDocument();
+                errors += ValidateNroDocument();
+                errors += ValidateFirstName();
+                errors += ValidateFirstLastName();
+                errors += ValidateSecondName();
+                errors += ValidateTypeGender();
+                errors += ValidateOccupation();
+                errors += ValidateProtocol();
+                errors += ValidateCompanyFact();
+                errors += ValidateCompanyResult();
+                //errors += ValidateCell();
+                //errors += ValidateEmail();
+                if (errors == 0) SaveSchedule();
+                else alert("Necesita Validar");
+
             }
+        }
 
-            function setValueDDL(data) {
-                let $table = $("#mainTable tbody");
-                $table.find('tr').each(function (i, el) {
-                    var $tds = $(this).find('td');
-                    let dni = $($tds.eq(2)).find('select').attr('id').split("-")[1];
-                    let objPerson = data.find(p => p.DocumentNumber == dni);
-                    let valueDocTypeId = "-1";
-                    let valueGenderId = "-1";
+        function SaveSchedule() {
+            let listSchedule = [];
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
 
-                    if (objPerson.DocumentTypeName == "DNI") {
-                        valueDocTypeId = 1;
-                    } else if (objPerson.DocumentTypeName == "PASAPORTE") {
-                        valueDocTypeId = 2;
-                    } else if (objPerson.DocumentTypeName == "PTP") {
-                        valueDocTypeId = 3;
+                let schedule = {};
+                let $tds = $(this).find('td');
+
+                schedule.dateSchedule = $($tds.eq(1).find('input').get(0)).val();
+                schedule.docType = $($tds.eq(2).find('select').get(0)).val();
+                schedule.nroDoc = $($tds.eq(3).find('input').get(0)).val();
+                schedule.firstName = $($tds.eq(4).find('input').get(0)).val();
+                schedule.firstLastName = $($tds.eq(5).find('input').get(0)).val();
+                schedule.secondLastName = $($tds.eq(6).find('input').get(0)).val();
+                schedule.genderType = $($tds.eq(7).find('select').get(0)).val();
+                schedule.currentOcupation = $($tds.eq(8).find('input').get(0)).val();
+                schedule.protocolName = $($tds.eq(9).find('input').get(0)).val();
+                schedule.compFact = $($tds.eq(10).find('input').get(0)).val();
+                schedule.compResult = $($tds.eq(11).find('input').get(0)).val();
+                schedule.cell = $($tds.eq(12).find('input').get(0)).val();
+                schedule.email = $($tds.eq(13).find('input').get(0)).val();
+                schedule.protocolId = $($tds.eq(16)).text();
+                let id = "#" + $($tds.eq(14).find('.div-tag').get(0)).attr("id");
+                schedule.exaAddi = $(id).tagsinput('items');
+
+                listSchedule.push(schedule);
+            });
+
+            APIController.Schedule(listSchedule).then(res => {
+                swal("Listo");
+            });
+            console.log("XXX", listSchedule);
+        }
+
+        function ClearErrors() {
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                $($tds.eq(2).find('select').get(0)).removeClass("invalido");
+                $($tds.eq(3).find('input').get(0)).removeClass("invalido");
+                $($tds.eq(4).find('input').get(0)).removeClass("invalido");
+                $($tds.eq(5).find('input').get(0)).removeClass("invalido");
+                $($tds.eq(6).find('input').get(0)).removeClass("invalido");
+                $($tds.eq(7).find('select').get(0)).removeClass("invalido");
+                $($tds.eq(8).find('input').get(0)).removeClass("invalido");
+                $($tds.eq(9).find('input').get(0)).removeClass("invalido");
+                $($tds.eq(10).find('input').get(0)).removeClass("invalido");
+                $($tds.eq(11).find('input').get(0)).removeClass("invalido");
+                $($tds.eq(12).find('input').get(0)).removeClass("invalido");
+                $($tds.eq(13).find('input').get(0)).removeClass("invalido");
+            });
+        }
+
+        function ValidateTypeDocument() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $select = $($tds.eq(2).find('select').get(0));
+
+                if ($select.val() == -1) {
+                    $select.addClass("invalido");
+                    countErr++;
+                }
+
+            });
+
+            return countErr;
+        }
+
+        function ValidateNroDocument() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let typeDocumentId = $($tds.eq(2).find('select').get(0)).val();
+                if (typeDocumentId == DOC_TYPE_DNI) {
+                    let $input = $($tds.eq(3).find('input').get(0));
+                    if ($input.val().length != 8) {
+                        $($tds.eq(3).find('input').get(0)).addClass("invalido");
+                        countErr++;
                     }
+                }
 
-                    if (objPerson.Gender == "MASCULINO") {
-                        valueGenderId = 1;
-                    } else if (objPerson.Gender == "FEMENINO") {
-                        valueGenderId = 2;
-                    }
+            });
 
-                    $($tds.eq(2)).find('select').val(valueDocTypeId);
-                    $($tds.eq(7)).find('select').val(valueGenderId);
+            return countErr;
+        }
 
-                });
-            }
+        function ValidateFirstName() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $InputFirstName = $($tds.eq(4).find('input').get(0));
+                if ($InputFirstName.val().length < 2) {
+                    $InputFirstName.addClass("invalido");
+                    countErr++;
+                }
+            });
 
-            function renderddlTypeDoc(id) {
-                let htmlddlTypeDoc = "<select style='width:auto;' class='form-control form-white select-Service' id='ddl-" + id + "'>";
-                htmlddlTypeDoc += "<option value='-1'>--Seleccionar--</option>";
-                htmlddlTypeDoc += "<option value='1'>DNI</option>";
-                htmlddlTypeDoc += "<option value='2'>PASAPORTE</option>";
-                htmlddlTypeDoc += "<option value='3'>PTP</option>";
-                htmlddlTypeDoc += "</select>";
-                return htmlddlTypeDoc;
-            }
+            return countErr;
+        }
 
-            function renderddlGender(id) {
-                let htmlddlGender = "<select style='width:auto;' class='form-control form-white select-Service' id='ddl-" + id + "'>";
-                htmlddlGender += "<option value='-1'>--Seleccionar--</option>";
-                htmlddlGender += "<option value='1'>MASCULINO</option>";
-                htmlddlGender += "<option value='2'>FEMENINO</option>";
-                htmlddlGender += "</select>";
-                return htmlddlGender;
-            }
+        function ValidateFirstLastName() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $InputFirstLastName = $($tds.eq(5).find('input').get(0));
+                if ($InputFirstLastName.val().length < 2) {
+                    $InputFirstLastName.addClass("invalido");
+                    countErr++;
+                }
+            });
 
-            function ApiSunat() {
-                fetch('https://api.reniec.cloud/dni/42708421').then(res => {
-                    console.log("ApiSunat", res);
-                });
-            }
+            return countErr;
+        }
 
-            function ModalAdditionalExam(id) {
-                $("#txthiddenAdditionalExamId").val(id);
-                let protocolId = 1;
-                APIController.GetAdditionalComponents(protocolId).then(res => {
-                    $("#tbody-Add-Exam").empty();
-                    let data = res.Data;
-                    let content = "";
-                    for (var i = 0; i < data.length; i++) {
-                        content += "<tr>";
-                        content += "<td style='width:40px'><div class='checkbox'> <input type='checkbox' value='check'> <label for=''></label></div></td>";
-                        content += "<td>" + data[i].Name + "</td>";
-                        content += "<td>" + data[i].SalePrice + "</td>";
-                        content += "</tr>";
-                    }
+        function ValidateSecondName() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $InputFirstLastName = $($tds.eq(6).find('input').get(0));
+                if ($InputFirstLastName.val().length < 2) {
+                    $InputFirstLastName.addClass("invalido");
+                    countErr++;
+                }
+            });
 
-                    $("#tbody-Add-Exam").append(content);
+            return countErr;
+        }
 
-                });
-                $("#AddAdditionalExamModal").modal("show");
+        function ValidateTypeGender() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $select = $($tds.eq(7).find('select').get(0));
 
-            }
+                if ($select.val() == -1) {
+                    $select.addClass("invalido");
+                    countErr++;
+                }
+            });
 
-            function RemoveRow() {
-            }
+            return countErr;
+        }
 
-            function AddAdditionalExam() {
-                let input = $("#txtAdditionalExamen").val();
-                let idInput = "#txtTag-" + $("#txthiddenAdditionalExamId").val();
+        function ValidateOccupation() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $InputFirstLastName = $($tds.eq(8).find('input').get(0));
+                if ($InputFirstLastName.val().length < 2) {
+                    $InputFirstLastName.addClass("invalido");
+                    countErr++;
+                }
+            });
 
-                $(idInput).tagsinput('add', { id: $("#txthiddenAdditionalExamId").val(), text: input });
-                $("#AddAdditionalExamModal").modal("hide");
+            return countErr;
+        }
 
-                $("#txthiddenAdditionalExamId").val(0);
-            }
+        function ValidateProtocol() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $InputFirstLastName = $($tds.eq(9).find('input').get(0));
+                if ($InputFirstLastName.val().length < 2) {
+                    $InputFirstLastName.addClass("invalido");
+                    countErr++;
+                }
+            });
 
-            function Schedule() {
-                console.log("SSS", $("#txtTag-47987923").tagsinput('items'));
-            }
+            return countErr;
+        }
 
-            function AddAdditionalExamnsSchedule() {
-                addRowAddExamSchedule();
+        function ValidateCompanyFact() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $InputFirstLastName = $($tds.eq(9).find('input').get(0));
+                if ($InputFirstLastName.val().length < 2) {
+                    $InputFirstLastName.addClass("invalido");
+                    countErr++;
+                }
+            });
 
-            }
+            return countErr;
+        }
 
-            function addRowAddExamSchedule() {
+        function ValidateCompanyResult() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $InputFirstLastName = $($tds.eq(10).find('input').get(0));
+                if ($InputFirstLastName.val().length < 2) {
+                    $InputFirstLastName.addClass("invalido");
+                    countErr++;
+                }
+            });
 
-                let idExamAdd = "ExamAdd-" + Math.random().toString(36).substring(7);
-                let content = "";
-                content += "<tr id='" + idExamAdd + "'>";
-                content += "<td><input class='form-control tags'></td>"
-                content += "<td class='col-center'></td>"
-                content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveAddExamn(event)'></i></td>"
-                content += "</tr>";
-                $('#tbody-Add-Examns').append(content);
+            return countErr;
+        }
 
-                $(".tags").autocomplete({
-                    minLength: 4,
-                    delay: 500,
-                    create: function () { $(this).val(""); },
-                    source: function (request, response) {
-                        APIController.GetComponentsByName(request.term).then((data) => {
-                            var result = data.Data;
-                            var array = result.map((res) => {
-                                return { "label": res.Name, "value": res.CompanyId, "SalePrice": res.SalePrice }
-                            });
-                            response(array);
+        function ValidateCell() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $InputFirstLastName = $($tds.eq(11).find('input').get(0));
+                if ($InputFirstLastName.val().length < 2) {
+                    $InputFirstLastName.addClass("invalido");
+                    countErr++;
+                }
+            });
+
+            return countErr;
+        }
+
+        function ValidateEmail() {
+            let countErr = 0;
+            let $table = $("#mainTable tbody");
+            $table.find('tr').each(function (i, el) {
+                let $tds = $(this).find('td');
+                let $InputFirstLastName = $($tds.eq(12).find('input').get(0));
+                if ($InputFirstLastName.val().length < 2) {
+                    $InputFirstLastName.addClass("invalido");
+                    countErr++;
+                }
+            });
+
+            return countErr;
+        }
+
+        function AddAdditionalExamnsSchedule() {
+            addRowAddExamSchedule();
+
+        }
+
+        function addRowAddExamSchedule() {
+
+            let idExamAdd = "ExamAdd-" + Math.random().toString(36).substring(7);
+            let content = "";
+            content += "<tr id='" + idExamAdd + "'>";
+            content += "<td><input class='form-control tags'></td>"
+            content += "<td class='col-center'></td>"
+            content += "<td class='col-center'><i class='fa fa-close text-danger m-r-10' onclick='RemoveAddExamn(event)'></i></td>"
+            content += "<td class='compId' style:'display:none'></td>";
+            content += "</tr>";
+            $('#tbody-Add-Examns').append(content);
+
+            $(".tags").autocomplete({
+                minLength: 4,
+                delay: 500,
+                create: function () { $(this).val(""); },
+                source: function (request, response) {
+                    APIController.GetComponentsByName(request.term).then((data) => {
+                        var result = data.Data;
+                        var array = result.map((res) => {
+                            return { "label": res.Name, "value": res.CompanyId, "SalePrice": res.SalePrice, "ComponentId": res.ComponentId }
                         });
-                    },
-                    open: function () {
-                        $(this).autocomplete('widget').css('z-index', 8000);
-                        return false;
-                    },
-                    select: function (event, ui) {
-                        let salePrice = ui.SalePrice == null ? 0 : ui.SalePrice;
-                        $(this).parent().next().text(salePrice);
-                    }
-                });
-            }
+                        response(array);
+                    });
+                },
+                open: function () {
+                    $(this).autocomplete('widget').css('z-index', 8000);
+                    return false;
+                },
+                select: function (event, ui) {
+                    let salePrice = ui.SalePrice == null ? 0 : ui.SalePrice;
+                    $(this).parent().next().text(salePrice);
+                    $(this).parent().next().next().next().text(ui.item.ComponentId);
+                }
+            });
+        }
 
-            function SetProtocol() {
-                let $table = $("#mainTable tbody");
-                let protocolId = $("#ddlProtocol option:selected").val();
-                let protocolName = $("#ddlProtocol option:selected").text();
+        function SetProtocol() {
+            let $table = $("#mainTable tbody");
+            let protocolId = $("#ddlProtocol option:selected").val();
+            let protocolName = $("#ddlProtocol option:selected").text();
 
-                $table.find('tr').each(function (i, el) {
-                    var $tds = $(this).find('td');
 
-                    let selectedRow = $tds.eq(0).find('.selected-row').get(0).checked;
+            $table.find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
 
-                    if (selectedRow) {
-                        $($tds.eq(9).find('input')).val(protocolName);
-                        $($tds.eq(10).find('input')).val(protocolId);
-                    }
+                let selectedRow = $tds.eq(0).find('.selected-row').get(0).checked;
 
-                });
-            }
+                if (selectedRow) {
+                    $($tds.eq(9).find('input')).val(protocolName);
+                    $tds.eq(16).text(protocolId);
+                }
+            });
+        }
 
-            function ClearTableSchedule() {
-                let $table = $("#mainTable tbody");
-                $table.empty();
-            }
+        function ClearTableSchedule() {
+            let $table = $("#mainTable tbody");
+            $table.empty();
+        }
+        function downloadFile() {
+
+        }
+
     </script>
 }

@@ -1,6 +1,10 @@
 ﻿using BE;
 using BL;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using SigesoftWebUI.Controllers.Base;
+using SigesoftWebUI.Repositories;
+using SigesoftWebUI.Utils.PDF;
 using System;
 using System.IO;
 using System.Net;
@@ -15,6 +19,8 @@ namespace SigesoftWebUI.Controllers
     public class EmailController : GenericController
     {
         private EmailBL _emailBL = new EmailBL();
+        private readonly QuotationRepository quotationRepository = new QuotationRepository();
+        Generator generator = new Generator();
         private SmtpClient Cliente { get; }
         private EmailSenderOptions Options { get; }
         private QuotationBL _quotationBL = new QuotationBL();
@@ -94,8 +100,8 @@ namespace SigesoftWebUI.Controllers
                         StatusQuotationId = Convert.ToInt32(StateQuotation.Aceptada)
                     };
 
-                    var responseA = _quotationBL.Save(dataQuotation, SessionUsuario.Token);
-                    var responseB = _quotationBL.MigrateQuotationToProtocols(dataQuotationMigrate, SessionUsuario.Token);
+                    var responseA = _quotationBL.Save(dataQuotation, validated.Token);
+                    var responseB = _quotationBL.MigrateQuotationToProtocols(dataQuotationMigrate, validated.Token);
                     var responseC = _quotationBL.Update(dataQuotationUpdate, SessionUsuario.Token);
 
                     return RedirectToAction("Index", "Quotation");
@@ -114,17 +120,22 @@ namespace SigesoftWebUI.Controllers
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient(Options.Host);
 
-                string path = Path.Combine(HttpRuntime.AppDomainAppPath, "File");
-                string fileName = "PLANTILLA_PROPUESTA_COMERCIAL.docx";
-                string filePath = Path.Combine(path, fileName);
+                string path = Path.Combine(HttpRuntime.AppDomainAppPath, "Template");
+                string filePath = Path.Combine(path, data.secondNameDocument);
+
+                string pdfPathDocument = Server.MapPath(@"~\Documents\") + data.firstNameDocument;
 
                 mail.From = new MailAddress(Options.Email, Options.Name, Encoding.UTF8);
                 mail.To.Add(data.to);
                 mail.Subject = data.subject;
-                mail.Body = data.body;
-                System.Net.Mail.Attachment attachment;
-                attachment = new System.Net.Mail.Attachment(filePath);
-                mail.Attachments.Add(attachment);
+                mail.Body = "<html><body>" +data.body + "</html></body>";
+                mail.IsBodyHtml = true;
+                Attachment attachmentA;
+                Attachment attachmentB;
+                attachmentA = new Attachment(filePath);
+                attachmentB = new Attachment(pdfPathDocument);
+                mail.Attachments.Add(attachmentA);
+                mail.Attachments.Add(attachmentB);
 
                 SmtpServer.Port = Options.Port;
                 SmtpServer.Credentials = new System.Net.NetworkCredential(Options.Email, Options.Password);

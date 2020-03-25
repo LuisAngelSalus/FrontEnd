@@ -102,6 +102,15 @@ namespace BL
             return obj;
         }
 
-        
+        public bool ValidateUserCompany(int responsibleSystemUserId, string ruc, string token)
+        {
+            bool obj = true;
+            var hCliente = _global.rspClientGET("Company/"+ responsibleSystemUserId+"/"+ ruc+"/ValidarResponsable", token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<bool>(hCliente.Content.ReadAsStringAsync().Result);
+            }            
+            return obj;
+        }
     }
 }

@@ -275,6 +275,7 @@ namespace BE
         public int StatusQuotationId { get; set; }
         public string StatusQuotationName { get; set; }
         public string Indicator { get; set; }
+        public string Email { get; set; }
         public List<QuoteTrackingFilterDto> QuoteTracking { get; set; }
     }
     public class QuoteTrackingFilterDto
