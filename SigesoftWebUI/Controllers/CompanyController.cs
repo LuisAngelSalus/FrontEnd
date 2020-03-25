@@ -1,6 +1,7 @@
 ﻿using BE;
 using BL;
 using SigesoftWebUI.Controllers.Base;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -18,13 +19,9 @@ namespace SigesoftWebUI.Views.Organization
         {
             var oParamsCompanyFilterModel = new ParamsCompanyFilterModel();
             oParamsCompanyFilterModel.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
-            var response = _companyBL.Companies(oParamsCompanyFilterModel, SessionUsuario.Token);
-            if (response.IsSuccess)
-            {
-                ViewBag.data = response.Data;
-            }
+            var response = _companyBL.Companies(oParamsCompanyFilterModel, SessionUsuario.Token).Data;
 
-            return View();
+            return View(response);
         }
 
         public ActionResult Detail(int id)
@@ -86,10 +83,16 @@ namespace SigesoftWebUI.Views.Organization
             return Json("File uploaded successfully");
         }
 
-        public JsonResult Contacts(int companyId)
+        //public JsonResult Contacts(int companyId)
+        //{
+        //    var response = _companyBL.Contacts(companyId, SessionUsuario.Token);
+        //    return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult Contacts(int id )
         {
-            var response = _companyBL.Contacts(companyId, SessionUsuario.Token);
-            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            var response = _companyBL.Contacts(id, SessionUsuario.Token).Data;
+            return PartialView("Contacts", response);
         }
 
         public JsonResult CompanyByRuc(string ruc)
@@ -111,7 +114,7 @@ namespace SigesoftWebUI.Views.Organization
             var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
             LoginDto oLoginDto = new LoginDto();
             oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
+            //oLoginDto.v_Password = sessione.Pass;
             var validated = _securityBL.ValidateAccess(oLoginDto);
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion

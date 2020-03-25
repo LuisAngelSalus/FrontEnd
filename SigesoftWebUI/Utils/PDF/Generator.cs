@@ -3,6 +3,8 @@ using iTextSharp.text;
 using iTextSharp.text.html;
 using iTextSharp.text.pdf;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Utils;
 
 namespace SigesoftWebUI.Utils.PDF

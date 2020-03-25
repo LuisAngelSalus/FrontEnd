@@ -9,6 +9,9 @@ using System;
 using System.IO;
 using System.Text;
 using System.Web.Mvc;
+using SigesoftWebUI.Utils.PDF;
+using System.Collections.Generic;
+using SigesoftWebUI.Utils;
 
 namespace SigesoftWebUI.Controllers
 {

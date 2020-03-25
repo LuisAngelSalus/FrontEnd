@@ -1276,6 +1276,7 @@
     <Content Include="Content\tagsinput.css" />
     <Content Include="images\certificado_registro.png" />
     <Content Include="Scripts\jquery.fixedheadertable.min.js" />
+    <Content Include="Scripts\Portal\Company\Index.js" />
     <Content Include="Scripts\tagsinput.js" />
     <Content Include="Content\themes\type-a\theme-coffee.css" />
     <Content Include="Content\themes\type-a\theme-coffee.min.css" />
@@ -4471,7 +4472,6 @@
     <Content Include="Views\Generals\Index.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Company\Detail.cshtml" />
-    <Content Include="Views\Quotation\Index.cshtml" />
     <Content Include="Views\Quotation\Register.cshtml" />
     <Content Include="Views\View.cshtml" />
     <Content Include="Views\IngresoSistema\Login.cshtml" />
@@ -4490,12 +4490,14 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\VistaParcialMainLayout\_vpConfiguracion.cshtml" />
+    <Content Include="Views\Quotation\Index.cshtml" />
+    <Content Include="Views\Company\Contacts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Logos\" />
-    <Folder Include="plugins\flot-charts\examples\gauge\" />
     <Folder Include="Log\" />
+    <Folder Include="plugins\flot-charts\examples\gauge\" />
     <Folder Include="Views\AccountSetting\" />
     <Folder Include="Views\ClientUser\" />
     <Folder Include="Views\Error\" />

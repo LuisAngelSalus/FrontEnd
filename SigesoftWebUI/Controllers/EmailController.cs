@@ -100,8 +100,8 @@ namespace SigesoftWebUI.Controllers
                         StatusQuotationId = Convert.ToInt32(StateQuotation.Aceptada)
                     };
 
-                    var responseA = _quotationBL.Save(dataQuotation, validated.Token);
-                    var responseB = _quotationBL.MigrateQuotationToProtocols(dataQuotationMigrate, validated.Token);
+                    //var responseA = _quotationBL.Save(dataQuotation, validated.Token);
+                    //var responseB = _quotationBL.MigrateQuotationToProtocols(dataQuotationMigrate, validated.Token);
                     var responseC = _quotationBL.Update(dataQuotationUpdate, SessionUsuario.Token);
 
                     return RedirectToAction("Index", "Quotation");

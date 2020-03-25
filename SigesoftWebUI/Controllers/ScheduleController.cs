@@ -1,5 +1,7 @@
-﻿using BL;
+﻿using BE;
+using BL;
 using SigesoftWebUI.Controllers.Base;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Web.Mvc;
@@ -65,7 +67,7 @@ namespace SigesoftWebUI.Controllers
             var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
             LoginDto oLoginDto = new LoginDto();
             oLoginDto.v_UserName = sessione.UserName;
-            oLoginDto.v_Password = sessione.Pass;
+            //oLoginDto.v_Password = sessione.Pass;
             var validated = _securityBL.ValidateAccess(oLoginDto);
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion

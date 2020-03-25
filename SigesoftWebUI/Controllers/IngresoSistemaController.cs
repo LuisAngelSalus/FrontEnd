@@ -38,9 +38,9 @@ namespace SigesoftWebUI.Controllers
                 if (result != null)
                 {
                     sessionModel = new SessionModel();
-
+                                        
+                    sessionModel = _securityBL.UserAccess(result.SystemUserId, result.Token);
                     sessionModel.Token = result.Token;
-                    sessionModel = _securityBL.UserAccess(result.SystemUserId, sessionModel.Token);
 
                     FormsAuthentication.SetAuthCookie(sessionModel.UserName, false);
 

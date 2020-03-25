@@ -1,326 +1,102 @@
-﻿@{
-    ViewBag.Title = "View";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model IEnumerable<BE.ListCompanyDto>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 @section Styles{
-    <style type="text/css">
-        body {
-            color: #000000 !important;
-        }
-
-        #tableOrganizations_wrapper {
-            font-size: 12px;
-        }
-
-        #tableOrganizations tbody tr td {
-            padding-top: 5px;
-            padding-bottom: 5px;
-            vertical-align: middle;
-        }
-
-        .cancelBtn {
-            display: none;
-        }
-
-        .table-info, .table-info > td, .table-info > th {
-            background-color: #2e548f;
-            color: #ffffff;
-        }
-
-        .color-table.success-table thead th {
-            background-color: #2e548f;
-            color: #ffffff;
-        }
-
-        .table-hover .table-info:hover {
-            background-color: #2e548f;
-        }
-
-        table.dataTable thead .sorting:after {
-            color: rgb(255, 255, 255);
-        }
-
-        .btn-primary, .btn-primary.disabled {
-            background: #0dc4c6 !important;
-        }
-
-            .btn-primary:hover, .btn-primary.disabled:hover {
-                border: 1px solid #ffffff;
-            }
-    </style>
+    <link href="~/plugins/fooTable/css/footable.core.css" rel="stylesheet">
 }
 
-<div class="card mb-2">
-    <div class="card-body pt-2 pb-2">
-        <h3 class="card-title">Listado de Empresas</h3>
-        <h5 class="card-subtitle mb-0">Mantenimiento de Empresas</h5>
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Listado de Empresas</h1>
     </div>
 </div>
 
-<div class="card">
-
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <div class="card-body m-0 p-0">
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Mantenimiento de Empresas</h3>
+        </div>
+        <div class="panel-body">
+            <table id="demo-foo-addrow" class="table table-bordered table-hover toggle-circle" data-page-size="7">
+                <thead>
+                    <tr>
+                        <th data-sort-initial="true" data-toggle="true">EMPRESA</th>
+                        <th>RUC</th>
+                        <th data-hide="phone, tablet">DIRECCIÓN</th>
+                        <th data-hide="phone, tablet">TELEFONO</th>
+                        <th data-hide="phone, tablet">NOMBRE CONTACTO</th>
+                        <th data-hide="phone, tablet">EMAIL</th>
+                        <th data-hide="phone, tablet" style="width:210px;"></th>
+                    </tr>
+                </thead>
+                <div class="pad-btm form-inline">
                     <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group mb-0" data-column="0">
-                                <label>Empresa</label>
-                                <input id="col0_filter" type="text" class="form-control column_filter" value="">
+                        <div class="col-sm-6 text-xs-center">
+                            <div class="form-group">
+
+                                <a href="@Url.Action("Detail","Company",new { id = 0})" class="btn btn-purple"> Registrar Empresa</a>
+
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="card-body m-0 p-0" style="padding-top: 32px !important;">
-                                <button id="btnBuscar" class="btn btn-secondary waves-effect waves-light">Buscar</button>
-                            </div>
-                        </div>
-                        <div class="col-md">
-                            <div class="card-body m-0 p-0 text-right" style="padding-top: 32px !important;">
-                                <button onclick="location.href='@Url.Action("Detail","Company",new {id = 0})'" class="btn btn-success waves-effect waves-light m-r-10">Registrar Empresa</button>
+                        <div class="col-sm-6 text-xs-center text-right">
+                            <div class="form-group">
+                                <input id="demo-input-search2" type="text" placeholder="Search" class="form-control" autocomplete="off">
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="table-responsive m-t-20">
-            <table id="tableOrganizations" class="table table-bordered table-hover">
-                <thead class="table-info">
-                    <tr>
-                        <th>EMPRESA</th>
-                        <th>RUC</th>
-                        <th>DIRECCIÓN</th>
-                        <th>TELEFONO</th>
-                        <th>NOMBRE CONTACTO</th>
-                        <th>EMAIL</th>
-                        <th class="text-nowrap">&ensp;</th>
-                    </tr>
-                </thead>
                 <tbody>
-
-                    @foreach (var item in ViewBag.data)
+                    @foreach (var item in Model)
                     {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.IdentificationNumber</td>
+                            <td>@item.Address</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>@item.ContactName</td>
+                            <td>@item.Mail</td>
+                            <td>
+                                <div class="eq-height">
+                                    <div class="btn-group mar-rgt">
+                                        <a data-modal="" href="@Url.Action("Contacts","Company",new {id = item.CompanyId })" class="btn btn-mint btn-active-purple"> <i class="ti-user"></i></a>
+                                        <a class="btn btn-default btn-active-purple" href="@Url.Action("Detail","Company",new {id = item.CompanyId })" data-toggle="tooltip" data-original-title="Editar"><i class="ti-pencil"></i></a>
+                                        <a class="btn btn-warning btn-active-purple" href="@Url.Action("Register","Quotation", new { id = 0, ruc = item.IdentificationNumber})" data-toggle="tooltip" data-original-title="Crear Cotización"><i class="ti-file"></i></a>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
                     <tr>
-                        <td>@item.Name</td>
-                        <td>@item.IdentificationNumber</td>
-                        <td>@item.Address</td>
-                        <td>@item.PhoneNumber</td>
-                        <td>@item.ContactName</td>
-                        <td>@item.Mail</td>
-                        <td class="text-nowrap text-right">
-                            <div class="btn-list">
-                                <a class="" href="#" data-toggle="tooltip" data-original-title="Contactos"> <i onclick="Ver(@item.CompanyId)" class="fa fa-user btn waves-effect waves-light btn-primary"></i></a>
-                                <a class="" href="@Url.Action("Detail","Company",new {id = @item.CompanyId })" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil btn waves-effect waves-light btn-secondary"></i></a>
-                                <a class="" href="@Url.Action("Register","Quotation", new { id = 0, ruc = @item.IdentificationNumber})" data-toggle="tooltip" data-original-title="Crear Cotización"><i class="fa fa-file-text-o btn waves-effect waves-light btn-warning"></i></a>
+                        <td colspan="7">
+                            <div class="text-right">
+                                <ul class="pagination"></ul>
                             </div>
                         </td>
                     </tr>
-                    }
-                </tbody>
+                </tfoot>
             </table>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-    <div class="modal-dialog modal-lg" role="document">
+
+<div class="modal" id="companyContacts">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel1">Contactos Registrados</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body" style="font-size:10px;">
-                <table class="table color-table success-table ">
-                    <thead>
-                        <tr>
-                            <th>SEDE</th>
-                            <th>NONBRE</th>
-                            <th>US</th>
-                            <th>DNI</th>
-                            <th>CM</th>
-                            <th>TELEFONO</th>
-                            <th>EMAIL</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-contacts">
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
-            </div>
+            <div id="companyContactsContent"></div>
         </div>
     </div>
 </div>
 
-<!-- ============================================================== -->
-<!-- All Jquery -->
-<!-- ============================================================== -->
-<script src="~/assets/plugins/jquery/jquery.min.js"></script>
-<script src="~/Scripts/APIController.js"></script>
-<!--Custom JavaScript -->
-@*<script src="~/assets/js/custom.min.js"></script>*@
-<script src="~/assets/plugins/moment/moment.js"></script>
-<script src="~/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-<!-- Clock Plugin JavaScript -->
-<script src="~/assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
-<!-- Color Picker Plugin JavaScript -->
-<script src="~/assets/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
-<script src="~/assets/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
-<script src="~/assets/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
-<!-- Date Picker Plugin JavaScript -->
-<script src="~/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-<!-- Date range Plugin JavaScript -->
-<script src="~/assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
-<script src="~/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-
-<script>
-
-    minDateFilter = "";
-    maxDateFilter = "";
-
-    $(document).ready(function () {
-        $('#tableOrganizations').dataTable({
-            dom: 'lfrtip',
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-
-        $('body').on('click', '#btnBuscar', function () {
-            filterColumn(0);
-        });
-
-        $("#txtFecha").val("");
-
-        //$('input.column_filter').on( 'keyup click', function () {
-        //    filterColumn( $(this).parents('div').attr('data-column') );
-        //} );
-
-    });
-
-    function filterColumn(i) {
-        $('#tableOrganizations').DataTable().column(i).search(
-            $('#col' + i + '_filter').val()
-        ).draw();
-    }
-
-    function Ver(companyId) {
-        $("#exampleModal").modal("show");
-
-        APIController.GetContacts(companyId).then((res) => {
-            var data = res.Data;
-            var content = "";
-            for (var i = 0; i < data.length; i++) {
-                content += '<tr>';
-                content += '<td>' + data[i]["CompanyHeadquarterName"] + '</td>';
-                content += '<td>' + data[i]["FullName"] + '</td>';
-                content += '<td>' + data[i]["TypeUs"] + '</td>';
-                content += '<td>' + data[i]["Dni"] + '</td>';
-                content += '<td>' + data[i]["CM"] + '</td>';
-                content += '<td>' + data[i]["Phone"] + '</td>';
-                content += '<td>' + data[i]["Email"] + '</td>';
-                content += '</tr>'
-            }
-            $("#table-contacts").empty();
-            $("#table-contacts").append(content);
-        });
-
-    }
-
-    // Daterange picker
-    $('.input-daterange-datepicker').daterangepicker({
-        buttonClasses: ['btn', 'btn-sm'],
-        applyClass: 'btn-danger',
-        cancelClass: 'btn-inverse',
-        "locale": {
-            "format": "DD/MM/YYYY",
-            //"separator": " - ",
-            //"applyLabel": "Aceptar",
-            //"fromLabel": "Desde",
-            //"toLabel": "Hasta",
-            //"customRangeLabel": "Custom",
-            "separator": " to ",
-            "applyLabel": "Apply",
-            "cancelLabel": "Cancel",
-            "fromLabel": "From",
-            "toLabel": "To",
-            "customRangeLabel": "Custom",
-            "weekLabel": "W",
-            "daysOfWeek": [
-                "Do",
-                "Lu",
-                "Ma",
-                "Mi",
-                "Ju",
-                "Vi",
-                "Sa"
-            ],
-            "monthNames": [
-                "Enero",
-                "Febrero",
-                "Marzo",
-                "Abril",
-                "Mayo",
-                "Junio",
-                "Julio",
-                "Agosto",
-                "Septiembre",
-                "Octubre",
-                "Noviembre",
-                "Diciembre"
-            ],
-            "firstDay": 1
-        },
-        "opens": "center",
-    }, function (start, end, label) {
-        maxDateFilter = end;
-        minDateFilter = start;
-        table.draw();
-    });
-
-    $('.input-daterange-timepicker').daterangepicker({
-        timePicker: true,
-        format: 'MM/DD/YYYY h:mm A',
-        timePickerIncrement: 30,
-        timePicker12Hour: true,
-        timePickerSeconds: false,
-        buttonClasses: ['btn', 'btn-sm'],
-        applyClass: 'btn-danger',
-        cancelClass: 'btn-inverse'
-    });
-    $('.input-limit-datepicker').daterangepicker({
-        format: 'MM/DD/YYYY',
-        //minDate: '06/01/2015',
-        //maxDate: '06/30/2015',
-        buttonClasses: ['btn', 'btn-sm'],
-        applyClass: 'btn-danger',
-        cancelClass: 'btn-inverse',
-        dateLimit: {
-            days: 6
-        }
-    });
-</script>
+@section scripts{
+    <script src="~/plugins/fooTable/dist/footable.all.min.js"></script>
+    <script src="~/Scripts/demo/tables-footable.js"></script>
+    <script src="~/Scripts/Portal/Company/Index.js"></script>
+}
