@@ -4,9 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var companyId = 0;
+    var nameLogo = "";
     if (ViewBag.Detail.companyHeadquarter.Count != 0)
     {
         companyId = ViewBag.Detail.CompanyId;
+        nameLogo = ViewBag.Detail.IdentificationNumber + ".png";
     }
 }
 
@@ -14,7 +16,7 @@
     <link rel="stylesheet" href="~/assets/plugins/dropify/dist/css/dropify.min.css">
 
     <style type="text/css">
-        .invalid-feedback .has-error-required{
+        .invalid-feedback .has-error-required {
             display: none !important;
         }
     </style>
@@ -53,8 +55,12 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card-body m-0 p-0">
-                            <input type="file" id="input-file-now" class="dropify" />
+                        <div class="card-body m-0 p-0" style="text-align:center">
+                            <img id="imglogo" src="~/Content/LogosCompany/@nameLogo" alt="Logo empresa" height="200" width="200" />
+                            <div style="text-align:center">
+                                <button type="button" onclick="changeLogo()" class="btn waves-effect waves-light btn-xs btn-info">Cambiar</button>
+                                <button type="button" onclick="removeLogo()" class="btn waves-effect waves-light btn-xs btn-danger">Eliminar</button>
+                            </div>                           
                         </div>
                     </div>
                 </div>
@@ -175,13 +181,31 @@
                 <div class="row">
                     <div class="col-md-6 col-12 mb-1">
                         <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">@(companyId == 0 ? "Crear Empresa" : "Modificar Empresa")</button>
-                    </div>              
+                    </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalUploadLogo" tabindex="-1" role="dialog" aria-labelledby="modalUploadLogoLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalUploadLogoLabel">Seleccionar Imagen</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" style="font-size:10px;">
+                <input type="file" id="input-file-now" class="dropify" data-allowed-file-extensions="png"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="AcceptLogo()" class="btn btn-info" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section scripts{
 
@@ -215,9 +239,9 @@
             if ($('#txtIdentificationNumber').val().length < 11) {
                 swal("RUC debe tener 11 digitos");
             } else {
-                ValidateUserCompany(ruc);           
+                ValidateUserCompany(ruc);
             }
-        }); 
+        });
 
         function ValidateUserCompany(ruc) {
             //let param = { "ruc": ruc };
@@ -226,7 +250,7 @@
                 if (res) {
                     SearchCompany(ruc);
                 } else {
-                    swal("Esta empresa le pertenece a otra persona");                               
+                    swal("Esta empresa le pertenece a otra persona");
                 }
             });
         }
@@ -234,7 +258,7 @@
 
         function SearchCompany(ruc) {
             APIController.GetCompanyByRuc(ruc).then((res) => {
-                
+
                 $('#txtCompanyId').val(res.Data.CompanyId);
                 $('#txtCompanyName').val(res.Data.Name);
                 $('#txtDistrict').val(res.Data.District);
@@ -281,8 +305,8 @@
 
         function InfoSunat(ruc) {
             APIController.GetInfoSunat(ruc).then((res) => {
-                
-                swal("Búsqueda correcta");                               
+
+                swal("Búsqueda correcta");
                 $('#txtCompanyName').val(res.Data.RazonSocial);
                 $('#txtDistrict').val(res.Data.Distrito);
                 $('#txtAddress').val(res.Data.TipoVia + ' ' + res.Data.CodigoZona + ' N°' + res.Data.Numero + ' ' + res.Data.NombreVia + ' ' + res.Data.TipoZona,);
@@ -311,7 +335,7 @@
         $(".disableTd").removeAttr("tabindex");
 
         $("#btnNewHeadquarter").click(function (e) {
-            
+
             let idTemp = Math.random().toString(36).substring(7);
             var content = "";
             content += "<tr>";
@@ -355,6 +379,32 @@
         });
 
     });
+
+    //function renderImageLogo() {
+    //    let obj = $("#input-file-now")[0].files;
+    //    //console.log("AAAa", x);
+    //    if (obj && obj[0]) {
+    //        var reader = new FileReader();
+    //        reader.readAsDataURL(obj[0]);
+    //        console.log("reader", reader);
+    //    }
+    //}
+
+
+    function getFileLogo() {
+         return new Promise((resolve, reject) => {
+            let obj = $("#input-file-now")[0].files;
+            if (obj && obj[0]) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    //console.log(reader.result);
+                    resolve( reader.result);
+                }
+                //reader.readAsText(obj[0])
+                reader.readAsDataURL(obj[0])
+            }
+         });
+    }
 
     function Save() {
         if ($("#txtIdentificationNumber").val() == "") {
@@ -429,6 +479,8 @@
             return;
         }
 
+        console.log("XXX",$("#imglogo").attr("src"));
+
         var data = {
             "CompanyId":@companyId,
             "Name": $("#txtCompanyName").val(),
@@ -439,6 +491,7 @@
             "Mail": $("#txtMail").val(),
             "District": $("#txtDistrict").val(),
             "PhoneCompany": $("#txtPhoneCompany ").val() == null ? '-' : $("#txtPhoneCompany ").val(),
+            "ImageLogo": $("#imglogo").attr("src").replace(/^data:image\/(png|jpg);base64,/,""),
             "companyHeadquarter": new Array()
         }
 
@@ -476,28 +529,29 @@
                     cancelButtonText: "No",
                     showLoaderOnConfirm: true
                 }, function () {
-                APIController.SaveCompany(data).then((res) => {                              
+                APIController.SaveCompany(data).then((res) => {
                     if (res.IsSuccess == false) {
                         swal("Error", "¡Ocurrió un error en la operación!", "error");
                     } else {
                         askWhatToDo(title,res.Data.IdentificationNumber);
                     }
-                        
+
                     });
                 });
             }).catch((err) => {
-                APIController.SaveCompany(data).then((res) => {                    
+                APIController.SaveCompany(data).then((res) => {
                      askWhatToDo(title,res.Data.IdentificationNumber);
                 });
             });
         } else {
-            APIController.SaveCompany(data).then((res) => {                 
+            APIController.SaveCompany(data).then((res) => {
                 if (res.IsSuccess == false) {
                     swal("Error", "¡Ocurrió un error en la operación!", "error");
                 }
                  askWhatToDo(title,res.Data.IdentificationNumber);
             });
-        }
+        }       
+
     }
 
     function askWhatToDo(title, ruc) {
@@ -515,15 +569,31 @@
                 function (isConfirm) {
                     if (isConfirm) {
                         window.location.href = "/Company/Index/";
-                    } else {                        
+                    } else {
                         var url = '@Url.Action("Register", "Quotation", new { id = "js-id", ruc = "js-ruc" })'
                             .replace("js-id", encodeURIComponent(0))
                         .replace("js-ruc", encodeURIComponent(ruc));
 
                         location.href = url;
-                        
+
                     }
                 });
+    }
+
+
+    function changeLogo() {
+        $("#modalUploadLogo").modal("show");
+    }
+
+    function removeLogo() {
+        $("#imglogo").attr("src", "");
+    }
+
+    function AcceptLogo() {
+        getFileLogo().then(res => {            
+            $("#imglogo").attr("src", res);
+            $("#modalUploadLogo").modal("hide");
+        });
     }
 
     </script>

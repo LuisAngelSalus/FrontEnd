@@ -1,6 +1,7 @@
 ﻿using BE;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +50,7 @@ namespace BL
 
                 if (hCliente.IsSuccessStatusCode)
                 {
-                    obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
+                    obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);                    
                 }
                 return obj;
             }
@@ -58,7 +59,7 @@ namespace BL
                 var hCliente = _global.rspClient("Company/", data, token);
                 if (hCliente.IsSuccessStatusCode)
                 {
-                    obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);
+                    obj = new JavaScriptSerializer().Deserialize<Response<CompanyDetailDto>>(hCliente.Content.ReadAsStringAsync().Result);                    
                 }
                 return obj;
             }                     
@@ -112,5 +113,6 @@ namespace BL
             }            
             return obj;
         }
+
     }
 }

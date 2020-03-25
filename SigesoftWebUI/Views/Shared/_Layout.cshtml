@@ -521,6 +521,7 @@
         }
 
         function buildSideBar(obj) {
+            console.log("SIDE BAR", obj);
             let company = objData.Companies.filter((res) => {
                 return res.CompanyId == obj.OwnerCompanyId;
             });

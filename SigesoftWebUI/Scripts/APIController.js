@@ -1294,6 +1294,7 @@
                 schedule(parameters).then(res => resolve(res));
             });
         },
+
         GetAttachForQuotation: function () {
             return new Promise((resolve, reject) => {
                 getAttachForQuotation().then(res => resolve(res));

@@ -69,6 +69,7 @@
     <Compile Include="ProtocolProfileBL.cs" />
     <Compile Include="QuotationBL.cs" />
     <Compile Include="QuoteTrackingBL.cs" />
+    <Compile Include="ReceptionBL.cs" />
     <Compile Include="RoleBL.cs" />
     <Compile Include="ScheduleBL.cs" />
     <Compile Include="SecuentialBL.cs" />

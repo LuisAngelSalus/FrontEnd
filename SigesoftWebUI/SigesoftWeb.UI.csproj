@@ -300,6 +300,7 @@
     <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\QuoteTrackingController.cs" />
+    <Compile Include="Controllers\ReceptionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\SecuentialController.cs" />
@@ -1263,6 +1264,7 @@
     <Content Include="Content\images\ui-icons_bf3030_256x240.png" />
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\Jquery-ui.css" />
+    <Content Include="Content\LogosCompany\20100110513.jpg" />
     <Content Include="Content\myTheme.css" />
     <Content Include="Content\Quotation.css" />
     <Content Include="Content\tagsinput.css" />
@@ -1796,6 +1798,7 @@
     <Content Include="Views\Customer\CompanyData.cshtml" />
     <Content Include="Views\Schedule\Register.cshtml" />
     <Content Include="Template\PLANTILLA_PROPUESTA_COMERCIAL.pdf" />
+    <Content Include="Views\Reception\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
