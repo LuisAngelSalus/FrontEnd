@@ -892,8 +892,29 @@
                     "secondNameDocument" : $('#secondNameDocument').val(),
                 }).then((res) => {
                     //Desactivar loading
-                    $("#Loading").hide();
-                    swal("Ok", "Correo enviado con éxito", "success");
+
+                    CloseLoading();
+                    //swal("Ok", "Correo enviado con éxito", "success");
+
+                    swal({
+                title: "IMPORTANTE",
+                text: "Correo enviado con éxito",
+                type: "info",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function (isConfirm) {
+                    if (isConfirm) {
+
+                       var url = '@Url.Action("Index", "Quotation")';
+                    location.href = url;
+
+                    }
+                    else {
+                        console.log("Canceló grabado");
+                    }
+            });
+
+                    
                 })
         }
 
@@ -924,7 +945,7 @@
                     resp.attaches.map(res => {
                         var mockfile = { name: res.Name, size: res.Size };
                         myDropzone.emit('addedfile', mockfile);
-                        myDropzone.emit('thumbnail', mockfile,'https://localhost:44310/assets/images/thumbnail/descarga.png');
+                        myDropzone.emit('thumbnail', mockfile,'../../assets/images/thumbnail/descarga.png');
                         myDropzone.emit('complete', mockfile);
                     })
 
