@@ -4,8 +4,11 @@ using SigesoftWebUI.Controllers.Base;
 using SigesoftWebUI.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -73,6 +76,11 @@ namespace SigesoftWebUI.Views.Organization
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
 
+            if (Request.Files.Count > 0)
+            {
+
+            }
+
             data.ResponsibleSystemUserId = validated.SystemUserId;
             data.InsertUserId = validated.SystemUserId;
 
@@ -84,7 +92,7 @@ namespace SigesoftWebUI.Views.Organization
             //}
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
-
+     
         public JsonResult Contacts(int companyId)
         {
             #region TOKEN

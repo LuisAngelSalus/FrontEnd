@@ -26,7 +26,9 @@ namespace BE
         public string to { get; set; }
         public string cc { get; set; }
         public string body { get; set; }
-        public string subject { get; set; }      
+        public string subject { get; set; }
+        public string firstNameDocument { get; set; }
+        public string secondNameDocument { get; set; }
     }
 
     

@@ -326,6 +326,7 @@
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\PDF\Generator.cs" />
     <Compile Include="Utils\RestClient.cs" />
+    <Compile Include="Utils\SendMessage.cs" />
     <Compile Include="Utils\TextUtils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1249,6 +1250,7 @@
     <Content Include="Content\demo.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\icons\loading.gif" />
     <Content Include="Content\images\ui-bg_flat_0_888888_40x100.png" />
     <Content Include="Content\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -1267,9 +1269,19 @@
     <Content Include="Content\LogosCompany\20100110513.jpg" />
     <Content Include="Content\myTheme.css" />
     <Content Include="Content\Quotation.css" />
+    <Content Include="Content\spin.css" />
     <Content Include="Content\tagsinput.css" />
+    <Content Include="images\ajax-loader.gif" />
     <Content Include="images\certificado_registro.png" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\jquery.fixedheadertable.min.js" />
+    <Content Include="Scripts\jquery.loading.js" />
+    <Content Include="Scripts\layout.js" />
+    <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\tagsinput.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -1729,7 +1741,6 @@
     <Content Include="assets\plugins\dropzone-master\test\test.coffee" />
     <Content Include="Documents\archivo1.pdf" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\APIController.js" />
     <Content Include="Scripts\dashboardWorker.js" />
     <Content Include="Scripts\Export\canvg.min.js" />
@@ -1741,10 +1752,8 @@
     <Content Include="Scripts\Export\jspdf.plugin.standard_fonts_metrics.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui_.js" />
@@ -1802,6 +1811,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Logos\" />
     <Folder Include="Log\" />
     <Folder Include="Views\AccountSetting\" />
     <Folder Include="Views\ClientUser\" />
@@ -1830,8 +1840,6 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\SigesoftWeb.BE.csproj">
@@ -1874,7 +1882,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61905</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44310/</IISUrl>
+          <IISUrl>http://localhost:44310/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

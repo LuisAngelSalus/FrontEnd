@@ -144,59 +144,9 @@ namespace SigesoftWebUI.Controllers
                 SmtpClient SmtpServer = new SmtpClient(Options.Host);
 
                 string path = Path.Combine(HttpRuntime.AppDomainAppPath, "Template");
-                string fileName = "PLANTILLA_PROPUESTA_COMERCIAL.pdf";
-                string filePath = Path.Combine(path, fileName);
+                string filePath = Path.Combine(path, data.secondNameDocument);
 
-
-
-
-                var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-                var quotation = quotationRepository.GetQuotation(data.quotationId, SessionUsuario);
-
-                DateTime fileCreationDatetime = DateTime.Now;
-                string fileNameDocument = string.Format("{0}_{1}.pdf", quotation.Data.Code, fileCreationDatetime.ToString(@"yyyyMMdd") + "_" + fileCreationDatetime.ToString(@"HHmmss"));
-                string pdfPathDocument = Server.MapPath(@"~\Documents\") + fileNameDocument;
-
-                using (FileStream msReport = new FileStream(pdfPathDocument, FileMode.Create))
-                {
-                    //step 1
-                    using (Document pdfDoc = new Document(PageSize.A4, 40, 40, 140, 40))
-                    {
-                        try
-                        {
-                            // step 2
-                            PdfWriter pdfWriter = PdfWriter.GetInstance(pdfDoc, msReport);
-                            //pdfWriter.PageEvent = new ITextEvents();
-
-                            pdfDoc.SetPageSize(PageSize.A4.Rotate());
-                            //open the stream 
-                            pdfDoc.Open();
-                            
-
-                            var elements = generator.GetPageEight(quotation, sessione.FullName);
-                            pdfDoc.Add(elements);
-
-
-                            pdfDoc.NewPage();
-                            pdfDoc.SetPageSize(PageSize.A4.Rotate());
-
-                            pdfDoc.Close();
-
-                        }
-                        catch (Exception ex)
-                        {
-                            //handle exception
-                        }
-
-                        finally
-                        {
-
-
-                        }
-
-                    }
-
-                }
+                string pdfPathDocument = Server.MapPath(@"~\Documents\") + data.firstNameDocument;
 
                 mail.From = new MailAddress(Options.Email, Options.Name, Encoding.UTF8);
                 mail.To.Add(data.to);

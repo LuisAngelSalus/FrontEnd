@@ -183,7 +183,6 @@
                         <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">@(companyId == 0 ? "Crear Empresa" : "Modificar Empresa")</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -379,28 +378,15 @@
         });
 
     });
-
-    //function renderImageLogo() {
-    //    let obj = $("#input-file-now")[0].files;
-    //    //console.log("AAAa", x);
-    //    if (obj && obj[0]) {
-    //        var reader = new FileReader();
-    //        reader.readAsDataURL(obj[0]);
-    //        console.log("reader", reader);
-    //    }
-    //}
-
-
+        
     function getFileLogo() {
          return new Promise((resolve, reject) => {
             let obj = $("#input-file-now")[0].files;
             if (obj && obj[0]) {
                 var reader = new FileReader();
                 reader.onload = function () {
-                    //console.log(reader.result);
                     resolve( reader.result);
                 }
-                //reader.readAsText(obj[0])
                 reader.readAsDataURL(obj[0])
             }
          });
@@ -479,7 +465,6 @@
             return;
         }
 
-        console.log("XXX",$("#imglogo").attr("src"));
 
         var data = {
             "CompanyId":@companyId,
@@ -532,10 +517,9 @@
                 APIController.SaveCompany(data).then((res) => {
                     if (res.IsSuccess == false) {
                         swal("Error", "¡Ocurrió un error en la operación!", "error");
-                    } else {
+                    } else {                        
                         askWhatToDo(title,res.Data.IdentificationNumber);
                     }
-
                     });
                 });
             }).catch((err) => {
@@ -547,7 +531,7 @@
             APIController.SaveCompany(data).then((res) => {
                 if (res.IsSuccess == false) {
                     swal("Error", "¡Ocurrió un error en la operación!", "error");
-                }
+                };
                  askWhatToDo(title,res.Data.IdentificationNumber);
             });
         }       
