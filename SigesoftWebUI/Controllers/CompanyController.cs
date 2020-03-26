@@ -1,42 +1,56 @@
 ﻿using BE;
 using BL;
 using SigesoftWebUI.Controllers.Base;
+using SigesoftWebUI.Repositories;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Utils;
 
 namespace SigesoftWebUI.Views.Organization
 {
     public class CompanyController : GenericController
     {
+        private readonly CompanyRepository companyRepository = new CompanyRepository();
+
         private CompanyBL _companyBL = new CompanyBL();
         private SecurityBL _securityBL = new SecurityBL();
 
         public ActionResult Index()
         {
-            var oParamsCompanyFilterModel = new ParamsCompanyFilterModel();
-            oParamsCompanyFilterModel.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
-            var response = _companyBL.Companies(oParamsCompanyFilterModel, SessionUsuario.Token).Data;
+            ParamsCompanyFilterModel paramsCompanyFilterModel = new ParamsCompanyFilterModel();
+            paramsCompanyFilterModel.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
 
-            return View(response);
+            IEnumerable<ListCompanyDto> listCompanyDtos = null;
+
+            var response = companyRepository.Companies(paramsCompanyFilterModel, SessionUsuario);
+
+            if (response.IsSuccess)
+            {
+                listCompanyDtos = response.Data;
+            }
+
+            return View(listCompanyDtos);
         }
 
         public ActionResult Detail(int id)
-        {
-            if (id == 0)
+        {        
+            CompanyDetailDto companyDetailDto = null;
+            
+            if (id != 0)
             {
-                ViewBag.Detail = new Models.ModelCompanyDetail();
-            }
-            else
-            {
-                var response = _companyBL.CompanyDetail(id, SessionUsuario.Token);
-                ViewBag.Detail = response.Data;
+                var response = companyRepository.CompanyDetail(id, SessionUsuario);
+                if (response.IsSuccess)
+                {
+                    companyDetailDto = response.Data;
+                }
             }
 
-            return View();
+            return View(companyDetailDto);
         }
 
         public JsonResult Save(CompanyDetailDto data)
@@ -89,7 +103,7 @@ namespace SigesoftWebUI.Views.Organization
         //    return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         //}
 
-        public ActionResult Contacts(int id )
+        public ActionResult Contacts(int id)
         {
             var response = _companyBL.Contacts(id, SessionUsuario.Token).Data;
             return PartialView("Contacts", response);

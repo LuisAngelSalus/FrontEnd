@@ -1,598 +1,111 @@
-﻿@{
-    ViewBag.Title = "View";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model BE.CompanyDetailDto
 
-    var companyId = 0;
-    if (ViewBag.Detail.companyHeadquarter.Count != 0)
-    {
-        companyId = ViewBag.Detail.CompanyId;
-    }
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-@section Styles{
-    <link rel="stylesheet" href="~/assets/plugins/dropify/dist/css/dropify.min.css">
-
-    <style type="text/css">
-        .invalid-feedback .has-error-required {
-            display: none !important;
-        }
-    </style>
-}
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card mb-2">
-            <div class="card-body pt-2 pb-2">
-                <h3 class="box-title m-b-0 text-center">Información de Empresa</h3>
-            </div>
-        </div>
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Información de Empresa</h1>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-6">
-        <div class="card mb-2">
-            <div class="card-body">
-                <div class="row pb-2">
-                    <div class="col">
-                        <div class="form-group">
-                            <input type="hidden" id="txtCompanyId" value="@companyId" />
-                            <label for="txtIdentificationNumber">RUC<span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txtIdentificationNumber" value="@ViewBag.Detail.IdentificationNumber" onkeypress="validateInputNumber(event)" placeholder="Ingresar RUC" min="11" maxlength="11">
-                                <span class="input-group-btn">
-                                    <a id="btnBuscarRuc" class="btn btn-secondary"><i class="fa fa-search"></i></a>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtCompanyName">Empresa<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="txtCompanyName" value="@ViewBag.Detail.Name" placeholder="Ingresar Nombre Empresa">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card-body m-0 p-0">
-                            <input type="file" id="input-file-now" class="dropify" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="txtAddress">Dirección<span class="text-danger"></span></label>
-                            <input type="text" class="form-control" id="txtAddress" value="@ViewBag.Detail.Address" placeholder="Ingresar Dirección">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="txtDistric">Distrito<span class="text-danger"></span></label>
-                                    <input type="text" class="form-control" id="txtDistrict" value="@ViewBag.Detail.District" placeholder="Ingresar Distrito">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="txtPhoneCompany">Teléfono Empresa<span class="text-danger"></span></label>
-                                    <input type="tel" class="form-control" id="txtPhoneCompany" value="@ViewBag.Detail.PhoneCompany" onkeypress="validateInputNumber(event)" placeholder="Ingresar Teléfono">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div>
+    <h4>CompanyDetailDto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyId)
+        </dt>
 
-    <div class="col">
-        <div class="row">
-            <div class="col">
-                <div class="card mb-2">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="txtContactName">Contacto<span class="text-danger"></span></label>
-                                    <input type="text" class="form-control" id="txtContactName" value="@ViewBag.Detail.ContactName" placeholder="Ingresar Contacto">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group mb-2">
-                                    <label for="txtPhoneNumber">Teléfono Contacto<span class="text-danger"></span></label>
-                                    <input type="text" class="form-control" id="txtPhoneNumber" value="@ViewBag.Detail.PhoneNumber" onkeypress="validateInputNumber(event)" placeholder="Ingresar Teléfono">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group mb-2">
-                                    <label for="txtEmail">Email<span class="text-danger"></span></label>
-                                    <input type="text" class="form-control" id="txtMail" value="@ViewBag.Detail.Mail" placeholder="Ingresar Email">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card mb-2">
-                    <div class="card-body">
-                        <div class="col-lg-12 col-xlg-2 p-0">
-                            <div class="card mb-1">
-                                <button type="button" id="btnNewHeadquarter" class="btn waves-effect waves-light btn-outline-primary">Nueva Sede</button>
-                            </div>
-                        </div>
+        <dd>
+            @Html.DisplayFor(model => model.CompanyId)
+        </dd>
 
-                        <div class="table-responsive table-headquarter" style="height:138px">
-                            <table id="mainTable" class="table editable-table table-bordered table-striped m-b-0">
-                                <thead>
-                                    <tr>
-                                        <th>Sede</th>
-                                        <th>Dirección</th>
-                                        <th>Teléfono</th>
-                                        <th class="text-nowrap">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in ViewBag.Detail.companyHeadquarter)
-                                    {
-                                    <tr>
-                                        <td style="display:none" class="RecordType">@item.RecordType</td>
-                                        <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
-                                        <td style="display: none ">@item.CompanyHeadquarterId</td>
-                                        <td class="disableTd">@item.Name</td>
-                                        <td class="disableTd"> @item.Address</td>
-                                        <td class="disableTd"> @item.PhoneNumber</td>
-                                        <td class="disableBtn text-nowrap">
-                                            <i id="edit-@item.CompanyHeadquarterId" class="btnEdit fa fa-pencil text-inverse m-r-10"></i>
-                                            <i id="delete-@item.CompanyHeadquarterId" class="btnDelete fa fa-close text-danger"></i>
-                                        </td>
-                                        <td style="display:none">@item.CompanyId</td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentificationNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdentificationNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.District)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.District)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneCompany)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneCompany)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResponsibleSystemUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResponsibleSystemUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsertUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsertUserId)
+        </dd>
+
+    </dl>
 </div>
-<div class="row">
-    <div class="col">
-        <div class="card">
-            <div class="card-body">
-
-                <div class="row">
-                    <div class="col-md-6 col-12 mb-1">
-                        <button onclick="Save()" class="btn btn-success waves-effect waves-light m-r-10">@(companyId == 0 ? "Crear Empresa" : "Modificar Empresa")</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-@section scripts{
-
-    <!-- Editable -->
-    <script src="~/assets/plugins/jquery-datatables-editable/jquery.dataTables.js"></script>
-    <script src="~/assets/plugins/datatables/dataTables.bootstrap.js"></script>
-    <script src="~/assets/plugins/tiny-editable/mindmup-editabletable.js"></script>
-    <script src="~/assets/plugins/tiny-editable/numeric-input-example.js"></script>
-    <script src="~/Scripts/APIController.js"></script>
-    <!-- ============================================================== -->
-    <!-- Plugins for this page -->
-    <!-- ============================================================== -->
-    <!-- jQuery file upload -->
-    <script src="~/assets/plugins/dropify/dist/js/dropify.min.js"></script>
-    <script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.0/dist/bootstrap-validate.js"></script>
-
-    <script type="text/javascript">
-    $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
-    $('.dropify').dropify({
-        messages: {
-            'default': 'Arrastar y Soltar logo de la empresa',
-            'replace': 'Arrastar y Soltar para reemplazar',
-            'remove':  'Remover',
-            'error':   'Ups, Ocurrió un problema.'
-        }
-    });
-    $(document).ready(function () {
-
-        $('#btnBuscarRuc').on("click", function (e) {
-            let ruc = $('#txtIdentificationNumber').val();
-            if ($('#txtIdentificationNumber').val().length < 11) {
-                swal("RUC debe tener 11 digitos");
-            } else {
-                ValidateUserCompany(ruc);
-            }
-        });
-
-        function ValidateUserCompany(ruc) {
-            //let param = { "ruc": ruc };
-            //console.log("param", param);
-            APIController.ValidateUserCompany(ruc).then(res => {
-                if (res) {
-                    SearchCompany(ruc);
-                } else {
-                    swal("Esta empresa le pertenece a otra persona");
-                }
-            });
-        }
-
-
-        function SearchCompany(ruc) {
-            APIController.GetCompanyByRuc(ruc).then((res) => {
-
-                $('#txtCompanyId').val(res.Data.CompanyId);
-                $('#txtCompanyName').val(res.Data.Name);
-                $('#txtDistrict').val(res.Data.District);
-                $('#txtAddress').val(res.Data.Address);
-
-                let content = "";
-                for (var i = 0; i < res.Data.companyHeadquarter.length; i++) {
-                    content += "<tr>";
-
-                    content += "<td style='display:none' class='RecordType'>" + res.Data.companyHeadquarter[i].RecordType + "</td>";
-                    content += "<td style='display:none' class='RecordStatus'>" + res.Data.companyHeadquarter[i].RecordStatus + "</td>";
-                    content += "<td style='display:none'>" + res.Data.companyHeadquarter[i].CompanyHeadquarterId + "</td>";
-                    content += "<td tabindex='1'>" + res.Data.companyHeadquarter[i].Name + "</td>";
-                    content += "<td tabindex='1'>" + res.Data.companyHeadquarter[i].Address + "</td>";
-                    content += "<td tabindex='1'> </td>";
-                    content += "<td class='disableBtn'><i id='"+"edit-"+res.Data.companyHeadquarter[i].CompanyHeadquarterId+"' class='btnEdit fa fa-pencil text-inverse m-r-10'></i><i id='"+"delete-"+res.Data.companyHeadquarter[i].CompanyHeadquarterId+"' class='btnDelete fa fa-close text-danger'></i></td>";
-                    content += " </tr>";
-                }
-                $("tbody").append(content);
-
-                $('#txtCompanyName').attr('readonly', false);
-                $('#txtDistric').attr('readonly', false);
-                $('#txtAddress').attr('readonly', false);
-
-                $("#txtContactName").focus();
-
-            }).catch((err) => {
-                swal({
-                    title: "Empresa no registrada",
-                    text: "¿Desea buscar en Sunat?",
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    confirmButtonText: "Si",
-                    cancelButtonText: "No",
-                    cancelButtonColor: "#DD6B55",
-                    showLoaderOnConfirm: true
-                }, function () {
-                    InfoSunat(ruc);
-                });
-
-            });
-        }
-
-        function InfoSunat(ruc) {
-            APIController.GetInfoSunat(ruc).then((res) => {
-
-                swal("Búsqueda correcta");
-                $('#txtCompanyName').val(res.Data.RazonSocial);
-                $('#txtDistrict').val(res.Data.Distrito);
-                $('#txtAddress').val(res.Data.TipoVia + ' ' + res.Data.CodigoZona + ' N°' + res.Data.Numero + ' ' + res.Data.NombreVia + ' ' + res.Data.TipoZona,);
-
-                let content = "";
-                for (var i = 0; i < res.Data.details.length; i++) {
-                    let idTemp = Math.random().toString(36).substring(7);
-                    content += "<tr>";
-
-                    content += "<td style='display:none' class='RecordType'>TEMPORAL</td>";
-                    content += "<td style='display:none' class='RecordStatus'>AGREGADO</td>";
-                    content += "<td style='display:none'>" + idTemp + "</td>";
-                    content += "<td tabindex='1'>" + res.Data.details[i].TipoZona + "</td>";
-                    content += "<td tabindex='1'>" + res.Data.details[i].TipoVia + ' ' + res.Data.details[i].NombreVia + ' N°' + res.Data.details[i].Numero, + "</td>";
-                    content += "<td tabindex='1'> </td>";
-                    content += "<td class='disableBtn'><i id='"+"edit-"+idTemp+"' class='btnEdit fa fa-pencil text-inverse m-r-10'></i><i id='"+"delete-"+idTemp+"' class='btnDelete fa fa-close text-danger'></i></td>";
-                    content += " </tr>";
-                }
-                $("tbody").append(content);
-                $("#txtContactName").focus();
-            });
-        }
-
-        $(".disableBtn").removeAttr("tabindex");
-
-        $(".disableTd").removeAttr("tabindex");
-
-        $("#btnNewHeadquarter").click(function (e) {
-
-            let idTemp = Math.random().toString(36).substring(7);
-            var content = "";
-            content += "<tr>";
-
-            content += "<td style='display:none' class='RecordType'>TEMPORAL</td>";
-            content += "<td style='display:none' class='RecordStatus'>AGREGADO</td>";
-            content += "<td style='display:none'>" + idTemp + "</td>";
-            content += "<td tabindex='1'> </td>";
-            content += "<td tabindex='1'> </td>";
-            content += "<td tabindex='1'> </td>";
-            content += "<td class='disableBtn'><i id='"+"edit-"+idTemp+"' class='btnEdit fa fa-pencil text-inverse m-r-10'></i><i id='"+"delete-"+idTemp+"' class='btnDelete fa fa-close text-danger'></i></td>";
-            content += " </tr>";
-
-            $("tbody").append(content);
-        });
-
-        $('.table-headquarter').on('click', '.btnDelete', function (e) {
-            var recordType = $(this).parent().parent().find(".RecordType").html();
-            var recordStatus = $(this).parent().parent().find(".RecordStatus").html();
-
-            if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") {
-                $(this).parent().parent().remove();
-                return;
-            };
-
-            $(this).parent().parent().find(".RecordType").text("NOTEMPORAL");
-            $(this).parent().parent().find(".RecordStatus").text("ELIMINADOLOGICO");
-            $(this).parent().parent().hide();
-        });
-
-        $('.table-headquarter').on('click', '.btnEdit', function (e) {
-            var recordType = $(this).parent().parent().find(".RecordType").html();
-            var recordStatus = $(this).parent().parent().find(".RecordStatus").html();
-            $(this).parent().parent().find(".disableTd").removeClass("disableTd").attr('tabindex', '1')
-
-            if (recordType === "TEMPORAL" && recordStatus === "AGREGADO") return;
-
-            $(this).parent().parent().find(".RecordType").text("NOTEMPORAL");
-            $(this).parent().parent().find(".RecordStatus").text("MODIFICADO");
-
-        });
-
-    });
-
-    function Save() {
-        if ($("#txtIdentificationNumber").val() == "") {
-            swal({
-                title: "Debe ingresar RUC",
-                icon: "warning",
-            });
-            return;
-        }
-
-        if ($("#txtCompanyName").val() == "") {
-            swal({
-                title: "Ingresar Nombre de Empresa",
-                icon: "warning",
-            });
-            return;
-        }
-
-        if ($("#txtAddress").val() == "") {
-            swal({
-                title: "Debe ingresar Dirección",
-                icon: "warning",
-            });
-            return;
-        }
-
-        if ($("#txtDistrict").val() == "") {
-            swal({
-                title: "Debe ingresar Distrito",
-                icon: "warning",
-            });
-            return;
-        }
-
-        if ($("#txtContactName").val() == "") {
-            swal({
-                title: "Debe ingresar Nombre de Contacto",
-                icon: "warning",
-            });
-            return;
-        }
-
-        if ($("#txtPhoneNumber").val() == "") {
-            swal({
-                title: "Debe ingresar Telefono de Contacto",
-                icon: "warning",
-            });
-            return;
-        }
-
-        if ($("#txtMail").val() == "") {
-            swal({
-                title: "Debe ingresar Mail de Contacto",
-                icon: "warning",
-            });
-            return;
-        }
-
-        if ($("#txtMail").hasClass("is-invalid")) {
-            swal({
-                title: "Debe ingresar Mail Correcto",
-                icon: "warning",
-            });
-            return;
-        }
-
-        if ($("#txtPhoneNumber").hasClass("is-invalid")) {
-            swal({
-                title: "Debe ingresar telefono de contacto correcto",
-                icon: "warning",
-            });
-            return;
-        }
-
-        var formdata = new FormData(); //FormData object
-        var fileInput = document.getElementById('input-file-now');
-        //Iterating through each files selected in fileInput
-        for (i = 0; i < fileInput.files.length; i++) {
-            //Appending each file to FormData object
-            formdata.append(fileInput.files[i].name, fileInput.files[i]);
-        }
-
-            //var fileUpload = $("#input-file-now").get(0);
-            //var files = fileUpload.files;
-
-            //// Create FormData object
-            //var fileData = new FormData();
-
-            //// Looping over all files and add it to FormData object
-            //for (var i = 0; i < files.length; i++) {
-            //    fileData.append(files[i].name, files[i]);
-            //}
-
-            // Adding one more key to FormData object
-            //fileData.append('username', ‘Manas’);
-
-        //console.log(fileInput.files.length);
-        //console.log(formdata);
-
-        var data = {
-            "CompanyId":@companyId,
-            "Name": $("#txtCompanyName").val(),
-            "IdentificationNumber": $("#txtIdentificationNumber").val(),
-            "Address": $("#txtAddress").val(),
-            "PhoneNumber": $("#txtPhoneNumber").val(),
-            "ContactName": $("#txtContactName").val(),
-            "Mail": $("#txtMail").val(),
-            "District": $("#txtDistrict").val(),
-            "PhoneCompany": $("#txtPhoneCompany ").val() == null ? '-' : $("#txtPhoneCompany ").val(),
-            "companyHeadquarter": new Array()
-        }
-
-        var rowCounter = $('#mainTable > tbody tr').length; //AMC-HELP contador de filas
-
-        $('#mainTable > tbody tr').each(function () {
-            var headquarter = {
-                "RecordType": $(this).find("td").eq(0).html(),
-                "RecordStatus": $(this).find("td").eq(1).html(),
-                "CompanyHeadquarterId": $(this).find("td").eq(2).html(),
-                "Name": $(this).find("td").eq(3).html(),
-                "Address": $(this).find("td").eq(4).html(),
-                "PhoneNumber": $(this).find("td").eq(5).html(),
-                "CompanyId": $(this).find("td").eq(7).html(),
-            }
-            data.companyHeadquarter.push(headquarter);
-        });
-
-        if (data.CompanyId === 0) {
-            title = "Empresa creada correctamente";
-        } else {
-            title = "Empresa modificada correctamente";
-        }
-
-        if (data.CompanyId == 0) {
-            APIController.GetCompanyByRuc(data.IdentificationNumber).then((resp) => {
-                data.CompanyId = resp.Data.CompanyId;
-                swal({
-                    title: "Empresa Existe",
-                    text: "¿Desea Actualizar los datos?",
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    confirmButtonText: "Si",
-                    cancelButtonText: "No",
-                    showLoaderOnConfirm: true
-                }, function () {
-                APIController.SaveCompany(data).then((res) => {
-                    if (res.IsSuccess == false) {
-                        swal("Error", "¡Ocurrió un error en la operación!", "error");
-                    } else {
-                        //APIController.SaveLogoCompany(fileData, res.Data.CompanyId);
-
-                        $.ajax({
-                            type: "GET",
-                            url: '/Company/UploadLogoCompany?id=' + res.Data.CompanyId,
-                            contentType: false,
-                            processData: false,
-                            data: formdata,
-                            success: function (result) {
-                                console.log(result);
-                            },
-                            error: function (xhr, status, p3, p4) {
-                                var err = "Error " + " " + status + " " + p3 + " " + p4;
-                                if (xhr.responseText && xhr.responseText[0] == "{")
-                                    err = JSON.parse(xhr.responseText).Message;
-                                    console.log(err);
-                            }
-                        });
-
-                        askWhatToDo(title,res.Data.IdentificationNumber);
-                    }
-
-                    console.log(res);
-
-
-
-                    });
-                });
-            }).catch((err) => {
-                APIController.SaveCompany(data).then((res) => {
-                     askWhatToDo(title,res.Data.IdentificationNumber);
-                });
-            });
-        } else {
-            APIController.SaveCompany(data).then((res) => {
-                if (res.IsSuccess == false) {
-                    swal("Error", "¡Ocurrió un error en la operación!", "error");
-                }
-                console.log(res);
-                //APIController.SaveLogoCompany(fileData, res.Data.CompanyId);
-
-                $.ajax({
-                            type: "POST",
-                            url: '/Company/UploadLogoCompany?id=' + res.Data.CompanyId,
-                            contentType: false,
-                            processData: false,
-                            data: formdata,
-                            success: function (result) {
-                            console.log(result);
-                        },
-                            error: function (xhr, status, p3, p4) {
-                                var err = "Error " + " " + status + " " + p3 + " " + p4;
-                                if (xhr.responseText && xhr.responseText[0] == "{")
-                                    err = JSON.parse(xhr.responseText).Message;
-                                    console.log(err);
-                        }
-                });
-
-                 askWhatToDo(title,res.Data.IdentificationNumber);
-            });
-        }
-    }
-
-    function askWhatToDo(title, ruc) {
-        swal({
-                title: title,
-                text: "",
-                type: "success",
-                showCancelButton: true,
-                confirmButtonClass: "btn-info",
-                confirmButtonText: "Volver a la bandeja",
-                cancelButtonText: "Crear una cotización",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-                function (isConfirm) {
-                    if (isConfirm) {
-                        window.location.href = "/Company/Index/";
-                    } else {
-                        var url = '@Url.Action("Register", "Quotation", new { id = "js-id", ruc = "js-ruc" })'
-                            .replace("js-id", encodeURIComponent(0))
-                        .replace("js-ruc", encodeURIComponent(ruc));
-
-                        location.href = url;
-
-                    }
-                });
-    }
-    </script>
-
-    <!-- ============================================================== -->
-    <!-- Style switcher -->
-    <!-- ============================================================== -->
-    <script src="~/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-}
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
