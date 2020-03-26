@@ -19,26 +19,7 @@
 
     }
 
-    var saveLogoCompany = function (data, myID) {
-        var actualizarLogoAjax = $.ajax({
-            type: "POST",
-            url: '/Company/UploadLogoCompany?id=' + myID,
-            contentType: false,
-            processData: false,
-            data: data,
-            success: function (result) {
-                console.log(result);
-            },
-            error: function (xhr, status, p3, p4) {
-                var err = "Error " + " " + status + " " + p3 + " " + p4;
-                if (xhr.responseText && xhr.responseText[0] == "{")
-                    err = JSON.parse(xhr.responseText).Message;
-                console.log(err);
-            }
-        });
-
-        return actualizarLogoAjax;
-    }
+    
 
     var viewContactsByCompany = function (id) {
         return new Promise((resolve, reject) => {
