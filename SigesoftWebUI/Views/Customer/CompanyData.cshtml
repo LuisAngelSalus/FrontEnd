@@ -3,9 +3,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var companyId = 0;
+    var nameLogo = "";
     if (ViewBag.Detail.companyHeadquarter.Count != 0)
     {
         companyId = ViewBag.Detail.CompanyId;
+        nameLogo = ViewBag.Detail.IdentificationNumber + ".png";
     }
 
     var clientUsers = ViewBag.CLIENTUSERS;
@@ -60,8 +62,12 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <div class="card-body m-0 p-0">
-                                        <input type="file" id="input-file-now" class="dropify" />
+                                    <div class="card-body m-0 p-0" style="text-align:center">
+                                        <img id="imglogo" src="~/Content/LogosCompany/@nameLogo" alt="Logo empresa" height="200" width="200" />
+                                        <div style="text-align:center">
+                                            <button type="button" onclick="changeLogo()" class="btn waves-effect waves-light btn-xs btn-info">Cambiar</button>
+                                            <button type="button" onclick="removeLogo()" class="btn waves-effect waves-light btn-xs btn-danger">Eliminar</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -150,17 +156,17 @@
                                             <tbody>
                                                 @foreach (var item in ViewBag.Detail.companyHeadquarter)
                                                 {
-                                                <tr>
-                                                    <td style="display:none" class="RecordType">@item.RecordType</td>
-                                                    <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
-                                                    <td style="display:none" class="RecordStatus">@item.CompanyHeadquarterId</td>
-                                                    <td> @item.Name</td>
-                                                    <td> @item.Address</td>
-                                                    <td> @item.PhoneNumber</td>
-                                                    <td class="text-nowrap">
-                                                        <a class="btnEditHeadquarter" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                                    </td>
-                                                </tr>
+                                                    <tr>
+                                                        <td style="display:none" class="RecordType">@item.RecordType</td>
+                                                        <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
+                                                        <td style="display:none" class="RecordStatus">@item.CompanyHeadquarterId</td>
+                                                        <td> @item.Name</td>
+                                                        <td> @item.Address</td>
+                                                        <td> @item.PhoneNumber</td>
+                                                        <td class="text-nowrap">
+                                                            <a class="btnEditHeadquarter" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                        </td>
+                                                    </tr>
                                                 }
                                             </tbody>
                                         </table>
@@ -376,7 +382,7 @@
 <div class="modal fade" id="ModalHeadquarter" tabindex="-1" role="dialog" aria-labelledby="TrackingModalLabel1">
     <div class="modal-dialog " role="document">
         <div class="content-alert">
-        </div>        
+        </div>
         <input type="hidden" id="hiddenCompanyHeadquarterRowIndex" name="hiddenCompanyHeadquarterRowIndex" value="" />
         <input type="hidden" id="hiddenCompanyHeadquarterId" name="hiddenCompanyHeadquarterId" value="" />
         <div class="modal-content">
@@ -406,6 +412,23 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="modalUploadLogo" tabindex="-1" role="dialog" aria-labelledby="modalUploadLogoLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalUploadLogoLabel">Seleccionar Imagen</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" style="font-size:10px;">
+                <input type="file" id="input-file-now" class="dropify" data-allowed-file-extensions="png" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="AcceptLogo()" class="btn btn-info" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @section scripts{
@@ -451,7 +474,7 @@
                 $("#ModalHeadquarter").modal("show");
             });
 
-            $('#mainTable tbody').on('click', '.btnEditHeadquarter', function (e) {                
+            $('#mainTable tbody').on('click', '.btnEditHeadquarter', function (e) {
                 EditHeadquarter(e);
             });
         });
@@ -594,7 +617,7 @@
 
             //II)Retornar resultado de validación
             let clientUserId = $("#hiddenClientUserId").val();
-            if (clientUserId > 0) {                
+            if (clientUserId > 0) {
                 if (validateNroDocument && validateFullName && validateUsernName && validateTypeUser && validateTypeDocument && validateEmail) {
                     return true;
                 } else {
@@ -738,8 +761,11 @@
                     "Mail": $("#txtMail").val(),
                     "District": $("#txtDistrict").val(),
                     "PhoneCompany": $("#txtPhoneCompany ").val() == null ? '-' : $("#txtPhoneCompany ").val(),
+                    "ImageLogo": $("#imglogo").attr("src").replace(/^data:image\/(png|jpg);base64,/,""),
                     "companyHeadquarter": new Array()
                 }
+
+                
 
                 $('#mainTable > tbody tr').each(function () {
                     var headquarter = {
@@ -753,22 +779,23 @@
                     }
                     data.companyHeadquarter.push(headquarter);
                 });
+
                 
-                APIController.UpdateCompanyClientUser(data).then((res) => {        
+                APIController.UpdateCompanyClientUser(data).then((res) => {
                     console.log("RES", res);
                     if (res.IsSuccess == true) {
                         swal("¡Correcto!", "Se actualizó correctamente.", "success");
                     }
                     if (res.IsSuccess == false) {
                         swal("Error", "¡Ocurrió un error en la operación!", "error");
-                    }                 
-                });               
+                    }
+                });
 
             } else {
                 swal("¡Validación!", "Ingrese campos obligatorios", "error");
             }
         }
-        function clearFormHeadquarter() {  
+        function clearFormHeadquarter() {
             $("#hiddenCompanyHeadquarterRowIndex").val(0);
             $("#hiddenCompanyHeadquarterId").val(0);
             $("#txtHeadquarter").val("");
@@ -776,21 +803,21 @@
             $("#txtHeadquarterPhone").val("");
         }
 
-        function AddHeadquarter() {            
-            
+        function AddHeadquarter() {
+
             let validateHeadquarter = validateInputText($("#txtHeadquarter"));
             let validateHeadquarterAddress = validateInputText($("#txtHeadquarterAddress"));
             let validateHeadquarterPhone = validateInputText($("#txtHeadquarterPhone"));
 
             if (validateHeadquarter
                 && validateHeadquarterAddress
-                && validateHeadquarterPhone                
+                && validateHeadquarterPhone
             ) {
-                $("#ModalHeadquarter").modal("hide");                
-              
+                $("#ModalHeadquarter").modal("hide");
+
                 let rowIndex = $("#hiddenCompanyHeadquarterRowIndex").val();
-                
-                if (rowIndex == 0) {                    
+
+                if (rowIndex == 0) {
                      let idTemp = Math.random().toString(36).substring(7);
                     var content = "";
                     content += "<tr>";
@@ -799,15 +826,15 @@
                     content += "<td style='display:none'>" + idTemp + "</td>";
                     content += "<td>"+$("#txtHeadquarter").val()+"</td>";
                     content += "<td>"+$("#txtHeadquarterAddress").val()+"</td>";
-                    content += "<td>"+$("#txtHeadquarterPhone").val()+"</td>";                
+                    content += "<td>"+$("#txtHeadquarterPhone").val()+"</td>";
                     content += "<td><a class='btnEditHeadquarter' data-toggle='tooltip' data-original-title='Editar'> <i class='fa fa-pencil text-inverse m-r-10'></i> </a>";
-                    content += " </tr>";                
+                    content += " </tr>";
 
                 } else {
-                    $('#mainTable tbody tr').eq(rowIndex -1).remove();                    
+                    $('#mainTable tbody tr').eq(rowIndex -1).remove();
                     var content = "";
                     content += "<tr>";
-                    
+
                     if (parseInt($("#hiddenCompanyHeadquarterId").val()) == NaN) {
                         content += "<td style='display:none' class='RecordType'>TEMPORAL</td>";
                         content += "<td style='display:none' class='RecordStatus'>AGREGADO</td>";
@@ -815,25 +842,25 @@
                         content += "<td style='display:none' class='RecordType'>NOTEMPORAL</td>";
                         content += "<td style='display:none' class='RecordStatus'>MODIFICADO</td>";
                     }
-                    
+
                     content += "<td style='display:none'>" + $("#hiddenCompanyHeadquarterId").val() + "</td>";
                     content += "<td>"+$("#txtHeadquarter").val()+"</td>";
                     content += "<td>"+$("#txtHeadquarterAddress").val()+"</td>";
-                    content += "<td>"+$("#txtHeadquarterPhone").val()+"</td>";                
+                    content += "<td>"+$("#txtHeadquarterPhone").val()+"</td>";
                     content += "<td><a class='btnEditHeadquarter' data-toggle='tooltip' data-original-title='Editar'> <i class='fa fa-pencil text-inverse m-r-10'></i> </a>";
-                    content += " </tr>";                
+                    content += " </tr>";
                 }
 
                 $("#mainTable tbody").append(content);
 
-                
+
             } else {
                 swal("¡Validación!", "Ingrese campos obligatorios", "error");
             }
         }
 
-        function EditHeadquarter(e) {          
-            clearFormHeadquarter();            
+        function EditHeadquarter(e) {
+            clearFormHeadquarter();
             let $tr = $(e.target).parent().parent().parent().get(0).cells;
             let rowIndex = $(e.target).parent().parent().parent().get(0).rowIndex;
             let HeadquarterId = $($tr).get(2).innerHTML;
@@ -845,9 +872,44 @@
             $("#hiddenCompanyHeadquarterId").val(HeadquarterId);
             $("#txtHeadquarter").val(Headquarter);
             $("#txtHeadquarterAddress").val(HeadquarterAddress);
-            $("#txtHeadquarterPhone").val(HeadquarterPhone);        
+            $("#txtHeadquarterPhone").val(HeadquarterPhone);
 
             $("#ModalHeadquarter").modal("show");
         }
+
+        function changeLogo() {
+            $("#modalUploadLogo").modal("show");
+        }
+
+        function removeLogo() {
+            $("#imglogo").attr("src", "");
+        }
+
+        function AcceptLogo() {
+            getFileLogo().then(res => {
+                $("#imglogo").attr("src", res);
+                $("#modalUploadLogo").modal("hide");
+            });
+        }
+
+          function getFileLogo() {
+         return new Promise((resolve, reject) => {
+            let obj = $("#input-file-now")[0].files;
+            if (obj && obj[0]) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    resolve( reader.result);
+                }
+                reader.readAsDataURL(obj[0])
+            }
+         });
+    }
+
     </script>
+
+
+    <!-- ============================================================== -->
+    <!-- Style switcher -->
+    <!-- ============================================================== -->
+    <script src="~/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 }

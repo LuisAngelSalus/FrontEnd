@@ -1271,7 +1271,6 @@
     <Content Include="Content\images\ui-icons_bf3030_256x240.png" />
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\Jquery-ui.css" />
-    <Content Include="Content\LogosCompany\20100110513.jpg" />
     <Content Include="Content\myTheme.css" />
     <Content Include="Content\Quotation.css" />
     <Content Include="Content\spin.css" />
@@ -1816,6 +1815,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\LogosCompany\" />
     <Folder Include="Logos\" />
     <Folder Include="Log\" />
     <Folder Include="Views\AccountSetting\" />

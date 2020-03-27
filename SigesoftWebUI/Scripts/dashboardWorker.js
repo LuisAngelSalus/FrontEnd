@@ -115,7 +115,15 @@ content += "                            </div>";
     content += "                </div>";
     
     content += "                        </div>";
-                
+
+    content += "                        <div class='row'>";
+    content += "                            <div class='col-md-6'>";
+    content += "                                <div class='card-body m-0 p-0' style='text-align: center'>";
+    content += "                            </div>";
+
+
+    content += "            </div>";
+
     
     content += "                                                    <h3 class='box-title'>Datos Generales</h3>";
     content += "                                                    <hr class='m-t-0 m-b-40'>";

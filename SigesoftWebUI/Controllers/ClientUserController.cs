@@ -111,8 +111,25 @@ namespace SigesoftWebUI.Controllers
 
             data.ResponsibleSystemUserId = validated.SystemUserId;
             data.InsertUserId = validated.SystemUserId;
+            data.PathLogo = data.IdentificationNumber;
             var response = _clientUserBL.UpdateCompany(data, validated.Token);
+            SaveImage(data.ImageLogo, data.IdentificationNumber);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
+        private void SaveImage(string imagebase64, string name)
+        {
+            var path = Server.MapPath(@"~\Content\LogosCompany\") + name + ".png";
+            if (imagebase64 == null)
+            {
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
+            }
+            else
+            {
+                byte[] bytes = Convert.FromBase64String(imagebase64);
+                System.IO.File.WriteAllBytes(path, bytes);
+            }
         }
     }
 }
