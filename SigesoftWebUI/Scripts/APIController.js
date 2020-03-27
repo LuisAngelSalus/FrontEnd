@@ -929,10 +929,24 @@
         });
     }
 
-    var getAttachForQuotation = function (parameters) {
-        console.log(parameters);
+    var getAttachForQuotation = function (parameters) {        
         return new Promise((resolve, reject) => {
             fetch('/Quotation/getAttachForQuotation?id=' + parameters.id, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
+    var searchReception = function (parameters) {
+        return new Promise((resolve, reject) => {
+
+            fetch('/Reception/Search', {
+                method: 'POST',
+                body: JSON.stringify(parameters),
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json())
@@ -1328,6 +1342,12 @@
                 getAttachForQuotation(parameters).then(res => resolve(res));
             });
         },
+
+        SearchReception: function (parameters) {
+            return new Promise((resolve, reject) => {
+                searchReception(parameters).then(res => resolve(res));
+            });
+        }
     }
 
 })();

@@ -78,7 +78,7 @@ $(document).ready(function () {
             console.log("RES", res);
             for (var i = 0; i < data.length; i++) {
 
-                let name = data[i].Value.toString().split('-')[0];
+                let name = data[i].Value.toString().replace(/ /g, "").split('-')[0];
 
                 if (name === "EMPO") 
                     content += "<a href='#' id='" + data[i].Id + "' class='list-group-item list-group-item-action border-1 EMPO autocompleteProfile'>" + data[i].Value + "</a>";
@@ -542,6 +542,7 @@ function openModal() {
     //$('#profile').val(-1).trigger('change');
     $('#tbody-profile').empty();
     $('#tbody-profile-unselectd').empty();
+    $('#search').val();
     $("#perfilModal").modal("show");
 }
 

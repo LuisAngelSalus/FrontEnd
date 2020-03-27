@@ -30,7 +30,7 @@ namespace SigesoftWebUI.Controllers
             var validated = _securityBL.ValidateAccess(oLoginDto);
             if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
             #endregion
-
+            if (data.Value == null) data.Value = "";
             var response = _receptionBL.Search(data, validated.Token);
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
 
