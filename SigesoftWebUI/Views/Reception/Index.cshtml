@@ -1,112 +1,479 @@
-﻿
-    <div>
-        <nav class="navbar top-navbar navbar-expand-md navbar-light">
-            <div class="navbar-collapse">
-                <ul class="navbar-nav mr-auto">
-                    <!-- This is  -->
-                    <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-                    <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+﻿@section Styles{
+    <style>
+        .icon-printer {
+            color: #50ADF5;
+            cursor: pointer;
+        }
 
-                </ul>
+        .icon-star {
+            cursor: pointer;
+        }
+
+        .icon-bomb {
+            cursor: pointer;
+        }
+    </style>
+    <link href="~/assets/plugins/wizard/steps.css" rel="stylesheet" />
+    <link href="~/assets/plugins/css-chart/css-chart.css" rel="stylesheet" />
+
+}
+<div>
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <!-- This is  -->
+                <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+
+            </ul>
+            <!-- ============================================================== -->
+            <!-- User profile and search -->
+            <!-- ============================================================== -->
+            <ul class="navbar-nav my-lg-0">
                 <!-- ============================================================== -->
-                <!-- User profile and search -->
+                <!-- Search -->
                 <!-- ============================================================== -->
-                <ul class="navbar-nav my-lg-0">
-                    <!-- ============================================================== -->
-                    <!-- Search -->
-                    <!-- ============================================================== -->
-                    <li class="nav-item hidden-xs-down search-box">
-                        <a class="nav-link hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
-                        <form method="post" action="Search" class="app-search" style="display: none;">
-                            <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
-                        </form>
-                    </li>
-                    <!-- ============================================================== -->
-                    <!-- mega menu -->
-                    <!-- ============================================================== -->
-                    <li class="nav-item dropdown mega-dropdown">
-                        <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-view-grid"></i></a>
-                        <div class="dropdown-menu animated bounceInDown">
-                            <ul class="mega-dropdown-menu row">
-                            
-                                <li class="col-lg-3 m-b-30">
-                                    <h4 class="m-b-20">ACCORDION</h4>
-                                    <!-- Accordian -->
-                                    <div id="accordion" class="nav-accordion" role="tablist" aria-multiselectable="true">
-                                        <div class="card">
-                                            <div class="card-header" role="tab" id="headingOne">
-                                                <h5 class="mb-0">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                        Collapsible Group Item #1
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                                                <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high. </div>
-                                            </div>
+                <li class="nav-item hidden-xs-down search-box">
+                    <a class="nav-link hidden-sm-down waves-effect waves-dark" href="#"><i class="ti-search"></i></a>
+                    <div class="app-search" style="display: none;">
+                        <input type="text" onkeypress="search(event)" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
+                    </div>
+                </li>
+                <!-- ============================================================== -->
+                <!-- mega menu -->
+                <!-- ============================================================== -->
+                <li class="nav-item dropdown mega-dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-view-grid"></i></a>
+                    <div class="dropdown-menu animated bounceInDown">
+                        <ul class="mega-dropdown-menu row">
+
+                            <li class="col-md-4">
+                                <h4 class="m-b-20">Fecha de Agenda</h4>
+                                <div class="text-center">
+                                    <center>
+                                        <div id="datepicker-inline"></div>
+                                    </center>
+                                </div>
+                            </li>
+                            <li class="col-md-4">
+                                <h4 class="m-b-20">Población <span class="label label-success label-rounded" id="totalPopulation"></span></h4>
+                                <div id="container"></div>
+                            </li>
+                            <li class="col-md-4">
+                                <h4 class="m-b-20">Otras Opciones</h4>
+                                <!-- Accordian -->
+                                <div id="accordion" class="nav-accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="card">
+                                        <div class="card-header" role="tab" id="headingOne">
+                                            <h5 class="mb-0">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Nueva Cita
+                                                </a>
+                                            </h5>
                                         </div>
-                                        <div class="card">
-                                            <div class="card-header" role="tab" id="headingTwo">
-                                                <h5 class="mb-0">
-                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                        Collapsible Group Item #2
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-header" role="tab" id="headingThree">
-                                                <h5 class="mb-0">
-                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                        Collapsible Group Item #3
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                                                <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. </div>
+                                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                            <div class="card-body">
+                                                <form>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputState">Tipo</label>
+                                                            <select id="ddlDocTypeId" class="form-control">
+                                                                <option selected>DNI</option>
+                                                                <option>Pasaporte</option>
+                                                                <option>PTP</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputCity">Nro. Documento</label>
+                                                            <input type="text" class="form-control" id="txtNroDoc">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row" style="text-align:right">
+                                                        <div class="form-group col">
+                                                            <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Agendar</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                </li>
-                                <li class="col-lg-3  m-b-30">
-                                    <h4 class="m-b-20">CONTACT US</h4>
-                                    <!-- Contact -->
-                                    <form>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="exampleInputname1" placeholder="Enter Name">
+                                    <div class="card">
+                                        <div class="card-header" role="tab" id="headingTwo">
+                                            <h5 class="mb-0">
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    Otro 1
+                                                </a>
+                                            </h5>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" placeholder="Enter email">
+                                        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                            <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. </div>
                                         </div>
-                                        <div class="form-group">
-                                            <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Message"></textarea>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" role="tab" id="headingThree">
+                                            <h5 class="mb-0">
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                    Otro 2
+                                                </a>
+                                            </h5>
                                         </div>
-                                        <button type="submit" class="btn btn-info">Submit</button>
-                                    </form>
-                                </li>
-                                <li class="col-lg-3 col-xlg-4 m-b-30">
-                                    <h4 class="m-b-20">List style</h4>
-                                    <!-- List style -->
-                                    <ul class="list-style-none">
-                                        <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> You can give link</a></li>
-                                        <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Give link</a></li>
-                                        <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Another Give link</a></li>
-                                        <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Forth link</a></li>
-                                        <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Another fifth link</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-
-
-
-        
+                                        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                            <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="row content-target">
+</div>
+    <div class="row wizard-schedule">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body wizard-content ">
+                    <h4 class="card-title" onclick="backSchedule()" style="cursor:pointer">Volver a la bandeja</h4>                    
+                    <form action="#" class="tab-wizard wizard-circle">
+                        <!-- Step 1 -->
+                        <h6>Personal Info</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstName1">First Name :</label>
+                                        <input type="text" class="form-control" id="firstName1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="lastName1">Last Name :</label>
+                                        <input type="text" class="form-control" id="lastName1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="emailAddress1">Email Address :</label>
+                                        <input type="email" class="form-control" id="emailAddress1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="phoneNumber1">Phone Number :</label>
+                                        <input type="tel" class="form-control" id="phoneNumber1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="location1">Select City :</label>
+                                        <select class="custom-select form-control" id="location1" name="location">
+                                            <option value="">Select City</option>
+                                            <option value="Amsterdam">India</option>
+                                            <option value="Berlin">USA</option>
+                                            <option value="Frankfurt">Dubai</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="date1">Date of Birth :</label>
+                                        <input type="date" class="form-control" id="date1">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Step 2 -->
+                        <h6>Job Status</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="jobTitle1">Job Title :</label>
+                                        <input type="text" class="form-control" id="jobTitle1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="videoUrl1">Company Name :</label>
+                                        <input type="text" class="form-control" id="videoUrl1">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="shortDescription1">Job Description :</label>
+                                        <textarea name="shortDescription" id="shortDescription1" rows="6" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Step 3 -->
+                        <h6>Interview</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="int1">Interview For :</label>
+                                        <input type="text" class="form-control" id="int1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="intType1">Interview Type :</label>
+                                        <select class="custom-select form-control" id="intType1" data-placeholder="Type to search cities" name="intType1">
+                                            <option value="Banquet">Normal</option>
+                                            <option value="Fund Raiser">Difficult</option>
+                                            <option value="Dinner Party">Hard</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Location1">Location :</label>
+                                        <select class="custom-select form-control" id="Location1" name="location">
+                                            <option value="">Select City</option>
+                                            <option value="India">India</option>
+                                            <option value="USA">USA</option>
+                                            <option value="Dubai">Dubai</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="jobTitle2">Interview Date :</label>
+                                        <input type="date" class="form-control" id="jobTitle2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Requirements :</label>
+                                        <div class="c-inputs-stacked">
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Employee</span>
+                                            </label>
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Contract</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Step 4 -->
+                        <h6>Remark</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="behName1">Behaviour :</label>
+                                        <input type="text" class="form-control" id="behName1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="participants1">Confidance</label>
+                                        <input type="text" class="form-control" id="participants1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="participants1">Result</label>
+                                        <select class="custom-select form-control" id="participants1" name="location">
+                                            <option value="">Select Result</option>
+                                            <option value="Selected">Selected</option>
+                                            <option value="Rejected">Rejected</option>
+                                            <option value="Call Second-time">Call Second-time</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="decisions1">Comments</label>
+                                        <textarea name="decisions" id="decisions1" rows="4" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Rate Interviwer :</label>
+                                        <div class="c-inputs-stacked">
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">1 star</span>
+                                            </label>
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">2 star</span>
+                                            </label>
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">3 star</span>
+                                            </label>
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">4 star</span>
+                                            </label>
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">5 star</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </form>
+                </div>
             </div>
-        </nav>      
+        </div>
     </div>
-    
+
+
+    @section scripts{
+
+        <script src="~/assets/plugins/wizard/jquery.steps.min.js"></script>
+        <script src="~/assets/plugins/wizard/jquery.validate.min.js"></script>
+        <script src="~/assets/plugins/wizard/steps.js"></script>
+        <script>
+
+            $(document).ready(function () {
+
+                $(".wizard-schedule").hide();
+
+                $('#datepicker-inline').datepicker({
+                    todayHighlight: true
+                });
+
+                let data = {
+                    Value: "",
+                    StartDate: $("#datepicker-inline").val(),
+                    EndDate: $("#datepicker-inline").val()
+                }
+                ApiSearch(data);
+            });
+            
+            function search(e) {
+                if (e.which == 13) {
+                    let data = {
+                        Value: $(e.target).val().trim(),
+                        StartDate: $("#datepicker-inline").val(),
+                        EndDate: $("#datepicker-inline").val()
+                    }
+                    ApiSearch(data);
+                }
+            }
+
+            function ApiSearch(data) {
+                APIController.SearchReception(data).then(res => {
+                    $("#totalPopulation").text(res.Data.length);
+                    $(".content-target").empty();
+                    res.Data.map(ele => {
+                        renderTarget(ele);
+                    });
+                });
+            }
+
+            function renderTarget(ele) {
+                console.log("ELE", ele);
+                let content = "";
+                content += "<div class='col-md-6 col-lg-6 col-xlg-4'>";
+                content += "<div class='card card-body'>";
+                content += "<div class='d-flex no-block'>";
+                content += "<h4 class='card-title'><span class='lstick'></span>" + ele.FullName + "</h4>";
+                content += "<div class='btn-group ml-auto m-t-10'>";
+                content += "<a href='JavaScript:void(0)' class='icon-options-vertical link' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'></a>";
+                content += "<div class='dropdown-menu dropdown-menu-right'>";
+                content += "<a class='dropdown-item' href='javascript:void(0)'>INICIAR</a>";
+                content += "<a class='dropdown-item' href='javascript:void(0)'>REAGENDAR</a>";
+                content += "<a class='dropdown-item' href='javascript:void(0)'>CANCELAR</a>";
+                content += "<div class='dropdown-divider'></div>";
+                content += "<a class='dropdown-item' href='javascript:void(0)'>TRABAJADOR</a>";
+                content += "<div class='dropdown-divider'></div>";
+                content += "<a class='dropdown-item' href='javascript:void(0)'>EXÁMENES</a>";
+                content += "</div>";
+                content += "</div>";
+                content += "</div>";
+                content += "<div class='row'>";
+                content += "<div class='col-md-4 col-lg-3 text-center'>";
+                content += "<div onclick='ModalStartCircuit(" + ele.ScheduleId + ")' style='cursor: pointer;'>";
+                content += "<div data-label='10%' class='css-bar css-bar-50 css-bar-lg css-bar-default'><img src='../assets/images/users/"+ele.NroDocument+".jpg' height='150' width='150' alt='user' class='img-circle img-responsive'></div>";
+                content += "</div>";
+                content += "</div>";
+                content += "<div class='col-md-8 col-lg-9'>";
+                content += "<h4 class='box-title m-b-0'>" + ele.CompanyName + "</h4> <small>" + ele.CurrentOccupation + "</small>";
+                content += "<address>";
+                content += ele.WorkerEmail;
+                content += "<br>";
+                content += "<br>";
+                content += "<abbr title='Celular'>C:</abbr> " + ele.WorkerCell;
+                content += "</address>";
+                content += "</div>";
+                content += "<div class='row' style='font-size:x-large; text-align:right; width:100%'>";
+                content += "<div class='col-12'>";
+                content += "<i class='mdi mdi-printer-settings icon-printer'></i>";
+                content += "<i class='mdi mdi-account-star icon-star'></i>";
+                content += "<i class='mdi mdi-bomb icon-bomb'></i>";
+                content += "</div>";
+                content += "</div>";
+                content += "</div>";
+                content += "</div>";
+                content += "</div>";
+
+                $(".content-target").append(content);
+            }
+
+            function ModalStartCircuit(id) {
+                console.log("ID", id);                
+                $(".content-target").hide("blind", {}, 1000, function () {
+                    $(".wizard-schedule").show();
+                });
+            }
+            
+            function backSchedule() {
+                $(".wizard-schedule").hide("blind", {},500);
+                $(".content-target").show("blind", {}, 500);
+                let data = {
+                    Value: "",
+                    StartDate: $("#datepicker-inline").val(),
+                    EndDate: $("#datepicker-inline").val()
+                }
+                ApiSearch(data);
+            }
+
+            // Build the chart
+            Highcharts.chart('container', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: ''
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'No iniciado',
+                        y: 61.41,
+                        sliced: true,
+                        selected: true
+                    }, {
+                        name: 'En evaluación',
+                        y: 11.84
+                    }, {
+                        name: 'Culminado',
+                        y: 10.85
+                    }]
+                }]
+            });
+
+        </script>
+    }

@@ -452,6 +452,7 @@
     <Content Include="assets\plugins\clockpicker\dist\jquery-clockpicker.js" />
     <Content Include="assets\plugins\clockpicker\dist\jquery-clockpicker.min.css" />
     <Content Include="assets\plugins\clockpicker\dist\jquery-clockpicker.min.js" />
+    <Content Include="assets\plugins\css-chart\css-chart.css" />
     <Content Include="assets\plugins\d3\d3.js" />
     <Content Include="assets\plugins\d3\d3.min-v4.js" />
     <Content Include="assets\plugins\d3\d3.min.js" />
@@ -947,6 +948,10 @@
     <Content Include="assets\plugins\vectormap\jquery-jvectormap-us-il-chicago-mill-en.js" />
     <Content Include="assets\plugins\vectormap\jquery-jvectormap-world-mill-en.js" />
     <Content Include="assets\plugins\vectormap\jvectormap.custom.js" />
+    <Content Include="assets\plugins\wizard\jquery.steps.min.js" />
+    <Content Include="assets\plugins\wizard\jquery.validate.min.js" />
+    <Content Include="assets\plugins\wizard\steps.css" />
+    <Content Include="assets\plugins\wizard\steps.js" />
     <Content Include="assets\scss\icons\flag-icon-css\flag-icon.min.css" />
     <Content Include="assets\scss\icons\flag-icon-css\flags\ad.svg" />
     <Content Include="assets\scss\icons\flag-icon-css\flags\ae.svg" />
