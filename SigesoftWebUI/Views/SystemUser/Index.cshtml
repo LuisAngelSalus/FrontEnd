@@ -90,16 +90,19 @@
                     <label for="inputUserName">Usuario</label>
                     <input type="text" onblur="return validarNombreUsuario(this.value)" id="inputUserName" name="inputUserName" class="form-control" value="" />
                 </div>
-                <div class="form-group col-12 m-b-0">
-                    <label for="inputPassword1">Contraseña</label>
-                    <input type="password" onblur="return validarPassword(this.value)" id="inputPassword1" name="inputPassword1" class="form-control" value="" />
-                    <div id="meter"></div>
-                    <span id="result"></span>
+                <div id="contentPassword">
+                    <div class="form-group col-12 m-b-0">
+                        <label for="inputPassword1">Contraseña</label>
+                        <input type="password" onblur="return validarPassword(this.value)" id="inputPassword1" name="inputPassword1" class="form-control" value="" />
+                        <div id="meter"></div>
+                        <span id="result"></span>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="inputPassword2">Repita Contraseña</label>
+                        <input type="password" onblur="return validarPasswordIguales(inputPassword1.value,this.value)" id="inputPassword2" name="inputPassword2" class="form-control" value="" />
+                    </div>
                 </div>
-                <div class="form-group col-12">
-                    <label for="inputPassword2">Repita Contraseña</label>
-                    <input type="password" onblur="return validarPasswordIguales(inputPassword1.value,this.value)" id="inputPassword2" name="inputPassword2" class="form-control" value="" />
-                </div>
+
 
             </div>
             <div class="modal-footer">
@@ -252,7 +255,11 @@
                         $("#inputSecondtLastName").val(dataPerson.SecondLastName);
                         $("#inputEmail").val(dataUser.Email);
                         $("#inputUserName").val(dataUser.UserName);
+                        //$("#contentPassword").css('display', 'none');
+                        //$("#inputPassword2").css('display', 'none');
 
+                        $("#inputPassword1").val(dataUser.Password);
+                        $("#inputPassword2").val(dataUser.Password);
                     });
                 });
             } else {
@@ -288,27 +295,7 @@
 
         }
 
-        function checkEmail() {
 
-            var email = document.getElementById('inputEmail');
-            var filter = /^([a-zA-Z0-9_\.\-])+\u0040(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-            if (!filter.test(email.value)) {
-                mostrarValidacion("#inputEmail",filter.test(email))
-                email.focus;
-                return false;
-            }
-
-
-        }
-
-        function validarEmail(email) {
-
-            var formato = /^([a-zA-Z0-9_\.\-])+\u0040(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-            email = email.replace(/\+/g, '\+');
-
-            mostrarValidacion('#inputEmail', formato.test(email));
-        }
 
 
         function SaveUser(event) {
@@ -316,14 +303,15 @@
             //if (!ValidateEqualPasswords()) return false;
 
             //if (!checkEmail()) return false;
+            let idUser = $("#hiddenSystemUserId").val();
+            let idPerson = $("#hiddenPersonId").val();
 
+            console.log(idUser);
+            
+            console.log(validarUsuarioUpd());
 
-
-            if (validarUsuario()) {
-                let idUser = $("#hiddenSystemUserId").val();
-                let idPerson = $("#hiddenPersonId").val();
-
-                if (idUser == 0) {
+            if (idUser == 0) {
+                if (validarUsuarioIns()) {
                     let params = {
                         "FirstName": $("#inputFirstName").val(),
                         "FirstLastName": $("#inputFirstLastName").val(),
@@ -343,15 +331,17 @@
                             Filter();
                         });
                     });
-
-                } else if (idUser > 0) {
-
+                }
+            } else {
+                if (validarUsuarioUpd()) {
                     let params = {
                         "PersonId": idPerson,
                         "FirstName": $("#inputFirstName").val(),
                         "FirstLastName": $("#inputFirstLastName").val(),
                         "SecondLastName": $("#inputSecondtLastName").val(),
                     }
+
+                    console.log(params);
 
                     APIController.UpdatePerson(params).then((res) => {
 
@@ -416,7 +406,7 @@
 
 
 
-        function validarUsuario() {
+        function validarUsuarioIns() {
 
             var firstName = $("#inputFirstName").val();
             var firstLastName = $("#inputFirstLastName").val();
@@ -434,6 +424,25 @@
                 validarEmailFrm(email) &
                 validarPasswordFrm(passwordOne) &
                 validarPasswordIgualesFrm(passwordOne, passwordTwo)
+            );
+        }
+
+         function validarUsuarioUpd() {
+
+            var firstName = $("#inputFirstName").val();
+            var firstLastName = $("#inputFirstLastName").val();
+            var secondLastName = $("#inputSecondtLastName").val();
+            var email = $("#inputEmail").val();
+            var username = $("#inputUserName").val();
+            var passwordOne = $("#inputPassword1").val();
+            var passwordTwo = $("#inputPassword1").val();
+
+            return (
+                validarNombreUsuarioFrm(username) &
+                validarNombreFrm(firstName) &
+                validarApellidoPaternoFrm(firstLastName) &
+                validarApellidoMaternoFrm(secondLastName) &
+                validarEmailFrm(email)               
             );
         }
 
