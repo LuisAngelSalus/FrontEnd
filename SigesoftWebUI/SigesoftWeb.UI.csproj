@@ -300,6 +300,7 @@
     <Compile Include="Controllers\ProtocolProfileController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\QuoteTrackingController.cs" />
+    <Compile Include="Controllers\ReceptionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\SecuentialController.cs" />
@@ -453,6 +454,7 @@
     <Content Include="assets\plugins\clockpicker\dist\jquery-clockpicker.js" />
     <Content Include="assets\plugins\clockpicker\dist\jquery-clockpicker.min.css" />
     <Content Include="assets\plugins\clockpicker\dist\jquery-clockpicker.min.js" />
+    <Content Include="assets\plugins\css-chart\css-chart.css" />
     <Content Include="assets\plugins\d3\d3.js" />
     <Content Include="assets\plugins\d3\d3.min-v4.js" />
     <Content Include="assets\plugins\d3\d3.min.js" />
@@ -948,6 +950,10 @@
     <Content Include="assets\plugins\vectormap\jquery-jvectormap-us-il-chicago-mill-en.js" />
     <Content Include="assets\plugins\vectormap\jquery-jvectormap-world-mill-en.js" />
     <Content Include="assets\plugins\vectormap\jvectormap.custom.js" />
+    <Content Include="assets\plugins\wizard\jquery.steps.min.js" />
+    <Content Include="assets\plugins\wizard\jquery.validate.min.js" />
+    <Content Include="assets\plugins\wizard\steps.css" />
+    <Content Include="assets\plugins\wizard\steps.js" />
     <Content Include="assets\scss\icons\flag-icon-css\flag-icon.min.css" />
     <Content Include="assets\scss\icons\flag-icon-css\flags\ad.svg" />
     <Content Include="assets\scss\icons\flag-icon-css\flags\ae.svg" />
@@ -1274,10 +1280,20 @@
     <Content Include="Content\nifty.css" />
     <Content Include="Content\nifty.min.css" />
     <Content Include="Content\Quotation.css" />
+    <Content Include="Content\spin.css" />
     <Content Include="Content\tagsinput.css" />
+    <Content Include="images\ajax-loader.gif" />
     <Content Include="images\certificado_registro.png" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\jquery.fixedheadertable.min.js" />
     <Content Include="Scripts\Portal\Company\Index.js" />
+    <Content Include="Scripts\jquery.loading.js" />
+    <Content Include="Scripts\layout.js" />
+    <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\tagsinput.js" />
     <Content Include="Content\themes\type-a\theme-coffee.css" />
     <Content Include="Content\themes\type-a\theme-coffee.min.css" />
@@ -4490,12 +4506,14 @@
     <Content Include="Views\Schedule\Register.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Reception\Index.cshtml" />
     <Content Include="Views\Shared\VistaParcialMainLayout\_vpConfiguracion.cshtml" />
     <Content Include="Views\Quotation\Index.cshtml" />
     <Content Include="Views\Company\Contacts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\LogosCompany\" />
     <Folder Include="Logos\" />
     <Folder Include="Log\" />
     <Folder Include="plugins\flot-charts\examples\gauge\" />

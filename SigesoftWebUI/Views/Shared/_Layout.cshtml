@@ -48,6 +48,7 @@
         @Scripts.Render("~/bundles/modernizr")*@
     <script type="text/javascript">
         var baseUrl = "@Url.Content("~")";
+        var baseUrlLoader = "@Url.Content("~/images/ajax-loader.gif")";
     </script>
     <style type="text/css">
 
@@ -134,7 +135,7 @@
             border-radius: 5px;
         }
     </style>
-
+    <link href="~/Content/spin.css" rel="stylesheet" />
     @RenderSection("Styles", false)
 </head>
 <body class="fix-header fix-sidebar card-no-border">
@@ -355,7 +356,16 @@
         </div>
     </div>
 
+    <div id="loading">
+        <div id="loadingcontent">
+            <p id="loadingspinner">
+                Searching things...
+            </p>
+        </div>
+    </div>
+
     <script src="~/assets/plugins/jquery/jquery.min.js"></script>
+
     <script src="~/Scripts/jquery-ui.js"></script>
     <!-- Bootstrap popper Core JavaScript -->
     <script src="~/assets/plugins/bootstrap/js/popper.min.js"></script>
@@ -383,6 +393,10 @@
     <script src="~/assets/plugins/Highcharts/modules/export-data.js"></script>
     <!-- Treeview Plugin JavaScript -->
     <script src="~/assets/plugins/bootstrap-treeview-master/dist/bootstrap-treeview.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.loading.js"></script>
+    <script src="~/Scripts/layout.js"></script>
+    @*<script src="~/Scripts/spin.js"></script>*@
     <script type="text/javascript">
         var timer = '@FormsAuthentication.Timeout.TotalSeconds';
         var SessionTimeout = '@ViewBag.SessionTimeout';
@@ -393,9 +407,13 @@
 
     <script type="text/javascript">
 
+
+
         function CerrarSesion() {
             location.href = baseUrl() + 'IngresoSistema/LogOff';
         }
+
+
     </script>
     <script src="~/Scripts/APIController.js"></script>
     <script>
@@ -403,6 +421,9 @@
         var objData = {};
         swEnabled();
         $(document).ready(function () {
+
+            $(document).ajaxStart(ShowLoading());
+            $(document).ajaxStop(CloseLoading());
 
             APIController.GetAccessUser().then((res) => {
                 objData = res;
@@ -518,6 +539,7 @@
         }
 
         function buildSideBar(obj) {
+            console.log("SIDE BAR", obj);
             let company = objData.Companies.filter((res) => {
                 return res.CompanyId == obj.OwnerCompanyId;
             });
@@ -544,7 +566,7 @@
                 content += "</li>";
 
             }
-
+            $(".container-fluid").empty();
             $("#sidebarnav").empty();
             $("#sidebarnav").append(content);
         }

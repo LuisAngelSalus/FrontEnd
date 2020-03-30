@@ -18,6 +18,8 @@ namespace BE
         public string District { get; set; }
         public string PhoneCompany { get; set; }
         public int ResponsibleSystemUserId { get; set; }
+        public string PathLogo { get; set; }
+        public string ImageLogo { get; set; }
         public int InsertUserId { get; set; }
 
         public List<CompanyHeadquarterDto> companyHeadquarter { get; set; }

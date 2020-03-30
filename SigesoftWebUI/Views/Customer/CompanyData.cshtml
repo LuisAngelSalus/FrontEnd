@@ -3,9 +3,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var companyId = 0;
+    var nameLogo = "";
     if (ViewBag.Detail.companyHeadquarter.Count != 0)
     {
         companyId = ViewBag.Detail.CompanyId;
+        nameLogo = ViewBag.Detail.IdentificationNumber + ".png";
     }
 
     var clientUsers = ViewBag.CLIENTUSERS;
@@ -60,8 +62,12 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <div class="card-body m-0 p-0">
-                                        <input type="file" id="input-file-now" class="dropify" />
+                                    <div class="card-body m-0 p-0" style="text-align:center">
+                                        <img id="imglogo" src="~/Content/LogosCompany/@nameLogo" alt="Logo empresa" height="200" width="200" />
+                                        <div style="text-align:center">
+                                            <button type="button" onclick="changeLogo()" class="btn waves-effect waves-light btn-xs btn-info">Cambiar</button>
+                                            <button type="button" onclick="removeLogo()" class="btn waves-effect waves-light btn-xs btn-danger">Eliminar</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -149,17 +155,17 @@
                                             <tbody>
                                                 @foreach (var item in ViewBag.Detail.companyHeadquarter)
                                                 {
-                                                <tr>
-                                                    <td style="display:none" class="RecordType">@item.RecordType</td>
-                                                    <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
-                                                    <td style="display:none" class="RecordStatus">@item.CompanyHeadquarterId</td>
-                                                    <td> @item.Name</td>
-                                                    <td> @item.Address</td>
-                                                    <td> @item.PhoneNumber</td>
-                                                    <td class="text-nowrap">
-                                                        <a class="btnEditHeadquarter" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                                    </td>
-                                                </tr>
+                                                    <tr>
+                                                        <td style="display:none" class="RecordType">@item.RecordType</td>
+                                                        <td style="display:none" class="RecordStatus">@item.RecordStatus</td>
+                                                        <td style="display:none" class="RecordStatus">@item.CompanyHeadquarterId</td>
+                                                        <td> @item.Name</td>
+                                                        <td> @item.Address</td>
+                                                        <td> @item.PhoneNumber</td>
+                                                        <td class="text-nowrap">
+                                                            <a class="btnEditHeadquarter" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                                        </td>
+                                                    </tr>
                                                 }
                                             </tbody>
                                         </table>
@@ -392,6 +398,23 @@
             </div>
             <div class="modal-footer">
                 <button onsubmit="" onclick="AddHeadquarter(event)" type="button" class="btn btn-warning">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalUploadLogo" tabindex="-1" role="dialog" aria-labelledby="modalUploadLogoLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalUploadLogoLabel">Seleccionar Imagen</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" style="font-size:10px;">
+                <input type="file" id="input-file-now" class="dropify" data-allowed-file-extensions="png" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="AcceptLogo()" class="btn btn-info" data-dismiss="modal">Aceptar</button>
             </div>
         </div>
     </div>
@@ -725,8 +748,11 @@
                     "Mail": $("#txtMail").val(),
                     "District": $("#txtDistrict").val(),
                     "PhoneCompany": $("#txtPhoneCompany ").val() == null ? '-' : $("#txtPhoneCompany ").val(),
+                    "ImageLogo": $("#imglogo").attr("src").replace(/^data:image\/(png|jpg);base64,/,""),
                     "companyHeadquarter": new Array()
                 }
+
+                
 
                 $('#mainTable > tbody tr').each(function () {
                     var headquarter = {
@@ -741,6 +767,7 @@
                     data.companyHeadquarter.push(headquarter);
                 });
 
+                
                 APIController.UpdateCompanyClientUser(data).then((res) => {
                     console.log("RES", res);
                     if (res.IsSuccess == true) {
@@ -813,6 +840,7 @@
 
                 $("#mainTable tbody").append(content);
 
+
             } else {
                 swal("¡Validación!", "Ingrese campos obligatorios", "error");
             }
@@ -835,5 +863,40 @@
 
             $("#ModalHeadquarter").modal("show");
         }
+
+        function changeLogo() {
+            $("#modalUploadLogo").modal("show");
+        }
+
+        function removeLogo() {
+            $("#imglogo").attr("src", "");
+        }
+
+        function AcceptLogo() {
+            getFileLogo().then(res => {
+                $("#imglogo").attr("src", res);
+                $("#modalUploadLogo").modal("hide");
+            });
+        }
+
+          function getFileLogo() {
+         return new Promise((resolve, reject) => {
+            let obj = $("#input-file-now")[0].files;
+            if (obj && obj[0]) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    resolve( reader.result);
+                }
+                reader.readAsDataURL(obj[0])
+            }
+         });
+    }
+
     </script>
+
+
+    <!-- ============================================================== -->
+    <!-- Style switcher -->
+    <!-- ============================================================== -->
+    <script src="~/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 }

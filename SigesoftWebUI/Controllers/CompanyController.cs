@@ -63,40 +63,15 @@ namespace SigesoftWebUI.Views.Organization
 
             }
 
+
+            data.PathLogo = data.IdentificationNumber;
+            //if (response.IsSuccess)
+            //{
+                SaveImage(data.ImageLogo,data.IdentificationNumber);
+            //}
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
-
-        //[HttpPost]
-        public JsonResult UploadLogoCompany(int id)
-        {
-            try
-            {
-                foreach (string file in Request.Files)
-                {
-                    var fileContent = Request.Files[file];
-                    if (fileContent != null && fileContent.ContentLength > 0)
-                    {
-                        // get a stream
-                        var stream = fileContent.InputStream;
-                        // and optionally write the file to disk
-                        var fileName = Path.GetFileName(file);
-                        var path = Path.Combine(Server.MapPath("~/App_Data/Images"), fileName);
-                        using (var fileStream = System.IO.File.Create(path))
-                        {
-                            stream.CopyTo(fileStream);
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Upload failed");
-            }
-
-            return Json("File uploaded successfully");
-        }
-
+     
         //public JsonResult Contacts(int companyId)
         //{
         //    var response = _companyBL.Contacts(companyId, SessionUsuario.Token);
@@ -136,6 +111,21 @@ namespace SigesoftWebUI.Views.Organization
             var response = _companyBL.ValidateUserCompany(validated.SystemUserId, ruc, validated.Token);
 
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        }
+
+        private void SaveImage(string imagebase64, string name)
+        {
+            var path = Server.MapPath(@"~\Content\LogosCompany\")+name + ".png";            
+            if (imagebase64 == null)
+            {                
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);                
+            }
+            else
+            {
+                byte[] bytes = Convert.FromBase64String(imagebase64);                
+                System.IO.File.WriteAllBytes(path, bytes);
+            }
         }
     }
 }

@@ -89,5 +89,17 @@ namespace BL
             
             return obj;
         }
+
+        public Response<List<GetSystemUserFilterDto>> GetAllFilter(string token)
+        {
+            Response<List<GetSystemUserFilterDto>> obj = null;
+            var hCliente = _global.rspClientGET("SystemUser/ListaUsuarios/", token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<List<GetSystemUserFilterDto>>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
+        }
+
     }
 }
