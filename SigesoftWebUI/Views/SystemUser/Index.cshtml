@@ -41,10 +41,12 @@
                         <th>Nombre Completo</th>
                         <th>Usuario</th>
                         <th>Email</th>
+                        <th>Roles</th>
+                        <th>Compañia</th>
                         @*<th>Nombres</th>
-                            <th>Usuario</th>
-                            <th>Usuario</th>
-                            <th>Usuario</th>*@
+        <th>Usuario</th>
+        <th>Usuario</th>
+        <th>Usuario</th>*@
                         <th class="text-nowrap">Editar</th>
                         <th class="text-nowrap">Accesos</th>
                         <th class="text-nowrap">Email</th>
@@ -138,6 +140,8 @@
                 content += "<td>" + data[i].FullName + "</td>";
                 content += "<td>" + data[i].UserName + "</td>";
                 content += "<td>" + data[i].Email + "</td>";
+                content += "<td>" + data[i].Roles + "</td>";
+                content += "<td>" + data[i].CompanyName + "</td>";
                 content += "<td><a onclick='openModalUser("+data[i].SystemUserId+"," + data[i].PersonId + ")' data-toggle='tooltip'  data-original-title='Usuario'><i class='fa fa-user btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "<td><a onclick='registerAccess(" + data[i].SystemUserId + ")' data-toggle='tooltip'  data-original-title='Registrar Accesos'><i class='fa fa-lock btn waves-effect waves-light btn-secondary'></i></a></td>";
                 content += "<td><a onclick='enviarCorreo("+data[i].SystemUserId+")' data-toggle='tooltip'  data-original-title='Enviar Correo'><i class='fa fa-send btn waves-effect waves-light btn-secondary'></i></a></td>";
@@ -224,6 +228,8 @@
                     content += "<td>" + data[i].FullName + "</td>";
                     content += "<td>" + data[i].UserName + "</td>";
                     content += "<td>" + data[i].Email + "</td>";
+                    content += "<td>" + data[i].Roles + "</td>";
+                    content += "<td>" + data[i].CompanyName + "</td>";
                     content += "<td><a onclick='openModalUser("+data[i].SystemUserId+"," + data[i].PersonId + ")' data-toggle='tooltip'  data-original-title='Usuario'><i class='fa fa-user btn waves-effect waves-light btn-secondary'></i></a></td>";
                     content += "<td><a onclick='registerAccess("+data[i].SystemUserId+")' data-toggle='tooltip'  data-original-title='Registrar Accesos'><i class='fa fa-lock btn waves-effect waves-light btn-secondary'></i></a></td>";
                     content += "</tr>";

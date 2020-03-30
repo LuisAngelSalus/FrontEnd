@@ -11,9 +11,7 @@ namespace BE
     {
         public int SystemUserId { get; set; }
         public int? PersonId { get; set; }
-        public string UserName { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
+        public string UserName { get; set; }    
     }
 
     public class GetSystemUserDto
@@ -24,6 +22,16 @@ namespace BE
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Password { get; set; }
+    }
+
+    public class GetSystemUserFilterDto
+    {
+        public string FullName { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string CompanyName { get; set; }
+        public string Roles { get; set; }
+        public int SystemUserId { get; set; }
     }
 
     public class SystemUserRegisterDto
