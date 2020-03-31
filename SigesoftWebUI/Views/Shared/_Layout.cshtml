@@ -380,7 +380,7 @@
     <!--Menu sidebar -->
     <script src="~/assets/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="~/assets/js/custom.min.js"></script>
+    <script src="~/assets/js/custom.js"></script>
     <!-- This is data table -->
     <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/assets/plugins/sweetalert/sweetalert.min.js"></script>
@@ -571,7 +571,7 @@
         }
 
         function buildSideBar(obj) {
-            console.log("SIDE BAR", obj);
+            
             let company = objData.Companies.filter((res) => {
                 return res.CompanyId == obj.OwnerCompanyId;
             });

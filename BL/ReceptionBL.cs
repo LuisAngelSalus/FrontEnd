@@ -23,7 +23,18 @@ namespace BL
                 obj = new JavaScriptSerializer().Deserialize<Response<List<ScheduleListDto>>>(hCliente.Content.ReadAsStringAsync().Result);
             }
             return obj;
+        }
 
+        public Response<ScheduleDataModel> GetDataSchedule(int scheduleId, string token)
+        {
+            Response<ScheduleDataModel> obj = null;
+
+            var hCliente = _global.rspClientGET("Schedule/DataCita/" + scheduleId,token);
+            if (hCliente.IsSuccessStatusCode)
+            {
+                obj = new JavaScriptSerializer().Deserialize<Response<ScheduleDataModel>>(hCliente.Content.ReadAsStringAsync().Result);
+            }
+            return obj;
         }
     }
 }

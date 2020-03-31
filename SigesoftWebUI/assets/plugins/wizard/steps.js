@@ -16,8 +16,9 @@ $(".tab-wizard").steps({
             showLoaderOnConfirm: true
         }, function () {
             setTimeout(function () {
-                swal("Circuito Iniciado!");
-                backSchedule();
+                //swal("Circuito Iniciado!");
+                //backSchedule();
+                location.reload();
             }, 2000);
         });
     }

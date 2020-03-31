@@ -937,6 +937,18 @@
         });
     }
 
+    var getDataSchedule = function (idSchedule) {
+        return new Promise((resolve, reject) => {
+            fetch('/Reception/GetDataSchedule?scheduleId=' + idSchedule, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    return resolve(data);
+                }).catch(err => { console.log(err); reject() });
+        });
+    }
+
     return {
         SaveCompany: function (parameters) {
             return new Promise((resolve, reject) => {
@@ -1327,6 +1339,12 @@
         SearchReception: function (parameters) {
             return new Promise((resolve, reject) => {
                 searchReception(parameters).then(res => resolve(res));
+            });
+        },
+
+        GetDataSchedule: function (idSchedule) {
+            return new Promise((resolve, reject) => {
+                getDataSchedule(idSchedule).then(res => resolve(res));
             });
         }
     }

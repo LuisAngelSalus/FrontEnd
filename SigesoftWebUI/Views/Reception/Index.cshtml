@@ -12,10 +12,12 @@
         .icon-bomb {
             cursor: pointer;
         }
+        ul {
+            list-style-type: none;
+        }
     </style>
     <link href="~/assets/plugins/wizard/steps.css" rel="stylesheet" />
     <link href="~/assets/plugins/css-chart/css-chart.css" rel="stylesheet" />
-
 }
 <div>
     <nav class="navbar top-navbar navbar-expand-md navbar-light">
@@ -23,8 +25,12 @@
             <ul class="navbar-nav mr-auto">
                 <!-- This is  -->
                 <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-                <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                <li class="nav-item" style="display:none"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
 
+            </ul>
+            <ul style="padding-right: 100px;">
+                <li>Fecha de Agenda: <strong id="lblinfo"></strong></li>
+                <li>Citas encontradas: <strong id="lblTotalSearch"></strong></li>
             </ul>
             <!-- ============================================================== -->
             <!-- User profile and search -->
@@ -34,9 +40,9 @@
                 <!-- Search -->
                 <!-- ============================================================== -->
                 <li class="nav-item hidden-xs-down search-box">
-                    <a class="nav-link hidden-sm-down waves-effect waves-dark" href="#"><i class="ti-search"></i></a>
+                    <a class="nav-link hidden-sm-down waves-effect waves-dark" style="font-size:x-large" href="#"><i class="ti-search"></i></a>
                     <div class="app-search" style="display: none;">
-                        <input type="text" onkeypress="search(event)" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
+                        <input type="text" id="search-value" onkeyup="this.value = this.value.toUpperCase();"  onkeypress="search(event)" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
                     </div>
                 </li>
                 <!-- ============================================================== -->
@@ -71,10 +77,10 @@
                                                 </a>
                                             </h5>
                                         </div>
-                                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
                                             <div class="card-body">
                                                 <form>
-                                                    <div class="form-row">
+                                                    <div class="row">
                                                         <div class="form-group col-md-6">
                                                             <label for="inputState">Tipo</label>
                                                             <select id="ddlDocTypeId" class="form-control">
@@ -84,7 +90,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group col-md-6">
-                                                            <label for="inputCity">Nro. Documento</label>
+                                                            <label for="inputCity">Número</label>
                                                             <input type="text" class="form-control" id="txtNroDoc">
                                                         </div>
                                                     </div>
@@ -96,31 +102,7 @@
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" role="tab" id="headingTwo">
-                                            <h5 class="mb-0">
-                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                    Otro 1
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                            <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" role="tab" id="headingThree">
-                                            <h5 class="mb-0">
-                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                    Otro 2
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                                            <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. </div>
-                                        </div>
-                                    </div>
+                                    </div>                                    
                                 </div>
                             </li>
                         </ul>
@@ -139,153 +121,161 @@
                     <h4 class="card-title" onclick="backSchedule()" style="cursor:pointer">Volver a la bandeja</h4>                    
                     <form action="#" class="tab-wizard wizard-circle">
                         <!-- Step 1 -->
-                        <h6>Personal Info</h6>
+                        <h6>Datos Personales</h6>
                         <section>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="firstName1">First Name :</label>
-                                        <input type="text" class="form-control" id="firstName1">
+                                        <label for="txtFirstName">Nombres :</label>
+                                        <input type="text" class="form-control" id="txtFirstName">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="lastName1">Last Name :</label>
-                                        <input type="text" class="form-control" id="lastName1">
+                                        <label for="txtFirstLastName">Ape. Paterno :</label>
+                                        <input type="text" class="form-control" id="txtFirstLastName">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="emailAddress1">Email Address :</label>
-                                        <input type="email" class="form-control" id="emailAddress1">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phoneNumber1">Phone Number :</label>
-                                        <input type="tel" class="form-control" id="phoneNumber1">
+                                        <label for="txtSecondLastName">Ape. Materno :</label>
+                                        <input type="text" class="form-control" id="txtSecondLastName">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="location1">Select City :</label>
-                                        <select class="custom-select form-control" id="location1" name="location">
-                                            <option value="">Select City</option>
-                                            <option value="Amsterdam">India</option>
-                                            <option value="Berlin">USA</option>
-                                            <option value="Frankfurt">Dubai</option>
+                                        <label for="txtDateBirth">Fecha Nacimiento</label>
+                                        <input type="datetime" class="form-control" id="txtDateBirth">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="ddlDocType">Tipo Documento</label>                                        
+                                        <select class="form-control" id="ddlDocType">
+                                            <option value="1">DNI</option>
+                                            <option value="2">Pasaporte</option>
+                                            <option value="3">PTP</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="date1">Date of Birth :</label>
-                                        <input type="date" class="form-control" id="date1">
+                                        <label for="txtNroDoc">Nro. Documento</label>
+                                        <input type="text" class="form-control" id="txtNroDoc">
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="ddlGenderId">Género</label>
+                                        <select class="form-control" id="ddlGenderId">
+                                            <option value="1">Masculino</option>
+                                            <option value="2">Femenino</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="txtPhone">Celular</label>
+                                        <input type="tel" class="form-control" id="txtPhone">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="txtEmail">Email :</label>
+                                        <input type="email" class="form-control" id="txtEmail">
+                                    </div>
+                                </div>
+                            </div>                            
                         </section>
                         <!-- Step 2 -->
-                        <h6>Job Status</h6>
+                        <h6>Foto/Huella/Firma</h6>
                         <section>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="jobTitle1">Job Title :</label>
-                                        <input type="text" class="form-control" id="jobTitle1">
+                                        <label for="labelPhotoWorker">Foto</label>
+                                        <div class="col-md-8 text-center">
+                                            <img src='~/assets/images/users/10897627.jpg' id="img-Schedule-Photo" alt='user' class='img-thumbnail  img-responsive'>
+                                        </div>                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-8 text-center">
+                                            <button type="button" class="btn waves-effect waves-light btn-rounded btn-xs btn-danger">Eliminar</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="videoUrl1">Company Name :</label>
-                                        <input type="text" class="form-control" id="videoUrl1">
+                                        <label for="labelFingerprint">Huella</label>
+                                        <div class="col-md-8 text-center">
+                                            <img src='~/assets/images/fingerprint/25770568.png' id="img-Schedule-Fingerprint" alt='user' class='img-thumbnail  img-responsive'>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-8 text-center">
+                                            <button type="button" class="btn waves-effect waves-light btn-rounded btn-xs btn-danger">Eliminar</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="shortDescription1">Job Description :</label>
-                                        <textarea name="shortDescription" id="shortDescription1" rows="6" class="form-control"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- Step 3 -->
-                        <h6>Interview</h6>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="int1">Interview For :</label>
-                                        <input type="text" class="form-control" id="int1">
+                                        <label for="shortDescription1">Firma</label>
+                                        <div class="col-md-8 text-center">
+                                            <img src='~/assets/images/signature/25770568.png' id="img-Schedule-Signature" alt='user' class='img-thumbnail img-responsive'>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="intType1">Interview Type :</label>
-                                        <select class="custom-select form-control" id="intType1" data-placeholder="Type to search cities" name="intType1">
-                                            <option value="Banquet">Normal</option>
-                                            <option value="Fund Raiser">Difficult</option>
-                                            <option value="Dinner Party">Hard</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Location1">Location :</label>
-                                        <select class="custom-select form-control" id="Location1" name="location">
-                                            <option value="">Select City</option>
-                                            <option value="India">India</option>
-                                            <option value="USA">USA</option>
-                                            <option value="Dubai">Dubai</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="jobTitle2">Interview Date :</label>
-                                        <input type="date" class="form-control" id="jobTitle2">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Requirements :</label>
-                                        <div class="c-inputs-stacked">
-                                            <label class="inline custom-control custom-checkbox block">
-                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Employee</span>
-                                            </label>
-                                            <label class="inline custom-control custom-checkbox block">
-                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Contract</span>
-                                            </label>
+                                        <div class="col-md-8 text-center">
+                                            <button type="button" class="btn waves-effect waves-light btn-rounded btn-xs btn-danger">Eliminar</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </section>
-                        <!-- Step 4 -->
-                        <h6>Remark</h6>
+                        <!-- Step 3 -->
+                        <h6>Protocolo</h6>
                         <section>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="behName1">Behaviour :</label>
-                                        <input type="text" class="form-control" id="behName1">
+                                        <label for="int1">Protocolo :</label>
+                                        <input type="text" class="form-control" id="int1">
                                     </div>
                                     <div class="form-group">
-                                        <label for="participants1">Confidance</label>
-                                        <input type="text" class="form-control" id="participants1">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="participants1">Result</label>
-                                        <select class="custom-select form-control" id="participants1" name="location">
-                                            <option value="">Select Result</option>
-                                            <option value="Selected">Selected</option>
-                                            <option value="Rejected">Rejected</option>
-                                            <option value="Call Second-time">Call Second-time</option>
-                                        </select>
-                                    </div>
+                                        <label for="int1">Empresa :</label>
+                                        <input type="text" class="form-control" id="int1">
+                                    </div>                                    
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="decisions1">Comments</label>
-                                        <textarea name="decisions" id="decisions1" rows="4" class="form-control"></textarea>
+                                        <label for="jobTitle2">Lista de Exámenes</label>
+                                        
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Step 4 -->
+                        <h6>Agenda </h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="behName1">Fecha de Agenda</label>
+                                        <div class="text-center">
+                                            <center>
+                                                <div id="datepicker-Schedule"></div>
+                                            </center>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="txtcommentary">Comentario</label>
+                                        <textarea name="decisions" id="txtcommentary" rows="4" class="form-control"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Rate Interviwer :</label>
@@ -329,45 +319,71 @@
                 $(".wizard-schedule").hide();
 
                 $('#datepicker-inline').datepicker({
-                    todayHighlight: true
+                    todayHighlight: true,
+                    "dateFormat": "dd/mm/yy",
+                    onSelect: function (dateText) {
+                        $("#lblinfo").text(dateText);
+                        ApiSearch(undefined);
+                        $( ".search-box" ).trigger( "click" );
+                    }
                 });
 
-                let data = {
-                    Value: "",
-                    StartDate: $("#datepicker-inline").val(),
-                    EndDate: $("#datepicker-inline").val()
-                }
-                ApiSearch(data);
+                $("#lblinfo").width("330");
+                $("#lblinfo").text($('#datepicker-inline').val());
+
+                $("#datepicker-Schedule").datepicker({
+                    todayHighlight: true,
+                    "dateFormat": "dd/mm/yy"
+                });
+
+                $("#txtDateBirth").datepicker({                   
+                    "dateFormat": "dd/mm/yy"
+                });
+
+                
+                ApiSearch(undefined);
+                Chart();
             });
             
             function search(e) {
                 if (e.which == 13) {
+                    $(".app-search").toggle(500);
                     let data = {
                         Value: $(e.target).val().trim(),
                         StartDate: $("#datepicker-inline").val(),
                         EndDate: $("#datepicker-inline").val()
                     }
                     ApiSearch(data);
+                    $(e.target).val("");
                 }
             }
 
             function ApiSearch(data) {
+                if (data === undefined) {
+                    data = {
+                    Value: "",
+                    StartDate: $("#datepicker-inline").val(),
+                    EndDate: $("#datepicker-inline").val()
+                }
+                }
                 APIController.SearchReception(data).then(res => {
                     $("#totalPopulation").text(res.Data.length);
                     $(".content-target").empty();
+                    $("#lblTotalSearch").text(res.Data.length);
                     res.Data.map(ele => {
-                        renderTarget(ele);
+                        renderTarget(ele,data.Value);
                     });
+                    
                 });
             }
 
-            function renderTarget(ele) {
-                console.log("ELE", ele);
+            function renderTarget(dataSchedule, value) {
+                
                 let content = "";
                 content += "<div class='col-md-6 col-lg-6 col-xlg-4'>";
                 content += "<div class='card card-body'>";
                 content += "<div class='d-flex no-block'>";
-                content += "<h4 class='card-title'><span class='lstick'></span>" + ele.FullName + "</h4>";
+                content += "<h4 class='card-title'><span class='lstick'></span>" + dataSchedule.FullName + "</h4>";
                 content += "<div class='btn-group ml-auto m-t-10'>";
                 content += "<a href='JavaScript:void(0)' class='icon-options-vertical link' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'></a>";
                 content += "<div class='dropdown-menu dropdown-menu-right'>";
@@ -377,23 +393,25 @@
                 content += "<div class='dropdown-divider'></div>";
                 content += "<a class='dropdown-item' href='javascript:void(0)'>TRABAJADOR</a>";
                 content += "<div class='dropdown-divider'></div>";
-                content += "<a class='dropdown-item' href='javascript:void(0)'>EXÁMENES</a>";
+                content += "<a class='dropdown-item' href='javascript:void(0)'>EXÁMENES</a>";   
                 content += "</div>";
                 content += "</div>";
                 content += "</div>";
                 content += "<div class='row'>";
                 content += "<div class='col-md-4 col-lg-3 text-center'>";
-                content += "<div onclick='ModalStartCircuit(" + ele.ScheduleId + ")' style='cursor: pointer;'>";
-                content += "<div data-label='10%' class='css-bar css-bar-50 css-bar-lg css-bar-default'><img src='../assets/images/users/"+ele.NroDocument+".jpg' height='150' width='150' alt='user' class='img-circle img-responsive'></div>";
+                content += "<div onclick='ModalStartCircuit(" + dataSchedule.ScheduleId + ")' style='cursor: pointer;'>";
+                content += "<div data-label='10%' class='css-bar "+PorcentajeRandon()+" css-bar-lg '><img src='../assets/images/users/"+dataSchedule.NroDocument.split('').reverse().join('')+".jpg' height='150' width='150' alt='user' class='img-circle img-responsive'></div>";
                 content += "</div>";
                 content += "</div>";
                 content += "<div class='col-md-8 col-lg-9'>";
-                content += "<h4 class='box-title m-b-0'>" + ele.CompanyName + "</h4> <small>" + ele.CurrentOccupation + "</small>";
+                content += "<h4 class='box-title m-b-0'>" + dataSchedule.CompanyName + "</h4><h4 class='box-title m-b-0'>" + dataSchedule.ProtocolName + "</h4>";
+                content += "<br>";
+                content += " <h6>Puesto: " + dataSchedule.CurrentOccupation + "</h6> <h6>Documento:  " + dataSchedule.NroDocument + "</h6>";                
                 content += "<address>";
-                content += ele.WorkerEmail;
+                content += dataSchedule.WorkerEmail;
                 content += "<br>";
-                content += "<br>";
-                content += "<abbr title='Celular'>C:</abbr> " + ele.WorkerCell;
+                //content += "<br>";
+                content += "<abbr title='Celular'>C:</abbr> " + dataSchedule.WorkerCell;
                 content += "</address>";
                 content += "</div>";
                 content += "<div class='row' style='font-size:x-large; text-align:right; width:100%'>";
@@ -406,29 +424,72 @@
                 content += "</div>";
                 content += "</div>";
                 content += "</div>";
+                
+                let reg = new RegExp(value, 'gi');                
+                let toStr = String(reg);
+                var color = (toStr.replace('\/g', '|')).substring(1);
+                var colors = color.split("|");
+                if (colors.indexOf(value) > -1) {
+                    console.log("??");
+                    let word = new RegExp(value, 'gi');
+                    content = content.replace(word, "<span style='background:yellow;'>"+value+"</span>");
+                }
 
                 $(".content-target").append(content);
             }
 
             function ModalStartCircuit(id) {
-                console.log("ID", id);                
-                $(".content-target").hide("blind", {}, 1000, function () {
-                    $(".wizard-schedule").show();
-                });
-            }
-            
-            function backSchedule() {
-                $(".wizard-schedule").hide("blind", {},500);
-                $(".content-target").show("blind", {}, 500);
-                let data = {
-                    Value: "",
-                    StartDate: $("#datepicker-inline").val(),
-                    EndDate: $("#datepicker-inline").val()
-                }
-                ApiSearch(data);
+                console.log("ID", id);  
+                APIController.GetDataSchedule(id).then(res => {                    
+                    fillDataFormModalStartCircuit(res.Data);
+                    $(".content-target").hide("blind", {}, 1000, function () {
+                        $(".wizard-schedule").show();
+                    });
+
+                });                
             }
 
-            // Build the chart
+            function fillDataFormModalStartCircuit(data) {
+                $("#txtFirstName").val(data.FirstName);
+                $("#txtFirstLastName").val(data.FirstLastName);
+                $("#txtSecondLastName").val(data.SecondLastName);
+                $("#txtDateBirth").val(formatDateForCalendar(data.DateBirth));
+                $("#ddlDocType").val(data.DocType);
+                $("#txtNroDoc").val(data.NroDocument);
+                $("#ddlGenderId").val(data.DocType);
+                $("#txtPhone").val(data.NroDocument);
+                $("#txtEmail").val(data.NroDocument);        
+                //let nroDocRevese = data.NroDocument.split('').reverse().join('') + ".jpg";
+                //console.log("FOTO",nroDocRevese);
+                //$("#img-Schedule-Photo").attr("src", "~/assets/images/users/25770568.jpg");
+                //$("#img-Schedule-Fingerprint").attr("src", "~/assets/images/fingerprint/25770568.png");
+                //$("#img-Schedule-Signature").attr("src","~/assets/images/signature/25770568.png");
+            }
+
+            function backSchedule() {
+                //$(".content-target").empty();
+                //$(".wizard-schedule").hide("blind", {},500);
+                //$(".content-target").show("blind", {}, 500);                
+                //ApiSearch(undefined);
+                location.reload();
+            }
+
+            function PorcentajeRandon() {
+                var items = [
+                    10, 20, 30, 50, 70, 100
+                ];
+
+                var item = items[Math.floor(Math.random() * items.length)];
+                if (item == 100) {
+                    return "css-bar-"+item+" css-bar-success";
+                }
+                return "css-bar-"+item+" css-bar-danger";
+                
+            }
+
+
+            function Chart() {
+                       // Build the chart
             Highcharts.chart('container', {
                 chart: {
                     plotBackgroundColor: null,
@@ -475,5 +536,7 @@
                 }]
             });
 
+            }
+     
         </script>
     }
