@@ -56,7 +56,8 @@
                     </div>
                     <div class="col">
                         <div class="card-body m-0 p-0" style="text-align:center">
-                            <img id="imglogo" src="~/Content/LogosCompany/@nameLogo" alt="Logo empresa" height="200" width="200" />
+                            <img id="imglogo" src="~/Content/LogosCompany/@nameLogo" alt="Logo empresa" class="img-fluid img-thumbnail rounded mx-auto d-block" />
+                            
                             <div style="text-align:center">
                                 <button type="button" onclick="changeLogo()" class="btn waves-effect waves-light btn-xs btn-info">Cambiar</button>
                                 <button type="button" onclick="removeLogo()" class="btn waves-effect waves-light btn-xs btn-danger">Eliminar</button>
@@ -196,7 +197,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body" style="font-size:10px;">
-                <input type="file" id="input-file-now" class="dropify" data-allowed-file-extensions="png"/>
+                <input type="file" id="input-file-now" class="dropify" data-allowed-file-extensions="png" data-max-file-size="200K"/>
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="AcceptLogo()" class="btn btn-info" data-dismiss="modal">Aceptar</button>
@@ -227,10 +228,16 @@
         messages: {
             'default': 'Arrastar y Soltar logo de la empresa',
             'replace': 'Arrastar y Soltar para reemplazar',
-            'remove':  'Remover',
-            'error':   'Ups, Ocurrió un problema.'
-        }
-    });
+            'remove': 'Remover',
+            'error':   'Ups. Ocurrió un problema.'
+            },
+        error: {
+            'fileSize': 'El tamaño del archivo es demasiado grande. ({{ value }} maximo).',
+            'imageFormat': 'El formato de imagen no está permitido. (Sólo {{ value }}).',
+            'fileExtension': 'El formato del archivo no esta permitido. (Sólo {{ value }}).'
+            }
+        });
+
     $(document).ready(function () {
 
         $('#btnBuscarRuc').on("click", function (e) {

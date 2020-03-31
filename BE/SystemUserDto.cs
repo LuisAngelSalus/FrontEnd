@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace BE
     {
         public int SystemUserId { get; set; }
         public int? PersonId { get; set; }
-        public string UserName { get; set; }
+        public string UserName { get; set; }    
     }
 
     public class GetSystemUserDto
@@ -20,6 +21,17 @@ namespace BE
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class GetSystemUserFilterDto
+    {
+        public string FullName { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string CompanyName { get; set; }
+        public string Roles { get; set; }
+        public int SystemUserId { get; set; }
     }
 
     public class SystemUserRegisterDto
@@ -27,6 +39,9 @@ namespace BE
         public int PersonId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        //[DataType(DataType.EmailAddress)]
+        //[EmailAddress]
+        //[RegularExpression(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$")]
         public string Email { get; set; }
         public string Phone { get; set; }
     }
