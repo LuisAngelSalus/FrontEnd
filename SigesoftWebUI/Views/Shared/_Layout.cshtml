@@ -506,7 +506,7 @@
                         buildContenFluid({
                             "RoleId": data.RoleId,
                         });
-                        //SaveConfigAccountCache();
+                        SaveConfigAccountCache();
                     }
                 });
             } else {
@@ -542,7 +542,7 @@
                 });
             } else {
                 APIController.UpdateAccountSetting(data).then((res) => {
-                    //SaveConfigAccountCache();
+                    SaveConfigAccountCache();
                     buildSideBar(data);
                     buildContenFluid(data);
                 });
