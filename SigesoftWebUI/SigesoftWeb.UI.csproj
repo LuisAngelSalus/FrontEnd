@@ -1812,6 +1812,7 @@
     <Content Include="Views\Schedule\Register.cshtml" />
     <Content Include="Template\PLANTILLA_PROPUESTA_COMERCIAL.pdf" />
     <Content Include="Views\Reception\Index.cshtml" />
+    <Content Include="Views\Worker\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1833,7 +1834,6 @@
     <Folder Include="Views\Secuential\" />
     <Folder Include="Views\Suscription\" />
     <Folder Include="Views\WorkerScheduling\" />
-    <Folder Include="Views\Worker\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
