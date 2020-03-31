@@ -506,7 +506,7 @@
                         buildContenFluid({
                             "RoleId": data.RoleId,
                         });
-                        SaveConfigAccountCache();
+                        //SaveConfigAccountCache();
                     }
                 });
             } else {
@@ -515,7 +515,7 @@
                 $('#ddlConfCompany').val(obj.OwnerCompanyId).trigger('change');
                 $("#ddlConfRole").val(obj.RoleId);
                 buildSideBar(obj);
-                buildContenFluid(obj);
+                //buildContenFluid(obj);
             }
         }
 
@@ -542,7 +542,7 @@
                 });
             } else {
                 APIController.UpdateAccountSetting(data).then((res) => {
-                    SaveConfigAccountCache();
+                    //SaveConfigAccountCache();
                     buildSideBar(data);
                     buildContenFluid(data);
                 });
