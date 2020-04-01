@@ -2,6 +2,7 @@
 using BL;
 using SigesoftWebUI.Controllers.Base;
 using SigesoftWebUI.Repositories;
+using SigesoftWebUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,40 +39,50 @@ namespace SigesoftWebUI.Views.Organization
         }
 
         public ActionResult Detail(int id)
-        {        
-            CompanyDetailDto companyDetailDto = null;
-            
+        {
+            CompanyViewModel companyViewModel = null;
+
             if (id != 0)
             {
                 var response = companyRepository.CompanyDetail(id, SessionUsuario);
                 if (response.IsSuccess)
                 {
-                    companyDetailDto = response.Data;
+                    companyViewModel = response.Data;
                 }
             }
 
-            return View(companyDetailDto);
+            return View(companyViewModel);
         }
 
-        public JsonResult Save(CompanyDetailDto data)
+        [HttpPost]
+        public ActionResult Save(CompanyViewModel companyViewModel)
         {
-            data.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
-            data.InsertUserId = SessionUsuario.SystemUserId;
-            var response = _companyBL.Save(data, SessionUsuario.Token);
-            if (Request.Files.Count > 0)
+            if (ModelState.IsValid)
             {
-
+                return RedirectToAction("Index");
             }
-
-
-            data.PathLogo = data.IdentificationNumber;
-            //if (response.IsSuccess)
-            //{
-                SaveImage(data.ImageLogo,data.IdentificationNumber);
-            //}
-            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+            return View("Detail", companyViewModel);
         }
-     
+
+        //public JsonResult Save(CompanyDetailDto data)
+        //{
+        //    data.ResponsibleSystemUserId = SessionUsuario.SystemUserId;
+        //    data.InsertUserId = SessionUsuario.SystemUserId;
+        //    var response = _companyBL.Save(data, SessionUsuario.Token);
+        //    if (Request.Files.Count > 0)
+        //    {
+
+        //    }
+
+
+        //    data.PathLogo = data.IdentificationNumber;
+        //    //if (response.IsSuccess)
+        //    //{
+        //        SaveImage(data.ImageLogo,data.IdentificationNumber);
+        //    //}
+        //    return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
+        //}
+
         //public JsonResult Contacts(int companyId)
         //{
         //    var response = _companyBL.Contacts(companyId, SessionUsuario.Token);
@@ -84,48 +95,12 @@ namespace SigesoftWebUI.Views.Organization
             return PartialView("Contacts", response);
         }
 
-        public JsonResult CompanyByRuc(string ruc)
-        {
-            var response = _companyBL.CompanyByRuc(ruc, SessionUsuario.Token);
-
-            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult AutocompleteByName(string value)
-        {
-            var response = _companyBL.AutocompleteByName(value, SessionUsuario.Token);
-
-            return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-        }
         public JsonResult ValidateUserCompany(string ruc)
         {
-            #region TOKEN
-            var sessione = (SessionModel)Session[Resources.Constante.SessionUsuario];
-            LoginDto oLoginDto = new LoginDto();
-            oLoginDto.v_UserName = sessione.UserName;
-            //oLoginDto.v_Password = sessione.Pass;
-            var validated = _securityBL.ValidateAccess(oLoginDto);
-            if (validated == null) return Json("", "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
-            #endregion
-
             var response = _companyBL.ValidateUserCompany(validated.SystemUserId, ruc, validated.Token);
 
             return Json(response, "application/json", Encoding.UTF8, JsonRequestBehavior.AllowGet);
         }
 
-        private void SaveImage(string imagebase64, string name)
-        {
-            var path = Server.MapPath(@"~\Content\LogosCompany\")+name + ".png";            
-            if (imagebase64 == null)
-            {                
-                if (System.IO.File.Exists(path))
-                    System.IO.File.Delete(path);                
-            }
-            else
-            {
-                byte[] bytes = Convert.FromBase64String(imagebase64);                
-                System.IO.File.WriteAllBytes(path, bytes);
-            }
-        }
     }
 }

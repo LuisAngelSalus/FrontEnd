@@ -275,6 +275,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotations\ExpressionRequiredIfAttribute.cs" />
+    <Compile Include="Annotations\RangeIfAttribute.cs" />
+    <Compile Include="Annotations\RequiredIfAttribute.cs" />
+    <Compile Include="Annotations\RequiredIfPropertiesNotNullAttribute.cs" />
+    <Compile Include="Annotations\ValidateFileAttribute.cs" />
     <Compile Include="App_GlobalResources\Constante.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -311,6 +316,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\Html\HtmlHelpers.cs" />
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\helper.cs" />
     <Compile Include="Models\ModelCompanyDetail.cs" />
@@ -322,6 +328,7 @@
     <Compile Include="Repositories\QuotationRepository.cs" />
     <Compile Include="Seguridad\AuthorizeFilter.cs" />
     <Compile Include="Seguridad\HttpSessionContext.cs" />
+    <Compile Include="Utils\BaseUtilities.cs" />
     <Compile Include="Utils\ErrorUtilities.cs" />
     <Compile Include="Utils\ExtensionMethods.cs" />
     <Compile Include="Utils\ITextEvents.cs" />
@@ -330,6 +337,7 @@
     <Compile Include="Utils\RestClient.cs" />
     <Compile Include="Utils\SendMessage.cs" />
     <Compile Include="Utils\TextUtils.cs" />
+    <Compile Include="ViewModels\CompanyViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\animate.css" />
@@ -1284,15 +1292,19 @@
     <Content Include="Content\tagsinput.css" />
     <Content Include="images\ajax-loader.gif" />
     <Content Include="images\certificado_registro.png" />
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\jquery.fixedheadertable.min.js" />
     <Content Include="Scripts\Portal\Company\Index.js" />
     <Content Include="Scripts\jquery.loading.js" />
     <Content Include="Scripts\layout.js" />
+    <Content Include="Scripts\Portal\Base.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\tagsinput.js" />
     <Content Include="Content\themes\type-a\theme-coffee.css" />

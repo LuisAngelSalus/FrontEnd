@@ -1,8 +1,14 @@
-﻿@model BE.CompanyDetailDto
+﻿@model SigesoftWebUI.ViewModels.CompanyViewModel
+@using SigesoftWebUI.Helper.Html;
 
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+@section Styles{
+    @*<link href="~/plugins/dropzone/dropzone.min.css" rel="stylesheet">*@
 }
 
 <div id="page-head">
@@ -11,101 +17,225 @@
     </div>
 </div>
 
-<div>
-    <h4>CompanyDetailDto</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyId)
-        </dt>
+<div id="page-content">
+    @using (Html.BeginForm("Save", "Company", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", @name = "myDropzone", id = "myDropzone" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <dd>
-            @Html.DisplayFor(model => model.CompanyId)
-        </dd>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IdentificationNumber)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IdentificationNumber)
-        </dd>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-4">
+                                @*@Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control input-sm" } })*@
+                                @Html.TextBoxForExpressionRequiredIf(model => model.IdentificationNumber, new
+                                {
+                                    @class = "form-control input-sm",
+                                    @placeholder = "Ruc",
+                                    @maxlength = 11,
+                                    @onkeypress = "return isNumberKey(event)"
+                                })
+                                @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="btnSearchIdentification" class="btn btn-mint" type="button" disabled>Buscar</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-6">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-6">
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.District, htmlAttributes: new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-6">
+                                @Html.EditorFor(model => model.District, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.District, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-6">
+                                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Logo</label>
+                            <div class="col-sm-6">
+                                <label class="btn btn-success fileinput-button dz-clickable">
+                                    Browse&hellip; @Html.TextBoxForExpressionRequiredIf(model => model.File, new { @type = "file", @style = "display:none" })
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Previsualización</label>
+                            <div class="col-sm-6">
+                                <div class="task-img">
+                                    <img id="imgPreview" src="http://placehold.it/180" alt="preview image" class="img-responsive" />
+                                </div>
+                            </div>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ContactName)
-        </dt>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ContactName, htmlAttributes: new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-6">
+                                @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                @Html.ValidationMessageFor(model => model.ContactName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PhoneCompany, htmlAttributes: new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-6">
+                                @Html.EditorFor(model => model.PhoneCompany, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                @Html.ValidationMessageFor(model => model.PhoneCompany, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Mail, htmlAttributes: new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-6">
+                                @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                        <button class="btn btn-success" type="submit">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.ContactName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Mail)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Mail)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.District)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.District)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneCompany)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneCompany)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ResponsibleSystemUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ResponsibleSystemUserId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.InsertUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.InsertUserId)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+@section scripts{
+    <script src="~/Scripts/Portal/Company/Index.js"></script>
+    @*<script src="~/plugins/dropzone/dropzone.js"></script>*@
+    @*<script src="~/Scripts/demo/form-file-upload.js"></script>*@
+}
+
+
+@*<div>
+        <h4>CompanyDetailDto</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.CompanyId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CompanyId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IdentificationNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IdentificationNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContactName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Mail)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Mail)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.District)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.District)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneCompany)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PhoneCompany)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ResponsibleSystemUserId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ResponsibleSystemUserId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.InsertUserId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.InsertUserId)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

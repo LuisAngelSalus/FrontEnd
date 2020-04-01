@@ -1,5 +1,6 @@
 ﻿using BE;
 using SigesoftWebUI.Utils;
+using SigesoftWebUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +24,11 @@ namespace SigesoftWebUI.Repositories
             return response;
         }
 
-        public Response<CompanyDetailDto> CompanyDetail(int companyId, SessionModel sessionModel)
+        public Response<CompanyViewModel> CompanyDetail(int companyId, SessionModel sessionModel)
         {
-            Response<CompanyDetailDto> response = null;
+            Response<CompanyViewModel> response = null;
             var urlClient = string.Format("Company/{0}/sedes", companyId);
-            var responseClient = restClient.GetAsync<Response<CompanyDetailDto>>(urlClient, sessionModel);
+            var responseClient = restClient.GetAsync<Response<CompanyViewModel>>(urlClient, sessionModel);
             if (responseClient.IsSuccess)
             {
                 response = responseClient;
@@ -35,13 +36,13 @@ namespace SigesoftWebUI.Repositories
             return response;
         }
 
-        public Response<CompanyDetailDto> Save(CompanyDetailDto data, SessionModel sessionModel)
+        public Response<CompanyViewModel> Save(CompanyViewModel data, SessionModel sessionModel)
         {
-            Response<CompanyDetailDto> response = null;
+            Response<CompanyViewModel> response = null;
             if (data.CompanyId != 0)
             {
                 var urlClient = string.Format("Company/{0}", data.CompanyId);
-                var responseClient = restClient.PutAsync<Response<CompanyDetailDto>>(urlClient, data, sessionModel);
+                var responseClient = restClient.PutAsync<Response<CompanyViewModel>>(urlClient, data, sessionModel);
                 if (responseClient.IsSuccess)
                 {
                     response = responseClient;
@@ -50,7 +51,7 @@ namespace SigesoftWebUI.Repositories
             }
             else
             {
-                var responseClient = restClient.PostAsync<Response<CompanyDetailDto>>("Company/", data, sessionModel);
+                var responseClient = restClient.PostAsync<Response<CompanyViewModel>>("Company/", data, sessionModel);
                 if (responseClient.IsSuccess)
                 {
                     response = responseClient;

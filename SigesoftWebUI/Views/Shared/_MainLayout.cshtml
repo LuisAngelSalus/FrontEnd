@@ -19,7 +19,14 @@
     <!--=================================================-->
     <!--Open Sans Font [ OPTIONAL ]-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-    @Styles.Render("~/Content/stylesheet")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/nifty")
+
+    <!--DropZone CSS-->
+    @Styles.Render("~/Content/dropzonecss")
+
+    @Scripts.Render("~/bundles/modernizr")
+
     <link href="~/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
     <link href="~/plugins/switchery/switchery.min.css" rel="stylesheet">
     <link href="~/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.css" rel="stylesheet">
@@ -51,10 +58,10 @@
                                 <i class="demo-pli-list-view"></i>
                             </a>
                         </li>
-                      
+
                     </ul>
                     <ul class="nav navbar-top-links">
-                        
+
                         <li class="dropdown">
                             <a href="#" data-toggle="dropdown" class="dropdown-toggle">
                                 <i class="demo-pli-bell"></i>
@@ -181,7 +188,7 @@
                                 </ul>
                             </div>
                         </li>
-                      
+
                     </ul>
                 </div>
             </div>
@@ -218,7 +225,7 @@
                             <!--================================-->
                             <!--End nav tabs-->
                             <!-- Tabs Content -->
-                           
+
                         </div>
                     </div>
                 </div>
@@ -351,12 +358,19 @@
     </div>
     <!--JAVASCRIPT-->
     <!--=================================================-->
-    @Scripts.Render("~/bundles/js")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/nifty")
+
+    <!--DropZone JS-->
+    @Scripts.Render("~/bundles/dropzonejs")
+
     <script src="~/plugins/bootstrap-select/bootstrap-select.min.js"></script>
     <script src="~/plugins/switchery/switchery.min.js"></script>
     <script src="~/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
-    <script src="~/Scripts/Portal/Layout/Index.js" type="text/javascript"></script>    
+    <script src="~/Scripts/Portal/Layout/Index.js" type="text/javascript"></script>
     <script src="~/Scripts/demo/icons.js"></script>
+    <script src="~/Scripts/Portal/Base.js"></script>
     <!--=================================================-->
     @RenderSection("scripts", required: false)
 </body>
