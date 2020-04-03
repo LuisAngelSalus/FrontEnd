@@ -1,0 +1,130 @@
+﻿@model IEnumerable<BE.ResultDetailDto>
+
+@*@section Styles{*@
+<style>
+    .dataTables_wrapper {
+        font-family: tahoma;
+        font-size: 13px;
+        position: relative;
+        clear: both;
+        *zoom: 1;
+        zoom: 1;
+    }
+
+    table.dataTable thead tr {
+        background-color: #2e548f;
+        color: #ffffff;
+    }
+</style>
+@* } *@
+<div class="card mb-2">
+    <div class="row">
+        <div class="col m-2">
+            <div class="input-group date">
+                <label>HoraInicio</label>
+                <input type="date" value="" />
+            </div>
+        </div>
+        <div class="col">
+            <input type="date" name="HoraInicio" value="" />
+        </div>
+    </div>
+</div>
+<div class="card mb-2">
+    <div class="table-responsive m-t-20">
+        <table id="tableDetail" class="table table-bordered table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.i_ServiceComponentId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.i_ServiceId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.v_ComponentId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.v_Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.i_ServiceComponentStatusId)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.i_ServiceComponentId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.i_ServiceId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.v_ComponentId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.v_Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.i_ServiceComponentStatusId)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@*@section scripts{*@
+<script type="text/javascript" charset="utf8">
+    $(document).ready(function () {
+        $('#tableDetail').dataTable({
+            "columnDefs": [
+                {
+                    "targets": [0],
+                    "visible": false
+                },
+                {
+                    "targets": [1],
+                    "visible": false
+                },
+                {
+                    "targets": [2],
+                    "visible": false
+                }
+            ],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                "buttons": {
+                    "copy": "Copiar",
+                    "colvis": "Visibilidad"
+                }
+            }
+        });
+    });
+</script>
+@*  *@}

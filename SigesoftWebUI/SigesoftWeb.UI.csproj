@@ -301,6 +301,7 @@
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\QuoteTrackingController.cs" />
     <Compile Include="Controllers\ReceptionController.cs" />
+    <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\SecuentialController.cs" />
@@ -318,6 +319,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Repositories\QuotationRepository.cs" />
+    <Compile Include="Repositories\ResultRepository.cs" />
     <Compile Include="Seguridad\AuthorizeFilter.cs" />
     <Compile Include="Seguridad\HttpSessionContext.cs" />
     <Compile Include="Utils\ErrorUtilities.cs" />
@@ -1280,6 +1282,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\common.css" />
+    <Content Include="Content\css\results-styles.css" />
     <Content Include="Content\custom.css" />
     <Content Include="Content\demo.css" />
     <Content Include="Content\font-awesome.css" />
@@ -1315,6 +1318,7 @@
     <Content Include="Scripts\jquery.fixedheadertable.min.js" />
     <Content Include="Scripts\jquery.loading.js" />
     <Content Include="Scripts\layout.js" />
+    <Content Include="Scripts\Portal\Results\Index.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\tagsinput.js" />
     <Content Include="favicon.ico" />
@@ -1843,9 +1847,12 @@
     <Content Include="Template\PLANTILLA_PROPUESTA_COMERCIAL.pdf" />
     <Content Include="Views\Reception\Index.cshtml" />
     <Content Include="Views\Worker\Index.cshtml" />
+    <Content Include="Views\Result\Index.cshtml" />
+    <Content Include="Views\Result\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\js\" />
     <Folder Include="Content\LogosCompany\" />
     <Folder Include="Logos\" />
     <Folder Include="Log\" />

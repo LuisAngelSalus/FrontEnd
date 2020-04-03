@@ -1,6 +1,7 @@
 ﻿using BE;
 using BL;
 using SigesoftWebUI.Models;
+using SigesoftWebUI.Repositories;
 using SigesoftWebUI.Seguridad;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace SigesoftWebUI.Controllers
     public class IngresoSistemaController : Controller
     {
         SecurityBL _securityBL = new SecurityBL();
+
 
         // GET: IngresoSistema
         [AllowAnonymous]
@@ -44,7 +46,11 @@ namespace SigesoftWebUI.Controllers
 
                     sessionModel = _securityBL.UserAccess(result.SystemUserId, token);
                     sessionModel.Pass = oLoginDto.v_Password;
+                    sessionModel.Token = token;
+
                     
+
+
                     FormsAuthentication.SetAuthCookie(sessionModel.UserName, false);
 
                     HttpSessionContext.SetAccount(sessionModel);

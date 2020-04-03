@@ -1,0 +1,177 @@
+﻿@model IEnumerable<BE.ResultDto>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <link href="~/Content/css/results-styles.css" rel="stylesheet" />
+}
+
+<div class="card mb-2">
+    <div class="card-body">
+        <h3 class="card-title">SEGUIMIENTO Y RESULTADOS</h3>
+        @*<h5 class="card-subtitle mb-0">Mantenimiento de Empresas</h5>*@
+    </div>
+</div>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<div class="card mb-2">
+    <div class="table-responsive m-t-20">
+        <table id="tableResults" class="table table-bordered table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.i_ServiceId)</th>
+                    <th>@Html.DisplayNameFor(model => model.d_ServiceDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.i_ProtocolId)</th>
+                    <th>@Html.DisplayNameFor(model => model.v_ProtocolName)</th>
+                    <th>@Html.DisplayNameFor(model => model.i_PersonId)</th>
+                    <th>@Html.DisplayNameFor(model => model.v_FirstName)</th>
+                    <th>@Html.DisplayNameFor(model => model.v_FirstLastName)</th>
+                    <th>@Html.DisplayNameFor(model => model.v_SecondLastName)</th>
+                    <th>@Html.DisplayNameFor(model => model.FullName)</th>
+                    <th>@Html.DisplayNameFor(model => model.i_CompanyId)</th>
+                    <th>@Html.DisplayNameFor(model => model.v_Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.v_CurrentPosition)</th>
+                    <th>@Html.DisplayNameFor(model => model.i_ServiceStatusId)</th>
+                    <th>@Html.DisplayNameFor(model => model.v_ValueService)</th>
+                    <th>@Html.DisplayNameFor(model => model.i_AptitudeStatusId)</th>
+                    <th>@Html.DisplayNameFor(model => model.v_ValueAptitude)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.i_ServiceId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.d_ServiceDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.i_ProtocolId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.v_ProtocolName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.i_PersonId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.v_FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.v_FirstLastName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.v_SecondLastName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.i_CompanyId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.v_Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.v_CurrentPosition)</td>
+                        @*<td>@Html.DisplayFor(modelItem => item.i_ServiceStatusId)</td>*@
+                        <td class="text-center"><a data-modal="" href="@Url.Action("Detail","Result",new {id = item.i_ServiceId })" class="btn @item.ServiceStatusClass btn-circle btn-sm" title="@item.v_ValueService"></a></td>
+                        <td>@Html.DisplayFor(modelItem => item.v_ValueService)</td>
+                        <td>@Html.DisplayFor(modelItem => item.i_AptitudeStatusId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.v_ValueAptitude)</td>
+                        <td>
+                            @*<a href="@Url.Action("Action", "Controller", new { /* id=item.PrimaryKey */ })" title="Seguimiento">
+                                <span class="fa fa-location-arrow btn waves-effect waves-light btn btn-light" aria-hidden="true"></span>
+                            </a>*@
+                            <a href="@Url.Action("Action", "Controller", new { /* id=item.PrimaryKey */ })" title="Reprogramación">
+                                <span class="fa fa-calendar btn waves-effect waves-light btn btn-info" aria-hidden="true"></span>
+                            </a>
+                            <a href="@Url.Action("Action", "Controller", new { /* id=item.PrimaryKey */ })" title="Historia">
+                                <i class="fa fa-book btn waves-effect waves-light btn btn-secondary"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+
+<div class="modal" id="resultsDetail">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Seguimiento</h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+            </div>
+            <div id="resultsDetailContent"></div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Portal/Results/Index.js"></script>
+    <script type="text/javascript" charset="utf8">
+        $(document).ready(function () {
+            $('#tableResults').dataTable({
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false
+                    },
+                    {
+                        "targets": [2],
+                        "visible": false
+                    },
+                    {
+                        "targets": [4],
+                        "visible": false
+                    },
+                    {
+                        "targets": [5],
+                        "visible": false
+                    },
+                    {
+                        "targets": [6],
+                        "visible": false
+                    },
+                    {
+                        "targets": [7],
+                        "visible": false
+                    },
+                    {
+                        "targets": [9],
+                        "visible": false
+                    },
+                    {
+                        "targets": [13],
+                        "visible": false
+                    },
+                    {
+                        "targets": [14],
+                        "visible": false
+                    }
+                ],
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "buttons": {
+                        "copy": "Copiar",
+                        "colvis": "Visibilidad"
+                    }
+                }
+            });
+        });
+    </script>
+}

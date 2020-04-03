@@ -76,6 +76,8 @@
     <Compile Include="QuoteTrackingRegisterDto.cs" />
     <Compile Include="QuoteTrackingUpdateDto.cs" />
     <Compile Include="RegisterAccessDto.cs" />
+    <Compile Include="ResultDetailDto.cs" />
+    <Compile Include="ResultDto.cs" />
     <Compile Include="ScheduleExcelImportDto.cs" />
     <Compile Include="ScheduleListDto.cs" />
     <Compile Include="ScheduleRegisterDto.cs" />

@@ -19,6 +19,8 @@ namespace BE
         public string Role { get; set; }
         public List<Companies> Companies { get; set; }
 
+        public string Token { get; set; }
+
     }
     public class Companies
     {
