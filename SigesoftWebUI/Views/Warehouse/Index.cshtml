@@ -1,0 +1,120 @@
+﻿@model IEnumerable<BE.WarehouseDto>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <link href="~/Content/css/results-styles.css" rel="stylesheet" />
+    
+}
+
+<div class="card mb-2">
+    <div class="card-body">
+        <h3 class="card-title">MANTENIMIENTO ALMACEN</h3>
+    </div>
+</div>
+
+<p>
+    <a  href="@Url.Action("Create", "Warehouse")" title="Editar" class="btn btn-green btn waves-effect waves-light">
+        Nuevo Almacen
+    </a>
+</p>
+<div class="card mb-2">
+    <div class="table-responsive m-t-2">
+        <table id="tableWarehouse" class="table table-bordered table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.WarehouseId)</th>
+                    <th>@Html.DisplayNameFor(model => model.CompanyId)</th>
+                    <th>@Html.DisplayNameFor(model => model.CompanyHeadquarterId)</th>
+                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                    <th>@Html.DisplayNameFor(model => model.IsPrincipal)</th>
+                    <th>@Html.DisplayNameFor(model => model.IsDeleted)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.WarehouseId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CompanyId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CompanyHeadquarterId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IsPrincipal)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IsDeleted)</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Warehouse", new {  id=item.WarehouseId  })" title="Editar">
+                                <span class="fa fa-edit btn waves-effect waves-light btn btn-info" aria-hidden="true"></span>
+                            </a>
+                            @*<a href="@Url.Action("Action", "Controller", new { /* id=item.PrimaryKey */ })" title="Detalle">
+                                <i class="fa fa-info btn waves-effect waves-light btn btn-secondary"></i>
+                            </a>*@
+                            <a href="@Url.Action("Delete", "Warehouse", new {  id=item.WarehouseId })" title="Eliminar">
+                                <i class="fa fa-trash btn waves-effect waves-light btn btn-danger"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="warehouseCreate" style="display:none;">
+    @*<div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Seguimiento</h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">
+                        ×
+                    </button>
+                </div>
+                <div id="warehouseCreateContent"></div>
+            </div>
+        </div>*@
+</div>
+
+
+@section scripts{
+
+    <script src="~/Scripts/Portal/Warehouse/Index.js"></script>
+    <script type="text/javascript" charset="utf8">
+        $(document).ready(function () {
+            $('#tableWarehouse').dataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "buttons": {
+                        "copy": "Copiar",
+                        "colvis": "Visibilidad"
+                    }
+                }
+            });
+        });
+    </script>
+}

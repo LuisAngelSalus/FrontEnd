@@ -288,6 +288,7 @@
     <Compile Include="Controllers\Base\GenericController.cs" />
     <Compile Include="Controllers\ClientUserController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\demoController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\GeneralsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="Controllers\SecuentialController.cs" />
     <Compile Include="Controllers\SuscriptionController.cs" />
     <Compile Include="Controllers\SystemUserController.cs" />
+    <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Controllers\WorkerController.cs" />
     <Compile Include="Controllers\WorkerSchedulingController.cs" />
     <Compile Include="Global.asax.cs">
@@ -320,6 +322,7 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Repositories\QuotationRepository.cs" />
     <Compile Include="Repositories\ResultRepository.cs" />
+    <Compile Include="Repositories\WarehouseRepository.cs" />
     <Compile Include="Seguridad\AuthorizeFilter.cs" />
     <Compile Include="Seguridad\HttpSessionContext.cs" />
     <Compile Include="Utils\ErrorUtilities.cs" />
@@ -1319,6 +1322,7 @@
     <Content Include="Scripts\jquery.loading.js" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\Portal\Results\Index.js" />
+    <Content Include="Scripts\Portal\Warehouse\Index.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\tagsinput.js" />
     <Content Include="favicon.ico" />
@@ -1849,6 +1853,10 @@
     <Content Include="Views\Worker\Index.cshtml" />
     <Content Include="Views\Result\Index.cshtml" />
     <Content Include="Views\Result\Detail.cshtml" />
+    <Content Include="Views\Warehouse\Index.cshtml" />
+    <Content Include="Views\Warehouse\Create.cshtml" />
+    <Content Include="Views\Warehouse\Edit.cshtml" />
+    <Content Include="Views\Warehouse\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1858,6 +1866,7 @@
     <Folder Include="Log\" />
     <Folder Include="Views\AccountSetting\" />
     <Folder Include="Views\ClientUser\" />
+    <Folder Include="Views\demo\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Generic\" />
     <Folder Include="Views\InfoSunat\" />

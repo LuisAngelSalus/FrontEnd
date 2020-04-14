@@ -87,6 +87,7 @@
     <Compile Include="UserAccessDto.cs" />
     <Compile Include="SystemUserDto.cs" />
     <Compile Include="ValidatedAccessDto.cs" />
+    <Compile Include="WarehouseDto.cs" />
     <Compile Include="WorkerDto.cs" />
   </ItemGroup>
   <ItemGroup>
